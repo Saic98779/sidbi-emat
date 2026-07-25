@@ -35,16 +35,16 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                docker stop ${APP_NAME} || true
-                docker rm ${APP_NAME} || true
+            docker stop ${APP_NAME} || true
+            docker rm ${APP_NAME} || true
 
-                docker run -d \
-                  --name ${APP_NAME} \
-                  --restart unless-stopped \
-                  -p ${HOST_PORT}:${CONTAINER_PORT} \
-                  -v /home/ubuntu/uploads:/home/ubuntu/uploads \
-                  ${IMAGE_NAME}
-                '''
+            docker run -d \
+                --network host \
+                --name ${APP_NAME} \
+                --restart unless-stopped \
+                -v /home/ubuntu/uploads:/home/ubuntu/uploads \
+                ${IMAGE_NAME}
+        '''
             }
         }
 
