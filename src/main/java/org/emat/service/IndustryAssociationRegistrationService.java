@@ -2,12 +2,15 @@ package org.emat.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.entity.IndustryAssociationRegistration;
+import org.emat.entity.User;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
+import org.emat.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,7 @@ public class IndustryAssociationRegistrationService {
     private static final String REGISTRATION_NOT_FOUND_MESSAGE = "Registration not found with UUID: ";
 
     private final IndustryAssociationRegistrationRepository repository;
+    private final UserRepository userRepository;
 
     /**
      * Create a new Industry Association Registration.
@@ -45,6 +49,17 @@ public class IndustryAssociationRegistrationService {
                     request.getIndustryAssociationName(), request.getState());
             throw new IllegalArgumentException(
                     "Registration already exists for this Industry Association in the state");
+        }
+
+        // Fetch the SIDBI approving user if provided
+        User sidbiApprover = null;
+        if (request.getSidbeApprovedByUserId() != null) {
+            sidbiApprover = userRepository.findById(request.getSidbeApprovedByUserId())
+                    .orElseThrow(() -> {
+                        log.error("SIDBI approver user not found with ID: {}", request.getSidbeApprovedByUserId());
+                        return new EntityNotFoundException("User not found with ID: " + request.getSidbeApprovedByUserId());
+                    });
+            log.info("SIDBI approver user found: {}", sidbiApprover.getUsername());
         }
 
         IndustryAssociationRegistration registration = IndustryAssociationRegistration.builder()
@@ -103,6 +118,8 @@ public class IndustryAssociationRegistrationService {
                 .envisagedOutcome(request.getEnvisagedOutcome())
                 .envisagedImpact(request.getEnvisagedImpact())
                 .sde(request.getSde())
+                .isSidbeApproved(request.getIsSidbeApproved())
+                .sidbeApprovedByUser(sidbiApprover)
                 .createdBy(request.getCreatedBy())
                 .build();
 
@@ -359,6 +376,43 @@ public class IndustryAssociationRegistrationService {
     }
 
     /**
+     * Approve or reject a registration by SIDBE.
+     *
+     * @param uuid the unique identifier of the registration
+     * @param approvalRequest the approval request containing approval status
+     * @param username the username of the user approving/rejecting
+     * @return the updated registration response
+     * @throws EntityNotFoundException if registration or user not found
+     */
+    public IndustryAssociationRegistrationResponse approveBySidbe(
+            String uuid, ApprovalRequest approvalRequest, String username) {
+        log.info("Processing SIDBE approval for registration with UUID: {} by user: {}", uuid, username);
+
+        // Fetch the registration
+        IndustryAssociationRegistration registration = repository.findByUuid(uuid)
+                .orElseThrow(() -> {
+                    log.error(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
+                    return new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
+                });
+
+        // Fetch the approving user
+        User approver = userRepository.findByUsername(username)
+                .orElseThrow(() -> {
+                    log.error("User not found with username: {}", username);
+                    return new EntityNotFoundException("User not found with username: " + username);
+                });
+
+        // Update approval fields
+        registration.setIsSidbeApproved(approvalRequest.getIsSidbeApproved());
+        registration.setSidbeApprovedByUser(approver);
+
+        IndustryAssociationRegistration updated = repository.save(registration);
+        log.info("SIDBE approval processed successfully for registration UUID: {} by user: {}", uuid, username);
+
+        return convertToResponse(updated);
+    }
+
+    /**
      * Permanently delete a registration (hard delete).
      *
      * @param uuid the unique identifier
@@ -440,6 +494,11 @@ public class IndustryAssociationRegistrationService {
                 .envisagedOutcome(registration.getEnvisagedOutcome())
                 .envisagedImpact(registration.getEnvisagedImpact())
                 .sde(registration.getSde())
+                .isSidbeApproved(registration.getIsSidbeApproved())
+                .sidbeApprovedByUserId(registration.getSidbeApprovedByUser() != null ?
+                        registration.getSidbeApprovedByUser().getId() : null)
+                .sidbeApprovedByUsername(registration.getSidbeApprovedByUser() != null ?
+                        registration.getSidbeApprovedByUser().getUsername() : null)
                 .isActive(registration.getIsActive())
                 .createdAt(registration.getCreatedAt())
                 .updatedAt(registration.getUpdatedAt())

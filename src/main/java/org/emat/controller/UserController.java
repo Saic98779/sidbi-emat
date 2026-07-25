@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.emat.dto.CreateUserRequest;
 import org.emat.dto.LoginRequest;
 import org.emat.dto.LoginResponse;
@@ -56,10 +57,40 @@ public class UserController {
     }
 
     /**
+     * Get users by district and/or state.
+     * GET /api/users/search?district={district}&state={state}
+     * Both parameters are optional. You can search by district only, state only, or both.
+     */
+    @GetMapping("/search")
+    public ResponseEntity<List<UserResponse>> getUsersByLocation(
+            @RequestParam(required = false) String district,
+            @RequestParam(required = false) String state) {
+
+        List<UserResponse> users;
+
+        if (district != null && state != null) {
+            // Search by both district and state
+            users = userService.getUsersByDistrictAndState(district, state);
+        } else if (district != null) {
+            // Search by district only
+            users = userService.getUsersByDistrict(district);
+        } else if (state != null) {
+            // Search by state only
+            users = userService.getUsersByState(state);
+        } else {
+            // No parameters provided, return all users
+            users = userService.getAllUsers();
+        }
+
+        return ResponseEntity.ok(users);
+    }
+
+    /**
      * Login endpoint.
      * POST /api/users/login
      */
     @PostMapping("/login")
+    @SecurityRequirement(name = "")  // This endpoint doesn't require authentication
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         if (request.getUsername() == null || request.getPassword() == null) {
             throw new BadCredentialsException("Invalid username or password");
@@ -80,6 +111,8 @@ public class UserController {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
+                user.getDistrict(),
+                user.getState(),
                 user.getRole(),
                 user.isActive()
         );

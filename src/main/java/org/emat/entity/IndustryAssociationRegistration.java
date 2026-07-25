@@ -229,6 +229,13 @@ public class IndustryAssociationRegistration {
     @Column(name = "IS_ACTIVE")
     private Boolean isActive = true;
 
+    // SIDBE approver mapping - stores the actual user who approved
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SIDBE_APPROVED_BY_USER_ID")
+    private User sidbeApprovedByUser;
+
+    private Boolean isSidbeApproved;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -243,4 +250,3 @@ public class IndustryAssociationRegistration {
         updatedAt = LocalDateTime.now();
     }
 }
-

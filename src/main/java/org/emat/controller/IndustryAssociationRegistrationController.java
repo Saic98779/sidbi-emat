@@ -2,12 +2,14 @@ package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.service.IndustryAssociationRegistrationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -96,6 +98,26 @@ public class IndustryAssociationRegistrationController {
         log.info("Received request to delete registration with UUID: {}", uuid);
         service.deleteRegistration(uuid);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Approve or reject a registration by SIDBE.
+     * PATCH /api/v1/industry-association-registrations/{uuid}/approve
+     *
+     * @param uuid the unique identifier
+     * @param approvalRequest the approval request
+     * @param authentication the current authenticated user
+     * @return ResponseEntity with updated registration and HTTP 200
+     */
+    @PatchMapping("/{uuid}/approve")
+    public ResponseEntity<IndustryAssociationRegistrationResponse> approveBySidbe(
+            @PathVariable String uuid,
+            @RequestBody ApprovalRequest approvalRequest,
+            Authentication authentication) {
+        log.info("Received SIDBE approval request for registration with UUID: {}", uuid);
+        String username = authentication.getName();
+        IndustryAssociationRegistrationResponse response = service.approveBySidbe(uuid, approvalRequest, username);
+        return ResponseEntity.ok(response);
     }
 
     /**

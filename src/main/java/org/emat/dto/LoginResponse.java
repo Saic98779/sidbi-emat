@@ -16,6 +16,8 @@ public class LoginResponse {
     private String email;
     private String firstName;
     private String lastName;
+    private String district;
+    private String state;
     private Role role;
     private boolean active;
 
@@ -29,6 +31,8 @@ public class LoginResponse {
                          String email,
                          String firstName,
                          String lastName,
+                         String district,
+                         String state,
                          Role role,
                          boolean active) {
         this.token = token;
@@ -38,6 +42,8 @@ public class LoginResponse {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.district = district;
+        this.state = state;
         this.role = role;
         this.active = active;
     }
@@ -96,6 +102,22 @@ public class LoginResponse {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public Role getRole() {

@@ -103,6 +103,10 @@ public class CreateIndustryAssociationRegistrationRequest {
     // Assigned SDE
     private String sde;
 
+    // SIDBI Approval Fields
+    private Boolean isSidbeApproved;
+    private Long sidbeApprovedByUserId;
+
     // Audit Fields
     private String createdBy;
 }

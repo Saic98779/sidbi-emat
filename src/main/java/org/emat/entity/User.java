@@ -37,6 +37,12 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "district")
+    private String district;
+
+    @Column(name = "state")
+    private String state;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;

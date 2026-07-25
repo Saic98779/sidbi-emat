@@ -42,6 +42,8 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
+        user.setDistrict(request.getDistrict());
+        user.setState(request.getState());
         user.setRole(request.getRole());
         user.setActive(true);
 
@@ -77,6 +79,36 @@ public class UserService {
     }
 
     /**
+     * Get users by district.
+     */
+    public List<UserResponse> getUsersByDistrict(String district) {
+        return userRepository.findByDistrict(district)
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
+
+    /**
+     * Get users by state.
+     */
+    public List<UserResponse> getUsersByState(String state) {
+        return userRepository.findByState(state)
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
+
+    /**
+     * Get users by district and state.
+     */
+    public List<UserResponse> getUsersByDistrictAndState(String district, String state) {
+        return userRepository.findByDistrictAndState(district, state)
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
+
+    /**
      * Convert User entity to UserResponse DTO.
      */
     private UserResponse convertToResponse(User user) {
@@ -86,6 +118,8 @@ public class UserService {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
+                user.getDistrict(),
+                user.getState(),
                 user.getRole(),
                 user.isActive(),
                 user.getCreatedAt(),

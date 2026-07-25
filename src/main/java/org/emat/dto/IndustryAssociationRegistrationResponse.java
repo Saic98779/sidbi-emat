@@ -108,6 +108,11 @@ public class IndustryAssociationRegistrationResponse {
     // Assigned SDE
     private String sde;
 
+    // SIDBE Approval
+    private Boolean isSidbeApproved;
+    private Long sidbeApprovedByUserId;
+    private String sidbeApprovedByUsername;
+
     // Status
     private Boolean isActive;
 
