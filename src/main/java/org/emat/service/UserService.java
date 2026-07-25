@@ -3,6 +3,7 @@ package org.emat.service;
 import org.emat.dto.CreateUserRequest;
 import org.emat.dto.UserResponse;
 import org.emat.entity.User;
+import org.emat.enums.Role;
 import org.emat.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -103,6 +104,46 @@ public class UserService {
      */
     public List<UserResponse> getUsersByDistrictAndState(String district, String state) {
         return userRepository.findByDistrictAndState(district, state)
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
+
+    /**
+     * Get users by role.
+     */
+    public List<UserResponse> getUsersByRole(Role role) {
+        return userRepository.findByRole(role)
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
+
+    /**
+     * Get users by district and role.
+     */
+    public List<UserResponse> getUsersByDistrictAndRole(String district, Role role) {
+        return userRepository.findByDistrictAndRole(district, role)
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
+
+    /**
+     * Get users by state and role.
+     */
+    public List<UserResponse> getUsersByStateAndRole(String state, Role role) {
+        return userRepository.findByStateAndRole(state, role)
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
+
+    /**
+     * Get users by district, state, and role.
+     */
+    public List<UserResponse> getUsersByDistrictAndStateAndRole(String district, String state, Role role) {
+        return userRepository.findByDistrictAndStateAndRole(district, state, role)
                 .stream()
                 .map(this::convertToResponse)
                 .toList();

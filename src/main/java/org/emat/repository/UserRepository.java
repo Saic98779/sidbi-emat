@@ -1,6 +1,7 @@
 package org.emat.repository;
 
 import org.emat.entity.User;
+import org.emat.enums.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +20,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByDistrict(String district);
     List<User> findByState(String state);
     List<User> findByDistrictAndState(String district, String state);
+    List<User> findByRole(Role role);
+    List<User> findByDistrictAndRole(String district, Role role);
+    List<User> findByStateAndRole(String state, Role role);
+    List<User> findByDistrictAndStateAndRole(String district, String state, Role role);
 }
 

@@ -5,6 +5,7 @@ import org.emat.dto.CreateUserRequest;
 import org.emat.dto.LoginRequest;
 import org.emat.dto.LoginResponse;
 import org.emat.dto.UserResponse;
+import org.emat.enums.Role;
 import org.emat.service.JwtService;
 import org.emat.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -57,26 +58,39 @@ public class UserController {
     }
 
     /**
-     * Get users by district and/or state.
-     * GET /api/users/search?district={district}&state={state}
-     * Both parameters are optional. You can search by district only, state only, or both.
+     * Get users by district and/or state and/or role.
+     * GET /api/users/search?district={district}&state={state}&role={role}
+     * All parameters are optional. You can search by any combination.
      */
     @GetMapping("/search")
     public ResponseEntity<List<UserResponse>> getUsersByLocation(
             @RequestParam(required = false) String district,
-            @RequestParam(required = false) String state) {
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) Role role) {
 
         List<UserResponse> users;
 
-        if (district != null && state != null) {
+        if (district != null && state != null && role != null) {
+            // Search by district, state, and role
+            users = userService.getUsersByDistrictAndStateAndRole(district, state, role);
+        } else if (district != null && state != null) {
             // Search by both district and state
             users = userService.getUsersByDistrictAndState(district, state);
+        } else if (district != null && role != null) {
+            // Search by district and role
+            users = userService.getUsersByDistrictAndRole(district, role);
+        } else if (state != null && role != null) {
+            // Search by state and role
+            users = userService.getUsersByStateAndRole(state, role);
         } else if (district != null) {
             // Search by district only
             users = userService.getUsersByDistrict(district);
         } else if (state != null) {
             // Search by state only
             users = userService.getUsersByState(state);
+        } else if (role != null) {
+            // Search by role only
+            users = userService.getUsersByRole(role);
         } else {
             // No parameters provided, return all users
             users = userService.getAllUsers();
