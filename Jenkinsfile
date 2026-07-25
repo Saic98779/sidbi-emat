@@ -4,7 +4,7 @@ pipeline {
     environment {
         APP_NAME = "emat-app"
         IMAGE_NAME = "emat:latest"
-        CONTAINER_PORT = "8080"
+        CONTAINER_PORT = "8086"
         HOST_PORT = "8086"
     }
 
@@ -26,34 +26,36 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh """
+                sh '''
                 docker build -t ${IMAGE_NAME} .
-                """
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
-                sh """
+                sh '''
                 docker stop ${APP_NAME} || true
                 docker rm ${APP_NAME} || true
 
                 docker run -d \
-                    --name ${APP_NAME} \
-                    --restart unless-stopped \
-                    -p ${HOST_PORT}:${CONTAINER_PORT} \
-                    -v /home/ubuntu/uploads:/home/ubuntu/uploads \
-                    ${IMAGE_NAME}
-                """
+                  --name ${APP_NAME} \
+                  --restart unless-stopped \
+                  -p ${HOST_PORT}:${CONTAINER_PORT} \
+                  -v /home/ubuntu/uploads:/home/ubuntu/uploads \
+                  ${IMAGE_NAME}
+                '''
             }
         }
 
         stage('Health Check') {
             steps {
-                sh """
-                sleep 20
-                curl -f http://localhost:${HOST_PORT}/actuator/health
-                """
+                sh '''
+                echo "Waiting for application to start..."
+                sleep 30
+
+                curl -f http://localhost:${HOST_PORT}/emat/actuator/health
+                '''
             }
         }
     }
@@ -64,6 +66,7 @@ pipeline {
         }
 
         failure {
+            sh 'docker logs --tail=100 ${APP_NAME} || true'
             echo 'Deployment Failed'
         }
     }
