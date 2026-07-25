@@ -15,6 +15,22 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     /**
+     * Handle EntityNotFoundException.
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(
+            EntityNotFoundException ex, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    /**
      * Handle IllegalArgumentException.
      */
     @ExceptionHandler(IllegalArgumentException.class)
