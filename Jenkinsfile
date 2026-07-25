@@ -54,7 +54,7 @@ pipeline {
                 echo "Waiting for application to start..."
                 sleep 30
 
-                curl -f http://localhost:${HOST_PORT}/emat/actuator/health
+                curl -f http://localhost:${HOST_PORT}/emat/v1/health
                 '''
             }
         }
