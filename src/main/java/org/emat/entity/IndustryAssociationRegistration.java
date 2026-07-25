@@ -236,6 +236,10 @@ public class IndustryAssociationRegistration {
 
     private Boolean isSidbeApproved;
 
+    // Bidirectional 1:1 relationship with IndustryAssociationAppraisal
+    @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private IndustryAssociationAppraisal appraisal;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

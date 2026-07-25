@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Repository for IndustryAssociationRegistration entity.
@@ -27,7 +28,7 @@ public interface IndustryAssociationRegistrationRepository extends JpaRepository
      * @param uuid the unique identifier
      * @return Optional containing the registration if found
      */
-    Optional<IndustryAssociationRegistration> findByUuid(String uuid);
+    Optional<IndustryAssociationRegistration> findByUuid(UUID uuid);
 
     /**
      * Check if registration exists by industry association name.

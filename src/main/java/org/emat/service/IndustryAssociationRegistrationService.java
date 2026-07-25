@@ -11,10 +11,12 @@ import org.emat.entity.User;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
 import org.emat.repository.UserRepository;
+import org.emat.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -138,7 +140,8 @@ public class IndustryAssociationRegistrationService {
     @Transactional(readOnly = true)
     public IndustryAssociationRegistrationResponse getRegistrationById(String uuid) {
         log.debug("Fetching Industry Association Registration with UUID: {}", uuid);
-        IndustryAssociationRegistration registration = repository.findByUuid(uuid)
+        UUID registrationUuid = UuidUtil.toUuid(uuid);
+        IndustryAssociationRegistration registration = repository.findByUuid(registrationUuid)
                 .orElseThrow(() -> {
                     log.error(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
                     return new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
@@ -170,8 +173,8 @@ public class IndustryAssociationRegistrationService {
     public IndustryAssociationRegistrationResponse updateRegistration(
             String uuid, UpdateIndustryAssociationRegistrationRequest request) {
         log.info("Updating Industry Association Registration with UUID: {}", uuid);
-
-        IndustryAssociationRegistration registration = repository.findByUuid(uuid)
+        UUID registrationUuid = UuidUtil.toUuid(uuid);
+        IndustryAssociationRegistration registration = repository.findByUuid(registrationUuid)
                 .orElseThrow(() -> {
                     log.error(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
                     return new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
@@ -363,8 +366,8 @@ public class IndustryAssociationRegistrationService {
      */
     public void deleteRegistration(String uuid) {
         log.info("Deleting (soft delete) Industry Association Registration with UUID: {}", uuid);
-
-        IndustryAssociationRegistration registration = repository.findByUuid(uuid)
+        UUID registrationUuid = UuidUtil.toUuid(uuid);
+        IndustryAssociationRegistration registration = repository.findByUuid(registrationUuid)
                 .orElseThrow(() -> {
                     log.error(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
                     return new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
@@ -387,9 +390,9 @@ public class IndustryAssociationRegistrationService {
     public IndustryAssociationRegistrationResponse approveBySidbe(
             String uuid, ApprovalRequest approvalRequest, String username) {
         log.info("Processing SIDBE approval for registration with UUID: {} by user: {}", uuid, username);
-
+        UUID registrationUuid = UuidUtil.toUuid(uuid);
         // Fetch the registration
-        IndustryAssociationRegistration registration = repository.findByUuid(uuid)
+        IndustryAssociationRegistration registration = repository.findByUuid(registrationUuid)
                 .orElseThrow(() -> {
                     log.error(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
                     return new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
