@@ -43,7 +43,7 @@ pipeline {
                     --restart unless-stopped \
                     -p ${HOST_PORT}:${CONTAINER_PORT} \
                     -v /home/ubuntu/uploads:/home/ubuntu/uploads \
-                    -e SPRING_PROFILES_ACTIVE=prod \
+                    -e SPRING_PROFILES_ACTIVE=local \
                     ${IMAGE_NAME}
                 """
             }
