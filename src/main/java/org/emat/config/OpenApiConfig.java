@@ -17,12 +17,16 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
 
-        Server server = new Server();
-        server.setUrl("https://api.emat.metaversedu.in/emat/v1");
-        server.setDescription("Production");
+        Server productionServer = new Server();
+        productionServer.setUrl("https://api.emat.metaversedu.in/emat/v1");
+        productionServer.setDescription("Production");
+
+        Server localServer = new Server();
+        localServer.setUrl("http://localhost:8086/emat/v1");
+        localServer.setDescription("Local Development");
 
         return new OpenAPI()
-                .servers(List.of(server))
+                .servers(List.of(localServer, productionServer))
                 .info(new Info()
                         .title("EMAT API")
                         .version("1.0")
