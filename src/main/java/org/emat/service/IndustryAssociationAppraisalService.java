@@ -5,11 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.CreateIndustryAssociationAppraisalRequest;
 import org.emat.dto.IndustryAssociationAppraisalResponse;
 import org.emat.dto.UpdateIndustryAssociationAppraisalRequest;
+import org.emat.dto.ApprovalRequest;
 import org.emat.entity.IndustryAssociationAppraisal;
 import org.emat.entity.IndustryAssociationRegistration;
+import org.emat.entity.User;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationAppraisalRepository;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
+import org.emat.repository.UserRepository;
 import org.emat.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +36,7 @@ public class IndustryAssociationAppraisalService {
 
     private final IndustryAssociationAppraisalRepository appraisalRepository;
     private final IndustryAssociationRegistrationRepository registrationRepository;
+    private final UserRepository userRepository;
 
     /**
      * Create a new Industry Association Appraisal.
@@ -272,6 +276,44 @@ public class IndustryAssociationAppraisalService {
     }
 
     /**
+     * Approve or reject an appraisal by SIDBE.
+     *
+     * @param uuid the unique identifier of the appraisal
+     * @param approvalRequest the approval request containing approval status
+     * @param username the username of the user approving/rejecting
+     * @return the updated appraisal response
+     * @throws EntityNotFoundException if appraisal or user not found
+     */
+    public IndustryAssociationAppraisalResponse approveBySidbe(
+            String uuid, ApprovalRequest approvalRequest, String username) {
+        log.info("Processing SIDBE approval for appraisal with UUID: {} by user: {}", uuid, username);
+        UUID appraisalUuid = UuidUtil.toUuid(uuid);
+
+        // Fetch the appraisal
+        IndustryAssociationAppraisal appraisal = appraisalRepository.findByUuid(appraisalUuid)
+                .orElseThrow(() -> {
+                    log.error(APPRAISAL_NOT_FOUND_MESSAGE + uuid);
+                    return new EntityNotFoundException(APPRAISAL_NOT_FOUND_MESSAGE + uuid);
+                });
+
+        // Fetch the approving user
+        User approver = userRepository.findByUsername(username)
+                .orElseThrow(() -> {
+                    log.error("User not found with username: {}", username);
+                    return new EntityNotFoundException("User not found with username: " + username);
+                });
+
+        // Update approval fields
+        appraisal.setIsSidbeApproved(approvalRequest.getIsSidbeApproved());
+        appraisal.setSidbeApprovedByUser(approver);
+
+        IndustryAssociationAppraisal updated = appraisalRepository.save(appraisal);
+        log.info("SIDBE approval processed successfully for appraisal UUID: {} by user: {}", uuid, username);
+
+        return convertToResponse(updated);
+    }
+
+    /**
      * Permanently delete an appraisal.
      *
      * @param uuid the unique identifier
@@ -329,6 +371,11 @@ public class IndustryAssociationAppraisalService {
                 .dopDate(appraisal.getDopDate())
                 .recommendation(appraisal.getRecommendation())
                 .recommendationRemarks(appraisal.getRecommendationRemarks())
+                .isSidbeApproved(appraisal.getIsSidbeApproved())
+                .sidbeApprovedByUserId(appraisal.getSidbeApprovedByUser() != null ?
+                        appraisal.getSidbeApprovedByUser().getId() : null)
+                .sidbeApprovedByUsername(appraisal.getSidbeApprovedByUser() != null ?
+                        appraisal.getSidbeApprovedByUser().getUsername() : null)
                 .createdAt(appraisal.getCreatedAt())
                 .updatedAt(appraisal.getUpdatedAt())
                 .createdBy(appraisal.getCreatedBy())

@@ -2,13 +2,13 @@ package org.emat.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,13 +16,14 @@ import java.util.UUID;
  * Entity representing Industry Association Registration.
  * Maps to the INDUSTRY_ASSOCIATION_REGISTRATION table in Oracle database.
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "INDUSTRY_ASSOCIATION_REGISTRATION")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class IndustryAssociationRegistration {
+@SuperBuilder
+public class IndustryAssociationRegistration extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -213,22 +214,6 @@ public class IndustryAssociationRegistration {
     @Column(name = "SDE", length = 200)
     private String sde;
 
-    // Audit Fields
-    @Column(name = "CREATED_AT", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedAt;
-
-    @Column(name = "CREATED_BY", length = 100)
-    private String createdBy;
-
-    @Column(name = "UPDATED_BY", length = 100)
-    private String updatedBy;
-
-    @Column(name = "IS_ACTIVE")
-    private Boolean isActive = true;
-
     // SIDBE approver mapping - stores the actual user who approved
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SIDBE_APPROVED_BY_USER_ID")
@@ -239,18 +224,4 @@ public class IndustryAssociationRegistration {
     // Bidirectional 1:1 relationship with IndustryAssociationAppraisal
     @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private IndustryAssociationAppraisal appraisal;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        if (isActive == null) {
-            isActive = true;
-        }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }

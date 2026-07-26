@@ -2,13 +2,13 @@ package org.emat.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,13 +17,14 @@ import java.util.UUID;
  * Maps to the INDUSTRY_ASSOCIATION_APPRAISAL table in Oracle database.
  * Has a 1:1 relationship with IndustryAssociationRegistration.
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "INDUSTRY_ASSOCIATION_APPRAISAL")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class IndustryAssociationAppraisal {
+@SuperBuilder
+public class IndustryAssociationAppraisal extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -134,34 +135,12 @@ public class IndustryAssociationAppraisal {
     @Column(name = "RECOMMENDATION_REMARKS", length = 2000)
     private String recommendationRemarks;
 
-    // Audit Fields
-    @Column(name = "CREATED_AT", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    // SIDBE Approval
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SIDBE_APPROVED_BY_USER_ID")
+    private User sidbeApprovedByUser;
 
-    @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedAt;
-
-    @Column(name = "CREATED_BY", length = 100)
-    private String createdBy;
-
-    @Column(name = "UPDATED_BY", length = 100)
-    private String updatedBy;
-
-    @Column(name = "IS_ACTIVE")
-    private Boolean isActive = true;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        if (isActive == null) {
-            isActive = true;
-        }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    @Column(name = "IS_SIDBE_APPROVED")
+    private Boolean isSidbeApproved;
 }
 

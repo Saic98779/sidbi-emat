@@ -2,12 +2,14 @@ package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationAppraisalRequest;
 import org.emat.dto.IndustryAssociationAppraisalResponse;
 import org.emat.dto.UpdateIndustryAssociationAppraisalRequest;
 import org.emat.service.IndustryAssociationAppraisalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
  * Provides CRUD operations for managing appraisals with 1:1 relationship to registrations.
  */
 @RestController
-@RequestMapping("/industry-association-appraisals")
+@RequestMapping("/api/v1/industry-association-appraisals")
 @RequiredArgsConstructor
 @Slf4j
 public class IndustryAssociationAppraisalController {
@@ -96,6 +98,26 @@ public class IndustryAssociationAppraisalController {
             @RequestBody UpdateIndustryAssociationAppraisalRequest request) {
         log.info("Received request to update appraisal with UUID: {}", uuid);
         IndustryAssociationAppraisalResponse response = service.updateAppraisal(uuid, request);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Approve or reject an appraisal by SIDBE.
+     * PATCH /api/v1/industry-association-appraisals/{uuid}/approve
+     *
+     * @param uuid the unique identifier
+     * @param approvalRequest the approval request
+     * @param authentication the current authenticated user
+     * @return ResponseEntity with updated appraisal and HTTP 200
+     */
+    @PatchMapping("/{uuid}/approve")
+    public ResponseEntity<IndustryAssociationAppraisalResponse> approveBySidbe(
+            @PathVariable String uuid,
+            @RequestBody ApprovalRequest approvalRequest,
+            Authentication authentication) {
+        log.info("Received SIDBE approval request for appraisal with UUID: {}", uuid);
+        String username = authentication.getName();
+        IndustryAssociationAppraisalResponse response = service.approveBySidbe(uuid, approvalRequest, username);
         return ResponseEntity.ok(response);
     }
 

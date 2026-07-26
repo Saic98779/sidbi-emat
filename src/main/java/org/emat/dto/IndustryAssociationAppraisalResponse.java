@@ -70,6 +70,11 @@ public class IndustryAssociationAppraisalResponse {
     private String recommendation;
     private String recommendationRemarks;
 
+    // SIDBE Approval
+    private Boolean isSidbeApproved;
+    private Long sidbeApprovedByUserId;
+    private String sidbeApprovedByUsername;
+
     // Audit Fields
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
