@@ -19,7 +19,7 @@ import java.util.List;
  * Provides CRUD operations and query endpoints for managing registrations.
  */
 @RestController
-@RequestMapping("/api/v1/industry-association-registrations")
+@RequestMapping("/industry-association-registrations")
 @RequiredArgsConstructor
 @Slf4j
 public class IndustryAssociationRegistrationController {
@@ -28,7 +28,7 @@ public class IndustryAssociationRegistrationController {
 
     /**
      * Create a new Industry Association Registration.
-     * POST /api/v1/industry-association-registrations
+     * POST /industry-association-registrations
      *
      * @param request the creation request
      * @return ResponseEntity with created registration and HTTP 201
@@ -43,7 +43,7 @@ public class IndustryAssociationRegistrationController {
 
     /**
      * Retrieve a registration by UUID.
-     * GET /api/v1/industry-association-registrations/{uuid}
+     * GET /industry-association-registrations/{uuid}
      *
      * @param uuid the unique identifier
      * @return ResponseEntity with registration and HTTP 200
@@ -58,7 +58,7 @@ public class IndustryAssociationRegistrationController {
 
     /**
      * Retrieve all active registrations.
-     * GET /api/v1/industry-association-registrations
+     * GET /industry-association-registrations
      *
      * @return ResponseEntity with list of registrations and HTTP 200
      */
@@ -71,7 +71,7 @@ public class IndustryAssociationRegistrationController {
 
     /**
      * Update an existing registration.
-     * PUT /api/v1/industry-association-registrations/{uuid}
+     * PUT /industry-association-registrations/{uuid}
      *
      * @param uuid the unique identifier
      * @param request the update request
@@ -88,7 +88,7 @@ public class IndustryAssociationRegistrationController {
 
     /**
      * Soft delete a registration (mark as inactive).
-     * DELETE /api/v1/industry-association-registrations/{uuid}
+     * DELETE /industry-association-registrations/{uuid}
      *
      * @param uuid the unique identifier
      * @return ResponseEntity with HTTP 204 (No Content)
@@ -102,7 +102,7 @@ public class IndustryAssociationRegistrationController {
 
     /**
      * Approve or reject a registration by SIDBE.
-     * PATCH /api/v1/industry-association-registrations/{uuid}/approve
+     * PATCH /industry-association-registrations/{uuid}/approve
      *
      * @param uuid the unique identifier
      * @param approvalRequest the approval request
@@ -122,7 +122,7 @@ public class IndustryAssociationRegistrationController {
 
     /**
      * Permanently delete a registration (hard delete).
-     * DELETE /api/v1/industry-association-registrations/{uuid}/permanent
+     * DELETE /industry-association-registrations/{uuid}/permanent
      *
      * @param uuid the unique identifier
      * @return ResponseEntity with HTTP 204 (No Content)

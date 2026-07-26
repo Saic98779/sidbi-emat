@@ -19,7 +19,7 @@ import java.util.List;
  * Provides CRUD operations for managing appraisals with 1:1 relationship to registrations.
  */
 @RestController
-@RequestMapping("/api/v1/industry-association-appraisals")
+@RequestMapping("/industry-association-appraisals")
 @RequiredArgsConstructor
 @Slf4j
 public class IndustryAssociationAppraisalController {
@@ -28,7 +28,7 @@ public class IndustryAssociationAppraisalController {
 
     /**
      * Create a new Industry Association Appraisal.
-     * POST /api/v1/industry-association-appraisals
+     * POST /industry-association-appraisals
      *
      * @param request the creation request
      * @return ResponseEntity with created appraisal and HTTP 201
@@ -43,7 +43,7 @@ public class IndustryAssociationAppraisalController {
 
     /**
      * Retrieve an appraisal by UUID.
-     * GET /api/v1/industry-association-appraisals/{uuid}
+     * GET /industry-association-appraisals/{uuid}
      *
      * @param uuid the unique identifier
      * @return ResponseEntity with appraisal and HTTP 200
@@ -58,7 +58,7 @@ public class IndustryAssociationAppraisalController {
 
     /**
      * Retrieve appraisal by registration UUID.
-     * GET /api/v1/industry-association-appraisals/registration/{registrationUuid}
+     * GET /industry-association-appraisals/registration/{registrationUuid}
      *
      * @param registrationUuid the registration unique identifier
      * @return ResponseEntity with appraisal and HTTP 200
@@ -73,7 +73,7 @@ public class IndustryAssociationAppraisalController {
 
     /**
      * Retrieve all active appraisals.
-     * GET /api/v1/industry-association-appraisals
+     * GET /industry-association-appraisals
      *
      * @return ResponseEntity with list of appraisals and HTTP 200
      */
@@ -86,7 +86,7 @@ public class IndustryAssociationAppraisalController {
 
     /**
      * Update an existing appraisal.
-     * PUT /api/v1/industry-association-appraisals/{uuid}
+     * PUT /industry-association-appraisals/{uuid}
      *
      * @param uuid the unique identifier
      * @param request the update request
@@ -103,7 +103,7 @@ public class IndustryAssociationAppraisalController {
 
     /**
      * Approve or reject an appraisal by SIDBE.
-     * PATCH /api/v1/industry-association-appraisals/{uuid}/approve
+     * PATCH /industry-association-appraisals/{uuid}/approve
      *
      * @param uuid the unique identifier
      * @param approvalRequest the approval request
@@ -123,7 +123,7 @@ public class IndustryAssociationAppraisalController {
 
     /**
      * Permanently delete an appraisal (hard delete).
-     * DELETE /api/v1/industry-association-appraisals/{uuid}/permanent
+     * DELETE /industry-association-appraisals/{uuid}/permanent
      *
      * @param uuid the unique identifier
      * @return ResponseEntity with HTTP 204 (No Content)

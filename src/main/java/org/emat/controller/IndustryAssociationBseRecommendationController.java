@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/bse-recommendations")
+@RequestMapping("/bse-recommendations")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "BSE Recommendation Management", description = "APIs for managing BSE (Business Support Executive) recommendations")

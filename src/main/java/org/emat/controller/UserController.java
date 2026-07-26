@@ -101,7 +101,7 @@ public class UserController {
 
     /**
      * Login endpoint.
-     * POST /api/users/login
+     * POST /users/login
      */
     @PostMapping("/login")
     @SecurityRequirement(name = "")  // This endpoint doesn't require authentication
