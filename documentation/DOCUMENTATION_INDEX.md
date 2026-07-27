@@ -54,7 +54,7 @@ This is your comprehensive guide to the EMAT (Enterprise Management Application 
   - Backup and recovery
 
 ### Database SQL Script:
-- **[db/oracle-schema.sql](db/oracle-schema.sql)** - Execute this to create tables
+- **[db/oracle-schema.sql](../db/oracle-schema.sql)** - Execute this to create tables
 
 ---
 
