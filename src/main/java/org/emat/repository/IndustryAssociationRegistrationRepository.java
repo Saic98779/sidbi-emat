@@ -37,4 +37,16 @@ public interface IndustryAssociationRegistrationRepository extends JpaRepository
      * @return true if exists, false otherwise
      */
     boolean existsByIndustryAssociationNameAndStateAndIsActiveTrue(String industryAssociationName, String state);
+    /**
+     * Find all active registrations by state, district and SIDBI approval status.
+     *
+     * @param state state name
+     * @param district district name
+     * @param isSidbeApproved SIDBI approval status
+     * @return list of matching registrations
+     */
+    List<IndustryAssociationRegistration> findAllByIsActiveTrueAndStateAndDistrictAndIsSidbeApproved(
+            String state,
+            String district,
+            Boolean isSidbeApproved);
 }

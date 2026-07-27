@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApprovalRequest;
@@ -133,6 +134,28 @@ public class IndustryAssociationAppraisalController {
         log.info("Received request to permanently delete appraisal with UUID: {}", uuid);
         service.permanentlyDeleteAppraisal(uuid);
         return ResponseEntity.noContent().build();
+    }
+    /**
+     * Retrieve Industry Association Appraisals by state, district and SIDBI approval status.
+     *
+     * @param state the state where the Industry Association is registered
+     * @param district the district where the Industry Association is registered
+     * @param isSidbeApproved SIDBI approval status (true = approved, false = not approved)
+     * @return list of matching Industry Association Appraisal records
+     */
+    @Operation(
+            summary = "Search Industry Association Appraisals",
+            description = "Retrieves Industry Association Appraisals filtered by state, district, and SIDBI approval status."
+    )
+    @GetMapping("/search")
+    public ResponseEntity<List<IndustryAssociationAppraisalResponse>> getAppraisals(
+            @RequestParam String state,
+            @RequestParam String district,
+            @RequestParam Boolean isSidbeApproved) {
+
+        return ResponseEntity.ok(
+                service.getAppraisals(state, district, isSidbeApproved)
+        );
     }
 }
 

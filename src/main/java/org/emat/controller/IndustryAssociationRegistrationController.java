@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApprovalRequest;
@@ -132,5 +133,28 @@ public class IndustryAssociationRegistrationController {
         log.info("Received request to permanently delete registration with UUID: {}", uuid);
         service.permanentlyDeleteRegistration(uuid);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Retrieve Industry Association Registrations by state, district and SIDBI approval status.
+     *
+     * @param state the state where the Industry Association is registered
+     * @param district the district where the Industry Association is registered
+     * @param isSidbeApproved SIDBI approval status (true = approved, false = not approved)
+     * @return list of matching Industry Association Registration records
+     */
+    @Operation(
+            summary = "Search Industry Association Registrations",
+            description = "Retrieves Industry Association Registrations filtered by state, district, and SIDBI approval status."
+    )
+    @GetMapping("/search")
+    public ResponseEntity<List<IndustryAssociationRegistrationResponse>> getRegistrations(
+            @RequestParam String state,
+            @RequestParam String district,
+            @RequestParam Boolean isSidbeApproved) {
+
+        return ResponseEntity.ok(
+                service.getRegistrations(state, district, isSidbeApproved)
+        );
     }
 }

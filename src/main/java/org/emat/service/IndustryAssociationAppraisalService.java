@@ -383,6 +383,35 @@ public class IndustryAssociationAppraisalService {
                 .isActive(appraisal.getIsActive())
                 .build();
     }
+
+    /**
+     * Retrieve appraisals based on state, district and SIDBI approval status.
+     *
+     * @param state state name
+     * @param district district name
+     * @param isSidbeApproved SIDBI approval status
+     * @return list of appraisal responses
+     */
+    @Transactional(readOnly = true)
+    public List<IndustryAssociationAppraisalResponse> getAppraisals(
+            String state,
+            String district,
+            Boolean isSidbeApproved) {
+
+        log.debug("Fetching Industry Association Appraisals for state: {}, district: {}, approved: {}",
+                state, district, isSidbeApproved);
+
+        List<IndustryAssociationAppraisal> appraisals =
+                appraisalRepository
+                        .findAllByIsActiveTrueAndRegistrationStateAndRegistrationDistrictAndIsSidbeApproved(
+                                state,
+                                district,
+                                isSidbeApproved);
+
+        return appraisals.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
 }
 
 
