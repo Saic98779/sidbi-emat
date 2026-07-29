@@ -46,22 +46,22 @@ public class IndustryAssociationAppraisalService {
      */
     public IndustryAssociationAppraisalResponse createAppraisal(
             CreateIndustryAssociationAppraisalRequest request) {
-        log.info("Creating new Industry Association Appraisal for registration UUID: {}", request.getRegistrationUuid());
+        log.info("Creating new Industry Association Appraisal for appraisal UUID: {}", request.getRegistrationUuid());
 
-        UUID registrationUuid = UuidUtil.toUuid(request.getRegistrationUuid());
+        UUID appraisalUuid = UuidUtil.toUuid(request.getRegistrationUuid());
 
-        // Validate registration exists
+        // Validate appraisal exists
         IndustryAssociationRegistration registration = registrationRepository
-                .findByUuid(registrationUuid)
+                .findByUuid(appraisalUuid)
                 .orElseThrow(() -> {
                     log.error(REGISTRATION_NOT_FOUND_MESSAGE + request.getRegistrationUuid());
                     return new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + request.getRegistrationUuid());
                 });
 
-        // Check if appraisal already exists for this registration
-        if (appraisalRepository.existsByRegistrationUuid(registrationUuid)) {
-            log.warn("Appraisal already exists for registration UUID: {}", request.getRegistrationUuid());
-            throw new IllegalArgumentException("Appraisal already exists for this registration");
+        // Check if appraisal already exists for this appraisal
+        if (appraisalRepository.existsByRegistrationUuid(appraisalUuid)) {
+            log.warn("Appraisal already exists for appraisal UUID: {}", request.getRegistrationUuid());
+            throw new IllegalArgumentException("Appraisal already exists for this appraisal");
         }
 
         IndustryAssociationAppraisal appraisal = IndustryAssociationAppraisal.builder()
@@ -97,6 +97,49 @@ public class IndustryAssociationAppraisalService {
                 .recommendationRemarks(request.getRecommendationRemarks())
                 .createdBy(request.getCreatedBy())
                 .isActive(true)
+
+                .apexHolderName(request.getApexHolderName())
+                .apexHolderDesignation(request.getApexHolderDesignation())
+                .apexHolderMobile(request.getApexHolderMobile())
+                .apexHolderEmail(request.getApexHolderEmail())
+                .addressProofType(request.getAddressProofType())
+                .addressProof(request.getAddressProof())
+                .idProofType(request.getIdProofType())
+                .idProof(request.getIdProof())
+                .nodalName(request.getNodalName())
+                .nodalDesignation(request.getNodalDesignation())
+                .nodalMobile(request.getNodalMobile())
+                .nodalEmail(request.getNodalEmail())
+                .sidbiBranch(request.getSidbiBranch())
+                .mappedWithCluster(request.getMappedWithCluster())
+                .clusterName(request.getClusterName())
+                .mappedWithImportantDistrict(request.getMappedWithImportantDistrict())
+                .districtMsmeCount(request.getDistrictMsmeCount())
+                .activeMembersAbove200(request.getActiveMembersAbove200())
+                .activeMembersCount(request.getActiveMembersCount())
+                .justification(request.getJustification())
+                .approvalLetter(request.getApprovalLetter())
+                .msmeCountWithoutTraders(request.getMsmeCountWithoutTraders())
+                .memberDirectoryAvailable(request.getMemberDirectoryAvailable())
+                .buildingType(request.getBuildingType())
+                .declarationSigned(request.getDeclarationSigned())
+                .electricityBill(request.getElectricityBill())
+                .telephoneBill(request.getTelephoneBill())
+                .itInfrastructureAvailable(request.getItInfrastructureAvailable())
+                .infrastructureType(request.getInfrastructureType())
+                .secretariatStaffAvailable(request.getSecretariatStaffAvailable())
+                .websiteAvailable(request.getWebsiteAvailable())
+                .websiteUrl(request.getWebsiteUrl())
+                .paidServicesAvailable(request.getPaidServicesAvailable())
+                .adverseRemarksAvailable(request.getAdverseRemarksAvailable())
+                .adverseRemarks(request.getAdverseRemarks())
+                .webReport(request.getWebReport())
+                .willingnessComments(request.getWillingnessComments())
+                .workedWithSidbiBefore(request.getWorkedWithSidbiBefore())
+                .grantProposed(request.getGrantProposed())
+                .grantDetails(request.getGrantDetails())
+                .envisagedOutput(request.getEnvisagedOutput())
+                .envisagedOutcome(request.getEnvisagedOutcome())
                 .build();
 
         IndustryAssociationAppraisal saved = appraisalRepository.save(appraisal);
@@ -124,20 +167,20 @@ public class IndustryAssociationAppraisalService {
     }
 
     /**
-     * Retrieve appraisal by registration UUID.
+     * Retrieve appraisal by appraisal UUID.
      *
-     * @param registrationUuid the registration unique identifier
+     * @param appraisalUuid the appraisal unique identifier
      * @return the appraisal response
      * @throws EntityNotFoundException if appraisal not found
      */
     @Transactional(readOnly = true)
-    public IndustryAssociationAppraisalResponse getAppraisalByRegistrationUuid(String registrationUuid) {
-        log.debug("Fetching Industry Association Appraisal for registration UUID: {}", registrationUuid);
-        UUID regUuid = UuidUtil.toUuid(registrationUuid);
+    public IndustryAssociationAppraisalResponse getAppraisalByRegistrationUuid(String appraisalUuid) {
+        log.debug("Fetching Industry Association Appraisal for appraisal UUID: {}", appraisalUuid);
+        UUID regUuid = UuidUtil.toUuid(appraisalUuid);
         IndustryAssociationAppraisal appraisal = appraisalRepository.findByRegistrationUuid(regUuid)
                 .orElseThrow(() -> {
-                    log.error("Appraisal not found for registration UUID: " + registrationUuid);
-                    return new EntityNotFoundException("Appraisal not found for registration UUID: " + registrationUuid);
+                    log.error("Appraisal not found for appraisal UUID: " + appraisalUuid);
+                    return new EntityNotFoundException("Appraisal not found for appraisal UUID: " + appraisalUuid);
                 });
         return convertToResponse(appraisal);
     }
@@ -270,6 +313,109 @@ public class IndustryAssociationAppraisalService {
             appraisal.setIsActive(request.getIsActive());
         }
 
+        if (request.getNodalName() != null) {
+            appraisal.setNodalName(request.getNodalName());
+        }
+        if (request.getNodalDesignation() != null) {
+            appraisal.setNodalDesignation(request.getNodalDesignation());
+        }
+        if (request.getNodalMobile() != null) {
+            appraisal.setNodalMobile(request.getNodalMobile());
+        }
+        if (request.getNodalEmail() != null) {
+            appraisal.setNodalEmail(request.getNodalEmail());
+        }
+        if (request.getSidbiBranch() != null) {
+            appraisal.setSidbiBranch(request.getSidbiBranch());
+        }
+        if (request.getMappedWithCluster() != null) {
+            appraisal.setMappedWithCluster(request.getMappedWithCluster());
+        }
+        if (request.getClusterName() != null) {
+            appraisal.setClusterName(request.getClusterName());
+        }
+        if (request.getMappedWithImportantDistrict() != null) {
+            appraisal.setMappedWithImportantDistrict(request.getMappedWithImportantDistrict());
+        }
+        if (request.getDistrictMsmeCount() != null) {
+            appraisal.setDistrictMsmeCount(request.getDistrictMsmeCount());
+        }
+        if (request.getActiveMembersAbove200() != null) {
+            appraisal.setActiveMembersAbove200(request.getActiveMembersAbove200());
+        }
+        if (request.getActiveMembersCount() != null) {
+            appraisal.setActiveMembersCount(request.getActiveMembersCount());
+        }
+        if (request.getJustification() != null) {
+            appraisal.setJustification(request.getJustification());
+        }
+        if (request.getApprovalLetter() != null) {
+            appraisal.setApprovalLetter(request.getApprovalLetter());
+        }
+        if (request.getMsmeCountWithoutTraders() != null) {
+            appraisal.setMsmeCountWithoutTraders(request.getMsmeCountWithoutTraders());
+        }
+        if (request.getMemberDirectoryAvailable() != null) {
+            appraisal.setMemberDirectoryAvailable(request.getMemberDirectoryAvailable());
+        }
+        if (request.getBuildingType() != null) {
+            appraisal.setBuildingType(request.getBuildingType());
+        }
+        if (request.getDeclarationSigned() != null) {
+            appraisal.setDeclarationSigned(request.getDeclarationSigned());
+        }
+        if (request.getElectricityBill() != null) {
+            appraisal.setElectricityBill(request.getElectricityBill());
+        }
+        if (request.getTelephoneBill() != null) {
+            appraisal.setTelephoneBill(request.getTelephoneBill());
+        }
+        if (request.getItInfrastructureAvailable() != null) {
+            appraisal.setItInfrastructureAvailable(request.getItInfrastructureAvailable());
+        }
+        if (request.getInfrastructureType() != null) {
+            appraisal.setInfrastructureType(request.getInfrastructureType());
+        }
+        if (request.getSecretariatStaffAvailable() != null) {
+            appraisal.setSecretariatStaffAvailable(request.getSecretariatStaffAvailable());
+        }
+        if (request.getWebsiteAvailable() != null) {
+            appraisal.setWebsiteAvailable(request.getWebsiteAvailable());
+        }
+        if (request.getWebsiteUrl() != null) {
+            appraisal.setWebsiteUrl(request.getWebsiteUrl());
+        }
+        if (request.getPaidServicesAvailable() != null) {
+            appraisal.setPaidServicesAvailable(request.getPaidServicesAvailable());
+        }
+        if (request.getAdverseRemarksAvailable() != null) {
+            appraisal.setAdverseRemarksAvailable(request.getAdverseRemarksAvailable());
+        }
+        if (request.getAdverseRemarks() != null) {
+            appraisal.setAdverseRemarks(request.getAdverseRemarks());
+        }
+        if (request.getWebReport() != null) {
+            appraisal.setWebReport(request.getWebReport());
+        }
+        if (request.getWillingnessComments() != null) {
+            appraisal.setWillingnessComments(request.getWillingnessComments());
+        }
+        if (request.getWorkedWithSidbiBefore() != null) {
+            appraisal.setWorkedWithSidbiBefore(request.getWorkedWithSidbiBefore());
+        }
+        if (request.getGrantProposed() != null) {
+            appraisal.setGrantProposed(request.getGrantProposed());
+        }
+        if (request.getGrantDetails() != null) {
+            appraisal.setGrantDetails(request.getGrantDetails());
+        }
+        if (request.getEnvisagedOutput() != null) {
+            appraisal.setEnvisagedOutput(request.getEnvisagedOutput());
+        }
+        if (request.getEnvisagedOutcome() != null) {
+            appraisal.setEnvisagedOutcome(request.getEnvisagedOutcome());
+        }
+
         IndustryAssociationAppraisal updated = appraisalRepository.save(appraisal);
         log.info("Industry Association Appraisal updated successfully with UUID: {}", uuid);
         return convertToResponse(updated);
@@ -381,6 +527,49 @@ public class IndustryAssociationAppraisalService {
                 .createdBy(appraisal.getCreatedBy())
                 .updatedBy(appraisal.getUpdatedBy())
                 .isActive(appraisal.getIsActive())
+
+                .apexHolderName(appraisal.getApexHolderName())
+                .apexHolderDesignation(appraisal.getApexHolderDesignation())
+                .apexHolderMobile(appraisal.getApexHolderMobile())
+                .apexHolderEmail(appraisal.getApexHolderEmail())
+                .addressProofType(appraisal.getAddressProofType())
+                .addressProof(appraisal.getAddressProof())
+                .idProofType(appraisal.getIdProofType())
+                .idProof(appraisal.getIdProof())
+                .nodalName(appraisal.getNodalName())
+                .nodalDesignation(appraisal.getNodalDesignation())
+                .nodalMobile(appraisal.getNodalMobile())
+                .nodalEmail(appraisal.getNodalEmail())
+                .sidbiBranch(appraisal.getSidbiBranch())
+                .mappedWithCluster(appraisal.getMappedWithCluster())
+                .clusterName(appraisal.getClusterName())
+                .mappedWithImportantDistrict(appraisal.getMappedWithImportantDistrict())
+                .districtMsmeCount(appraisal.getDistrictMsmeCount())
+                .activeMembersAbove200(appraisal.getActiveMembersAbove200())
+                .activeMembersCount(appraisal.getActiveMembersCount())
+                .justification(appraisal.getJustification())
+                .approvalLetter(appraisal.getApprovalLetter())
+                .msmeCountWithoutTraders(appraisal.getMsmeCountWithoutTraders())
+                .memberDirectoryAvailable(appraisal.getMemberDirectoryAvailable())
+                .buildingType(appraisal.getBuildingType())
+                .declarationSigned(appraisal.getDeclarationSigned())
+                .electricityBill(appraisal.getElectricityBill())
+                .telephoneBill(appraisal.getTelephoneBill())
+                .itInfrastructureAvailable(appraisal.getItInfrastructureAvailable())
+                .infrastructureType(appraisal.getInfrastructureType())
+                .secretariatStaffAvailable(appraisal.getSecretariatStaffAvailable())
+                .websiteAvailable(appraisal.getWebsiteAvailable())
+                .websiteUrl(appraisal.getWebsiteUrl())
+                .paidServicesAvailable(appraisal.getPaidServicesAvailable())
+                .adverseRemarksAvailable(appraisal.getAdverseRemarksAvailable())
+                .adverseRemarks(appraisal.getAdverseRemarks())
+                .webReport(appraisal.getWebReport())
+                .willingnessComments(appraisal.getWillingnessComments())
+                .workedWithSidbiBefore(appraisal.getWorkedWithSidbiBefore())
+                .grantProposed(appraisal.getGrantProposed())
+                .grantDetails(appraisal.getGrantDetails())
+                .envisagedOutput(appraisal.getEnvisagedOutput())
+                .envisagedOutcome(appraisal.getEnvisagedOutcome())
                 .build();
     }
 

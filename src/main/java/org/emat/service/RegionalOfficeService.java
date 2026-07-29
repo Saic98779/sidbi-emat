@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.emat.dto.CreateRegionalOfficeRequest;
+import org.emat.dto.RegionalOfficeRequest;
 import org.emat.dto.RegionalOfficeResponse;
 import org.emat.dto.UpdateRegionalOfficeRequest;
 import org.emat.entity.RegionalOffice;
@@ -26,7 +26,7 @@ public class RegionalOfficeService {
      * Create Regional Office.
      */
     @Transactional
-    public RegionalOfficeResponse createRegionalOffice(CreateRegionalOfficeRequest request) {
+    public RegionalOfficeResponse createRegionalOffice(RegionalOfficeRequest request) {
 
         if (repository.existsByRoId(request.getRoId())) {
             throw new IllegalArgumentException("Regional Office already exists with RO ID : " + request.getRoId());

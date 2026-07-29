@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CreateRegionalOfficeRequest {
+public class RegionalOfficeRequest {
 
     @NotBlank
     private String roId;
