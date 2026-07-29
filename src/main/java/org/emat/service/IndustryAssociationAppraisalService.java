@@ -98,6 +98,7 @@ public class IndustryAssociationAppraisalService {
                 .createdBy(request.getCreatedBy())
                 .isActive(true)
 
+                .financialYear(request.getFinancialYear())
                 .apexHolderName(request.getApexHolderName())
                 .apexHolderDesignation(request.getApexHolderDesignation())
                 .apexHolderMobile(request.getApexHolderMobile())
@@ -416,6 +417,10 @@ public class IndustryAssociationAppraisalService {
             appraisal.setEnvisagedOutcome(request.getEnvisagedOutcome());
         }
 
+        if (request.getFinancialYear() != null) {
+            appraisal.setFinancialYear(request.getFinancialYear());
+        }
+
         IndustryAssociationAppraisal updated = appraisalRepository.save(appraisal);
         log.info("Industry Association Appraisal updated successfully with UUID: {}", uuid);
         return convertToResponse(updated);
@@ -507,6 +512,7 @@ public class IndustryAssociationAppraisalService {
                 .referralArrangementComments(appraisal.getReferralArrangementComments())
                 .bseReadinessComments(appraisal.getBseReadinessComments())
                 .topThreeSectors(appraisal.getTopThreeSectors())
+                .financialYear(appraisal.getFinancialYear())
                 .financingScope(appraisal.getFinancingScope())
                 .projectLocation(appraisal.getProjectLocation())
                 .clusterExpertComments(appraisal.getClusterExpertComments())

@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DTO for Industry Association Appraisal response.
@@ -48,7 +49,8 @@ public class IndustryAssociationAppraisalResponse {
     private String formalizationComments;
     private String referralArrangementComments;
     private String bseReadinessComments;
-    private List<String> topThreeSectors;
+    private Map<String,String> topThreeSectors;
+    private LocalDate financialYear;
     private String financingScope;
     private String projectLocation;
 

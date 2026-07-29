@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -96,9 +97,11 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @ElementCollection
     @CollectionTable(
             name = "IA_APPRAISAL_TOP_SECTORS",
-            joinColumns = @JoinColumn(name = "APPRAISAL_UUID"))
-    @Column(name = "SECTOR_NAME", length = 200)
-    private List<String> topThreeSectors;
+            joinColumns = @JoinColumn(name = "APPRAISAL_UUID")
+    )
+    @MapKeyColumn(name = "SECTOR_KEY", length = 100)
+    @Column(name = "SECTOR_VALUE", length = 200)
+    private Map<String, String> topThreeSectors;
 
     @Column(name = "FINANCING_SCOPE", length = 500)
     private String financingScope;
@@ -113,6 +116,9 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     // Budget
     @Column(name = "BUDGET_ALLOCATED", precision = 15, scale = 2)
     private BigDecimal budgetAllocated;
+
+    @Column(name = "FINANCIAL_YEAR")
+    private LocalDate financialYear;
 
     @Column(name = "UTILIZED_AMOUNT", precision = 15, scale = 2)
     private BigDecimal utilizedAmount;

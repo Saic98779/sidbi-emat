@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DTO for updating an existing Industry Association Appraisal.
@@ -43,7 +44,8 @@ public class UpdateIndustryAssociationAppraisalRequest {
     private String formalizationComments;
     private String referralArrangementComments;
     private String bseReadinessComments;
-    private List<String> topThreeSectors;
+    private Map<String,String> topThreeSectors;
+    private LocalDate financialYear;
     private String financingScope;
     private String projectLocation;
 
