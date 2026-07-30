@@ -536,4 +536,31 @@ public class IndustryAssociationRegistrationService {
                 .updatedBy(registration.getUpdatedBy())
                 .build();
     }
+    /**
+     * Retrieve registrations by state, district and SIDBI approval status.
+     *
+     * @param state state name
+     * @param district district name
+     * @param isSidbeApproved SIDBI approval status
+     * @return list of matching registration responses
+     */
+    @Transactional
+    public List<IndustryAssociationRegistrationResponse> getRegistrations(
+            String state,
+            String district,
+            Boolean isSidbeApproved) {
+
+        log.debug("Fetching Industry Association Registrations for state: {}, district: {}, approved: {}",
+                state, district, isSidbeApproved);
+
+        List<IndustryAssociationRegistration> registrations =
+                repository.findAllByIsActiveTrueAndStateAndDistrictAndIsSidbeApproved(
+                        state,
+                        district,
+                        isSidbeApproved);
+
+        return registrations.stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
 }

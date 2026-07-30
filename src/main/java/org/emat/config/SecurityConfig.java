@@ -3,6 +3,7 @@ package org.emat.config;
 import org.emat.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -79,15 +80,14 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .authorizeHttpRequests(authz -> authz
-                    // Public endpoints - no authentication required
-                    .requestMatchers("/users/login").permitAll()
-                    .requestMatchers("/health").permitAll()
-                    .requestMatchers("/").permitAll()
-                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                    // All other endpoints require authentication
-                    .anyRequest().authenticated()
-            );
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/users").permitAll()
+                        .requestMatchers("/users/login").permitAll()
+                        .requestMatchers("/health").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .anyRequest().authenticated()
+                );
 
         return http.build();
     }

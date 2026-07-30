@@ -45,5 +45,18 @@ public interface IndustryAssociationAppraisalRepository extends JpaRepository<In
      * @return true if exists, false otherwise
      */
     boolean existsByRegistrationUuid(UUID registrationUuid);
+    /**
+     * Find all active appraisals by state, district and SIDBI approval status.
+     *
+     * @param state state name
+     * @param district district name
+     * @param isSidbeApproved SIDBI approval status
+     * @return list of matching appraisals
+     */
+    List<IndustryAssociationAppraisal> findAllByIsActiveTrueAndRegistrationStateAndRegistrationDistrictAndIsSidbeApproved(
+            String state,
+            String district,
+            Boolean isSidbeApproved
+    );
 }
 
