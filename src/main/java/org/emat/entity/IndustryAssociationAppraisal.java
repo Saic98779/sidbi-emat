@@ -103,11 +103,9 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @ElementCollection
     @CollectionTable(
             name = "IA_APPRAISAL_TOP_SECTORS",
-            joinColumns = @JoinColumn(name = "APPRAISAL_UUID")
-    )
-    @MapKeyColumn(name = "SECTOR_KEY", length = 100)
-    @Column(name = "SECTOR_VALUE", length = 200)
-    private Map<String, String> topThreeSectors;
+            joinColumns = @JoinColumn(name = "APPRAISAL_UUID"))
+    @Column(name = "SECTOR_NAME", length = 200)
+    private List<String> topThreeSectors;
 
     @Column(name = "FINANCING_SCOPE", length = 500)
     private String financingScope;
@@ -296,6 +294,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
 
     @Column(name = "ENVISAGED_OUTCOME", length = 500)
     private String envisagedOutcome;
+
 
 }
 

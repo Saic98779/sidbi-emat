@@ -23,6 +23,7 @@ public class CreateIndustryAssociationAppraisalRequest {
     // Due Diligence
     private String cibilReportReferenceNo;
     private LocalDate cibilReportDate;
+    private LocalDate financialYear;
     private String cibilRanking;
     private String cibilRemarks;
     private String ngoDarpanNumber;
@@ -44,12 +45,9 @@ public class CreateIndustryAssociationAppraisalRequest {
     // DIA Details
     private String formalizationComments;
     private String referralArrangementComments;
-    private Boolean referralArrangementReady;
     private String bseReadinessComments;
-    private Boolean bseReadinessReady;
     private List<String> topThreeSectors;
     private String financingScope;
-    private BigDecimal financingScopeCrore;
     private String projectLocation;
 
     // Cluster Expert
@@ -72,5 +70,73 @@ public class CreateIndustryAssociationAppraisalRequest {
 
     // Audit
     private String createdBy;
-}
 
+
+
+
+    // Apex Holder Information (KYC)
+    private String apexHolderName;
+    private String apexHolderDesignation;
+    private String apexHolderMobile;
+    private String apexHolderEmail;
+    private String addressProofType;
+    private String addressProof;
+    private String idProofType;
+    private String idProof;
+
+    // Nodal Contact Information
+    private String nodalName;
+    private String nodalDesignation;
+    private String nodalMobile;
+    private String nodalEmail;
+
+    // SIDBI Details
+    private String sidbiBranch;
+
+    // Cluster Details
+    private Boolean mappedWithCluster;
+    private String clusterName;
+    private Boolean mappedWithImportantDistrict;
+    private Integer districtMsmeCount;
+
+    // Existing Infrastructure
+    private Boolean activeMembersAbove200;
+    private Integer activeMembersCount;
+
+    // Documentation and Justification
+    private String justification;
+    private String approvalLetter;
+    private Integer msmeCountWithoutTraders;
+
+    // Infrastructure & Services
+    private Boolean memberDirectoryAvailable;
+    private String buildingType;
+    private Boolean declarationSigned;
+    private String electricityBill;
+    private String telephoneBill;
+    private Boolean itInfrastructureAvailable;
+    private String infrastructureType;
+    private Boolean secretariatStaffAvailable;
+    private Boolean websiteAvailable;
+    private String websiteUrl;
+    private Boolean paidServicesAvailable;
+    private Boolean adverseRemarksAvailable;
+    private String adverseRemarks;
+    private String webReport;
+
+    // Willingness & Output
+    private String willingnessComments;
+    private Boolean workedWithSidbiBefore;
+
+    // Grant Details
+    private BigDecimal grantProposed;
+    private String grantDetails;
+
+    // Envisaged Outputs, Outcomes, and Impacts
+    private String envisagedOutput;
+    private String envisagedOutcome;
+    private String envisagedImpact;
+    private Boolean referralArrangementReady;
+    private Boolean bseReadinessReady;
+    private BigDecimal financingScopeCrore;
+}
