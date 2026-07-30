@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import org.emat.dto.SecretariatStaffDto;
 
 /**
  * Request DTO for creating Industry Association Registration.
@@ -52,6 +53,7 @@ public class CreateIndustryAssociationRegistrationRequest {
 
     // SIDBI Details
     private String sidbiBranch;
+    private String sidbiBranchName;
 
     // Cluster Details
     private Boolean mappedWithCluster;
@@ -80,6 +82,8 @@ public class CreateIndustryAssociationRegistrationRequest {
     private Boolean websiteAvailable;
     private String websiteUrl;
     private Boolean paidServicesAvailable;
+    private String paidServicesDetails;
+    private List<SecretariatStaffDto> secretariatStaff;
     private Boolean adverseRemarksAvailable;
     private String adverseRemarks;
     private String webReport;

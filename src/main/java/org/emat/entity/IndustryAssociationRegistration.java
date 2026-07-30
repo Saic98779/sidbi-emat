@@ -105,6 +105,9 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "SIDBI_BRANCH", length = 200)
     private String sidbiBranch;
 
+    @Column(name = "SIDBI_BRANCH_NAME", length = 300)
+    private String sidbiBranchName;
+
     // Cluster Details
     @Column(name = "MAPPED_WITH_CLUSTER")
     private Boolean mappedWithCluster;
@@ -168,6 +171,15 @@ public class IndustryAssociationRegistration extends BaseEntity {
 
     @Column(name = "PAID_SERVICES_AVAILABLE")
     private Boolean paidServicesAvailable;
+
+    @Column(name = "PAID_SERVICES_DETAILS", length = 1000)
+    private String paidServicesDetails;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "IA_SECRETARIAT_STAFF",
+            joinColumns = @JoinColumn(name = "UUID"))
+    private List<SecretariatStaff> secretariatStaff;
 
     @Column(name = "ADVERSE_REMARKS_AVAILABLE")
     private Boolean adverseRemarksAvailable;

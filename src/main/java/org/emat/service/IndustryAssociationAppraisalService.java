@@ -83,9 +83,12 @@ public class IndustryAssociationAppraisalService {
                 .activitiesLastYear(request.getActivitiesLastYear())
                 .formalizationComments(request.getFormalizationComments())
                 .referralArrangementComments(request.getReferralArrangementComments())
+                .referralArrangementReady(request.getReferralArrangementReady())
                 .bseReadinessComments(request.getBseReadinessComments())
+                .bseReadinessReady(request.getBseReadinessReady())
                 .topThreeSectors(request.getTopThreeSectors())
                 .financingScope(request.getFinancingScope())
+                .financingScopeCrore(request.getFinancingScopeCrore())
                 .projectLocation(request.getProjectLocation())
                 .clusterExpertComments(request.getClusterExpertComments())
                 .budgetAllocated(request.getBudgetAllocated())
@@ -227,14 +230,23 @@ public class IndustryAssociationAppraisalService {
         if (request.getReferralArrangementComments() != null) {
             appraisal.setReferralArrangementComments(request.getReferralArrangementComments());
         }
+        if (request.getReferralArrangementReady() != null) {
+            appraisal.setReferralArrangementReady(request.getReferralArrangementReady());
+        }
         if (request.getBseReadinessComments() != null) {
             appraisal.setBseReadinessComments(request.getBseReadinessComments());
+        }
+        if (request.getBseReadinessReady() != null) {
+            appraisal.setBseReadinessReady(request.getBseReadinessReady());
         }
         if (request.getTopThreeSectors() != null) {
             appraisal.setTopThreeSectors(request.getTopThreeSectors());
         }
         if (request.getFinancingScope() != null) {
             appraisal.setFinancingScope(request.getFinancingScope());
+        }
+        if (request.getFinancingScopeCrore() != null) {
+            appraisal.setFinancingScopeCrore(request.getFinancingScopeCrore());
         }
         if (request.getProjectLocation() != null) {
             appraisal.setProjectLocation(request.getProjectLocation());
@@ -342,6 +354,8 @@ public class IndustryAssociationAppraisalService {
                 .uuid(appraisal.getUuid().toString())
                 .registrationUuid(appraisal.getRegistration().getUuid().toString())
                 .registrationName(appraisal.getRegistration().getIndustryAssociationName())
+                .sidbiBranch(appraisal.getRegistration().getSidbiBranch())
+                .sidbiBranchName(appraisal.getRegistration().getSidbiBranchName())
                 .cibilReportReferenceNo(appraisal.getCibilReportReferenceNo())
                 .cibilReportDate(appraisal.getCibilReportDate())
                 .cibilRanking(appraisal.getCibilRanking())
@@ -359,9 +373,12 @@ public class IndustryAssociationAppraisalService {
                 .activitiesLastYear(appraisal.getActivitiesLastYear())
                 .formalizationComments(appraisal.getFormalizationComments())
                 .referralArrangementComments(appraisal.getReferralArrangementComments())
+                .referralArrangementReady(appraisal.getReferralArrangementReady())
                 .bseReadinessComments(appraisal.getBseReadinessComments())
+                .bseReadinessReady(appraisal.getBseReadinessReady())
                 .topThreeSectors(appraisal.getTopThreeSectors())
                 .financingScope(appraisal.getFinancingScope())
+                .financingScopeCrore(appraisal.getFinancingScopeCrore())
                 .projectLocation(appraisal.getProjectLocation())
                 .clusterExpertComments(appraisal.getClusterExpertComments())
                 .budgetAllocated(appraisal.getBudgetAllocated())

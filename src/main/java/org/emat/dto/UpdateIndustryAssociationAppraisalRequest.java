@@ -42,9 +42,12 @@ public class UpdateIndustryAssociationAppraisalRequest {
     // DIA Details
     private String formalizationComments;
     private String referralArrangementComments;
+    private Boolean referralArrangementReady;
     private String bseReadinessComments;
+    private Boolean bseReadinessReady;
     private List<String> topThreeSectors;
     private String financingScope;
+    private BigDecimal financingScopeCrore;
     private String projectLocation;
 
     // Cluster Expert

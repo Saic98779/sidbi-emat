@@ -27,6 +27,12 @@ public class FileController {
         return ResponseEntity.status(201).body(resp);
     }
 
+    @PostMapping(value = "/{registrationUuid}/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<List<UploadedFileResponse>> uploadFiles(@PathVariable String registrationUuid, @RequestPart("files") List<MultipartFile> files) {
+        List<UploadedFileResponse> responses = storageService.storeAll(registrationUuid, files);
+        return ResponseEntity.status(201).body(responses);
+    }
+
     @GetMapping("/{registrationUuid}")
     public ResponseEntity<List<UploadedFileResponse>> listFiles(@PathVariable String registrationUuid) {
         List<UploadedFileResponse> list = storageService.listFiles(registrationUuid);

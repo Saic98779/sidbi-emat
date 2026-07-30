@@ -22,6 +22,8 @@ public class IndustryAssociationAppraisalResponse {
     private String uuid;
     private String registrationUuid;
     private String registrationName;
+    private String sidbiBranch;
+    private String sidbiBranchName;
 
     // Due Diligence
     private String cibilReportReferenceNo;
@@ -47,9 +49,12 @@ public class IndustryAssociationAppraisalResponse {
     // DIA Details
     private String formalizationComments;
     private String referralArrangementComments;
+    private Boolean referralArrangementReady;
     private String bseReadinessComments;
+    private Boolean bseReadinessReady;
     private List<String> topThreeSectors;
     private String financingScope;
+    private BigDecimal financingScopeCrore;
     private String projectLocation;
 
     // Cluster Expert

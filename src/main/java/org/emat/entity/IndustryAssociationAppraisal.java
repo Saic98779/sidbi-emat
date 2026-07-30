@@ -90,8 +90,14 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "REFERRAL_ARRANGEMENT_COMMENTS", length = 1000)
     private String referralArrangementComments;
 
+    @Column(name = "REFERRAL_ARRANGEMENT_READY")
+    private Boolean referralArrangementReady;
+
     @Column(name = "BSE_READINESS_COMMENTS", length = 1000)
     private String bseReadinessComments;
+
+    @Column(name = "BSE_READINESS_READY")
+    private Boolean bseReadinessReady;
 
     @ElementCollection
     @CollectionTable(
@@ -102,6 +108,9 @@ public class IndustryAssociationAppraisal extends BaseEntity {
 
     @Column(name = "FINANCING_SCOPE", length = 500)
     private String financingScope;
+
+    @Column(name = "FINANCING_SCOPE_CRORE", precision = 15, scale = 2)
+    private BigDecimal financingScopeCrore;
 
     @Column(name = "PROJECT_LOCATION", length = 500)
     private String projectLocation;

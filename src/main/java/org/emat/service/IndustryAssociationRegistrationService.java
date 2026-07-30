@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
+import org.emat.dto.SecretariatStaffDto;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.entity.IndustryAssociationRegistration;
+import org.emat.entity.SecretariatStaff;
 import org.emat.entity.User;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
@@ -88,6 +90,7 @@ public class IndustryAssociationRegistrationService {
                 .nodalMobile(request.getNodalMobile())
                 .nodalEmail(request.getNodalEmail())
                 .sidbiBranch(request.getSidbiBranch())
+                .sidbiBranchName(request.getSidbiBranchName())
                 .mappedWithCluster(request.getMappedWithCluster())
                 .clusterName(request.getClusterName())
                 .mappedWithImportantDistrict(request.getMappedWithImportantDistrict())
@@ -108,6 +111,12 @@ public class IndustryAssociationRegistrationService {
                 .websiteAvailable(request.getWebsiteAvailable())
                 .websiteUrl(request.getWebsiteUrl())
                 .paidServicesAvailable(request.getPaidServicesAvailable())
+                .paidServicesDetails(request.getPaidServicesDetails())
+                .secretariatStaff(request.getSecretariatStaff() != null
+                        ? request.getSecretariatStaff().stream()
+                                .map(d -> new SecretariatStaff(d.getName(), d.getContact(), d.getEmail()))
+                                .collect(Collectors.toList())
+                        : null)
                 .adverseRemarksAvailable(request.getAdverseRemarksAvailable())
                 .adverseRemarks(request.getAdverseRemarks())
                 .webReport(request.getWebReport())
@@ -250,6 +259,9 @@ public class IndustryAssociationRegistrationService {
         if (request.getSidbiBranch() != null) {
             registration.setSidbiBranch(request.getSidbiBranch());
         }
+        if (request.getSidbiBranchName() != null) {
+            registration.setSidbiBranchName(request.getSidbiBranchName());
+        }
         if (request.getMappedWithCluster() != null) {
             registration.setMappedWithCluster(request.getMappedWithCluster());
         }
@@ -309,6 +321,14 @@ public class IndustryAssociationRegistrationService {
         }
         if (request.getPaidServicesAvailable() != null) {
             registration.setPaidServicesAvailable(request.getPaidServicesAvailable());
+        }
+        if (request.getPaidServicesDetails() != null) {
+            registration.setPaidServicesDetails(request.getPaidServicesDetails());
+        }
+        if (request.getSecretariatStaff() != null) {
+            registration.setSecretariatStaff(request.getSecretariatStaff().stream()
+                    .map(d -> new SecretariatStaff(d.getName(), d.getContact(), d.getEmail()))
+                    .collect(Collectors.toList()));
         }
         if (request.getAdverseRemarksAvailable() != null) {
             registration.setAdverseRemarksAvailable(request.getAdverseRemarksAvailable());
@@ -465,6 +485,7 @@ public class IndustryAssociationRegistrationService {
                 .nodalMobile(registration.getNodalMobile())
                 .nodalEmail(registration.getNodalEmail())
                 .sidbiBranch(registration.getSidbiBranch())
+                .sidbiBranchName(registration.getSidbiBranchName())
                 .mappedWithCluster(registration.getMappedWithCluster())
                 .clusterName(registration.getClusterName())
                 .mappedWithImportantDistrict(registration.getMappedWithImportantDistrict())
@@ -485,6 +506,12 @@ public class IndustryAssociationRegistrationService {
                 .websiteAvailable(registration.getWebsiteAvailable())
                 .websiteUrl(registration.getWebsiteUrl())
                 .paidServicesAvailable(registration.getPaidServicesAvailable())
+                .paidServicesDetails(registration.getPaidServicesDetails())
+                .secretariatStaff(registration.getSecretariatStaff() != null
+                        ? registration.getSecretariatStaff().stream()
+                                .map(s -> new SecretariatStaffDto(s.getName(), s.getContact(), s.getEmail()))
+                                .collect(Collectors.toList())
+                        : null)
                 .adverseRemarksAvailable(registration.getAdverseRemarksAvailable())
                 .adverseRemarks(registration.getAdverseRemarks())
                 .webReport(registration.getWebReport())

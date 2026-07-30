@@ -88,6 +88,14 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
+    @Transactional
+    public List<UploadedFileResponse> storeAll(String registrationUuid, List<MultipartFile> files) {
+        return files.stream()
+                .map(file -> store(registrationUuid, file))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Resource loadAsResource(String registrationUuid, String filename) {
         try {
             Path file = storageBase.resolve(registrationUuid).resolve(filename).normalize();

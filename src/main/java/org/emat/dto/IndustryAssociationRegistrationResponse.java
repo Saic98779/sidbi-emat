@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import org.emat.dto.SecretariatStaffDto;
 
 /**
  * Response DTO for Industry Association Registration.
@@ -57,6 +58,7 @@ public class IndustryAssociationRegistrationResponse {
 
     // SIDBI Details
     private String sidbiBranch;
+    private String sidbiBranchName;
 
     // Cluster Details
     private Boolean mappedWithCluster;
@@ -85,6 +87,8 @@ public class IndustryAssociationRegistrationResponse {
     private Boolean websiteAvailable;
     private String websiteUrl;
     private Boolean paidServicesAvailable;
+    private String paidServicesDetails;
+    private List<SecretariatStaffDto> secretariatStaff;
     private Boolean adverseRemarksAvailable;
     private String adverseRemarks;
     private String webReport;
