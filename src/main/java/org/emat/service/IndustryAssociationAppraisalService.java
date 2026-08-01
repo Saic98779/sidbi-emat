@@ -86,7 +86,7 @@ public class IndustryAssociationAppraisalService {
                 .referralArrangementReady(request.getReferralArrangementReady())
                 .bseReadinessComments(request.getBseReadinessComments())
                 .bseReadinessReady(request.getBseReadinessReady())
-                .topThreeSectors(request.getTopThreeSectors())
+                .sectors(request.getSectors())
                 .financingScope(request.getFinancingScope())
                 .financingScopeCrore(request.getFinancingScopeCrore())
                 .projectLocation(request.getProjectLocation())
@@ -283,8 +283,8 @@ public class IndustryAssociationAppraisalService {
         if (request.getBseReadinessReady() != null) {
             appraisal.setBseReadinessReady(request.getBseReadinessReady());
         }
-        if (request.getTopThreeSectors() != null) {
-            appraisal.setTopThreeSectors(request.getTopThreeSectors());
+        if (request.getSectors() != null) {
+            appraisal.setSectors(request.getSectors());
         }
         if (request.getFinancingScope() != null) {
             appraisal.setFinancingScope(request.getFinancingScope());
@@ -527,7 +527,7 @@ public class IndustryAssociationAppraisalService {
                 .referralArrangementReady(appraisal.getReferralArrangementReady())
                 .bseReadinessComments(appraisal.getBseReadinessComments())
                 .bseReadinessReady(appraisal.getBseReadinessReady())
-                .topThreeSectors(appraisal.getTopThreeSectors())
+                .sectors(appraisal.getSectors())
                 .financialYear(appraisal.getFinancialYear())
                 .financingScope(appraisal.getFinancingScope())
                 .financingScopeCrore(appraisal.getFinancingScopeCrore())

@@ -31,9 +31,9 @@ public class OpenApiConfig {
                         .title("EMAT API")
                         .version("1.0")
                         .description("EMAT Application API Documentation"))
-                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
-                        .addSecuritySchemes("Bearer Authentication",
+                        .addSecuritySchemes("bearerAuth",
                                 new SecurityScheme()
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")

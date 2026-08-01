@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.entity.IndustryAssociationAppraisal;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -53,7 +54,7 @@ public class IndustryAssociationAppraisalResponse {
     private Boolean referralArrangementReady;
     private String bseReadinessComments;
     private Boolean bseReadinessReady;
-    private List<String> topThreeSectors;
+    private List<IndustryAssociationAppraisal.SectorDetail> sectors;
     private LocalDate financialYear;
     private String financingScope;
     private BigDecimal financingScopeCrore;

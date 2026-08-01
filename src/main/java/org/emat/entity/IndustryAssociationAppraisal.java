@@ -15,7 +15,7 @@ import java.util.UUID;
 
 /**
  * Entity representing Industry Association Appraisal.
- * Maps to the INDUSTRY_ASSOCIATION_APPRAISAL table in Oracle database.
+ * Maps to the INDUSTRY_ASSOCOCIATION_APPRAISAL table in Oracle database.
  * Has a 1:1 relationship with IndustryAssociationRegistration.
  */
 @EqualsAndHashCode(callSuper = true)
@@ -104,8 +104,20 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @CollectionTable(
             name = "IA_APPRAISAL_TOP_SECTORS",
             joinColumns = @JoinColumn(name = "APPRAISAL_UUID"))
-    @Column(name = "SECTOR_NAME", length = 200)
-    private List<String> topThreeSectors;
+    private List<SectorDetail> sectors;
+
+    @Embeddable
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SectorDetail {
+
+        @Column(name = "SECTOR_NAME", length = 200)
+        private String sector;
+
+        @Column(name = "SECTOR_KEY_PROBLEMS", length = 1000)
+        private String sectorKeyProblems;
+    }
 
     @Column(name = "FINANCING_SCOPE", length = 500)
     private String financingScope;
@@ -297,4 +309,3 @@ public class IndustryAssociationAppraisal extends BaseEntity {
 
 
 }
-
