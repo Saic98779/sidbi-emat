@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +42,9 @@ public class IndustryAssociationBseRecommendationService {
         // Create entity
         IndustryAssociationBseRecommendation bseRecommendation = IndustryAssociationBseRecommendation.builder()
                 .registration(registration)
+                .state(request.getState())
+                .district(request.getDistrict())
+                .industryRegistrationId(request.getIndustryRegistrationId())
                 .bseName(request.getBseName())
                 .mobileNumber(request.getMobileNumber())
                 .emailId(request.getEmailId())
@@ -96,7 +98,7 @@ public class IndustryAssociationBseRecommendationService {
         return bseRecommendationRepository.findByIsActiveTrue()
                 .stream()
                 .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -122,7 +124,7 @@ public class IndustryAssociationBseRecommendationService {
         return bseRecommendationRepository.findByRegistrationUuid(registrationUuid)
                 .stream()
                 .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -137,119 +139,70 @@ public class IndustryAssociationBseRecommendationService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "BSE Recommendation not found with UUID: " + uuid));
 
-        // Update fields
-        if (request.getBseName() != null) {
-            bseRecommendation.setBseName(request.getBseName());
-        }
-        if (request.getMobileNumber() != null) {
-            bseRecommendation.setMobileNumber(request.getMobileNumber());
-        }
-        if (request.getEmailId() != null) {
-            bseRecommendation.setEmailId(request.getEmailId());
-        }
-        if (request.getHighestQualification() != null) {
-            bseRecommendation.setHighestQualification(request.getHighestQualification());
-        }
-        if (request.getExperienced() != null) {
-            bseRecommendation.setExperienced(request.getExperienced());
-        }
-        if (request.getExperienceYears() != null) {
-            bseRecommendation.setExperienceYears(request.getExperienceYears());
-        }
-        if (request.getExperienceMonths() != null) {
-            bseRecommendation.setExperienceMonths(request.getExperienceMonths());
-        }
-        if (request.getEmploymentStatus() != null) {
-            bseRecommendation.setEmploymentStatus(request.getEmploymentStatus());
-        }
-        if (request.getCurrentSalary() != null) {
-            bseRecommendation.setCurrentSalary(request.getCurrentSalary());
-        }
-        if (request.getNoticePeriodDays() != null) {
-            bseRecommendation.setNoticePeriodDays(request.getNoticePeriodDays());
-        }
-        if (request.getLastDrawnSalary() != null) {
-            bseRecommendation.setLastDrawnSalary(request.getLastDrawnSalary());
-        }
-        if (request.getRelievingLetter() != null) {
-            bseRecommendation.setRelievingLetter(request.getRelievingLetter());
-        }
-        if (request.getExpectedSalary() != null) {
-            bseRecommendation.setExpectedSalary(request.getExpectedSalary());
-        }
-        if (request.getResumeStatus() != null) {
-            bseRecommendation.setResumeStatus(request.getResumeStatus());
-        }
-        if (request.getResumeFile() != null) {
-            bseRecommendation.setResumeFile(request.getResumeFile());
-        }
-        if (request.getSalarySlip() != null) {
-            bseRecommendation.setSalarySlip(request.getSalarySlip());
-        }
-        if (request.getCandidateCv() != null) {
-            bseRecommendation.setCandidateCv(request.getCandidateCv());
-        }
-        if (request.getGtRecommendation() != null) {
-            bseRecommendation.setGtRecommendation(request.getGtRecommendation());
-        }
-        if (request.getGtRecommendationDate() != null) {
-            bseRecommendation.setGtRecommendationDate(request.getGtRecommendationDate());
-        }
-        if (request.getGtRemarks() != null) {
-            bseRecommendation.setGtRemarks(request.getGtRemarks());
-        }
-        if (request.getPmuRecommendation() != null) {
-            bseRecommendation.setPmuRecommendation(request.getPmuRecommendation());
-        }
-        if (request.getPmuRecommendationDate() != null) {
-            bseRecommendation.setPmuRecommendationDate(request.getPmuRecommendationDate());
-        }
-        if (request.getPmuRemarks() != null) {
-            bseRecommendation.setPmuRemarks(request.getPmuRemarks());
-        }
-        if (request.getHoRecommendation() != null) {
-            bseRecommendation.setHoRecommendation(request.getHoRecommendation());
-        }
-        if (request.getHoRecommendationDate() != null) {
-            bseRecommendation.setHoRecommendationDate(request.getHoRecommendationDate());
-        }
-        if (request.getHoRemarks() != null) {
-            bseRecommendation.setHoRemarks(request.getHoRemarks());
-        }
-        if (request.getCommitteeRecommendation() != null) {
-            bseRecommendation.setCommitteeRecommendation(request.getCommitteeRecommendation());
-        }
-        if (request.getCommitteeDate() != null) {
-            bseRecommendation.setCommitteeDate(request.getCommitteeDate());
-        }
-        if (request.getCommitteeMom() != null) {
-            bseRecommendation.setCommitteeMom(request.getCommitteeMom());
-        }
-        if (request.getCommitteeRemarks() != null) {
-            bseRecommendation.setCommitteeRemarks(request.getCommitteeRemarks());
-        }
-        if (request.getApprovedSalary() != null) {
-            bseRecommendation.setApprovedSalary(request.getApprovedSalary());
-        }
-        if (request.getApprovedTravelAllowance() != null) {
-            bseRecommendation.setApprovedTravelAllowance(request.getApprovedTravelAllowance());
-        }
-        if (request.getDateOfJoining() != null) {
-            bseRecommendation.setDateOfJoining(request.getDateOfJoining());
-        }
-        if (request.getIaMapped() != null) {
-            bseRecommendation.setIaMapped(request.getIaMapped());
-        }
-        if (request.getOfferLetter() != null) {
-            bseRecommendation.setOfferLetter(request.getOfferLetter());
-        }
-
+        applyBseDetails(request, bseRecommendation);
+        applyApprovalWorkflow(request, bseRecommendation);
+        applyApprovalDetails(request, bseRecommendation);
         bseRecommendation.setUpdatedBy(getCurrentUsername());
 
         IndustryAssociationBseRecommendation updated = bseRecommendationRepository.save(bseRecommendation);
         log.info("BSE recommendation updated successfully with UUID: {}", uuid);
 
         return mapToResponse(updated);
+    }
+
+    private void applyBseDetails(UpdateBseRecommendationRequest request, IndustryAssociationBseRecommendation bseRecommendation) {
+        applyBasicBseDetails(request, bseRecommendation);
+        applyFinancialAndDocumentDetails(request, bseRecommendation);
+    }
+
+    private void applyBasicBseDetails(UpdateBseRecommendationRequest request, IndustryAssociationBseRecommendation bseRecommendation) {
+        if (request.getState() != null) bseRecommendation.setState(request.getState());
+        if (request.getDistrict() != null) bseRecommendation.setDistrict(request.getDistrict());
+        if (request.getIndustryRegistrationId() != null) bseRecommendation.setIndustryRegistrationId(request.getIndustryRegistrationId());
+        if (request.getBseName() != null) bseRecommendation.setBseName(request.getBseName());
+        if (request.getMobileNumber() != null) bseRecommendation.setMobileNumber(request.getMobileNumber());
+        if (request.getEmailId() != null) bseRecommendation.setEmailId(request.getEmailId());
+        if (request.getHighestQualification() != null) bseRecommendation.setHighestQualification(request.getHighestQualification());
+        if (request.getExperienced() != null) bseRecommendation.setExperienced(request.getExperienced());
+        if (request.getExperienceYears() != null) bseRecommendation.setExperienceYears(request.getExperienceYears());
+        if (request.getExperienceMonths() != null) bseRecommendation.setExperienceMonths(request.getExperienceMonths());
+        if (request.getEmploymentStatus() != null) bseRecommendation.setEmploymentStatus(request.getEmploymentStatus());
+    }
+
+    private void applyFinancialAndDocumentDetails(UpdateBseRecommendationRequest request, IndustryAssociationBseRecommendation bseRecommendation) {
+        if (request.getCurrentSalary() != null) bseRecommendation.setCurrentSalary(request.getCurrentSalary());
+        if (request.getNoticePeriodDays() != null) bseRecommendation.setNoticePeriodDays(request.getNoticePeriodDays());
+        if (request.getLastDrawnSalary() != null) bseRecommendation.setLastDrawnSalary(request.getLastDrawnSalary());
+        if (request.getRelievingLetter() != null) bseRecommendation.setRelievingLetter(request.getRelievingLetter());
+        if (request.getExpectedSalary() != null) bseRecommendation.setExpectedSalary(request.getExpectedSalary());
+        if (request.getResumeStatus() != null) bseRecommendation.setResumeStatus(request.getResumeStatus());
+        if (request.getResumeFile() != null) bseRecommendation.setResumeFile(request.getResumeFile());
+        if (request.getSalarySlip() != null) bseRecommendation.setSalarySlip(request.getSalarySlip());
+        if (request.getCandidateCv() != null) bseRecommendation.setCandidateCv(request.getCandidateCv());
+    }
+
+    private void applyApprovalWorkflow(UpdateBseRecommendationRequest request, IndustryAssociationBseRecommendation bseRecommendation) {
+        if (request.getGtRecommendation() != null) bseRecommendation.setGtRecommendation(request.getGtRecommendation());
+        if (request.getGtRecommendationDate() != null) bseRecommendation.setGtRecommendationDate(request.getGtRecommendationDate());
+        if (request.getGtRemarks() != null) bseRecommendation.setGtRemarks(request.getGtRemarks());
+        if (request.getPmuRecommendation() != null) bseRecommendation.setPmuRecommendation(request.getPmuRecommendation());
+        if (request.getPmuRecommendationDate() != null) bseRecommendation.setPmuRecommendationDate(request.getPmuRecommendationDate());
+        if (request.getPmuRemarks() != null) bseRecommendation.setPmuRemarks(request.getPmuRemarks());
+        if (request.getHoRecommendation() != null) bseRecommendation.setHoRecommendation(request.getHoRecommendation());
+        if (request.getHoRecommendationDate() != null) bseRecommendation.setHoRecommendationDate(request.getHoRecommendationDate());
+        if (request.getHoRemarks() != null) bseRecommendation.setHoRemarks(request.getHoRemarks());
+        if (request.getCommitteeRecommendation() != null) bseRecommendation.setCommitteeRecommendation(request.getCommitteeRecommendation());
+        if (request.getCommitteeDate() != null) bseRecommendation.setCommitteeDate(request.getCommitteeDate());
+        if (request.getCommitteeMom() != null) bseRecommendation.setCommitteeMom(request.getCommitteeMom());
+        if (request.getCommitteeRemarks() != null) bseRecommendation.setCommitteeRemarks(request.getCommitteeRemarks());
+    }
+
+    private void applyApprovalDetails(UpdateBseRecommendationRequest request, IndustryAssociationBseRecommendation bseRecommendation) {
+        if (request.getApprovedSalary() != null) bseRecommendation.setApprovedSalary(request.getApprovedSalary());
+        if (request.getApprovedTravelAllowance() != null) bseRecommendation.setApprovedTravelAllowance(request.getApprovedTravelAllowance());
+        if (request.getDateOfJoining() != null) bseRecommendation.setDateOfJoining(request.getDateOfJoining());
+        if (request.getIaMapped() != null) bseRecommendation.setIaMapped(request.getIaMapped());
+        if (request.getOfferLetter() != null) bseRecommendation.setOfferLetter(request.getOfferLetter());
     }
 
     /**
@@ -261,7 +214,7 @@ public class IndustryAssociationBseRecommendationService {
         return bseRecommendationRepository.findByBseNameContainingIgnoreCaseAndIsActiveTrue(bseName)
                 .stream()
                 .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -273,7 +226,7 @@ public class IndustryAssociationBseRecommendationService {
         return bseRecommendationRepository.findByGtRecommendationAndIsActiveTrue(status)
                 .stream()
                 .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -285,7 +238,7 @@ public class IndustryAssociationBseRecommendationService {
         return bseRecommendationRepository.findByPmuRecommendationAndIsActiveTrue(status)
                 .stream()
                 .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -297,7 +250,7 @@ public class IndustryAssociationBseRecommendationService {
         return bseRecommendationRepository.findByHoRecommendationAndIsActiveTrue(status)
                 .stream()
                 .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -309,7 +262,7 @@ public class IndustryAssociationBseRecommendationService {
         return bseRecommendationRepository.findByIaMappedAndIsActiveTrue(iaMapped)
                 .stream()
                 .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -320,6 +273,9 @@ public class IndustryAssociationBseRecommendationService {
                 .uuid(entity.getUuid())
                 .registrationUuid(entity.getRegistration().getUuid())
                 .industryAssociationName(entity.getRegistration().getIndustryAssociationName())
+                .state(entity.getState())
+                .district(entity.getDistrict())
+                .industryRegistrationId(entity.getIndustryRegistrationId())
                 .bseName(entity.getBseName())
                 .mobileNumber(entity.getMobileNumber())
                 .emailId(entity.getEmailId())
@@ -371,9 +327,3 @@ public class IndustryAssociationBseRecommendationService {
         return authentication != null ? authentication.getName() : "system";
     }
 }
-
-
-
-
-
-

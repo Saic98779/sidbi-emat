@@ -21,6 +21,9 @@ public class BseRecommendationResponse {
     private String industryAssociationName;
 
     // BSE Details
+    private String state;
+    private String district;
+    private String industryRegistrationId;
     private String bseName;
     private String mobileNumber;
     private String emailId;
@@ -68,4 +71,3 @@ public class BseRecommendationResponse {
     private String updatedBy;
     private Boolean isActive;
 }
-

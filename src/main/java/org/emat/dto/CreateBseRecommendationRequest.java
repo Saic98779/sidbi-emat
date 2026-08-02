@@ -18,6 +18,9 @@ public class CreateBseRecommendationRequest {
     private UUID registrationUuid;
 
     // BSE Details
+    private String state;
+    private String district;
+    private String industryRegistrationId;
     private String bseName;
     private String mobileNumber;
     private String emailId;
@@ -58,4 +61,3 @@ public class CreateBseRecommendationRequest {
     private Boolean iaMapped;
     private String offerLetter;
 }
-

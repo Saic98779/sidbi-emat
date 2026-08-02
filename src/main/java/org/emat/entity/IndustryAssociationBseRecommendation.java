@@ -33,6 +33,15 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     // BSE Details
     // ==========================================================
 
+    @Column(name = "STATE", length = 100)
+    private String state;
+
+    @Column(name = "DISTRICT", length = 100)
+    private String district;
+
+    @Column(name = "INDUSTRY_REGISTRATION_ID", length = 200)
+    private String industryRegistrationId;
+
     @Column(name = "BSE_NAME", length = 200)
     private String bseName;
 
@@ -146,4 +155,3 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     @Column(name = "OFFER_LETTER", length = 500)
     private String offerLetter;
 }
-

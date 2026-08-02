@@ -88,9 +88,59 @@ GROUP BY role
 ORDER BY role;
 
 -- =====================================================
+-- BSE Recommendation Table
+-- =====================================================
+CREATE TABLE ia_bse_recommendation (
+    uuid RAW(16) DEFAULT SYS_GUID() PRIMARY KEY,
+    registration_uuid RAW(16) NOT NULL,
+    state VARCHAR2(100),
+    district VARCHAR2(100),
+    industry_registration_id VARCHAR2(200),
+    bse_name VARCHAR2(200),
+    mobile_number VARCHAR2(15),
+    email_id VARCHAR2(200),
+    highest_qualification VARCHAR2(200),
+    experience_status NUMBER(1),
+    experience_years NUMBER(10),
+    experience_months NUMBER(10),
+    employment_status VARCHAR2(50),
+    current_salary NUMBER(12,2),
+    notice_period_days NUMBER(10),
+    last_drawn_salary NUMBER(12,2),
+    relieving_letter VARCHAR2(500),
+    expected_salary NUMBER(12,2),
+    resume_status VARCHAR2(50),
+    resume_file VARCHAR2(500),
+    salary_slip VARCHAR2(500),
+    candidate_cv VARCHAR2(500),
+    gt_recommendation VARCHAR2(50),
+    gt_recommendation_date DATE,
+    gt_remarks VARCHAR2(1000),
+    pmu_recommendation VARCHAR2(50),
+    pmu_recommendation_date DATE,
+    pmu_remarks VARCHAR2(1000),
+    ho_recommendation VARCHAR2(50),
+    ho_recommendation_date DATE,
+    ho_remarks VARCHAR2(1000),
+    committee_recommendation VARCHAR2(50),
+    committee_date DATE,
+    committee_mom VARCHAR2(500),
+    committee_remarks VARCHAR2(1000),
+    approved_salary NUMBER(12,2),
+    approved_travel_allowance NUMBER(12,2),
+    date_of_joining DATE,
+    ia_mapped NUMBER(1),
+    offer_letter VARCHAR2(500),
+    is_active NUMBER(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT SYSTIMESTAMP,
+    updated_at TIMESTAMP DEFAULT SYSTIMESTAMP,
+    created_by VARCHAR2(100),
+    updated_by VARCHAR2(100)
+);
+
+-- =====================================================
 -- Queries for verification
 -- =====================================================
 -- SELECT COUNT(*) FROM users;
 -- SELECT * FROM active_users;
 -- SELECT * FROM users_by_role;
-

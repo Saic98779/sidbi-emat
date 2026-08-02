@@ -15,6 +15,9 @@ import java.time.LocalDate;
 public class UpdateBseRecommendationRequest {
 
     // BSE Details
+    private String state;
+    private String district;
+    private String industryRegistrationId;
     private String bseName;
     private String mobileNumber;
     private String emailId;
@@ -55,4 +58,3 @@ public class UpdateBseRecommendationRequest {
     private Boolean iaMapped;
     private String offerLetter;
 }
-
