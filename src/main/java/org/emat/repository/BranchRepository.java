@@ -14,34 +14,6 @@ import java.util.UUID;
 @Repository
 public interface BranchRepository extends JpaRepository<Branch, String> {
 
-    /**
-     * Find all active branches.
-     */
-    List<Branch> findAllByIsActiveTrue();
-
-    /**
-     * Find branch by UUID.
-     */
-    Optional<Branch> findByUuid(UUID uuid);
-
-    /**
-     * Check whether Branch ID already exists.
-     */
-    boolean existsByBoId(String boId);
-
-    /**
-     * Find branches by Regional Office.
-     */
-    List<Branch> findAllByIsActiveTrueAndRegionalOfficeUuid(UUID regionalOfficeUuid);
-
-    /**
-     * Find branches by state and district.
-     */
-    List<Branch> findAllByIsActiveTrueAndStateAndDistrict(
-            String state,
-            String district
-    );
-
     @Query("""
     SELECT new org.emat.dto.BranchDropdownResponse(
         b.uuid,

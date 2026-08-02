@@ -12,4 +12,5 @@ public interface VendorDisbursementService {
     List<VendorDisbursementResponse> getAll();
     VendorDisbursementResponse update(Long id, UpdateVendorDisbursementRequest request);
     void delete(Long id);
+    List<String> getApprovedIndustryAssociationNames();
 }

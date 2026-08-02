@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,6 +25,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
  */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final UserRepository userRepository;
@@ -81,11 +83,15 @@ public class SecurityConfig {
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/users").permitAll()
-                        .requestMatchers("/users/login").permitAll()
-                        .requestMatchers("/health").permitAll()
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/users/login", "/health", "/", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
+                        .requestMatchers(HttpMethod.GET, "/users/search").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
+                        .requestMatchers("/industry-association-registrations/**").authenticated()
+                        .requestMatchers("/industry-association-appraisals/**").authenticated()
+                        .requestMatchers("/bse-recommendations/**").authenticated()
+                        .requestMatchers("/sidbi-sde/**").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
+                        .requestMatchers("/vendor-disbursements/**").hasAnyRole("GT_FIELD_TEAM", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
                         .anyRequest().authenticated()
                 );
 

@@ -436,24 +436,6 @@ public class IndustryAssociationRegistrationService {
     }
 
     /**
-     * Permanently delete a registration (hard delete).
-     *
-     * @param uuid the unique identifier
-     * @throws EntityNotFoundException if registration not found
-     */
-    public void permanentlyDeleteRegistration(String uuid) {
-        log.info("Permanently deleting Industry Association Registration with UUID: {}", uuid);
-
-        if (!repository.existsById(uuid)) {
-            log.error(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
-            throw new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + uuid);
-        }
-
-        repository.deleteById(uuid);
-        log.info("Industry Association Registration permanently deleted with UUID: {}", uuid);
-    }
-
-    /**
      * Convert IndustryAssociationRegistration entity to response DTO.
      *
      * @param registration the entity

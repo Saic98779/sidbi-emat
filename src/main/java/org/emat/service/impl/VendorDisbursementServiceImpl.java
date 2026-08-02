@@ -48,7 +48,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         return vendorDisbursementRepository.findAll()
                 .stream()
                 .map(this::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -67,6 +67,15 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
     @Transactional
     public void delete(Long id) {
         vendorDisbursementRepository.delete(findEntity(id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getApprovedIndustryAssociationNames() {
+        return registrationRepository.findAllByIsActiveTrueAndIsSidbeApprovedTrue().stream()
+                .map(IndustryAssociationRegistration::getIndustryAssociationName)
+                .filter(name -> name != null && !name.isBlank())
+                .toList();
     }
 
     private VendorDisbursement findEntity(Long id) {
@@ -131,7 +140,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         if (requests == null) {
             return new ArrayList<>();
         }
-        return requests.stream().map(r -> mapDetail(r, parent)).collect(Collectors.toList());
+        return requests.stream().map(r -> mapDetail(r, parent)).toList();
     }
 
     private List<VendorDisbursementDetail> mapUpdateDetails(List<UpdateVendorDisbursementDetailRequest> requests,
@@ -153,7 +162,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
             detail.setGtAttendanceComments(r.getGtAttendanceComments());
             detail.setGtAdditionalComments(r.getGtAdditionalComments());
             return detail;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     private VendorDisbursementDetail mapDetail(CreateVendorDisbursementDetailRequest r, VendorDisbursement parent) {
@@ -218,8 +227,14 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
                 .approvedBy(entity.getApprovedBy())
                 .details(entity.getDetails() == null ? new ArrayList<>() : entity.getDetails().stream()
                         .map(d -> {
-                            String iaId = d.getIndustryRegistrationId() != null ? d.getIndustryRegistrationId().getUuid().toString() : null;
-                            String bseId = d.getBse() != null ? d.getBse().getUuid().toString() : null;
+                            String iaId = null;
+                            if (d.getIndustryRegistrationId() != null) {
+                                iaId = d.getIndustryRegistrationId().getUuid().toString();
+                            }
+                            String bseId = null;
+                            if (d.getBse() != null) {
+                                bseId = d.getBse().getUuid().toString();
+                            }
                             return VendorDisbursementDetailResponse.builder()
                                     .id(d.getId())
                                     .iaId(iaId)
@@ -234,7 +249,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
                                     .gtAdditionalComments(d.getGtAdditionalComments())
                                     .build();
                         })
-                        .collect(Collectors.toList()))
+                        .toList())
                 .build();
     }
 }

@@ -31,6 +31,7 @@ public class IndustryAssociationBseRecommendationController {
      * Create a new BSE recommendation
      */
     @PostMapping
+    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     @Operation(summary = "Create BSE recommendation", description = "Create a new BSE recommendation for an industry association")
     public ResponseEntity<BseRecommendationResponse> createBseRecommendation(
             @RequestBody CreateBseRecommendationRequest request) {
@@ -43,6 +44,7 @@ public class IndustryAssociationBseRecommendationController {
      * Get all BSE recommendations
      */
     @GetMapping
+    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'GT_PMU', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     @Operation(summary = "Get all BSE recommendations", description = "Retrieve all active BSE recommendations")
     public ResponseEntity<List<BseRecommendationResponse>> getAllBseRecommendations() {
         log.info("REST request to get all BSE recommendations");
@@ -54,6 +56,7 @@ public class IndustryAssociationBseRecommendationController {
      * Get BSE recommendation by UUID
      */
     @GetMapping("/{uuid}")
+    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'GT_PMU', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     @Operation(summary = "Get BSE recommendation by UUID", description = "Retrieve a specific BSE recommendation by its UUID")
     public ResponseEntity<BseRecommendationResponse> getBseRecommendationByUuid(@PathVariable UUID uuid) {
         log.info("REST request to get BSE recommendation with UUID: {}", uuid);
@@ -65,6 +68,7 @@ public class IndustryAssociationBseRecommendationController {
      * Get BSE recommendations by registration UUID
      */
     @GetMapping("/registration/{registrationUuid}")
+    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'GT_PMU', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     @Operation(summary = "Get BSE recommendations by registration", description = "Retrieve all BSE recommendations for a specific industry association")
     public ResponseEntity<List<BseRecommendationResponse>> getBseRecommendationsByRegistration(
             @PathVariable UUID registrationUuid) {
@@ -78,6 +82,7 @@ public class IndustryAssociationBseRecommendationController {
      * Update BSE recommendation
      */
     @PutMapping("/{uuid}")
+    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     @Operation(summary = "Update BSE recommendation", description = "Update an existing BSE recommendation")
     public ResponseEntity<BseRecommendationResponse> updateBseRecommendation(
             @PathVariable UUID uuid,
@@ -91,6 +96,7 @@ public class IndustryAssociationBseRecommendationController {
      * Search BSE recommendations by name
      */
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'GT_PMU', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     @Operation(summary = "Search BSE recommendations by name", description = "Search BSE recommendations by BSE name")
     public ResponseEntity<List<BseRecommendationResponse>> searchByBseName(@RequestParam String bseName) {
         log.info("REST request to search BSE recommendations by name: {}", bseName);
@@ -102,6 +108,7 @@ public class IndustryAssociationBseRecommendationController {
      * Get BSE recommendations by GT recommendation status
      */
     @GetMapping("/gt-recommendation/{status}")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     @Operation(summary = "Get BSE recommendations by GT status", description = "Filter BSE recommendations by GT recommendation status")
     public ResponseEntity<List<BseRecommendationResponse>> getByGtRecommendation(@PathVariable String status) {
         log.info("REST request to get BSE recommendations by GT recommendation: {}", status);
@@ -113,6 +120,7 @@ public class IndustryAssociationBseRecommendationController {
      * Get BSE recommendations by PMU recommendation status
      */
     @GetMapping("/pmu-recommendation/{status}")
+    @PreAuthorize("hasAnyRole('GT_PMU', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     @Operation(summary = "Get BSE recommendations by PMU status", description = "Filter BSE recommendations by PMU recommendation status")
     public ResponseEntity<List<BseRecommendationResponse>> getByPmuRecommendation(@PathVariable String status) {
         log.info("REST request to get BSE recommendations by PMU recommendation: {}", status);
@@ -124,6 +132,7 @@ public class IndustryAssociationBseRecommendationController {
      * Get BSE recommendations by HO recommendation status
      */
     @GetMapping("/ho-recommendation/{status}")
+    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
     @Operation(summary = "Get BSE recommendations by HO status", description = "Filter BSE recommendations by HO recommendation status")
     public ResponseEntity<List<BseRecommendationResponse>> getByHoRecommendation(@PathVariable String status) {
         log.info("REST request to get BSE recommendations by HO recommendation: {}", status);
@@ -135,6 +144,7 @@ public class IndustryAssociationBseRecommendationController {
      * Get mapped/unmapped BSE recommendations
      */
     @GetMapping("/mapped/{status}")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     @Operation(summary = "Get BSE recommendations by mapped status", description = "Filter BSE recommendations by IA mapping status")
     public ResponseEntity<List<BseRecommendationResponse>> getByMappedStatus(@PathVariable Boolean status) {
         log.info("REST request to get BSE recommendations by mapped status: {}", status);

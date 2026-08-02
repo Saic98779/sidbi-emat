@@ -11,6 +11,7 @@ import org.emat.service.IndustryAssociationRegistrationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with created registration and HTTP 201
      */
     @PostMapping
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> createRegistration(
             @RequestBody CreateIndustryAssociationRegistrationRequest request) {
         log.info("Received request to create new Industry Association Registration");
@@ -50,6 +52,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with registration and HTTP 200
      */
     @GetMapping("/{uuid}")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> getRegistrationById(
             @PathVariable String uuid) {
         log.info("Received request to fetch registration with UUID: {}", uuid);
@@ -64,6 +67,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with list of registrations and HTTP 200
      */
     @GetMapping
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<List<IndustryAssociationRegistrationResponse>> getAllRegistrations() {
         log.info("Received request to fetch all registrations");
         List<IndustryAssociationRegistrationResponse> responses = service.getAllRegistrations();
@@ -79,6 +83,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with updated registration and HTTP 200
      */
     @PutMapping("/{uuid}")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> updateRegistration(
             @PathVariable String uuid,
             @RequestBody UpdateIndustryAssociationRegistrationRequest request) {
@@ -95,6 +100,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with HTTP 204 (No Content)
      */
     @DeleteMapping("/{uuid}")
+    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_RO')")
     public ResponseEntity<Void> deleteRegistration(@PathVariable String uuid) {
         log.info("Received request to delete registration with UUID: {}", uuid);
         service.deleteRegistration(uuid);
@@ -111,6 +117,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with updated registration and HTTP 200
      */
     @PatchMapping("/{uuid}/approve")
+    @PreAuthorize("hasAnyRole('SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_CHECKER', 'SIDBI_HO_MAKER')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> approveBySidbe(
             @PathVariable String uuid,
             @RequestBody ApprovalRequest approvalRequest,
@@ -119,20 +126,6 @@ public class IndustryAssociationRegistrationController {
         String username = authentication.getName();
         IndustryAssociationRegistrationResponse response = service.approveBySidbe(uuid, approvalRequest, username);
         return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Permanently delete a registration (hard delete).
-     * DELETE /industry-association-registrations/{uuid}/permanent
-     *
-     * @param uuid the unique identifier
-     * @return ResponseEntity with HTTP 204 (No Content)
-     */
-    @DeleteMapping("/{uuid}/permanent")
-    public ResponseEntity<Void> permanentlyDeleteRegistration(@PathVariable String uuid) {
-        log.info("Received request to permanently delete registration with UUID: {}", uuid);
-        service.permanentlyDeleteRegistration(uuid);
-        return ResponseEntity.noContent().build();
     }
 
     /**
@@ -148,6 +141,7 @@ public class IndustryAssociationRegistrationController {
             description = "Retrieves Industry Association Registrations filtered by state, district, and SIDBI approval status."
     )
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<List<IndustryAssociationRegistrationResponse>> getRegistrations(
             @RequestParam String state,
             @RequestParam String district,

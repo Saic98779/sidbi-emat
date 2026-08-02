@@ -13,7 +13,7 @@ import java.util.UUID;
  * Provides database access operations for Industry Association Registration records.
  */
 @Repository
-public interface IndustryAssociationRegistrationRepository extends JpaRepository<IndustryAssociationRegistration, String> {
+public interface IndustryAssociationRegistrationRepository extends JpaRepository<IndustryAssociationRegistration, UUID> {
 
     /**
      * Find all active registrations.
@@ -37,6 +37,7 @@ public interface IndustryAssociationRegistrationRepository extends JpaRepository
      * @return true if exists, false otherwise
      */
     boolean existsByIndustryAssociationNameAndStateAndIsActiveTrue(String industryAssociationName, String state);
+
     /**
      * Find all active registrations by state, district and SIDBI approval status.
      *
@@ -49,4 +50,11 @@ public interface IndustryAssociationRegistrationRepository extends JpaRepository
             String state,
             String district,
             Boolean isSidbeApproved);
+
+    /**
+     * Find all active and SIDBI-approved industry association names.
+     *
+     * @return list of approved industry association names
+     */
+    List<IndustryAssociationRegistration> findAllByIsActiveTrueAndIsSidbeApprovedTrue();
 }

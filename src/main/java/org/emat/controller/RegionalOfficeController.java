@@ -18,17 +18,6 @@ public class RegionalOfficeController {
 
     private final RegionalOfficeService regionalOfficeService;
 
-    /**
-     * Create Regional Office
-     */
-    @PostMapping
-    public ResponseEntity<RegionalOfficeResponse> createRegionalOffice(
-            @RequestBody RegionalOfficeRequest request) {
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(regionalOfficeService.createRegionalOffice(request));
-    }
-
     @GetMapping
     public ResponseEntity<List<RegionalOfficeResponse>> getRegionalOffice() {
         return ResponseEntity.status(HttpStatus.CREATED)

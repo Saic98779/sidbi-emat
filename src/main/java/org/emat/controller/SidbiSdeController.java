@@ -2,11 +2,9 @@ package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.SidbiSdeDropdownResponse;
-import org.emat.dto.SidbiSdeRequest;
-import org.emat.dto.SidbiSdeResponse;
 import org.emat.service.SidbiSdeService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,18 +18,12 @@ public class SidbiSdeController {
     private final SidbiSdeService sidbiSdeService;
 
     @GetMapping("/dropdown")
+    @PreAuthorize("hasAnyRole('SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER')")
     public ResponseEntity<List<SidbiSdeDropdownResponse>> getSdeDropdown(
             @RequestParam UUID branchUuid) {
 
         return ResponseEntity.ok(
                 sidbiSdeService.getDropdownByBranch(branchUuid)
         );
-    }
-    @PostMapping
-    public ResponseEntity<SidbiSdeResponse> createSidbiSde(
-            @RequestBody SidbiSdeRequest request) {
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(sidbiSdeService.createSidbiSde(request));
     }
 }
