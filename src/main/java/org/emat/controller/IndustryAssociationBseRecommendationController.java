@@ -107,36 +107,36 @@ public class IndustryAssociationBseRecommendationController {
     /**
      * Get BSE recommendations by GT recommendation status
      */
-    @GetMapping("/gt-recommendation/{status}")
+    @GetMapping("/gt-recommendation")
     @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
-    @Operation(summary = "Get BSE recommendations by GT status", description = "Filter BSE recommendations by GT recommendation status")
-    public ResponseEntity<List<BseRecommendationResponse>> getByGtRecommendation(@PathVariable String status) {
-        log.info("REST request to get BSE recommendations by GT recommendation: {}", status);
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByGtRecommendation(status);
+    @Operation(summary = "Get BSE recommendations by GT status", description = "Filter BSE recommendations where GT recommendation is not null")
+    public ResponseEntity<List<BseRecommendationResponse>> getByGtRecommendation() {
+        log.info("REST request to get BSE recommendations with GT recommendation set");
+        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByGtRecommendation();
         return ResponseEntity.ok(recommendations);
     }
 
     /**
      * Get BSE recommendations by PMU recommendation status
      */
-    @GetMapping("/pmu-recommendation/{status}")
+    @GetMapping("/pmu-recommendation")
     @PreAuthorize("hasAnyRole('GT_PMU', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
-    @Operation(summary = "Get BSE recommendations by PMU status", description = "Filter BSE recommendations by PMU recommendation status")
-    public ResponseEntity<List<BseRecommendationResponse>> getByPmuRecommendation(@PathVariable String status) {
-        log.info("REST request to get BSE recommendations by PMU recommendation: {}", status);
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByPmuRecommendation(status);
+    @Operation(summary = "Get BSE recommendations by PMU status", description = "Filter BSE recommendations where PMU recommendation is not null")
+    public ResponseEntity<List<BseRecommendationResponse>> getByPmuRecommendation() {
+        log.info("REST request to get BSE recommendations with PMU recommendation set");
+        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByPmuRecommendation();
         return ResponseEntity.ok(recommendations);
     }
 
     /**
      * Get BSE recommendations by HO recommendation status
      */
-    @GetMapping("/ho-recommendation/{status}")
+    @GetMapping("/ho-recommendation")
     @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
-    @Operation(summary = "Get BSE recommendations by HO status", description = "Filter BSE recommendations by HO recommendation status")
-    public ResponseEntity<List<BseRecommendationResponse>> getByHoRecommendation(@PathVariable String status) {
-        log.info("REST request to get BSE recommendations by HO recommendation: {}", status);
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByHoRecommendation(status);
+    @Operation(summary = "Get BSE recommendations by HO status", description = "Filter BSE recommendations where HO recommendation is not null")
+    public ResponseEntity<List<BseRecommendationResponse>> getByHoRecommendation() {
+        log.info("REST request to get BSE recommendations with HO recommendation set");
+        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByHoRecommendation();
         return ResponseEntity.ok(recommendations);
     }
 
@@ -152,4 +152,3 @@ public class IndustryAssociationBseRecommendationController {
         return ResponseEntity.ok(recommendations);
     }
 }
-

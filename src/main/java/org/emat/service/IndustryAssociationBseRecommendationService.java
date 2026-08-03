@@ -221,9 +221,9 @@ public class IndustryAssociationBseRecommendationService {
      * Get BSE recommendations by GT recommendation status
      */
     @Transactional(readOnly = true)
-    public List<BseRecommendationResponse> getByGtRecommendation(String status) {
-        log.info("Fetching BSE recommendations by GT recommendation: {}", status);
-        return bseRecommendationRepository.findByGtRecommendationAndIsActiveTrue(status)
+    public List<BseRecommendationResponse> getByGtRecommendation() {
+        log.info("Fetching BSE recommendations with GT recommendation set");
+        return bseRecommendationRepository.findByGtRecommendationIsNotNullAndIsActiveTrue()
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
@@ -233,9 +233,9 @@ public class IndustryAssociationBseRecommendationService {
      * Get BSE recommendations by PMU recommendation status
      */
     @Transactional(readOnly = true)
-    public List<BseRecommendationResponse> getByPmuRecommendation(String status) {
-        log.info("Fetching BSE recommendations by PMU recommendation: {}", status);
-        return bseRecommendationRepository.findByPmuRecommendationAndIsActiveTrue(status)
+    public List<BseRecommendationResponse> getByPmuRecommendation() {
+        log.info("Fetching BSE recommendations with PMU recommendation set");
+        return bseRecommendationRepository.findByPmuRecommendationIsNotNullAndIsActiveTrue()
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
@@ -245,9 +245,9 @@ public class IndustryAssociationBseRecommendationService {
      * Get BSE recommendations by HO recommendation status
      */
     @Transactional(readOnly = true)
-    public List<BseRecommendationResponse> getByHoRecommendation(String status) {
-        log.info("Fetching BSE recommendations by HO recommendation: {}", status);
-        return bseRecommendationRepository.findByHoRecommendationAndIsActiveTrue(status)
+    public List<BseRecommendationResponse> getByHoRecommendation() {
+        log.info("Fetching BSE recommendations with HO recommendation set");
+        return bseRecommendationRepository.findByHoRecommendationIsNotNullAndIsActiveTrue()
                 .stream()
                 .map(this::mapToResponse)
                 .toList();

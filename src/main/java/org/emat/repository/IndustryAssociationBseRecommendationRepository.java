@@ -50,9 +50,19 @@ public interface IndustryAssociationBseRecommendationRepository extends JpaRepos
     List<IndustryAssociationBseRecommendation> findByGtRecommendationAndIsActiveTrue(String gtRecommendation);
 
     /**
+     * Find BSE recommendations by GT recommendation set
+     */
+    List<IndustryAssociationBseRecommendation> findByGtRecommendationIsNotNullAndIsActiveTrue();
+
+    /**
      * Find BSE recommendations by PMU recommendation status
      */
     List<IndustryAssociationBseRecommendation> findByPmuRecommendationAndIsActiveTrue(String pmuRecommendation);
+
+    /**
+     * Find BSE recommendations by PMU recommendation set
+     */
+    List<IndustryAssociationBseRecommendation> findByPmuRecommendationIsNotNullAndIsActiveTrue();
 
     /**
      * Find BSE recommendations by HO recommendation status
@@ -68,5 +78,9 @@ public interface IndustryAssociationBseRecommendationRepository extends JpaRepos
      * Find mapped BSE recommendations
      */
     List<IndustryAssociationBseRecommendation> findByIaMappedAndIsActiveTrue(Boolean iaMapped);
-}
 
+    /**
+     * Find BSE recommendations with HO recommendation set
+     */
+    List<IndustryAssociationBseRecommendation> findByHoRecommendationIsNotNullAndIsActiveTrue();
+}
