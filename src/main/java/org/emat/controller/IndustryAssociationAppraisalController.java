@@ -99,7 +99,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with updated appraisal and HTTP 200
      */
     @PutMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
     public ResponseEntity<IndustryAssociationAppraisalResponse> updateAppraisal(
             @PathVariable String uuid,
             @RequestBody UpdateIndustryAssociationAppraisalRequest request) {
@@ -118,7 +118,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with updated appraisal and HTTP 200
      */
     @PatchMapping("/{uuid}/approve")
-    @PreAuthorize("hasAnyRole('SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_CHECKER', 'SIDBI_HO_MAKER')")
+    @PreAuthorize("hasAnyRole('SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_CHECKER', 'SIDBI_HO_MAKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<IndustryAssociationAppraisalResponse> approveBySidbe(
             @PathVariable String uuid,
             @RequestBody ApprovalRequest approvalRequest,
@@ -137,7 +137,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with HTTP 204 (No Content)
      */
     @DeleteMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
     public ResponseEntity<Void> DeleteAppraisal(@PathVariable String uuid) {
         log.info("Received request to permanently delete appraisal with UUID: {}", uuid);
         service.permanentlyDeleteAppraisal(uuid);
