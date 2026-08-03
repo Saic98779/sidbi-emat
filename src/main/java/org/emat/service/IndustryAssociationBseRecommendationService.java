@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -221,10 +222,15 @@ public class IndustryAssociationBseRecommendationService {
      * Get BSE recommendations by GT recommendation status
      */
     @Transactional(readOnly = true)
-    public List<BseRecommendationResponse> getByGtRecommendation() {
+    public List<BseRecommendationResponse> getByGtRecommendation(boolean isRecommended) {
         log.info("Fetching BSE recommendations with GT recommendation set");
-        return bseRecommendationRepository.findByGtRecommendationIsNotNullAndIsActiveTrue()
-                .stream()
+        List<IndustryAssociationBseRecommendation> bseRecommendationList;
+        if (isRecommended) {
+            bseRecommendationList = bseRecommendationRepository.findByGtRecommendationIsNotNullAndIsActiveTrue();
+        } else {
+            bseRecommendationList = bseRecommendationRepository.findByGtRecommendationIsNullAndIsActiveTrue();
+        }
+        return bseRecommendationList.stream()
                 .map(this::mapToResponse)
                 .toList();
     }
@@ -233,10 +239,15 @@ public class IndustryAssociationBseRecommendationService {
      * Get BSE recommendations by PMU recommendation status
      */
     @Transactional(readOnly = true)
-    public List<BseRecommendationResponse> getByPmuRecommendation() {
+    public List<BseRecommendationResponse> getByPmuRecommendation(boolean isRecommended) {
         log.info("Fetching BSE recommendations with PMU recommendation set");
-        return bseRecommendationRepository.findByPmuRecommendationIsNotNullAndIsActiveTrue()
-                .stream()
+        List<IndustryAssociationBseRecommendation> bseRecommendationList;
+        if (isRecommended) {
+            bseRecommendationList = bseRecommendationRepository.findByPmuRecommendationIsNotNullAndIsActiveTrue();
+        } else {
+            bseRecommendationList = bseRecommendationRepository.findByPmuRecommendationIsNullAndIsActiveTrue();
+        }
+        return bseRecommendationList.stream()
                 .map(this::mapToResponse)
                 .toList();
     }
@@ -245,12 +256,19 @@ public class IndustryAssociationBseRecommendationService {
      * Get BSE recommendations by HO recommendation status
      */
     @Transactional(readOnly = true)
-    public List<BseRecommendationResponse> getByHoRecommendation() {
+    public List<BseRecommendationResponse> getByHoRecommendation(boolean isRecommended) {
         log.info("Fetching BSE recommendations with HO recommendation set");
-        return bseRecommendationRepository.findByHoRecommendationIsNotNullAndIsActiveTrue()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+        List<BseRecommendationResponse> bseRecommendations;
+        List<IndustryAssociationBseRecommendation> bseRecommendationList;
+        if(isRecommended) {
+            bseRecommendationList = bseRecommendationRepository.findByHoRecommendationIsNotNullAndIsActiveTrue();
+        }
+        else {
+            bseRecommendationList = bseRecommendationRepository.findByHoRecommendationIsNullAndIsActiveTrue();
+        }
+        bseRecommendations = bseRecommendationList.stream().map(this::mapToResponse).toList();
+
+        return bseRecommendations;
     }
 
     /**

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -54,6 +55,8 @@ public interface IndustryAssociationBseRecommendationRepository extends JpaRepos
      */
     List<IndustryAssociationBseRecommendation> findByGtRecommendationIsNotNullAndIsActiveTrue();
 
+    List<IndustryAssociationBseRecommendation> findByGtRecommendationIsNullAndIsActiveTrue();
+
     /**
      * Find BSE recommendations by PMU recommendation status
      */
@@ -63,6 +66,8 @@ public interface IndustryAssociationBseRecommendationRepository extends JpaRepos
      * Find BSE recommendations by PMU recommendation set
      */
     List<IndustryAssociationBseRecommendation> findByPmuRecommendationIsNotNullAndIsActiveTrue();
+
+    List<IndustryAssociationBseRecommendation> findByPmuRecommendationIsNullAndIsActiveTrue();
 
     /**
      * Find BSE recommendations by HO recommendation status
@@ -83,4 +88,6 @@ public interface IndustryAssociationBseRecommendationRepository extends JpaRepos
      * Find BSE recommendations with HO recommendation set
      */
     List<IndustryAssociationBseRecommendation> findByHoRecommendationIsNotNullAndIsActiveTrue();
+
+    List<IndustryAssociationBseRecommendation> findByHoRecommendationIsNullAndIsActiveTrue();
 }
