@@ -93,7 +93,7 @@ public class IndustryAssociationRegistrationResponse {
     private String adverseRemarks;
     private String webReport;
 
-    // DIA Details - Selection Criteria
+    // MANPOWER_AGENCY Details - Selection Criteria
     private List<String> selectionCriteria;
 
     // Willingness & Output

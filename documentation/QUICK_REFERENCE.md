@@ -109,7 +109,7 @@ curl http://localhost:8080/emat/health
 ```bash
 curl -X POST http://localhost:8080/emat/api/users \
   -H "Content-Type: application/json" \
-  -d '{"username":"test","password":"pass123","email":"test@test.com","firstName":"Test","role":"DIA"}'
+  -d '{"username":"test","password":"pass123","email":"test@test.com","firstName":"Test","role":"MANPOWER_AGENCY"}'
 ```
 
 ### Get All Users

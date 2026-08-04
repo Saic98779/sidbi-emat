@@ -190,7 +190,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "WEB_REPORT", length = 500)
     private String webReport;
 
-    // DIA Details - Selection Criteria
+    // MANPOWER_AGENCY Details - Selection Criteria
     @ElementCollection
     @CollectionTable(
             name = "IA_BASIS_SELECTION",

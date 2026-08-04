@@ -83,7 +83,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "ACTIVITIES_LAST_YEAR", length = 2000)
     private String activitiesLastYear;
 
-    // DIA Details
+    // MANPOWER_AGENCY Details
     @Column(name = "FORMALIZATION_COMMENTS", length = 1000)
     private String formalizationComments;
 

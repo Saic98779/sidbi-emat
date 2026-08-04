@@ -99,7 +99,7 @@ The application will start on `http://localhost:8080/emat`
     "email": "john@emat.com",
     "firstName": "John",
     "lastName": "Doe",
-    "role": "DIA"
+    "role": "MANPOWER_AGENCY"
   }
   ```
 
@@ -114,7 +114,7 @@ The application will start on `http://localhost:8080/emat`
       "email": "john@emat.com",
       "firstName": "John",
       "lastName": "Doe",
-      "role": "DIA",
+      "role": "MANPOWER_AGENCY",
       "isActive": true,
       "createdAt": "2026-07-23T07:49:20",
       "updatedAt": "2026-07-23T07:49:20"

@@ -36,7 +36,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with created appraisal and HTTP 201
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
     public ResponseEntity<IndustryAssociationAppraisalResponse> createAppraisal(
             @RequestBody CreateIndustryAssociationAppraisalRequest request) {
         log.info("Received request to create new Industry Association Appraisal");
@@ -52,7 +52,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with appraisal and HTTP 200
      */
     @GetMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<IndustryAssociationAppraisalResponse> getAppraisalById(
             @PathVariable String uuid) {
         log.info("Received request to fetch appraisal with UUID: {}", uuid);
@@ -68,7 +68,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with appraisal and HTTP 200
      */
     @GetMapping("/registration/{registrationUuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<IndustryAssociationAppraisalResponse> getAppraisalByRegistrationUuid(
             @PathVariable String registrationUuid) {
         log.info("Received request to fetch appraisal for registration UUID: {}", registrationUuid);
@@ -83,7 +83,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with list of appraisals and HTTP 200
      */
     @GetMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<List<IndustryAssociationAppraisalResponse>> getAllAppraisals() {
         log.info("Received request to fetch all appraisals");
         List<IndustryAssociationAppraisalResponse> responses = service.getAllAppraisals();
@@ -99,7 +99,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with updated appraisal and HTTP 200
      */
     @PutMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
     public ResponseEntity<IndustryAssociationAppraisalResponse> updateAppraisal(
             @PathVariable String uuid,
             @RequestBody UpdateIndustryAssociationAppraisalRequest request) {
@@ -157,7 +157,7 @@ public class IndustryAssociationAppraisalController {
             description = "Retrieves Industry Association Appraisals filtered by state, district, and SIDBI approval status."
     )
     @GetMapping("/search")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<List<IndustryAssociationAppraisalResponse>> getAppraisals(
             @RequestParam String state,
             @RequestParam String district,

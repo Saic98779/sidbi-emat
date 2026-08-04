@@ -36,7 +36,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with created registration and HTTP 201
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> createRegistration(
             @RequestBody CreateIndustryAssociationRegistrationRequest request) {
         log.info("Received request to create new Industry Association Registration");
@@ -52,7 +52,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with registration and HTTP 200
      */
     @GetMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> getRegistrationById(
             @PathVariable String uuid) {
         log.info("Received request to fetch registration with UUID: {}", uuid);
@@ -67,7 +67,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with list of registrations and HTTP 200
      */
     @GetMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<List<IndustryAssociationRegistrationResponse>> getAllRegistrations() {
         log.info("Received request to fetch all registrations");
         List<IndustryAssociationRegistrationResponse> responses = service.getAllRegistrations();
@@ -83,7 +83,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with updated registration and HTTP 200
      */
     @PutMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> updateRegistration(
             @PathVariable String uuid,
             @RequestBody UpdateIndustryAssociationRegistrationRequest request) {
@@ -141,7 +141,7 @@ public class IndustryAssociationRegistrationController {
             description = "Retrieves Industry Association Registrations filtered by state, district, and SIDBI approval status."
     )
     @GetMapping("/search")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'DIA', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
     public ResponseEntity<List<IndustryAssociationRegistrationResponse>> getRegistrations(
             @RequestParam String state,
             @RequestParam String district,

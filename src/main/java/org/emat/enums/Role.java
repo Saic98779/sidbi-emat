@@ -4,7 +4,7 @@ package org.emat.enums;
  * Enumeration of available roles in the EMAT system.
  */
 public enum Role {
-    DIA,
+    MANPOWER_AGENCY,
     BSE,
     GT_FIELD_TEAM,
     GT_PMU,

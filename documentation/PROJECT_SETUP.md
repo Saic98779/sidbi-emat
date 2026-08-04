@@ -187,7 +187,7 @@ curl -X POST http://localhost:8080/emat/api/users \
     "email": "john.doe@emat.com",
     "firstName": "John",
     "lastName": "Doe",
-    "role": "DIA"
+    "role": "MANPOWER_AGENCY"
   }'
 ```
 

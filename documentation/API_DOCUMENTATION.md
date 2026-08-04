@@ -18,7 +18,7 @@ Currently, the API uses HTTP Basic Authentication. Headers are not required for 
   "email": "john@example.com",
   "firstName": "John",
   "lastName": "Doe",
-  "role": "DIA",
+  "role": "MANPOWER_AGENCY",
   "isActive": true,
   "createdAt": "2026-07-23T10:30:00",
   "updatedAt": "2026-07-23T10:30:00"
@@ -112,7 +112,7 @@ Content-Type: application/json
   "email": "john@example.com",
   "firstName": "John",
   "lastName": "Doe",
-  "role": "DIA",
+  "role": "MANPOWER_AGENCY",
   "isActive": true,
   "createdAt": "2026-07-23T10:30:00",
   "updatedAt": "2026-07-23T10:30:00"
@@ -136,7 +136,7 @@ curl -X POST http://localhost:8080/emat/api/users \
     "email": "john@example.com",
     "firstName": "John",
     "lastName": "Doe",
-    "role": "DIA"
+    "role": "MANPOWER_AGENCY"
   }'
 ```
 
@@ -160,7 +160,7 @@ GET /emat/api/users HTTP/1.1
     "email": "admin@emat.com",
     "firstName": "Admin",
     "lastName": "User",
-    "role": "DIA",
+    "role": "MANPOWER_AGENCY",
     "isActive": true,
     "createdAt": "2026-07-23T10:00:00",
     "updatedAt": "2026-07-23T10:00:00"
@@ -210,7 +210,7 @@ GET /emat/api/users/{id} HTTP/1.1
   "email": "john@example.com",
   "firstName": "John",
   "lastName": "Doe",
-  "role": "DIA",
+  "role": "MANPOWER_AGENCY",
   "isActive": true,
   "createdAt": "2026-07-23T10:30:00",
   "updatedAt": "2026-07-23T10:30:00"
@@ -249,7 +249,7 @@ GET /emat/api/users/username/{username} HTTP/1.1
   "email": "john@example.com",
   "firstName": "John",
   "lastName": "Doe",
-  "role": "DIA",
+  "role": "MANPOWER_AGENCY",
   "isActive": true,
   "createdAt": "2026-07-23T10:30:00",
   "updatedAt": "2026-07-23T10:30:00"
@@ -357,7 +357,7 @@ PATCH /emat/api/users/{id}/toggle-status HTTP/1.1
   "email": "john@example.com",
   "firstName": "John",
   "lastName": "Doe",
-  "role": "DIA",
+  "role": "MANPOWER_AGENCY",
   "isActive": false,
   "createdAt": "2026-07-23T10:30:00",
   "updatedAt": "2026-07-23T11:00:00"

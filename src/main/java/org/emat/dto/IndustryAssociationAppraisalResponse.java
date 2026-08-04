@@ -48,7 +48,7 @@ public class IndustryAssociationAppraisalResponse {
     private String majorSourcesOfIncome;
     private String activitiesLastYear;
 
-    // DIA Details
+    // MANPOWER_AGENCY Details
     private String formalizationComments;
     private String referralArrangementComments;
     private Boolean referralArrangementReady;
