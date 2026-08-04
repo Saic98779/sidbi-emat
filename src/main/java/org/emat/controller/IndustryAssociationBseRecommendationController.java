@@ -31,7 +31,7 @@ public class IndustryAssociationBseRecommendationController {
      * Create a new BSE recommendation
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM','GT_PMU', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     @Operation(summary = "Create BSE recommendation", description = "Create a new BSE recommendation for an industry association")
     public ResponseEntity<BseRecommendationResponse> createBseRecommendation(
             @RequestBody CreateBseRecommendationRequest request) {
@@ -82,7 +82,7 @@ public class IndustryAssociationBseRecommendationController {
      * Update BSE recommendation
      */
     @PutMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('BSE', 'GT_FIELD_TEAM', 'GT_PMU', 'DIA', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
     @Operation(summary = "Update BSE recommendation", description = "Update an existing BSE recommendation")
     public ResponseEntity<BseRecommendationResponse> updateBseRecommendation(
             @PathVariable UUID uuid,
@@ -132,7 +132,7 @@ public class IndustryAssociationBseRecommendationController {
      * Get BSE recommendations by HO recommendation status
      */
     @GetMapping("/ho-recommendation")
-    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO', 'GT_PMU')")
     @Operation(summary = "Get BSE recommendations by HO status", description = "Filter BSE recommendations where HO recommendation is not null")
     public ResponseEntity<List<BseRecommendationResponse>> getByHoRecommendation(@RequestParam boolean isRecommended) {
         log.info("REST request to get BSE recommendations with HO recommendation set");
