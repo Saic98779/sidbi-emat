@@ -154,4 +154,14 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
 
     @Column(name = "OFFER_LETTER", length = 500)
     private String offerLetter;
+
+    /**
+     * Vendor Details
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "VENDOR_UUID")
+    private Vendor vendor;
+
+    @Column(name = "IA_SELECTED")
+    private Boolean iaSelected;
 }

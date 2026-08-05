@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +15,9 @@ import java.time.LocalDate;
 @Builder
 public class UpdateBseRecommendationRequest {
 
+    // Vendor Details
+    private UUID vendorUuid;
+    private Boolean iaSelected;
     // BSE Details
     private String state;
     private String district;
