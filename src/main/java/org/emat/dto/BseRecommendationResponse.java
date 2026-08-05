@@ -20,6 +20,12 @@ public class BseRecommendationResponse {
     private UUID registrationUuid;
     private String industryAssociationName;
 
+    // Vendor Details
+    private UUID vendorUuid;
+    private String vendorId;
+    private String vendorName;
+    private Boolean iaSelected;
+
     // BSE Details
     private String state;
     private String district;

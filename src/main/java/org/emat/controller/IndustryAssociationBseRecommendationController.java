@@ -151,4 +151,16 @@ public class IndustryAssociationBseRecommendationController {
         List<BseRecommendationResponse> recommendations = bseRecommendationService.getByMappedStatus(status);
         return ResponseEntity.ok(recommendations);
     }
+
+    @Operation(
+            summary = "Get selected BSE recommendations by vendor",
+            description = "Fetches all active BSE recommendations mapped to the specified vendor where the recommendation is marked as selected."
+    )
+    @GetMapping("/vendor/{vendorUuid}/selected")
+    public ResponseEntity<List<BseRecommendationResponse>> getSelectedBseByVendor(
+            @PathVariable UUID vendorUuid) {
+
+        return ResponseEntity.ok(
+                bseRecommendationService.getSelectedBseByVendor(vendorUuid));
+    }
 }
