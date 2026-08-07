@@ -18,6 +18,7 @@ public class UpdateVendorDisbursementRequest {
     private String natureOfPayment;
     private LocalDate invoiceDate;
     private String invoiceNumber;
+    private String detailsOfItems;
     private BigDecimal invoiceValue;
     private BigDecimal gstAmount;
     private BigDecimal totalAmount;

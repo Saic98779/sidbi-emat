@@ -19,6 +19,7 @@ public class CreateVendorDisbursementRequest {
     private LocalDate invoiceDate;
     private String invoiceNumber;
     private BigDecimal invoiceValue;
+    private String detailsOfItems;
     private BigDecimal gstAmount;
     private BigDecimal totalAmount;
     private Boolean tdsApplicable;

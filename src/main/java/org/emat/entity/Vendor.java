@@ -20,7 +20,7 @@ public class Vendor {
     @Column(name = "UUID", nullable = false, updatable = false)
     private UUID uuid;
 
-    @Column(name = "VENDOR_ID", nullable = false, unique = true, length = 50)
+    @Column(name = "VENDOR_ID")
     private String vendorId;
 
     @Column(name = "VENDOR_NAME", nullable = false, length = 200)
