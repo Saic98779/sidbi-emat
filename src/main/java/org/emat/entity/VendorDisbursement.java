@@ -34,6 +34,7 @@ public class VendorDisbursement extends BaseEntity {
     // Invoice details
     private LocalDate invoiceDate;
     private String invoiceNumber;
+    private String detailsOfItems;
     private BigDecimal invoiceValue;
     private BigDecimal gstAmount;
     private BigDecimal totalAmount;

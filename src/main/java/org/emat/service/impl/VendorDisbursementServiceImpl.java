@@ -94,6 +94,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         entity.setNatureOfPayment(request.getNatureOfPayment());
         entity.setInvoiceDate(request.getInvoiceDate());
         entity.setInvoiceNumber(request.getInvoiceNumber());
+        entity.setDetailsOfItems(request.getDetailsOfItems());
         entity.setInvoiceValue(request.getInvoiceValue());
         entity.setGstAmount(request.getGstAmount());
         entity.setTotalAmount(request.getTotalAmount());
@@ -213,6 +214,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
                 .invoiceDate(entity.getInvoiceDate())
                 .invoiceNumber(entity.getInvoiceNumber())
                 .invoiceValue(entity.getInvoiceValue())
+                .detailsOfItems(entity.getDetailsOfItems())
                 .gstAmount(entity.getGstAmount())
                 .totalAmount(entity.getTotalAmount())
                 .tdsApplicable(entity.getTdsApplicable())
