@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.VendorDropdownDTO;
 import org.emat.dto.VendorRequestDTO;
@@ -24,7 +25,7 @@ public class VendorController {
      */
     @PostMapping
     public ResponseEntity<VendorResponseDTO> createVendor(
-            @RequestBody VendorRequestDTO request) {
+            @Valid @RequestBody VendorRequestDTO request) {
 
         return new ResponseEntity<>(
                 vendorService.createVendor(request),
