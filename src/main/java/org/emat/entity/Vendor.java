@@ -17,64 +17,64 @@ public class Vendor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", nullable = false, updatable = false)
+    @Column(name = "UUID")
     private UUID uuid;
 
     @Column(name = "VENDOR_ID")
     private String vendorId;
 
-    @Column(name = "VENDOR_NAME", nullable = false, length = 200)
+    @Column(name = "VENDOR_NAME")
     private String vendorName;
 
-    @Column(name = "COMPANY_NAME", length = 250)
+    @Column(name = "COMPANY_NAME")
     private String companyName;
 
-    @Column(name = "CONTACT_PERSON", length = 150)
+    @Column(name = "CONTACT_PERSON")
     private String contactPerson;
 
-    @Column(name = "EMAIL", nullable = false, unique = true, length = 200)
+    @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "MOBILE_NO", length = 15)
+    @Column(name = "MOBILE_NO")
     private String mobileNo;
 
-    @Column(name = "GST_NO", length = 20)
+    @Column(name = "GST_NO")
     private String gstNo;
 
-    @Column(name = "PAN_NO", length = 15)
+    @Column(name = "PAN_NO")
     private String panNo;
 
-    @Column(name = "ADDRESS", length = 250)
+    @Column(name = "ADDRESS")
     private String address;
 
-    @Column(name = "DISTRICT", length = 100)
+    @Column(name = "DISTRICT")
     private String district;
 
-    @Column(name = "STATE", length = 100)
+    @Column(name = "STATE")
     private String state;
 
-    @Column(name = "PIN_CODE", length = 10)
+    @Column(name = "PIN_CODE")
     private String pinCode;
 
-    @Column(name = "BANK_NAME", length = 150)
+    @Column(name = "BANK_NAME")
     private String bankName;
 
-    @Column(name = "ACCOUNT_NUMBER", length = 30)
+    @Column(name = "ACCOUNT_NUMBER")
     private String accountNumber;
 
-    @Column(name = "IFSC_CODE", length = 20)
+    @Column(name = "IFSC_CODE")
     private String ifscCode;
 
-    @Column(name = "BRANCH_NAME", length = 150)
+    @Column(name = "BRANCH_NAME")
     private String branchName;
 
-    @Column(name = "CREATED_BY", length = 100)
+    @Column(name = "CREATED_BY")
     private String createdBy;
 
     @Column(name = "CREATED_DATE")
     private LocalDateTime createdDate;
 
-    @Column(name = "UPDATED_BY", length = 100)
+    @Column(name = "UPDATED_BY")
     private String updatedBy;
 
     @Column(name = "UPDATED_DATE")

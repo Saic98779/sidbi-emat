@@ -5,10 +5,11 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Data
-public class UpdateVendorDisbursementRequest {
-    private String manpowerAgencyName;
+public class CreateVendorDisbursementSalaryRequest {
+    private String registrationUuid;
     private String gstinOfAgency;
     private String reasonForNoGstin;
     private String gstinOfSdbi;
@@ -18,8 +19,8 @@ public class UpdateVendorDisbursementRequest {
     private String natureOfPayment;
     private LocalDate invoiceDate;
     private String invoiceNumber;
-    private String detailsOfItems;
     private BigDecimal invoiceValue;
+    private String detailsOfItems;
     private BigDecimal gstAmount;
     private BigDecimal totalAmount;
     private Boolean tdsApplicable;
@@ -32,6 +33,6 @@ public class UpdateVendorDisbursementRequest {
     private String createdBy;
     private String verifiedBy;
     private String approvedBy;
-    private List<UpdateVendorDisbursementDetailRequest> details;
+    private List<CreateVendorDisbursementDetailRequest> details;
 }
 

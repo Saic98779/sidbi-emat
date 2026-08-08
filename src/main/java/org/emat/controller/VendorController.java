@@ -24,8 +24,7 @@ public class VendorController {
      * Create Vendor
      */
     @PostMapping
-    public ResponseEntity<VendorResponseDTO> createVendor(
-            @Valid @RequestBody VendorRequestDTO request) {
+    public ResponseEntity<VendorResponseDTO> createVendor(@RequestBody VendorRequestDTO request) {
 
         return new ResponseEntity<>(
                 vendorService.createVendor(request),
