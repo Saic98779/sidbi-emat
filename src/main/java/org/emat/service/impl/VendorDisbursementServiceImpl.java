@@ -4,20 +4,20 @@ import lombok.RequiredArgsConstructor;
 import org.emat.dto.*;
 import org.emat.entity.IndustryAssociationBseRecommendation;
 import org.emat.entity.IndustryAssociationRegistration;
-import org.emat.entity.VendorDisbursement;
+import org.emat.entity.VendorDisbursementSalary;
 import org.emat.entity.VendorDisbursementDetail;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationBseRecommendationRepository;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
 import org.emat.repository.VendorDisbursementRepository;
 import org.emat.service.VendorDisbursementService;
+import org.emat.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,22 +29,28 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
 
     @Override
     @Transactional
-    public VendorDisbursementResponse create(CreateVendorDisbursementRequest request) {
-        VendorDisbursement entity = new VendorDisbursement();
-        mapParentFields(entity, request);
-        entity.setDetails(mapCreateDetails(request.getDetails(), entity));
-        return toResponse(vendorDisbursementRepository.save(entity));
+    public VendorDisbursementSalaryResponse create(CreateVendorDisbursementSalaryRequest request) {
+            UUID registrationUuid = UuidUtil.toUuid(request.getRegistrationUuid());
+
+            IndustryAssociationRegistration registration = registrationRepository
+                    .findByUuid(registrationUuid)
+                    .orElseThrow(() -> new EntityNotFoundException("REGISTRATION_NOT_FOUND_MESSAGE" + request.getRegistrationUuid()));
+            VendorDisbursementSalary entity = new VendorDisbursementSalary();
+            mapParentFields(entity, request);
+            entity.setDetails(mapCreateDetails(request.getDetails(), entity));
+            entity.setRegistration(registration);
+            return toResponse(vendorDisbursementRepository.save(entity));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public VendorDisbursementResponse getById(Long id) {
+    public VendorDisbursementSalaryResponse getById(Long id) {
         return toResponse(findEntity(id));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<VendorDisbursementResponse> getAll() {
+    public List<VendorDisbursementSalaryResponse> getAll() {
         return vendorDisbursementRepository.findAll()
                 .stream()
                 .map(this::toResponse)
@@ -53,14 +59,36 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
 
     @Override
     @Transactional
-    public VendorDisbursementResponse update(Long id, UpdateVendorDisbursementRequest request) {
-        VendorDisbursement entity = findEntity(id);
+    public VendorDisbursementSalaryResponse update(
+            Long id,
+            UpdateVendorDisbursementSalaryRequest request) {
+
+        VendorDisbursementSalary entity = findEntity(id);
+
+        if (request.getRegistrationUuid() != null) {
+            IndustryAssociationRegistration registration = registrationRepository
+                    .findByUuid(request.getRegistrationUuid())
+                    .orElseThrow(() ->
+                            new EntityNotFoundException(
+                                    "REGISTRATION_NOT_FOUND_MESSAGE"
+                                            + request.getRegistrationUuid()
+                            ));
+
+            entity.setRegistration(registration);
+        }
+
         mapUpdateFields(entity, request);
+
         if (request.getDetails() != null) {
             entity.getDetails().clear();
-            entity.getDetails().addAll(mapUpdateDetails(request.getDetails(), entity));
+            entity.getDetails().addAll(
+                    mapUpdateDetails(request.getDetails(), entity)
+            );
         }
-        return toResponse(vendorDisbursementRepository.save(entity));
+
+        return toResponse(
+                vendorDisbursementRepository.save(entity)
+        );
     }
 
     @Override
@@ -78,13 +106,12 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
                 .toList();
     }
 
-    private VendorDisbursement findEntity(Long id) {
+    private VendorDisbursementSalary findEntity(Long id) {
         return vendorDisbursementRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("VendorDisbursement not found with id: " + id));
     }
 
-    private void mapParentFields(VendorDisbursement entity, CreateVendorDisbursementRequest request) {
-        entity.setManpowerAgencyName(request.getManpowerAgencyName());
+    private void mapParentFields(VendorDisbursementSalary entity, CreateVendorDisbursementSalaryRequest request) {
         entity.setGstinOfAgency(request.getGstinOfAgency());
         entity.setReasonForNoGstin(request.getReasonForNoGstin());
         entity.setGstinOfSdbi(request.getGstinOfSdbi());
@@ -110,8 +137,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         entity.setApprovedBy(request.getApprovedBy());
     }
 
-    private void mapUpdateFields(VendorDisbursement entity, UpdateVendorDisbursementRequest request) {
-        if (request.getManpowerAgencyName() != null) entity.setManpowerAgencyName(request.getManpowerAgencyName());
+    private void mapUpdateFields(VendorDisbursementSalary entity, UpdateVendorDisbursementSalaryRequest request) {
         if (request.getGstinOfAgency() != null) entity.setGstinOfAgency(request.getGstinOfAgency());
         if (request.getReasonForNoGstin() != null) entity.setReasonForNoGstin(request.getReasonForNoGstin());
         if (request.getGstinOfSdbi() != null) entity.setGstinOfSdbi(request.getGstinOfSdbi());
@@ -137,7 +163,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
     }
 
     private List<VendorDisbursementDetail> mapCreateDetails(List<CreateVendorDisbursementDetailRequest> requests,
-                                                            VendorDisbursement parent) {
+                                                            VendorDisbursementSalary parent) {
         if (requests == null) {
             return new ArrayList<>();
         }
@@ -145,7 +171,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
     }
 
     private List<VendorDisbursementDetail> mapUpdateDetails(List<UpdateVendorDisbursementDetailRequest> requests,
-                                                            VendorDisbursement parent) {
+                                                            VendorDisbursementSalary parent) {
         if (requests == null) {
             return new ArrayList<>();
         }
@@ -166,7 +192,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         }).toList();
     }
 
-    private VendorDisbursementDetail mapDetail(CreateVendorDisbursementDetailRequest r, VendorDisbursement parent) {
+    private VendorDisbursementDetail mapDetail(CreateVendorDisbursementDetailRequest r, VendorDisbursementSalary parent) {
         VendorDisbursementDetail detail = new VendorDisbursementDetail();
         detail.setVendorDisbursement(parent);
         detail.setIndustryRegistrationId(resolveIa(r.getIaId()));
@@ -200,10 +226,10 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
                 .orElseThrow(() -> new EntityNotFoundException("IndustryAssociationBseRecommendation not found with UUID: " + bseId));
     }
 
-    private VendorDisbursementResponse toResponse(VendorDisbursement entity) {
-        return VendorDisbursementResponse.builder()
+    private VendorDisbursementSalaryResponse toResponse(VendorDisbursementSalary entity) {
+        return VendorDisbursementSalaryResponse.builder()
                 .id(entity.getId())
-                .manpowerAgencyName(entity.getManpowerAgencyName())
+                .manpowerAgencyName(entity.getRegistration().getIndustryAssociationName())
                 .gstinOfAgency(entity.getGstinOfAgency())
                 .reasonForNoGstin(entity.getReasonForNoGstin())
                 .gstinOfSdbi(entity.getGstinOfSdbi())

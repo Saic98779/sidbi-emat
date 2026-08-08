@@ -2,9 +2,9 @@ package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.emat.dto.CreateVendorDisbursementRequest;
-import org.emat.dto.UpdateVendorDisbursementRequest;
-import org.emat.dto.VendorDisbursementResponse;
+import org.emat.dto.CreateVendorDisbursementSalaryRequest;
+import org.emat.dto.UpdateVendorDisbursementSalaryRequest;
+import org.emat.dto.VendorDisbursementSalaryResponse;
 import org.emat.service.VendorDisbursementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,25 +17,25 @@ import java.util.List;
 @RequestMapping("/vendor-disbursements")
 @RequiredArgsConstructor
 @Slf4j
-public class VendorDisbursementController {
+public class VendorDisbursementSalaryController {
 
     private final VendorDisbursementService vendorDisbursementService;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
-    public ResponseEntity<VendorDisbursementResponse> create(@RequestBody CreateVendorDisbursementRequest request) {
+    public ResponseEntity<VendorDisbursementSalaryResponse> create(@RequestBody CreateVendorDisbursementSalaryRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(vendorDisbursementService.create(request));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
-    public ResponseEntity<VendorDisbursementResponse> getById(@PathVariable Long id) {
+    public ResponseEntity<VendorDisbursementSalaryResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(vendorDisbursementService.getById(id));
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
-    public ResponseEntity<List<VendorDisbursementResponse>> getAll() {
+    public ResponseEntity<List<VendorDisbursementSalaryResponse>> getAll() {
         return ResponseEntity.ok(vendorDisbursementService.getAll());
     }
 
@@ -47,9 +47,9 @@ public class VendorDisbursementController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
-    public ResponseEntity<VendorDisbursementResponse> update(
+    public ResponseEntity<VendorDisbursementSalaryResponse> update(
             @PathVariable Long id,
-            @RequestBody UpdateVendorDisbursementRequest request) {
+            @RequestBody UpdateVendorDisbursementSalaryRequest request) {
         return ResponseEntity.ok(vendorDisbursementService.update(id, request));
     }
 
