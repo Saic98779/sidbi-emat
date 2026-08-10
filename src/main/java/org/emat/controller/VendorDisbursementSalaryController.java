@@ -22,31 +22,31 @@ public class VendorDisbursementSalaryController {
     private final VendorDisbursementService vendorDisbursementService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO','MANPOWER_AGENCY')")
     public ResponseEntity<VendorDisbursementSalaryResponse> create(@RequestBody CreateVendorDisbursementSalaryRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(vendorDisbursementService.create(request));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO','MANPOWER_AGENCY')")
     public ResponseEntity<VendorDisbursementSalaryResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(vendorDisbursementService.getById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO','MANPOWER_AGENCY')")
     public ResponseEntity<List<VendorDisbursementSalaryResponse>> getAll() {
         return ResponseEntity.ok(vendorDisbursementService.getAll());
     }
 
     @GetMapping("/approved-industry-associations")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO','MANPOWER_AGENCY')")
     public ResponseEntity<List<String>> getApprovedIndustryAssociationNames() {
         return ResponseEntity.ok(vendorDisbursementService.getApprovedIndustryAssociationNames());
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_RO','MANPOWER_AGENCY')")
     public ResponseEntity<VendorDisbursementSalaryResponse> update(
             @PathVariable Long id,
             @RequestBody UpdateVendorDisbursementSalaryRequest request) {
@@ -54,7 +54,7 @@ public class VendorDisbursementSalaryController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'SIDBI_HO_MAKER', 'SIDBI_RO','MANPOWER_AGENCY')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         vendorDisbursementService.delete(id);
         return ResponseEntity.noContent().build();
