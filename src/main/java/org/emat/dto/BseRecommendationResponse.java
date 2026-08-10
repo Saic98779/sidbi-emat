@@ -21,9 +21,9 @@ public class BseRecommendationResponse {
     private String industryAssociationName;
 
     // Vendor Details
-    private UUID vendorUuid;
-    private String vendorId;
-    private String vendorName;
+
+    private Long userId;
+    private String userName;
     private Boolean iaSelected;
 
     // BSE Details

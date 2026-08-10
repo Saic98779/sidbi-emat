@@ -16,7 +16,7 @@ import java.util.UUID;
 public class UpdateBseRecommendationRequest {
 
     // Vendor Details
-    private UUID vendorUuid;
+    private Long userId;
     private Boolean iaSelected;
     // BSE Details
     private String state;

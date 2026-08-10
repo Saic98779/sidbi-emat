@@ -18,7 +18,7 @@ public class CreateBseRecommendationRequest {
     private UUID registrationUuid;
 
     // Vendor Details
-    private UUID vendorUuid;
+    private Long userId;
     private Boolean iaSelected;
     // BSE Details
     private String state;
