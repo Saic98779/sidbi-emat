@@ -158,9 +158,9 @@ public class IndustryAssociationBseRecommendationController {
     )
     @GetMapping("/vendor/{vendorUuid}/selected")
     public ResponseEntity<List<BseRecommendationResponse>> getSelectedBseByVendor(
-            @PathVariable UUID vendorUuid) {
+            @PathVariable Long userId) {
 
         return ResponseEntity.ok(
-                bseRecommendationService.getSelectedBseByVendor(vendorUuid));
+                bseRecommendationService.getSelectedBseByVendor(userId));
     }
 }

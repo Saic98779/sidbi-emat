@@ -7,17 +7,18 @@ import org.emat.dto.CreateBseRecommendationRequest;
 import org.emat.dto.UpdateBseRecommendationRequest;
 import org.emat.entity.IndustryAssociationBseRecommendation;
 import org.emat.entity.IndustryAssociationRegistration;
+import org.emat.entity.User;
 import org.emat.entity.Vendor;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationBseRecommendationRepository;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
+import org.emat.repository.UserRepository;
 import org.emat.repository.VendorRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ public class IndustryAssociationBseRecommendationService {
     private final IndustryAssociationBseRecommendationRepository bseRecommendationRepository;
     private final IndustryAssociationRegistrationRepository registrationRepository;
     private final VendorRepository vendorRepository;
+    private final UserRepository userRepository;
     /**
      * Create a new BSE recommendation
      */
@@ -42,17 +44,18 @@ public class IndustryAssociationBseRecommendationService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Industry Association Registration not found with UUID: " + request.getRegistrationUuid()));
 
-        // Validate Vendor
-        Vendor vendor = null;
-        if (request.getVendorUuid() != null) {
-            vendor = vendorRepository.findById(request.getVendorUuid())
+        User user = null;
+
+        if (request.getUserId() != null) {
+            user = userRepository.findById(request.getUserId())
                     .orElseThrow(() -> new EntityNotFoundException(
-                            "Vendor not found with UUID: " + request.getVendorUuid()));
+                            "User not found with ID: " + request.getUserId()));
         }
+
         // Create entity
         IndustryAssociationBseRecommendation bseRecommendation = IndustryAssociationBseRecommendation.builder()
                 .registration(registration)
-                .vendor(vendor)
+                .user(user)
                 .iaSelected(request.getIaSelected())
                 .state(request.getState())
                 .district(request.getDistrict())
@@ -150,14 +153,17 @@ public class IndustryAssociationBseRecommendationService {
                 .findByUuidAndIsActiveTrue(uuid)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "BSE Recommendation not found with UUID: " + uuid));
-        Vendor vendor = vendorRepository.findById(request.getVendorUuid())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Vendor not found with UUID: " + request.getVendorUuid()));
-        applyBseDetails(request, bseRecommendation);
+        User user = null;
+        if (request.getUserId() != null) {
+             user = userRepository.findById(request.getUserId())
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "User not found with ID: " + request.getUserId()));
+        } applyBseDetails(request, bseRecommendation);
+
         applyApprovalWorkflow(request, bseRecommendation);
         applyApprovalDetails(request, bseRecommendation);
         bseRecommendation.setUpdatedBy(getCurrentUsername());
-        bseRecommendation.setVendor(vendor);
+        bseRecommendation.setUser(user);
         bseRecommendation.setIaSelected(request.getIaSelected());
         IndustryAssociationBseRecommendation updated = bseRecommendationRepository.save(bseRecommendation);
         log.info("BSE recommendation updated successfully with UUID: {}", uuid);
@@ -350,16 +356,15 @@ public class IndustryAssociationBseRecommendationService {
                 .updatedBy(entity.getUpdatedBy())
                 .isActive(entity.getIsActive())
                 .iaSelected(entity.getIaSelected())
-                .vendorUuid(entity.getVendor() != null ? entity.getVendor().getUuid() : null)
-                .vendorId(entity.getVendor() != null ? entity.getVendor().getVendorId() : null)
-                .vendorName(entity.getVendor() != null ? entity.getVendor().getVendorName() : null)
+                .userId(entity.getUser() != null ? entity.getUser().getId() : null)
+                .userName(entity.getUser() != null ? entity.getUser().getUsername() : null)
                 .build();
     }
 
-    public List<BseRecommendationResponse> getSelectedBseByVendor(UUID vendorUuid) {
+    public List<BseRecommendationResponse> getSelectedBseByVendor(Long userId) {
 
         return bseRecommendationRepository
-                .findByVendorUuidAndIaSelectedTrueAndIsActiveTrue(vendorUuid)
+                .findByUserIdAndIaSelectedTrueAndIsActiveTrue(userId)
                 .stream()
                 .map(this::mapToResponse)
                 .toList();

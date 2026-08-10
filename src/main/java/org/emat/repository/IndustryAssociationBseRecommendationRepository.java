@@ -91,5 +91,4 @@ public interface IndustryAssociationBseRecommendationRepository extends JpaRepos
 
     List<IndustryAssociationBseRecommendation> findByHoRecommendationIsNullAndIsActiveTrue();
 
-    List<IndustryAssociationBseRecommendation> findByVendorUuidAndIaSelectedTrueAndIsActiveTrue(UUID vendorUuid);
-}
+    List<IndustryAssociationBseRecommendation> findByUserIdAndIaSelectedTrueAndIsActiveTrue(Long userId);}

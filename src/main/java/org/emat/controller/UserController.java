@@ -132,4 +132,12 @@ public class UserController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/by-role")
+    public ResponseEntity<List<UserResponse>> getUsersByRole(@RequestParam Role role) {
+
+        List<UserResponse> users = userService.getUsersByRole(role);
+
+        return ResponseEntity.ok(users);
+    }
 }
