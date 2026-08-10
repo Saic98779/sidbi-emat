@@ -156,7 +156,7 @@ public class IndustryAssociationBseRecommendationController {
             summary = "Get selected BSE recommendations by vendor",
             description = "Fetches all active BSE recommendations mapped to the specified vendor where the recommendation is marked as selected."
     )
-    @GetMapping("/vendor/{vendorUuid}/selected")
+    @GetMapping("/user/{userId}/selected")
     public ResponseEntity<List<BseRecommendationResponse>> getSelectedBseByVendor(
             @PathVariable Long userId) {
 
