@@ -20,11 +20,6 @@ public class BseSalary extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    // BSE Recommendation relation
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BSE_ID")
-    private IndustryAssociationBseRecommendation bse;
-
     @Column(name = "GSTIN_OF_AGENCY")
     private String gstinOfAgency;
 
@@ -35,13 +30,13 @@ public class BseSalary extends BaseEntity {
     private String gstinOfSdbi;
 
     @Column(name = "SANCTIONED_AMOUNT")
-    private String sanctionedAmount;
+    private BigDecimal sanctionedAmount;
 
     @Column(name = "DISBURSED_TILL_DATE")
-    private LocalDate disbursedTillDate;
+    private BigDecimal disbursedTillDate;
 
     @Column(name = "DISBURSEMENT_SOUGHT_IN")
-    private String disbursementSoughtIn;
+    private BigDecimal disbursementSoughtIn;
 
     @Column(name = "NATURE_OF_PAYMENT", length =2000)
     private String natureOfPayment;

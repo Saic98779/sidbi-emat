@@ -9,14 +9,13 @@ import java.util.List;
 @Data
 public class BseSalaryRequest {
 
-    private String bseId;
     private String gstinOfAgency;
     private String reasonForNoGstin;
     private String gstinOfSdbi;
 
-    private String sanctionedAmount;
-    private LocalDate disbursedTillDate;
-    private String disbursementSoughtIn;
+    private BigDecimal sanctionedAmount;
+    private BigDecimal disbursedTillDate;
+    private BigDecimal disbursementSoughtIn;
 
     private String natureOfPayment;
 

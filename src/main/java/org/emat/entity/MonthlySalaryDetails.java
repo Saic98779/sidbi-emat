@@ -1,48 +1,56 @@
-package org.emat.entity;
+    package org.emat.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+    import jakarta.persistence.*;
+    import lombok.Getter;
+    import lombok.Setter;
 
-import java.math.BigDecimal;
+    import java.math.BigDecimal;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "MONTHLY_SALARY_DETAIL")
-public class MonthlySalaryDetails extends BaseEntity {
+    @Getter
+    @Setter
+    @Entity
+    @Table(name = "MONTHLY_SALARY_DETAIL")
+    public class MonthlySalaryDetails extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "ID")
+        private Long id;
 
-    // Parent BSE Salary
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BSE_SALARY_ID", nullable = false)
-    private BseSalary bseSalary;
+        // BSE Recommendation relation
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "BSE_ID")
+        private IndustryAssociationBseRecommendation bse;
 
-    @Column(name = "SALARY_MONTH")
-    private String salaryMonth;
+        // Parent BSE Salary
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "BSE_SALARY_ID", nullable = false)
+        private BseSalary bseSalary;
 
-    @Column(name = "SALARY_DAYS")
-    private Integer salaryDays;
+        @Column(name = "SALARY_MONTH")
+        private String salaryMonth;
 
-    @Column(name = "PAID_DAYS")
-    private Integer paidDays;
+        @Column(name = "SALARY_DAYS")
+        private Integer salaryDays;
 
-    @Column(name = "ADDITIONAL_AMOUNT")
-    private BigDecimal additionalAmount;
+        @Column(name = "PAID_DAYS")
+        private Integer paidDays;
 
-    @Column(name = "ADDITIONAL_AMOUNT_REASON", length = 1000)
-    private String additionalAmountReason;
+        @Column(name = "ADDITIONAL_AMOUNT")
+        private BigDecimal additionalAmount;
 
-    @Column(name = "PAYMENT_TO_BSE")
-    private BigDecimal paymentToBse;
+        @Column(name = "ADDITIONAL_AMOUNT_REASON", length = 1000)
+        private String additionalAmountReason;
 
-    @Column(name = "GT_ATTENDANCE_COMMENTS", length = 1000)
-    private String gtAttendanceComments;
+        @Column(name = "PAYMENT_TO_BSE")
+        private BigDecimal paymentToBse;
 
-    @Column(name = "GT_ADDITIONAL_COMMENTS", length = 1000)
-    private String gtAdditionalComments;
-}
+        @Column(name = "GT_ATTENDANCE_COMMENTS", length = 1000)
+        private String gtAttendanceComments;
+
+        @Column(name = "GT_ADDITIONAL_COMMENTS", length = 1000)
+        private String gtAdditionalComments;
+
+        @Column(name = "MONTHLY_SALARY")
+        private BigDecimal monthlySalary;
+    }
