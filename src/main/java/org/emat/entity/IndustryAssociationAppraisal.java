@@ -293,8 +293,11 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     private Boolean workedWithSidbiBefore;
 
     // Grant Details
-    @Column(name = "GRANT_PROPOSED", precision = 15, scale = 2)
-    private BigDecimal grantProposed;
+    @Column(name = "GRANT_PROPOSED_SALARY", precision = 15, scale = 2)
+    private BigDecimal grantProposedSalary;
+
+    @Column(name = "GRANT_PROPOSED_CAPEX", precision = 15, scale = 2)
+    private BigDecimal grantProposedCapex;
 
     @Column(name = "GRANT_DETAILS", length = 2000)
     private String grantDetails;
