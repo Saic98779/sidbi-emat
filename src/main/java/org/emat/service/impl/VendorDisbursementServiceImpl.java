@@ -30,6 +30,10 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
     @Override
     @Transactional
     public VendorDisbursementSalaryResponse create(CreateVendorDisbursementSalaryRequest request) {
+            if (request.getRegistrationUuid() == null || request.getRegistrationUuid().isBlank()) {
+                throw new IllegalArgumentException("registrationUuid is required");
+            }
+
             UUID registrationUuid = UuidUtil.toUuid(request.getRegistrationUuid());
 
             IndustryAssociationRegistration registration = registrationRepository
