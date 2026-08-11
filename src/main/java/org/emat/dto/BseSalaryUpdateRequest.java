@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-public class UpdateVendorDisbursementSalaryRequest {
-    private UUID registrationUuid;
+public class BseSalaryUpdateRequest {
+    private String bseId;
     private String gstinOfAgency;
     private String reasonForNoGstin;
     private String gstinOfSdbi;
@@ -33,6 +33,6 @@ public class UpdateVendorDisbursementSalaryRequest {
     private String createdBy;
     private String verifiedBy;
     private String approvedBy;
-    private List<UpdateVendorDisbursementDetailRequest> details;
+    private List<MonthlySalaryDetailsUpdateRequest> details;
 }
 

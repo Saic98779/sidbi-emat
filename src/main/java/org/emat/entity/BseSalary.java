@@ -12,18 +12,18 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "VENDOR_DISBURSEMENT_SALARY")
-public class VendorDisbursementSalary extends BaseEntity {
+@Table(name = "BSE_SALARY")
+public class BseSalary extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
-    // Agency details
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGISTRATION_UUID", nullable = false, unique = true)
-    private IndustryAssociationRegistration registration;
+    // BSE Recommendation relation
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BSE_ID")
+    private IndustryAssociationBseRecommendation bse;
 
     @Column(name = "GSTIN_OF_AGENCY")
     private String gstinOfAgency;
@@ -97,9 +97,9 @@ public class VendorDisbursementSalary extends BaseEntity {
     private String approvedBy;
 
     @OneToMany(
-            mappedBy = "vendorDisbursement",
+            mappedBy = "bseSalary",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<VendorDisbursementDetail> details = new ArrayList<>();
+    private List<MonthlySalaryDetails> monthlySalaryDetails = new ArrayList<>();
 }

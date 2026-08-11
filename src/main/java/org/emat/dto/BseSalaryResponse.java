@@ -1,15 +1,17 @@
 package org.emat.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Data
-public class CreateVendorDisbursementSalaryRequest {
-    private String registrationUuid;
+@Builder
+public class BseSalaryResponse {
+    private Long id;
+    private String manpowerAgencyName;
     private String gstinOfAgency;
     private String reasonForNoGstin;
     private String gstinOfSdbi;
@@ -19,8 +21,8 @@ public class CreateVendorDisbursementSalaryRequest {
     private String natureOfPayment;
     private LocalDate invoiceDate;
     private String invoiceNumber;
-    private BigDecimal invoiceValue;
     private String detailsOfItems;
+    private BigDecimal invoiceValue;
     private BigDecimal gstAmount;
     private BigDecimal totalAmount;
     private Boolean tdsApplicable;
@@ -33,6 +35,6 @@ public class CreateVendorDisbursementSalaryRequest {
     private String createdBy;
     private String verifiedBy;
     private String approvedBy;
-    private List<CreateVendorDisbursementDetailRequest> details;
+    private List<MonthlySalaryDetailsResponse> details;
 }
 

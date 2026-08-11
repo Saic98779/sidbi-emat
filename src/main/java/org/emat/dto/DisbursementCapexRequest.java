@@ -4,19 +4,14 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VendorExpenditureResponse {
+public class DisbursementCapexRequest {
 
-    private UUID uuid;
-
-    private UUID registrationUuid;
-
-    private String industryAssociationName;
+    private String registrationUuid;
 
     private String gstinIa;
 
@@ -58,5 +53,5 @@ public class VendorExpenditureResponse {
 
     private String preDisbursementCompliance;
 
-    private String recommendation;
+    private Boolean recommendation;
 }

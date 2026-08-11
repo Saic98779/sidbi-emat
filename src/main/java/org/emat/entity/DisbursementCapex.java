@@ -10,12 +10,12 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "VENDOR_EXPENDITURE")
+@Table(name = "DISBURSEMENT_CAPEX")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class VendorExpenditure extends BaseEntity {
+public class DisbursementCapex extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,7 +24,7 @@ public class VendorExpenditure extends BaseEntity {
 
     // Industry Association Registration
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGISTRATION_UUID", nullable = false, unique = true)
+    @JoinColumn(name = "REGISTRATION_UUID", nullable = false)
     private IndustryAssociationRegistration registration;
 
     // GSTIN of Industry Association
@@ -109,5 +109,5 @@ public class VendorExpenditure extends BaseEntity {
 
     // Recommendation
     @Column(name = "RECOMMENDATION", length = 2000)
-    private String recommendation;
+    private Boolean recommendation;
 }

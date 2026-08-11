@@ -5,9 +5,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class UpdateVendorDisbursementDetailRequest {
-    private String iaId;
-    private String bseId;
+public class MonthlySalaryDetailsRequest {
+
     private String salaryMonth;
     private Integer salaryDays;
     private Integer paidDays;
@@ -17,4 +16,3 @@ public class UpdateVendorDisbursementDetailRequest {
     private String gtAttendanceComments;
     private String gtAdditionalComments;
 }
-

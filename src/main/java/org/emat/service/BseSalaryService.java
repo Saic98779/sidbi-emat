@@ -1,17 +1,15 @@
-package org.emat.service.impl;
+package org.emat.service;
 
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.*;
 import org.emat.entity.IndustryAssociationBseRecommendation;
 import org.emat.entity.IndustryAssociationRegistration;
-import org.emat.entity.VendorDisbursementSalary;
-import org.emat.entity.VendorDisbursementDetail;
+import org.emat.entity.BseSalary;
+import org.emat.entity.MonthlySalaryDetails;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationBseRecommendationRepository;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
-import org.emat.repository.VendorDisbursementRepository;
-import org.emat.service.VendorDisbursementService;
-import org.emat.util.UuidUtil;
+import org.emat.repository.BseSalaryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,67 +19,53 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class VendorDisbursementServiceImpl implements VendorDisbursementService {
+public class BseSalaryService {
 
-    private final VendorDisbursementRepository vendorDisbursementRepository;
+    private final BseSalaryRepository vendorDisbursementRepository;
     private final IndustryAssociationRegistrationRepository registrationRepository;
     private final IndustryAssociationBseRecommendationRepository bseRecommendationRepository;
 
-    @Override
     @Transactional
-    public VendorDisbursementSalaryResponse create(CreateVendorDisbursementSalaryRequest request) {
-            UUID registrationUuid = UuidUtil.toUuid(request.getRegistrationUuid());
-
-            IndustryAssociationRegistration registration = registrationRepository
-                    .findByUuid(registrationUuid)
-                    .orElseThrow(() -> new EntityNotFoundException("REGISTRATION_NOT_FOUND_MESSAGE" + request.getRegistrationUuid()));
-            VendorDisbursementSalary entity = new VendorDisbursementSalary();
+    public BseSalaryResponse create(BseSalaryRequest request) {
+            IndustryAssociationBseRecommendation bse = resolveBse(request.getBseId());
+            BseSalary entity = new BseSalary();
             mapParentFields(entity, request);
-            entity.setDetails(mapCreateDetails(request.getDetails(), entity));
-            entity.setRegistration(registration);
+            entity.setBse(bse);
+            entity.setMonthlySalaryDetails(mapCreateDetails(request.getDetails(), entity));
+
             return toResponse(vendorDisbursementRepository.save(entity));
     }
 
-    @Override
+
     @Transactional(readOnly = true)
-    public VendorDisbursementSalaryResponse getById(Long id) {
+    public BseSalaryResponse getById(Long id) {
         return toResponse(findEntity(id));
     }
 
-    @Override
+
     @Transactional(readOnly = true)
-    public List<VendorDisbursementSalaryResponse> getAll() {
+    public List<BseSalaryResponse> getAll() {
         return vendorDisbursementRepository.findAll()
                 .stream()
                 .map(this::toResponse)
                 .toList();
     }
 
-    @Override
     @Transactional
-    public VendorDisbursementSalaryResponse update(
-            Long id,
-            UpdateVendorDisbursementSalaryRequest request) {
+    public BseSalaryResponse update(Long id, BseSalaryUpdateRequest request) {
 
-        VendorDisbursementSalary entity = findEntity(id);
-
-        if (request.getRegistrationUuid() != null) {
-            IndustryAssociationRegistration registration = registrationRepository
-                    .findByUuid(request.getRegistrationUuid())
-                    .orElseThrow(() ->
-                            new EntityNotFoundException(
-                                    "REGISTRATION_NOT_FOUND_MESSAGE"
-                                            + request.getRegistrationUuid()
-                            ));
-
-            entity.setRegistration(registration);
+        BseSalary entity = findEntity(id);
+        IndustryAssociationBseRecommendation bse;
+        if (request.getBseId() != null) {
+             bse = resolveBse(request.getBseId());
+             entity.setBse(bse);
         }
 
         mapUpdateFields(entity, request);
 
         if (request.getDetails() != null) {
-            entity.getDetails().clear();
-            entity.getDetails().addAll(
+            entity.getMonthlySalaryDetails().clear();
+            entity.getMonthlySalaryDetails().addAll(
                     mapUpdateDetails(request.getDetails(), entity)
             );
         }
@@ -91,13 +75,13 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         );
     }
 
-    @Override
+
     @Transactional
     public void delete(Long id) {
         vendorDisbursementRepository.delete(findEntity(id));
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public List<String> getApprovedIndustryAssociationNames() {
         return registrationRepository.findAllByIsActiveTrueAndIsSidbeApprovedTrue().stream()
@@ -106,12 +90,12 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
                 .toList();
     }
 
-    private VendorDisbursementSalary findEntity(Long id) {
+    private BseSalary findEntity(Long id) {
         return vendorDisbursementRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("VendorDisbursement not found with id: " + id));
     }
 
-    private void mapParentFields(VendorDisbursementSalary entity, CreateVendorDisbursementSalaryRequest request) {
+    private void mapParentFields(BseSalary entity, BseSalaryRequest request) {
         entity.setGstinOfAgency(request.getGstinOfAgency());
         entity.setReasonForNoGstin(request.getReasonForNoGstin());
         entity.setGstinOfSdbi(request.getGstinOfSdbi());
@@ -137,7 +121,7 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         entity.setApprovedBy(request.getApprovedBy());
     }
 
-    private void mapUpdateFields(VendorDisbursementSalary entity, UpdateVendorDisbursementSalaryRequest request) {
+    private void mapUpdateFields(BseSalary entity, BseSalaryUpdateRequest request) {
         if (request.getGstinOfAgency() != null) entity.setGstinOfAgency(request.getGstinOfAgency());
         if (request.getReasonForNoGstin() != null) entity.setReasonForNoGstin(request.getReasonForNoGstin());
         if (request.getGstinOfSdbi() != null) entity.setGstinOfSdbi(request.getGstinOfSdbi());
@@ -162,24 +146,22 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         if (request.getApprovedBy() != null) entity.setApprovedBy(request.getApprovedBy());
     }
 
-    private List<VendorDisbursementDetail> mapCreateDetails(List<CreateVendorDisbursementDetailRequest> requests,
-                                                            VendorDisbursementSalary parent) {
+    private List<MonthlySalaryDetails> mapCreateDetails(List<MonthlySalaryDetailsRequest> requests,
+                                                        BseSalary parent) {
         if (requests == null) {
             return new ArrayList<>();
         }
         return requests.stream().map(r -> mapDetail(r, parent)).toList();
     }
 
-    private List<VendorDisbursementDetail> mapUpdateDetails(List<UpdateVendorDisbursementDetailRequest> requests,
-                                                            VendorDisbursementSalary parent) {
+    private List<MonthlySalaryDetails> mapUpdateDetails(List<MonthlySalaryDetailsUpdateRequest> requests,
+                                                        BseSalary parent) {
         if (requests == null) {
             return new ArrayList<>();
         }
         return requests.stream().map(r -> {
-            VendorDisbursementDetail detail = new VendorDisbursementDetail();
-            detail.setVendorDisbursement(parent);
-            detail.setIndustryRegistrationId(resolveIa(r.getIaId()));
-            detail.setBse(resolveBse(r.getBseId()));
+            MonthlySalaryDetails detail = new MonthlySalaryDetails();
+            detail.setBseSalary(parent);
             detail.setSalaryMonth(r.getSalaryMonth());
             detail.setSalaryDays(r.getSalaryDays());
             detail.setPaidDays(r.getPaidDays());
@@ -192,11 +174,9 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         }).toList();
     }
 
-    private VendorDisbursementDetail mapDetail(CreateVendorDisbursementDetailRequest r, VendorDisbursementSalary parent) {
-        VendorDisbursementDetail detail = new VendorDisbursementDetail();
-        detail.setVendorDisbursement(parent);
-        detail.setIndustryRegistrationId(resolveIa(r.getIaId()));
-        detail.setBse(resolveBse(r.getBseId()));
+    private MonthlySalaryDetails mapDetail(MonthlySalaryDetailsRequest r, BseSalary parent) {
+        MonthlySalaryDetails detail = new MonthlySalaryDetails();
+        detail.setBseSalary(parent);
         detail.setSalaryMonth(r.getSalaryMonth());
         detail.setSalaryDays(r.getSalaryDays());
         detail.setPaidDays(r.getPaidDays());
@@ -226,10 +206,10 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
                 .orElseThrow(() -> new EntityNotFoundException("IndustryAssociationBseRecommendation not found with UUID: " + bseId));
     }
 
-    private VendorDisbursementSalaryResponse toResponse(VendorDisbursementSalary entity) {
-        return VendorDisbursementSalaryResponse.builder()
+    private BseSalaryResponse toResponse(BseSalary entity) {
+        return BseSalaryResponse.builder()
                 .id(entity.getId())
-                .manpowerAgencyName(entity.getRegistration().getIndustryAssociationName())
+                .manpowerAgencyName(entity.getBse().getRegistration().getIndustryAssociationName())
                 .gstinOfAgency(entity.getGstinOfAgency())
                 .reasonForNoGstin(entity.getReasonForNoGstin())
                 .gstinOfSdbi(entity.getGstinOfSdbi())
@@ -253,20 +233,10 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
                 .createdBy(entity.getCreatedBy())
                 .verifiedBy(entity.getVerifiedBy())
                 .approvedBy(entity.getApprovedBy())
-                .details(entity.getDetails() == null ? new ArrayList<>() : entity.getDetails().stream()
+                .details(entity.getMonthlySalaryDetails() == null ? new ArrayList<>() : entity.getMonthlySalaryDetails().stream()
                         .map(d -> {
-                            String iaId = null;
-                            if (d.getIndustryRegistrationId() != null) {
-                                iaId = d.getIndustryRegistrationId().getUuid().toString();
-                            }
-                            String bseId = null;
-                            if (d.getBse() != null) {
-                                bseId = d.getBse().getUuid().toString();
-                            }
-                            return VendorDisbursementDetailResponse.builder()
+                            return MonthlySalaryDetailsResponse.builder()
                                     .id(d.getId())
-                                    .iaId(iaId)
-                                    .bseId(bseId)
                                     .salaryMonth(d.getSalaryMonth())
                                     .salaryDays(d.getSalaryDays())
                                     .paidDays(d.getPaidDays())

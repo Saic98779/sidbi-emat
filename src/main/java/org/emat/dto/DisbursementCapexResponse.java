@@ -10,9 +10,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateVendorExpenditureRequest {
+public class DisbursementCapexResponse {
 
-    private String registrationUuid;
+    private UUID uuid;
+
+    private UUID registrationUuid;
+
+    private String industryAssociationName;
 
     private String gstinIa;
 
@@ -54,5 +58,5 @@ public class CreateVendorExpenditureRequest {
 
     private String preDisbursementCompliance;
 
-    private String recommendation;
+    private Boolean recommendation;
 }

@@ -29,14 +29,17 @@ public class Vendor {
     @Column(name = "COMPANY_NAME")
     private String companyName;
 
-    @Column(name = "CONTACT_PERSON")
-    private String contactPerson;
+    @Column(name = "SPOC_NAME")
+    private String spocName;
+
+    @Column(name = "SPOC_MOBILE_NO")
+    private String spocMobileNo;
 
     @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "MOBILE_NO")
-    private String mobileNo;
+    @Column(name = "CONTACT_NO")
+    private String contactNo;
 
     @Column(name = "GST_NO")
     private String gstNo;
@@ -82,4 +85,8 @@ public class Vendor {
 
     @Column(name = "IS_ACTIVE")
     private Boolean active = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private User user;
 }

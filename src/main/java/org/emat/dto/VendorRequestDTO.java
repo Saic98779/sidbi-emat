@@ -8,7 +8,8 @@ public class VendorRequestDTO {
     private String vendorId;
     private String vendorName;
     private String companyName;
-    private String contactPerson;
+    private String spocName;
+    private String spocMobileNo;
     private String email;
     private String mobileNo;
     private String gstNo;
