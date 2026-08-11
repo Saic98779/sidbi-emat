@@ -82,18 +82,19 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/users/login", "/health", "/", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
-                        .requestMatchers(HttpMethod.GET, "/users/search").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
-                        .requestMatchers("/industry-association-registrations/**").authenticated()
-                        .requestMatchers("/industry-association-appraisals/**").authenticated()
-                        .requestMatchers("/bse-recommendations/**").authenticated()
-                        .requestMatchers("/sidbi-sde/**").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
-                        .requestMatchers("/vendor-disbursements/**").hasAnyRole("GT_FIELD_TEAM", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
-                        .anyRequest().authenticated()
-                );
+            .authorizeHttpRequests(authz -> authz
+                    .requestMatchers("/error").permitAll()
+                    .requestMatchers("/users/login", "/health", "/", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/users").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
+                    .requestMatchers(HttpMethod.GET, "/users/search").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
+                    .requestMatchers("/industry-association-registrations/**").authenticated()
+                    .requestMatchers("/industry-association-appraisals/**").authenticated()
+                    .requestMatchers("/bse-recommendations/**").authenticated()
+                    .requestMatchers("/sidbi-sde/**").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
+                    .requestMatchers("/vendor-disbursements/**").hasAnyRole("GT_FIELD_TEAM", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO", "MANPOWER_AGENCY")
+                    .anyRequest().authenticated()
+            );
 
         return http.build();
     }
