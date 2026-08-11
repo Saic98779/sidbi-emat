@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 public class MonthlySalaryDetailsResponse {
 
     private Long id;
+    private String bseName;
+    private String manpowerAgencyName;
     private String salaryMonth;
     private Integer salaryDays;
     private Integer paidDays;

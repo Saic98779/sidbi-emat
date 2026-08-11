@@ -27,10 +27,8 @@ public class BseSalaryService {
 
     @Transactional
     public BseSalaryResponse create(BseSalaryRequest request) {
-            IndustryAssociationBseRecommendation bse = resolveBse(request.getBseId());
             BseSalary entity = new BseSalary();
             mapParentFields(entity, request);
-            entity.setBse(bse);
             entity.setMonthlySalaryDetails(mapCreateDetails(request.getDetails(), entity));
 
             return toResponse(vendorDisbursementRepository.save(entity));
@@ -55,11 +53,6 @@ public class BseSalaryService {
     public BseSalaryResponse update(Long id, BseSalaryUpdateRequest request) {
 
         BseSalary entity = findEntity(id);
-        IndustryAssociationBseRecommendation bse;
-        if (request.getBseId() != null) {
-             bse = resolveBse(request.getBseId());
-             entity.setBse(bse);
-        }
 
         mapUpdateFields(entity, request);
 
@@ -170,6 +163,7 @@ public class BseSalaryService {
             detail.setPaymentToBse(r.getPaymentToBse());
             detail.setGtAttendanceComments(r.getGtAttendanceComments());
             detail.setGtAdditionalComments(r.getGtAdditionalComments());
+            detail.setBse(resolveBse(r.getBseId()));
             return detail;
         }).toList();
     }
@@ -185,6 +179,7 @@ public class BseSalaryService {
         detail.setPaymentToBse(r.getPaymentToBse());
         detail.setGtAttendanceComments(r.getGtAttendanceComments());
         detail.setGtAdditionalComments(r.getGtAdditionalComments());
+        detail.setBse(resolveBse(r.getBseId()));
         return detail;
     }
 
@@ -209,7 +204,7 @@ public class BseSalaryService {
     private BseSalaryResponse toResponse(BseSalary entity) {
         return BseSalaryResponse.builder()
                 .id(entity.getId())
-                .manpowerAgencyName(entity.getBse().getRegistration().getIndustryAssociationName())
+                .manpowerAgencyName(entity.getMonthlySalaryDetails().get(0).getBse().getRegistration().getIndustryAssociationName())
                 .gstinOfAgency(entity.getGstinOfAgency())
                 .reasonForNoGstin(entity.getReasonForNoGstin())
                 .gstinOfSdbi(entity.getGstinOfSdbi())
@@ -237,6 +232,8 @@ public class BseSalaryService {
                         .map(d -> {
                             return MonthlySalaryDetailsResponse.builder()
                                     .id(d.getId())
+                                    .bseName(d.getBse().getBseName())
+                                    .manpowerAgencyName(d.getBse().getRegistration().getIndustryAssociationName())
                                     .salaryMonth(d.getSalaryMonth())
                                     .salaryDays(d.getSalaryDays())
                                     .paidDays(d.getPaidDays())
