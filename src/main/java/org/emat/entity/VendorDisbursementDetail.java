@@ -17,7 +17,7 @@ public class VendorDisbursementDetail extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "VENDOR_DISBURSEMENT_ID")
+    @JoinColumn(name = "VENDOR_DISBURSEMENT_ID", nullable = false)
     private VendorDisbursementSalary vendorDisbursement;
 
     @ManyToOne(fetch = FetchType.LAZY)

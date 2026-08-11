@@ -22,7 +22,7 @@ public class VendorDisbursementSalary extends BaseEntity {
 
     // Agency details
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGISTRATION_UUID", nullable = false, unique = true)
+    @JoinColumn(name = "REGISTRATION_UUID", nullable = false)
     private IndustryAssociationRegistration registration;
 
     @Column(name = "GSTIN_OF_AGENCY")

@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.emat.dto.*;
 import org.emat.entity.IndustryAssociationBseRecommendation;
 import org.emat.entity.IndustryAssociationRegistration;
-import org.emat.entity.VendorDisbursementSalary;
+import org.emat.entity.User;
 import org.emat.entity.VendorDisbursementDetail;
+import org.emat.entity.VendorDisbursementSalary;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationBseRecommendationRepository;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
+import org.emat.repository.UserRepository;
 import org.emat.repository.VendorDisbursementRepository;
 import org.emat.service.VendorDisbursementService;
 import org.emat.util.UuidUtil;
@@ -18,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,24 +30,25 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
     private final VendorDisbursementRepository vendorDisbursementRepository;
     private final IndustryAssociationRegistrationRepository registrationRepository;
     private final IndustryAssociationBseRecommendationRepository bseRecommendationRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public VendorDisbursementSalaryResponse create(CreateVendorDisbursementSalaryRequest request) {
-            if (request.getRegistrationUuid() == null || request.getRegistrationUuid().isBlank()) {
-                throw new IllegalArgumentException("registrationUuid is required");
-            }
+        if (request.getRegistrationUuid() == null || request.getRegistrationUuid().isBlank()) {
+            throw new IllegalArgumentException("registrationUuid is required");
+        }
 
-            UUID registrationUuid = UuidUtil.toUuid(request.getRegistrationUuid());
+        UUID registrationUuid = UuidUtil.toUuid(request.getRegistrationUuid());
+        IndustryAssociationRegistration registration = registrationRepository
+                .findByUuid(registrationUuid)
+                .orElseThrow(() -> new EntityNotFoundException("Registration not found with UUID: " + request.getRegistrationUuid()));
 
-            IndustryAssociationRegistration registration = registrationRepository
-                    .findByUuid(registrationUuid)
-                    .orElseThrow(() -> new EntityNotFoundException("REGISTRATION_NOT_FOUND_MESSAGE" + request.getRegistrationUuid()));
-            VendorDisbursementSalary entity = new VendorDisbursementSalary();
-            mapParentFields(entity, request);
-            entity.setDetails(mapCreateDetails(request.getDetails(), entity));
-            entity.setRegistration(registration);
-            return toResponse(vendorDisbursementRepository.save(entity));
+        VendorDisbursementSalary entity = new VendorDisbursementSalary();
+        mapParentFields(entity, request);
+        entity.setDetails(mapCreateDetails(request.getDetails(), entity));
+        entity.setRegistration(registration);
+        return toResponse(vendorDisbursementRepository.save(entity));
     }
 
     @Override
@@ -63,21 +68,13 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
 
     @Override
     @Transactional
-    public VendorDisbursementSalaryResponse update(
-            Long id,
-            UpdateVendorDisbursementSalaryRequest request) {
-
+    public VendorDisbursementSalaryResponse update(Long id, UpdateVendorDisbursementSalaryRequest request) {
         VendorDisbursementSalary entity = findEntity(id);
 
         if (request.getRegistrationUuid() != null) {
             IndustryAssociationRegistration registration = registrationRepository
                     .findByUuid(request.getRegistrationUuid())
-                    .orElseThrow(() ->
-                            new EntityNotFoundException(
-                                    "REGISTRATION_NOT_FOUND_MESSAGE"
-                                            + request.getRegistrationUuid()
-                            ));
-
+                    .orElseThrow(() -> new EntityNotFoundException("Registration not found with UUID: " + request.getRegistrationUuid()));
             entity.setRegistration(registration);
         }
 
@@ -85,14 +82,10 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
 
         if (request.getDetails() != null) {
             entity.getDetails().clear();
-            entity.getDetails().addAll(
-                    mapUpdateDetails(request.getDetails(), entity)
-            );
+            entity.getDetails().addAll(mapUpdateDetails(request.getDetails(), entity));
         }
 
-        return toResponse(
-                vendorDisbursementRepository.save(entity)
-        );
+        return toResponse(vendorDisbursementRepository.save(entity));
     }
 
     @Override
@@ -136,46 +129,51 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
         entity.setComplianceTerms(request.getComplianceTerms());
         entity.setRecommendation(request.getRecommendation());
         entity.setStatus(request.getStatus());
-        entity.setCreatedBy(request.getCreatedBy());
-        entity.setVerifiedBy(request.getVerifiedBy());
-        entity.setApprovedBy(request.getApprovedBy());
+        entity.setCreatedBy(resolveUsername(request.getCreatedBy()));
+        entity.setVerifiedBy(resolveUsername(request.getVerifiedBy()));
+        entity.setApprovedBy(resolveUsername(request.getApprovedBy()));
     }
 
     private void mapUpdateFields(VendorDisbursementSalary entity, UpdateVendorDisbursementSalaryRequest request) {
-        if (request.getGstinOfAgency() != null) entity.setGstinOfAgency(request.getGstinOfAgency());
-        if (request.getReasonForNoGstin() != null) entity.setReasonForNoGstin(request.getReasonForNoGstin());
-        if (request.getGstinOfSdbi() != null) entity.setGstinOfSdbi(request.getGstinOfSdbi());
-        if (request.getSanctionedAmount() != null) entity.setSanctionedAmount(request.getSanctionedAmount());
-        if (request.getDisbursedTillDate() != null) entity.setDisbursedTillDate(request.getDisbursedTillDate());
-        if (request.getDisbursementSoughtIn() != null) entity.setDisbursementSoughtIn(request.getDisbursementSoughtIn());
-        if (request.getNatureOfPayment() != null) entity.setNatureOfPayment(request.getNatureOfPayment());
-        if (request.getInvoiceDate() != null) entity.setInvoiceDate(request.getInvoiceDate());
-        if (request.getInvoiceNumber() != null) entity.setInvoiceNumber(request.getInvoiceNumber());
-        if (request.getInvoiceValue() != null) entity.setInvoiceValue(request.getInvoiceValue());
-        if (request.getGstAmount() != null) entity.setGstAmount(request.getGstAmount());
-        if (request.getTotalAmount() != null) entity.setTotalAmount(request.getTotalAmount());
-        if (request.getTdsApplicable() != null) entity.setTdsApplicable(request.getTdsApplicable());
-        if (request.getTdsNotApplicableReason() != null) entity.setTdsNotApplicableReason(request.getTdsNotApplicableReason());
-        if (request.getRecommendedDisbursementAmount() != null) entity.setRecommendedDisbursementAmount(request.getRecommendedDisbursementAmount());
-        if (request.getAccountCode() != null) entity.setAccountCode(request.getAccountCode());
-        if (request.getComplianceTerms() != null) entity.setComplianceTerms(request.getComplianceTerms());
-        if (request.getRecommendation() != null) entity.setRecommendation(request.getRecommendation());
-        if (request.getStatus() != null) entity.setStatus(request.getStatus());
-        if (request.getCreatedBy() != null) entity.setCreatedBy(request.getCreatedBy());
-        if (request.getVerifiedBy() != null) entity.setVerifiedBy(request.getVerifiedBy());
-        if (request.getApprovedBy() != null) entity.setApprovedBy(request.getApprovedBy());
+        setIfNotNull(request.getGstinOfAgency(), entity::setGstinOfAgency);
+        setIfNotNull(request.getReasonForNoGstin(), entity::setReasonForNoGstin);
+        setIfNotNull(request.getGstinOfSdbi(), entity::setGstinOfSdbi);
+        setIfNotNull(request.getSanctionedAmount(), entity::setSanctionedAmount);
+        setIfNotNull(request.getDisbursedTillDate(), entity::setDisbursedTillDate);
+        setIfNotNull(request.getDisbursementSoughtIn(), entity::setDisbursementSoughtIn);
+        setIfNotNull(request.getNatureOfPayment(), entity::setNatureOfPayment);
+        setIfNotNull(request.getInvoiceDate(), entity::setInvoiceDate);
+        setIfNotNull(request.getInvoiceNumber(), entity::setInvoiceNumber);
+        setIfNotNull(request.getDetailsOfItems(), entity::setDetailsOfItems);
+        setIfNotNull(request.getInvoiceValue(), entity::setInvoiceValue);
+        setIfNotNull(request.getGstAmount(), entity::setGstAmount);
+        setIfNotNull(request.getTotalAmount(), entity::setTotalAmount);
+        setIfNotNull(request.getTdsApplicable(), entity::setTdsApplicable);
+        setIfNotNull(request.getTdsNotApplicableReason(), entity::setTdsNotApplicableReason);
+        setIfNotNull(request.getRecommendedDisbursementAmount(), entity::setRecommendedDisbursementAmount);
+        setIfNotNull(request.getAccountCode(), entity::setAccountCode);
+        setIfNotNull(request.getComplianceTerms(), entity::setComplianceTerms);
+        setIfNotNull(request.getRecommendation(), entity::setRecommendation);
+        setIfNotNull(request.getStatus(), entity::setStatus);
+        setIfNotNull(request.getCreatedBy(), value -> entity.setCreatedBy(resolveUsername(value)));
+        setIfNotNull(request.getVerifiedBy(), value -> entity.setVerifiedBy(resolveUsername(value)));
+        setIfNotNull(request.getApprovedBy(), value -> entity.setApprovedBy(resolveUsername(value)));
     }
 
-    private List<VendorDisbursementDetail> mapCreateDetails(List<CreateVendorDisbursementDetailRequest> requests,
-                                                            VendorDisbursementSalary parent) {
+    private <T> void setIfNotNull(T value, Consumer<T> setter) {
+        if (value != null) {
+            setter.accept(value);
+        }
+    }
+
+    private List<VendorDisbursementDetail> mapCreateDetails(List<CreateVendorDisbursementDetailRequest> requests, VendorDisbursementSalary parent) {
         if (requests == null) {
             return new ArrayList<>();
         }
-        return requests.stream().map(r -> mapDetail(r, parent)).toList();
+        return requests.stream().map(r -> mapDetail(r, parent)).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private List<VendorDisbursementDetail> mapUpdateDetails(List<UpdateVendorDisbursementDetailRequest> requests,
-                                                            VendorDisbursementSalary parent) {
+    private List<VendorDisbursementDetail> mapUpdateDetails(List<UpdateVendorDisbursementDetailRequest> requests, VendorDisbursementSalary parent) {
         if (requests == null) {
             return new ArrayList<>();
         }
@@ -214,20 +212,40 @@ public class VendorDisbursementServiceImpl implements VendorDisbursementService 
 
     private IndustryAssociationRegistration resolveIa(String iaId) {
         if (iaId == null || iaId.isBlank()) {
-            return null;
+            throw new IllegalArgumentException("iaId is required");
         }
-        UUID uuid = UUID.fromString(iaId);
+        UUID uuid = parseUuidOrThrow(iaId, "iaId");
         return registrationRepository.findByUuid(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("IndustryAssociationRegistration not found with UUID: " + iaId));
     }
 
     private IndustryAssociationBseRecommendation resolveBse(String bseId) {
         if (bseId == null || bseId.isBlank()) {
-            return null;
+            throw new IllegalArgumentException("bseId is required");
         }
-        UUID uuid = UUID.fromString(bseId);
+        UUID uuid = parseUuidOrThrow(bseId, "bseId");
         return bseRecommendationRepository.findByUuidAndIsActiveTrue(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("IndustryAssociationBseRecommendation not found with UUID: " + bseId));
+    }
+
+    private UUID parseUuidOrThrow(String value, String fieldName) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        try {
+            return UUID.fromString(value);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(fieldName + " must be a valid UUID");
+        }
+    }
+
+    private String resolveUsername(String username) {
+        if (username == null || username.isBlank()) {
+            return null;
+        }
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+        return user.getUsername();
     }
 
     private VendorDisbursementSalaryResponse toResponse(VendorDisbursementSalary entity) {
