@@ -1,9 +1,9 @@
 package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.emat.dto.CreateVendorExpenditureRequest;
-import org.emat.dto.VendorExpenditureResponse;
-import org.emat.service.VendorExpenditureService;
+import org.emat.dto.DisbursementCapexRequest;
+import org.emat.dto.DisbursementCapexResponse;
+import org.emat.service.DisbursementCapexService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +12,17 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/vendor-expenditure")
+@RequestMapping("/disbursement-capex")
 @RequiredArgsConstructor
-public class VendorExpenditureController {
+public class DisbursementCapexController {
 
-    private final VendorExpenditureService vendorExpenditureService;
+    private final DisbursementCapexService vendorExpenditureService;
 
     @PostMapping
-    public ResponseEntity<VendorExpenditureResponse> create(
-            @RequestBody CreateVendorExpenditureRequest request) {
+    public ResponseEntity<DisbursementCapexResponse> create(
+            @RequestBody DisbursementCapexRequest request) {
 
-        VendorExpenditureResponse response =
+        DisbursementCapexResponse response =
                 vendorExpenditureService.create(request);
 
         return ResponseEntity
@@ -31,7 +31,7 @@ public class VendorExpenditureController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<VendorExpenditureResponse> getById(
+    public ResponseEntity<DisbursementCapexResponse> getById(
             @PathVariable UUID uuid) {
 
         return ResponseEntity.ok(
@@ -40,7 +40,7 @@ public class VendorExpenditureController {
     }
 
     @GetMapping("/registration/{registrationUuid}")
-    public ResponseEntity<VendorExpenditureResponse> getByRegistrationUuid(
+    public ResponseEntity<DisbursementCapexResponse> getByRegistrationUuid(
             @PathVariable UUID registrationUuid) {
 
         return ResponseEntity.ok(
@@ -50,7 +50,7 @@ public class VendorExpenditureController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VendorExpenditureResponse>> getAll() {
+    public ResponseEntity<List<DisbursementCapexResponse>> getAll() {
 
         return ResponseEntity.ok(
                 vendorExpenditureService.getAll()
@@ -58,9 +58,9 @@ public class VendorExpenditureController {
     }
 
     @PutMapping("/{uuid}")
-    public ResponseEntity<VendorExpenditureResponse> update(
+    public ResponseEntity<DisbursementCapexResponse> update(
             @PathVariable UUID uuid,
-            @RequestBody CreateVendorExpenditureRequest request) {
+            @RequestBody DisbursementCapexRequest request) {
 
         return ResponseEntity.ok(
                 vendorExpenditureService.update(uuid, request)

@@ -7,10 +7,9 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class VendorDisbursementDetailResponse {
+public class MonthlySalaryDetailsResponse {
+
     private Long id;
-    private String iaId;
-    private String bseId;
     private String salaryMonth;
     private Integer salaryDays;
     private Integer paidDays;

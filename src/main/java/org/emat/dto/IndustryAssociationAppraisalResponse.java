@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * DTO for Industry Association Appraisal response.
@@ -143,7 +142,8 @@ public class IndustryAssociationAppraisalResponse {
     private Boolean workedWithSidbiBefore;
 
     // Grant Details
-    private BigDecimal grantProposed;
+    private BigDecimal grantProposedCapex;
+    private BigDecimal grantProposedSalary;
     private String grantDetails;
 
     // Envisaged Outputs, Outcomes, and Impacts

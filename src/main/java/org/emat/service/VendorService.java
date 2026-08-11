@@ -62,6 +62,14 @@ public class VendorService {
         return mapToResponse(vendor);
     }
 
+    public VendorResponseDTO getVendorByUserId(Long userId) {
+
+        Vendor vendor = vendorRepository.findByUserId(userId)
+                .orElseThrow(() ->
+                        new RuntimeException("Vendor not found for user: " + userId));
+
+        return mapToResponse(vendor);
+    }
     /**
      * Get All Vendors
      */
@@ -108,9 +116,10 @@ public class VendorService {
         vendor.setVendorId(request.getVendorId());
         vendor.setVendorName(request.getVendorName());
         vendor.setCompanyName(request.getCompanyName());
-        vendor.setContactPerson(request.getContactPerson());
+        vendor.setSpocName(request.getSpocName());
+        vendor.setSpocMobileNo(request.getSpocMobileNo());
         vendor.setEmail(request.getEmail());
-        vendor.setMobileNo(request.getMobileNo());
+        vendor.setContactNo(request.getMobileNo());
         vendor.setGstNo(request.getGstNo());
         vendor.setPanNo(request.getPanNo());
         vendor.setAddress(request.getAddress());
@@ -132,9 +141,9 @@ public class VendorService {
         response.setVendorId(vendor.getVendorId());
         response.setVendorName(vendor.getVendorName());
         response.setCompanyName(vendor.getCompanyName());
-        response.setContactPerson(vendor.getContactPerson());
+        response.setSpocName(vendor.getSpocName());
         response.setEmail(vendor.getEmail());
-        response.setMobileNo(vendor.getMobileNo());
+        response.setMobileNo(vendor.getContactNo());
         response.setGstNo(vendor.getGstNo());
         response.setPanNo(vendor.getPanNo());
         response.setAddress(vendor.getAddress());

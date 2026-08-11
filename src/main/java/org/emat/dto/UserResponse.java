@@ -25,5 +25,6 @@ public class UserResponse {
     private boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String contactNo;
 }
 

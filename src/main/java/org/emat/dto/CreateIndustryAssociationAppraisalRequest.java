@@ -130,7 +130,8 @@ public class CreateIndustryAssociationAppraisalRequest {
     private Boolean workedWithSidbiBefore;
 
     // Grant Details
-    private BigDecimal grantProposed;
+    private BigDecimal grantProposedSalary;
+    private BigDecimal grantProposedCapex;
     private String grantDetails;
 
     // Envisaged Outputs, Outcomes, and Impacts

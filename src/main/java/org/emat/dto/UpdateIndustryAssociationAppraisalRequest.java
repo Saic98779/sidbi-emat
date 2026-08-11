@@ -9,7 +9,6 @@ import org.emat.entity.IndustryAssociationAppraisal;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 /**
  * DTO for updating an existing Industry Association Appraisal.
@@ -130,7 +129,8 @@ public class UpdateIndustryAssociationAppraisalRequest {
     private Boolean workedWithSidbiBefore;
 
     // Grant Details
-    private BigDecimal grantProposed;
+    private BigDecimal grantProposedSalary;
+    private BigDecimal grantProposedCapex;
     private String grantDetails;
 
     // Envisaged Outputs, Outcomes, and Impacts

@@ -54,6 +54,15 @@ public class VendorController {
                 vendorService.getVendorById(uuid));
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<VendorResponseDTO> getVendorByUserId(
+            @PathVariable Long userId) {
+
+        return ResponseEntity.ok(
+                vendorService.getVendorByUserId(userId)
+        );
+    }
+
     /**
      * Get All Vendors
      */

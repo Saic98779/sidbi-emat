@@ -3,8 +3,10 @@ package org.emat.service;
 import org.emat.dto.CreateUserRequest;
 import org.emat.dto.UserResponse;
 import org.emat.entity.User;
+import org.emat.entity.Vendor;
 import org.emat.enums.Role;
 import org.emat.repository.UserRepository;
+import org.emat.repository.VendorRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,19 +22,24 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final VendorRepository vendorRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,VendorRepository vendorRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.vendorRepository = vendorRepository;
     }
 
     /**
      * Create a new user.
      */
+    @Transactional
     public UserResponse createUser(CreateUserRequest request) {
+
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new IllegalArgumentException("Username already exists");
         }
+
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
@@ -46,9 +53,23 @@ public class UserService {
         user.setDistrict(request.getDistrict());
         user.setState(request.getState());
         user.setRole(request.getRole());
+        user.setContactNo(request.getContactNo());
         user.setActive(true);
 
         User savedUser = userRepository.save(user);
+
+        if (Role.MANPOWER_AGENCY.equals(request.getRole())) {
+
+            Vendor vendor = new Vendor();
+            vendor.setVendorName(request.getFirstName()+" "+request.getLastName());
+            vendor.setEmail(request.getEmail());
+            vendor.setUser(savedUser);
+            vendor.setDistrict(request.getDistrict());
+            vendor.setState(request.getState());
+            vendor.setContactNo(request.getContactNo());
+            vendorRepository.save(vendor);
+        }
+
         return convertToResponse(savedUser);
     }
 
@@ -164,7 +185,8 @@ public class UserService {
                 user.getRole(),
                 user.isActive(),
                 user.getCreatedAt(),
-                user.getUpdatedAt()
+                user.getUpdatedAt(),
+                user.getContactNo()
         );
     }
 }
