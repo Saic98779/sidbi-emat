@@ -41,7 +41,6 @@ public class DisbursementCapexService {
                 .sanctionedAmount(request.getSanctionedAmount())
                 .disbursedTillDate(request.getDisbursedTillDate())
                 .disbursementSought(request.getDisbursementSought())
-                .natureOfPayment(request.getNatureOfPayment())
                 .invoiceDate(request.getInvoiceDate())
                 .invoiceNumber(request.getInvoiceNumber())
                 .detailsOfItems(request.getDetailsOfItems())
@@ -123,7 +122,6 @@ public class DisbursementCapexService {
         existing.setSanctionedAmount(request.getSanctionedAmount());
         existing.setDisbursedTillDate(request.getDisbursedTillDate());
         existing.setDisbursementSought(request.getDisbursementSought());
-        existing.setNatureOfPayment(request.getNatureOfPayment());
         existing.setInvoiceDate(request.getInvoiceDate());
         existing.setInvoiceNumber(request.getInvoiceNumber());
         existing.setDetailsOfItems(request.getDetailsOfItems());
@@ -176,7 +174,6 @@ public class DisbursementCapexService {
                 .sanctionedAmount(expenditure.getSanctionedAmount())
                 .disbursedTillDate(expenditure.getDisbursedTillDate())
                 .disbursementSought(expenditure.getDisbursementSought())
-                .natureOfPayment(expenditure.getNatureOfPayment())
                 .invoiceDate(expenditure.getInvoiceDate())
                 .invoiceNumber(expenditure.getInvoiceNumber())
                 .detailsOfItems(expenditure.getDetailsOfItems())

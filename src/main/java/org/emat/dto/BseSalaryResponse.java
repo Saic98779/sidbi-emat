@@ -35,6 +35,6 @@ public class BseSalaryResponse {
     private String createdBy;
     private String verifiedBy;
     private String approvedBy;
-    private List<MonthlySalaryDetailsResponse> details;
+    private List<MonthlySalaryDetailsResponse> monthlySalaryDetails;
 }
 

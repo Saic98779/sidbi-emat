@@ -233,7 +233,7 @@ public class BseSalaryService {
                 .createdBy(entity.getCreatedBy())
                 .verifiedBy(entity.getVerifiedBy())
                 .approvedBy(entity.getApprovedBy())
-                .details(entity.getMonthlySalaryDetails() == null ? new ArrayList<>() : entity.getMonthlySalaryDetails().stream()
+                .monthlySalaryDetails(entity.getMonthlySalaryDetails() == null ? new ArrayList<>() : entity.getMonthlySalaryDetails().stream()
                         .map(d -> {
                             return MonthlySalaryDetailsResponse.builder()
                                     .id(d.getId())

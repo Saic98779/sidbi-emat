@@ -32,8 +32,6 @@ public class DisbursementCapexResponse {
 
     private BigDecimal disbursementSought;
 
-    private String natureOfPayment;
-
     private LocalDate invoiceDate;
 
     private String invoiceNumber;
