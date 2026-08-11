@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 public class BseSalaryRequest {
 
-    private String registrationUuid;
     private String bseId;
     private String gstinOfAgency;
     private String reasonForNoGstin;

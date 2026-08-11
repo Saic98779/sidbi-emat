@@ -55,10 +55,6 @@ public class DisbursementCapex extends BaseEntity {
     @Column(name = "DISBURSEMENT_SOUGHT", precision = 15, scale = 2)
     private BigDecimal disbursementSought;
 
-    // Nature of Payment
-    @Column(name = "NATURE_OF_PAYMENT", length = 2000)
-    private String natureOfPayment;
-
     // Invoice Date
     @Column(name = "INVOICE_DATE")
     private LocalDate invoiceDate;
