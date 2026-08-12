@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -202,9 +203,24 @@ public class BseSalaryService {
     }
 
     private BseSalaryResponse toResponse(BseSalary entity) {
+
         return BseSalaryResponse.builder()
                 .id(entity.getId())
-                .manpowerAgencyName(entity.getMonthlySalaryDetails().get(0).getBse().getRegistration().getIndustryAssociationName())
+
+                .manpowerAgencyName(
+                        entity.getMonthlySalaryDetails() == null
+                                ? null
+                                : entity.getMonthlySalaryDetails().stream()
+                                .map(MonthlySalaryDetails::getBse)
+                                .filter(Objects::nonNull)
+                                .map(IndustryAssociationBseRecommendation::getRegistration)
+                                .filter(Objects::nonNull)
+                                .map(IndustryAssociationRegistration::getIndustryAssociationName)
+                                .filter(Objects::nonNull)
+                                .findFirst()
+                                .orElse(null)
+                )
+
                 .gstinOfAgency(entity.getGstinOfAgency())
                 .reasonForNoGstin(entity.getReasonForNoGstin())
                 .gstinOfSdbi(entity.getGstinOfSdbi())
@@ -228,23 +244,43 @@ public class BseSalaryService {
                 .createdBy(entity.getCreatedBy())
                 .verifiedBy(entity.getVerifiedBy())
                 .approvedBy(entity.getApprovedBy())
-                .monthlySalaryDetails(entity.getMonthlySalaryDetails() == null ? new ArrayList<>() : entity.getMonthlySalaryDetails().stream()
-                        .map(d -> {
-                            return MonthlySalaryDetailsResponse.builder()
-                                    .id(d.getId())
-                                    .bseName(d.getBse().getBseName())
-                                    .manpowerAgencyName(d.getBse().getRegistration().getIndustryAssociationName())
-                                    .salaryMonth(d.getSalaryMonth())
-                                    .salaryDays(d.getSalaryDays())
-                                    .paidDays(d.getPaidDays())
-                                    .additionalAmount(d.getAdditionalAmount())
-                                    .additionalAmountReason(d.getAdditionalAmountReason())
-                                    .paymentToBse(d.getPaymentToBse())
-                                    .gtAttendanceComments(d.getGtAttendanceComments())
-                                    .gtAdditionalComments(d.getGtAdditionalComments())
-                                    .build();
-                        })
-                        .toList())
+
+                .monthlySalaryDetails(
+                        entity.getMonthlySalaryDetails() == null
+                                ? new ArrayList<>()
+                                : entity.getMonthlySalaryDetails().stream()
+                                .map(d -> {
+
+                                    IndustryAssociationBseRecommendation bse = d.getBse();
+
+                                    return MonthlySalaryDetailsResponse.builder()
+                                            .id(d.getId())
+
+                                            .bseName(
+                                                    bse != null
+                                                            ? bse.getBseName()
+                                                            : null
+                                            )
+
+                                            .manpowerAgencyName(
+                                                    bse != null && bse.getRegistration() != null
+                                                            ? bse.getRegistration()
+                                                            .getIndustryAssociationName()
+                                                            : null
+                                            )
+
+                                            .salaryMonth(d.getSalaryMonth())
+                                            .salaryDays(d.getSalaryDays())
+                                            .paidDays(d.getPaidDays())
+                                            .additionalAmount(d.getAdditionalAmount())
+                                            .additionalAmountReason(d.getAdditionalAmountReason())
+                                            .paymentToBse(d.getPaymentToBse())
+                                            .gtAttendanceComments(d.getGtAttendanceComments())
+                                            .gtAdditionalComments(d.getGtAdditionalComments())
+                                            .build();
+                                })
+                                .toList()
+                )
                 .build();
     }
 }
