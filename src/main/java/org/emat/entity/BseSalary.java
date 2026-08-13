@@ -12,18 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "VENDOR_DISBURSEMENT_SALARY")
-public class VendorDisbursementSalary extends BaseEntity {
+@Table(name = "BSE_SALARY")
+public class BseSalary extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
-
-    // Agency details
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGISTRATION_UUID", nullable = false)
-    private IndustryAssociationRegistration registration;
 
     @Column(name = "GSTIN_OF_AGENCY")
     private String gstinOfAgency;
@@ -35,13 +30,13 @@ public class VendorDisbursementSalary extends BaseEntity {
     private String gstinOfSdbi;
 
     @Column(name = "SANCTIONED_AMOUNT")
-    private String sanctionedAmount;
+    private BigDecimal sanctionedAmount;
 
     @Column(name = "DISBURSED_TILL_DATE")
-    private LocalDate disbursedTillDate;
+    private BigDecimal disbursedTillDate;
 
     @Column(name = "DISBURSEMENT_SOUGHT_IN")
-    private String disbursementSoughtIn;
+    private BigDecimal disbursementSoughtIn;
 
     @Column(name = "NATURE_OF_PAYMENT", length =2000)
     private String natureOfPayment;
@@ -97,9 +92,9 @@ public class VendorDisbursementSalary extends BaseEntity {
     private String approvedBy;
 
     @OneToMany(
-            mappedBy = "vendorDisbursement",
+            mappedBy = "bseSalary",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<VendorDisbursementDetail> details = new ArrayList<>();
+    private List<MonthlySalaryDetails> monthlySalaryDetails = new ArrayList<>();
 }

@@ -20,5 +20,6 @@ public class CreateUserRequest {
     private String district;
     private String state;
     private Role role;
+    private String contactNo;
 }
 

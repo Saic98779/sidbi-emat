@@ -10,7 +10,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VendorExpenditureResponse {
+public class DisbursementCapexResponse {
 
     private UUID uuid;
 
@@ -31,8 +31,6 @@ public class VendorExpenditureResponse {
     private BigDecimal disbursedTillDate;
 
     private BigDecimal disbursementSought;
-
-    private String natureOfPayment;
 
     private LocalDate invoiceDate;
 
@@ -58,5 +56,5 @@ public class VendorExpenditureResponse {
 
     private String preDisbursementCompliance;
 
-    private String recommendation;
+    private Boolean recommendation;
 }

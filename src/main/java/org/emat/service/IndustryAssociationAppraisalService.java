@@ -140,7 +140,8 @@ public class IndustryAssociationAppraisalService {
                 .webReport(request.getWebReport())
                 .willingnessComments(request.getWillingnessComments())
                 .workedWithSidbiBefore(request.getWorkedWithSidbiBefore())
-                .grantProposed(request.getGrantProposed())
+                .grantProposedCapex(request.getGrantProposedCapex())
+                .grantProposedSalary(request.getGrantProposedSalary())
                 .grantDetails(request.getGrantDetails())
                 .envisagedOutput(request.getEnvisagedOutput())
                 .envisagedOutcome(request.getEnvisagedOutcome())
@@ -416,8 +417,8 @@ public class IndustryAssociationAppraisalService {
         if (request.getWorkedWithSidbiBefore() != null) {
             appraisal.setWorkedWithSidbiBefore(request.getWorkedWithSidbiBefore());
         }
-        if (request.getGrantProposed() != null) {
-            appraisal.setGrantProposed(request.getGrantProposed());
+        if (request.getGrantProposedSalary() != null) {
+            appraisal.setGrantProposedCapex(request.getGrantProposedSalary());
         }
         if (request.getGrantDetails() != null) {
             appraisal.setGrantDetails(request.getGrantDetails());
@@ -589,7 +590,8 @@ public class IndustryAssociationAppraisalService {
                 .webReport(appraisal.getWebReport())
                 .willingnessComments(appraisal.getWillingnessComments())
                 .workedWithSidbiBefore(appraisal.getWorkedWithSidbiBefore())
-                .grantProposed(appraisal.getGrantProposed())
+                .grantProposedCapex(appraisal.getGrantProposedCapex())
+                .grantProposedSalary(appraisal.getGrantProposedSalary())
                 .grantDetails(appraisal.getGrantDetails())
                 .envisagedOutput(appraisal.getEnvisagedOutput())
                 .envisagedOutcome(appraisal.getEnvisagedOutcome())

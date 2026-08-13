@@ -9,32 +9,41 @@ import java.util.List;
 
 @Data
 @Builder
-public class VendorDisbursementSalaryResponse {
+public class BseSalaryResponse {
+
     private Long id;
     private String manpowerAgencyName;
     private String gstinOfAgency;
     private String reasonForNoGstin;
     private String gstinOfSdbi;
-    private String sanctionedAmount;
-    private LocalDate disbursedTillDate;
-    private String disbursementSoughtIn;
+
+    private BigDecimal sanctionedAmount;
+    private BigDecimal disbursedTillDate;
+    private BigDecimal disbursementSoughtIn;
+
     private String natureOfPayment;
+
     private LocalDate invoiceDate;
     private String invoiceNumber;
     private String detailsOfItems;
+
     private BigDecimal invoiceValue;
     private BigDecimal gstAmount;
     private BigDecimal totalAmount;
+
     private Boolean tdsApplicable;
     private String tdsNotApplicableReason;
+
     private BigDecimal recommendedDisbursementAmount;
+
     private String accountCode;
     private String complianceTerms;
     private String recommendation;
+
     private String status;
     private String createdBy;
     private String verifiedBy;
     private String approvedBy;
-    private List<VendorDisbursementDetailResponse> details;
-}
 
+    private List<MonthlySalaryDetailsResponse> monthlySalaryDetails;
+}

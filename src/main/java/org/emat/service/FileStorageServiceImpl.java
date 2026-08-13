@@ -1,9 +1,8 @@
-package org.emat.service.impl;
+package org.emat.service;
 
 import org.emat.dto.UploadedFileResponse;
 import org.emat.entity.UploadedFile;
 import org.emat.repository.UploadedFileRepository;
-import org.emat.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;

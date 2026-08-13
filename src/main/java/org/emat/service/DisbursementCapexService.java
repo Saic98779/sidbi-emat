@@ -1,13 +1,14 @@
 package org.emat.service;
 
 import lombok.RequiredArgsConstructor;
-import org.emat.dto.CreateVendorExpenditureRequest;
-import org.emat.dto.VendorExpenditureResponse;
+import org.emat.dto.DisbursementCapexRequest;
+import org.emat.dto.DisbursementCapexResponse;
+import org.emat.entity.DisbursementCapex;
 import org.emat.entity.IndustryAssociationRegistration;
-import org.emat.entity.VendorExpenditure;
+import org.emat.entity.DisbursementCapex;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
-import org.emat.repository.VendorExpenditureRepository;
+import org.emat.repository.DisbursementCapexRepository;
 import org.emat.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +19,12 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class VendorExpenditureService {
+public class DisbursementCapexService {
 
-    private final VendorExpenditureRepository vendorExpenditureRepository;
+    private final DisbursementCapexRepository vendorExpenditureRepository;
     private final IndustryAssociationRegistrationRepository registrationRepository;
 
-    public VendorExpenditureResponse create(CreateVendorExpenditureRequest request) {
+    public DisbursementCapexResponse create(DisbursementCapexRequest request) {
 
         UUID registrationUuid = UuidUtil.toUuid(request.getRegistrationUuid());
 
@@ -31,7 +32,7 @@ public class VendorExpenditureService {
                 .findByUuid(registrationUuid)
                 .orElseThrow(() -> new EntityNotFoundException("REGISTRATION_NOT_FOUND_MESSAGE" + request.getRegistrationUuid()));
 
-        VendorExpenditure expenditure = VendorExpenditure.builder()
+        DisbursementCapex expenditure = DisbursementCapex.builder()
                 .registration(registration)
                 .gstinIa(request.getGstinIa())
                 .gstinNotApplicable(request.getGstinNotApplicable())
@@ -40,7 +41,6 @@ public class VendorExpenditureService {
                 .sanctionedAmount(request.getSanctionedAmount())
                 .disbursedTillDate(request.getDisbursedTillDate())
                 .disbursementSought(request.getDisbursementSought())
-                .natureOfPayment(request.getNatureOfPayment())
                 .invoiceDate(request.getInvoiceDate())
                 .invoiceNumber(request.getInvoiceNumber())
                 .detailsOfItems(request.getDetailsOfItems())
@@ -59,15 +59,14 @@ public class VendorExpenditureService {
                 .recommendation(request.getRecommendation())
                 .build();
 
-        VendorExpenditure saved =
-                vendorExpenditureRepository.save(expenditure);
+        DisbursementCapex saved = vendorExpenditureRepository.save(expenditure);
 
         return mapToResponse(saved);
     }
 
-    public VendorExpenditureResponse getById(UUID uuid) {
+    public DisbursementCapexResponse getById(UUID uuid) {
 
-        VendorExpenditure expenditure =
+        DisbursementCapex expenditure =
                 vendorExpenditureRepository.findById(uuid)
                         .orElseThrow(() ->
                                 new RuntimeException("Vendor Expenditure not found"));
@@ -75,9 +74,9 @@ public class VendorExpenditureService {
         return mapToResponse(expenditure);
     }
 
-    public VendorExpenditureResponse getByRegistrationUuid(UUID registrationUuid) {
+    public DisbursementCapexResponse getByRegistrationUuid(UUID registrationUuid) {
 
-        VendorExpenditure expenditure =
+        DisbursementCapex expenditure =
                 vendorExpenditureRepository
                         .findByRegistrationUuid(registrationUuid)
                         .orElseThrow(() ->
@@ -87,7 +86,7 @@ public class VendorExpenditureService {
         return mapToResponse(expenditure);
     }
 
-    public List<VendorExpenditureResponse> getAll() {
+    public List<DisbursementCapexResponse> getAll() {
 
         return vendorExpenditureRepository.findAll()
                 .stream()
@@ -95,17 +94,14 @@ public class VendorExpenditureService {
                 .toList();
     }
 
-    public VendorExpenditureResponse update(
+    public DisbursementCapexResponse update(
             UUID uuid,
-            CreateVendorExpenditureRequest request) {
+            DisbursementCapexRequest request) {
 
-        VendorExpenditure existing =
-                vendorExpenditureRepository.findById(uuid)
-                        .orElseThrow(() ->
-                                new RuntimeException("Vendor Expenditure not found"));
+        DisbursementCapex existing = vendorExpenditureRepository.findById(uuid)
+                        .orElseThrow(() -> new RuntimeException("Vendor Expenditure not found"));
 
-        if (request.getRegistrationUuid() != null &&
-                !request.getRegistrationUuid()
+        if (request.getRegistrationUuid() != null && !request.getRegistrationUuid()
                         .equals(existing.getRegistration().getUuid())) {
 
             UUID registrationUuid = UuidUtil.toUuid(request.getRegistrationUuid());
@@ -126,7 +122,6 @@ public class VendorExpenditureService {
         existing.setSanctionedAmount(request.getSanctionedAmount());
         existing.setDisbursedTillDate(request.getDisbursedTillDate());
         existing.setDisbursementSought(request.getDisbursementSought());
-        existing.setNatureOfPayment(request.getNatureOfPayment());
         existing.setInvoiceDate(request.getInvoiceDate());
         existing.setInvoiceNumber(request.getInvoiceNumber());
         existing.setDetailsOfItems(request.getDetailsOfItems());
@@ -145,7 +140,7 @@ public class VendorExpenditureService {
                 request.getPreDisbursementCompliance());
         existing.setRecommendation(request.getRecommendation());
 
-        VendorExpenditure updated =
+        DisbursementCapex updated =
                 vendorExpenditureRepository.save(existing);
 
         return mapToResponse(updated);
@@ -153,7 +148,7 @@ public class VendorExpenditureService {
 
     public void delete(UUID uuid) {
 
-        VendorExpenditure expenditure =
+        DisbursementCapex expenditure =
                 vendorExpenditureRepository.findById(uuid)
                         .orElseThrow(() ->
                                 new RuntimeException("Vendor Expenditure not found"));
@@ -161,10 +156,10 @@ public class VendorExpenditureService {
         vendorExpenditureRepository.delete(expenditure);
     }
 
-    private VendorExpenditureResponse mapToResponse(
-            VendorExpenditure expenditure) {
+    private DisbursementCapexResponse mapToResponse(
+            DisbursementCapex expenditure) {
 
-        return VendorExpenditureResponse.builder()
+        return DisbursementCapexResponse.builder()
                 .uuid(expenditure.getUuid())
                 .registrationUuid(
                         expenditure.getRegistration().getUuid())
@@ -179,7 +174,6 @@ public class VendorExpenditureService {
                 .sanctionedAmount(expenditure.getSanctionedAmount())
                 .disbursedTillDate(expenditure.getDisbursedTillDate())
                 .disbursementSought(expenditure.getDisbursementSought())
-                .natureOfPayment(expenditure.getNatureOfPayment())
                 .invoiceDate(expenditure.getInvoiceDate())
                 .invoiceNumber(expenditure.getInvoiceNumber())
                 .detailsOfItems(expenditure.getDetailsOfItems())
@@ -202,7 +196,7 @@ public class VendorExpenditureService {
     }
 
     private String getIndustryAssociationName(
-            VendorExpenditure expenditure) {
+            DisbursementCapex expenditure) {
 
         IndustryAssociationRegistration registration =
                 expenditure.getRegistration();

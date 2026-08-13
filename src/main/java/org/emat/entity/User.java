@@ -56,6 +56,9 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "CONTACT_NO")
+    private String contactNo;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

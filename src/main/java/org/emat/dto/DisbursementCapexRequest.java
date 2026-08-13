@@ -4,13 +4,12 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateVendorExpenditureRequest {
+public class DisbursementCapexRequest {
 
     private String registrationUuid;
 
@@ -27,8 +26,6 @@ public class CreateVendorExpenditureRequest {
     private BigDecimal disbursedTillDate;
 
     private BigDecimal disbursementSought;
-
-    private String natureOfPayment;
 
     private LocalDate invoiceDate;
 
@@ -54,5 +51,5 @@ public class CreateVendorExpenditureRequest {
 
     private String preDisbursementCompliance;
 
-    private String recommendation;
+    private Boolean recommendation;
 }

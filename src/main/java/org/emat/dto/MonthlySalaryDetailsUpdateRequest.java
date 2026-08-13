@@ -1,14 +1,12 @@
 package org.emat.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
-@Builder
-public class VendorDisbursementDetailResponse {
-    private Long id;
+public class MonthlySalaryDetailsUpdateRequest {
+
     private String iaId;
     private String bseId;
     private String salaryMonth;
