@@ -10,6 +10,7 @@ import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationBseRecommendationRepository;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
 import org.emat.repository.BseSalaryRepository;
+import org.emat.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -188,7 +189,7 @@ public class BseSalaryService {
         if (iaId == null || iaId.isBlank()) {
             return null;
         }
-        UUID uuid = UUID.fromString(iaId);
+        UUID uuid = UuidUtil.toUuid(iaId);
         return registrationRepository.findByUuid(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("IndustryAssociationRegistration not found with UUID: " + iaId));
     }
@@ -197,7 +198,7 @@ public class BseSalaryService {
         if (bseId == null || bseId.isBlank()) {
             return null;
         }
-        UUID uuid = UUID.fromString(bseId);
+        UUID uuid = UuidUtil.toUuid(bseId);
         return bseRecommendationRepository.findByUuidAndIsActiveTrue(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("IndustryAssociationBseRecommendation not found with UUID: " + bseId));
     }
