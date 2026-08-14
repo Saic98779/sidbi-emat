@@ -61,4 +61,7 @@ public class UpdateBseRecommendationRequest {
     private LocalDate dateOfJoining;
     private Boolean iaMapped;
     private String offerLetter;
+
+    private BigDecimal longitude;
+    private BigDecimal latitude;
 }

@@ -112,5 +112,8 @@ public class UpdateIndustryAssociationRegistrationRequest {
 
     // Audit Fields
     private String updatedBy;
+
+    private String panNo;
+    private String email;
 }
 

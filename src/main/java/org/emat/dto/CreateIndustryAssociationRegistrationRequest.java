@@ -113,5 +113,7 @@ public class CreateIndustryAssociationRegistrationRequest {
 
     // Audit Fields
     private String createdBy;
+    private String panNo;
+    private String email;
 }
 

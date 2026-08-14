@@ -76,4 +76,6 @@ public class BseRecommendationResponse {
     private String createdBy;
     private String updatedBy;
     private Boolean isActive;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
 }

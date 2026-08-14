@@ -56,6 +56,8 @@ public class IndustryAssociationBseRecommendationService {
         IndustryAssociationBseRecommendation bseRecommendation = IndustryAssociationBseRecommendation.builder()
                 .registration(registration)
                 .user(user)
+                .latitude(request.getLatitude())
+                .longitude(request.getLongitude())
                 .iaSelected(request.getIaSelected())
                 .state(request.getState())
                 .district(request.getDistrict())
@@ -165,6 +167,9 @@ public class IndustryAssociationBseRecommendationService {
         bseRecommendation.setUpdatedBy(getCurrentUsername());
         bseRecommendation.setUser(user);
         bseRecommendation.setIaSelected(request.getIaSelected());
+        if (request.getLatitude() != null) bseRecommendation.setLatitude(request.getLatitude());
+        if (request.getLongitude() != null) bseRecommendation.setLongitude(request.getLongitude());
+
         IndustryAssociationBseRecommendation updated = bseRecommendationRepository.save(bseRecommendation);
         log.info("BSE recommendation updated successfully with UUID: {}", uuid);
 
@@ -311,6 +316,8 @@ public class IndustryAssociationBseRecommendationService {
         return BseRecommendationResponse.builder()
                 .uuid(entity.getUuid())
                 .registrationUuid(entity.getRegistration().getUuid())
+                .latitude(entity.getLatitude())
+                .longitude(entity.getLongitude())
                 .industryAssociationName(entity.getRegistration().getIndustryAssociationName())
                 .state(entity.getState())
                 .district(entity.getDistrict())
