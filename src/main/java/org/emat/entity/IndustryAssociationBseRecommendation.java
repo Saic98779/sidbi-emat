@@ -164,4 +164,11 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
 
     @Column(name = "IA_SELECTED")
     private Boolean iaSelected;
+
+    @Column(name = "LATITUDE", precision = 10, scale = 7)
+    private BigDecimal latitude;
+
+    @Column(name = "LONGITUDE", precision = 10, scale = 7)
+    private BigDecimal longitude;
+
 }

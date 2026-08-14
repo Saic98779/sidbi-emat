@@ -236,4 +236,11 @@ public class IndustryAssociationRegistration extends BaseEntity {
     // Bidirectional 1:1 relationship with IndustryAssociationAppraisal
     @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private IndustryAssociationAppraisal appraisal;
+
+    @Column(name = "EMAIL", length = 100)
+    private String email;
+
+    @Column(name = "PAN_NO", length = 15,unique = true)
+    private String panNo;
+
 }

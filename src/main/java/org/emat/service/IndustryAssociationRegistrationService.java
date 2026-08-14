@@ -68,6 +68,8 @@ public class IndustryAssociationRegistrationService {
 
         IndustryAssociationRegistration registration = IndustryAssociationRegistration.builder()
                 .state(request.getState())
+                .panNo(request.getPanNo())
+                .email(request.getEmail())
                 .industryAssociationName(request.getIndustryAssociationName())
                 .constitutionType(request.getConstitutionType())
                 .constitutionOther(request.getConstitutionOther())
@@ -192,6 +194,12 @@ public class IndustryAssociationRegistrationService {
         // Update fields selectively based on request
         if (request.getState() != null) {
             registration.setState(request.getState());
+        }
+        if (request.getEmail() != null) {
+            registration.setEmail(request.getEmail());
+        }
+        if (request.getPanNo() != null) {
+            registration.setPanNo(request.getPanNo());
         }
         if (request.getIndustryAssociationName() != null) {
             registration.setIndustryAssociationName(request.getIndustryAssociationName());
@@ -445,6 +453,8 @@ public class IndustryAssociationRegistrationService {
         return IndustryAssociationRegistrationResponse.builder()
                 .uuid(registration.getUuid())
                 .state(registration.getState())
+                .email(registration.getEmail())
+                .panNo(registration.getPanNo())
                 .industryAssociationName(registration.getIndustryAssociationName())
                 .constitutionType(registration.getConstitutionType())
                 .constitutionOther(registration.getConstitutionOther())

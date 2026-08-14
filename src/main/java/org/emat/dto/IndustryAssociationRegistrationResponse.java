@@ -125,5 +125,8 @@ public class IndustryAssociationRegistrationResponse {
     private LocalDateTime updatedAt;
     private String createdBy;
     private String updatedBy;
+
+    private String panNo;
+    private String email;
 }
 
