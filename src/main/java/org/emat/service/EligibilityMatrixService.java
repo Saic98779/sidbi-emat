@@ -50,7 +50,8 @@ public class EligibilityMatrixService {
 
         EligibilityMatrix saved =
                 eligibilityMatrixRepository.save(entity);
-
+        registration.setIsEligibleMatricsAdded(true);
+        registrationRepository.save(registration);
         return mapToResponse(saved);
     }
     @Transactional(readOnly = true)

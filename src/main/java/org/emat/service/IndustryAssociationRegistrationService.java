@@ -195,6 +195,9 @@ public class IndustryAssociationRegistrationService {
         if (request.getState() != null) {
             registration.setState(request.getState());
         }
+        if (request.getIsEligibleMatricsAdded() != null) {
+            registration.setIsEligibleMatricsAdded(request.getIsEligibleMatricsAdded());
+        }
         if (request.getEmail() != null) {
             registration.setEmail(request.getEmail());
         }
@@ -453,6 +456,7 @@ public class IndustryAssociationRegistrationService {
         return IndustryAssociationRegistrationResponse.builder()
                 .uuid(registration.getUuid())
                 .state(registration.getState())
+                .isEligibleMatricsAdded(registration.getIsEligibleMatricsAdded())
                 .email(registration.getEmail())
                 .panNo(registration.getPanNo())
                 .industryAssociationName(registration.getIndustryAssociationName())

@@ -115,5 +115,6 @@ public class UpdateIndustryAssociationRegistrationRequest {
 
     private String panNo;
     private String email;
+    private Boolean isEligibleMatricsAdded;
 }
 

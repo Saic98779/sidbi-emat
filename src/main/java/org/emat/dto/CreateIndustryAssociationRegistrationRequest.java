@@ -115,5 +115,6 @@ public class CreateIndustryAssociationRegistrationRequest {
     private String createdBy;
     private String panNo;
     private String email;
+    private Boolean isEligibleMatricsAdded;
 }
 
