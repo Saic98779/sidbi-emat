@@ -243,4 +243,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "PAN_NO", length = 15,unique = true)
     private String panNo;
 
+    @Column(name = "IS_ELIGIBILITY_MATRIX_ADDED")
+    private Boolean isEligibleMatricsAdded;
+
 }
