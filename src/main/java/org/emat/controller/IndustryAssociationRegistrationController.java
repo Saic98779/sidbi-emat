@@ -36,7 +36,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with created registration and HTTP 201
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'SIDBI_SDE', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'SIDBI_SDE', 'SIDBI_HO_CHECKER')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> createRegistration(
             @RequestBody CreateIndustryAssociationRegistrationRequest request) {
         log.info("Received request to create new Industry Association Registration");
