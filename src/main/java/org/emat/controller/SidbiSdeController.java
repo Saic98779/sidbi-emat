@@ -18,7 +18,7 @@ public class SidbiSdeController {
     private final SidbiSdeService sidbiSdeService;
 
     @GetMapping("/dropdown")
-    @PreAuthorize("hasAnyRole('SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER')")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('sidbiSde'))")
     public ResponseEntity<List<SidbiSdeDropdownResponse>> getSdeDropdown(
             @RequestParam UUID branchUuid) {
 

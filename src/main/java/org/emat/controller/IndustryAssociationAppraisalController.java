@@ -36,7 +36,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with created appraisal and HTTP 201
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalCreate'))")
     public ResponseEntity<IndustryAssociationAppraisalResponse> createAppraisal(
             @RequestBody CreateIndustryAssociationAppraisalRequest request) {
         log.info("Received request to create new Industry Association Appraisal");
@@ -52,7 +52,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with appraisal and HTTP 200
      */
     @GetMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
     public ResponseEntity<IndustryAssociationAppraisalResponse> getAppraisalById(
             @PathVariable String uuid) {
         log.info("Received request to fetch appraisal with UUID: {}", uuid);
@@ -68,7 +68,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with appraisal and HTTP 200
      */
     @GetMapping("/registration/{registrationUuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
     public ResponseEntity<IndustryAssociationAppraisalResponse> getAppraisalByRegistrationUuid(
             @PathVariable String registrationUuid) {
         log.info("Received request to fetch appraisal for registration UUID: {}", registrationUuid);
@@ -83,7 +83,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with list of appraisals and HTTP 200
      */
     @GetMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
     public ResponseEntity<List<IndustryAssociationAppraisalResponse>> getAllAppraisals() {
         log.info("Received request to fetch all appraisals");
         List<IndustryAssociationAppraisalResponse> responses = service.getAllAppraisals();
@@ -99,7 +99,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with updated appraisal and HTTP 200
      */
     @PutMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalUpdate'))")
     public ResponseEntity<IndustryAssociationAppraisalResponse> updateAppraisal(
             @PathVariable String uuid,
             @RequestBody UpdateIndustryAssociationAppraisalRequest request) {
@@ -118,7 +118,7 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with updated appraisal and HTTP 200
      */
     @PatchMapping("/{uuid}/approve")
-    @PreAuthorize("hasAnyRole('SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_CHECKER', 'SIDBI_HO_MAKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalApprove'))")
     public ResponseEntity<IndustryAssociationAppraisalResponse> approveBySidbe(
             @PathVariable String uuid,
             @RequestBody ApprovalRequest approvalRequest,
@@ -137,8 +137,8 @@ public class IndustryAssociationAppraisalController {
      * @return ResponseEntity with HTTP 204 (No Content)
      */
     @DeleteMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_RO', 'CLUSTER_EXPERT')")
-    public ResponseEntity<Void> DeleteAppraisal(@PathVariable String uuid) {
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalDelete'))")
+    public ResponseEntity<Void> deleteAppraisal(@PathVariable String uuid) {
         log.info("Received request to permanently delete appraisal with UUID: {}", uuid);
         service.permanentlyDeleteAppraisal(uuid);
         return ResponseEntity.noContent().build();
@@ -157,7 +157,7 @@ public class IndustryAssociationAppraisalController {
             description = "Retrieves Industry Association Appraisals filtered by state, district, and SIDBI approval status."
     )
     @GetMapping("/search")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'GT_PMU', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_SDE', 'SIDBI_RO', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'CLUSTER_EXPERT')")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalSearch'))")
     public ResponseEntity<List<IndustryAssociationAppraisalResponse>> getAppraisals(
             @RequestParam String state,
             @RequestParam String district,
@@ -168,4 +168,3 @@ public class IndustryAssociationAppraisalController {
         );
     }
 }
-

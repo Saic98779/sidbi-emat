@@ -199,6 +199,24 @@ VALUES ('industryAssociationWrite', 'GT_FIELD_TEAM,BSE,MANPOWER_AGENCY,SIDBI_HO_
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
 VALUES ('industryAssociationRead', 'GT_FIELD_TEAM,GT_PMU,BSE,MANPOWER_AGENCY,SIDBI_SDE,SIDBI_RO,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,CLUSTER_EXPERT', 'Industry association read access');
 
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('bseSalaryCreate', 'GT_FIELD_TEAM,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,SIDBI_RO,MANPOWER_AGENCY', 'BSE salary create access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('bseSalaryRead', 'GT_FIELD_TEAM,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,SIDBI_RO,MANPOWER_AGENCY', 'BSE salary read access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('bseSalaryUpdate', 'GT_FIELD_TEAM,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,SIDBI_RO,MANPOWER_AGENCY', 'BSE salary update access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('bseSalaryDelete', 'GT_FIELD_TEAM,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,SIDBI_RO,MANPOWER_AGENCY', 'BSE salary delete access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('bseSalaryApprovedIndustryAssociationsRead', 'GT_FIELD_TEAM,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,SIDBI_RO,MANPOWER_AGENCY', 'BSE salary approved industry associations read access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('endpointRolePolicyAdmin', 'DIA', 'Endpoint role policy admin access');
+
 COMMIT;
 
 -- =====================================================
