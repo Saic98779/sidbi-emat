@@ -1,6 +1,7 @@
 package org.emat.config;
 
 import org.emat.repository.UserRepository;
+import org.emat.service.EndpointRolePolicyService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,6 +21,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.List;
+
 /**
  * Security configuration for the EMAT application.
  */
@@ -29,9 +32,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 public class SecurityConfig {
 
     private final UserRepository userRepository;
+    private final EndpointRolePolicyService endpointRolePolicyService;
 
-    public SecurityConfig(UserRepository userRepository) {
+    public SecurityConfig(UserRepository userRepository, EndpointRolePolicyService endpointRolePolicyService) {
         this.userRepository = userRepository;
+        this.endpointRolePolicyService = endpointRolePolicyService;
     }
 
     /**
@@ -62,7 +67,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) {
         return configuration.getAuthenticationManager();
     }
 
@@ -86,16 +91,24 @@ public class SecurityConfig {
                     .requestMatchers("/error").permitAll()
                     .requestMatchers("/users/login", "/health", "/", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/users").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
-                    .requestMatchers(HttpMethod.GET, "/users/search").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
-                    .requestMatchers("/industry-association-registrations/**").authenticated()
-                    .requestMatchers("/industry-association-appraisals/**").authenticated()
-                    .requestMatchers("/bse-recommendations/**").authenticated()
-                    .requestMatchers("/sidbi-sde/**").hasAnyRole("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")
-                    .requestMatchers("/vendor-disbursements/**").hasAnyRole("GT_FIELD_TEAM", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO", "MANPOWER_AGENCY")
+                    .requestMatchers(HttpMethod.GET, "/users").hasAnyRole(resolveRolesOrDefaults("usersRead", List.of("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")))
+                    .requestMatchers(HttpMethod.GET, "/users/search").hasAnyRole(resolveRolesOrDefaults("usersRead", List.of("SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "SIDBI_RO")))
+                    .requestMatchers("/industry-association-registrations/**").hasAnyRole(resolveRolesOrDefaults("industryAssociationRead", List.of("GT_FIELD_TEAM", "GT_PMU", "BSE", "MANPOWER_AGENCY", "SIDBI_SDE", "SIDBI_RO", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "CLUSTER_EXPERT")))
+                    .requestMatchers("/industry-association-appraisals/**").hasAnyRole(resolveRolesOrDefaults("industryAssociationRead", List.of("GT_FIELD_TEAM", "GT_PMU", "BSE", "MANPOWER_AGENCY", "SIDBI_SDE", "SIDBI_RO", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "CLUSTER_EXPERT")))
+                    .requestMatchers("/bse-recommendations/**").hasAnyRole(resolveRolesOrDefaults("bseRecommendationRead", List.of("BSE", "GT_FIELD_TEAM", "GT_PMU", "MANPOWER_AGENCY", "SIDBI_SDE", "SIDBI_RO", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "CLUSTER_EXPERT")))
+                    .requestMatchers("/sidbi-sde/**").hasAnyRole(resolveRolesOrDefaults(EndpointRolePolicyService.SIDBI_SDE, List.of("SIDBI_SDE", "SIDBI_RO", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER")))
+                    .requestMatchers("/vendor-disbursements/**").hasAnyRole(resolveRolesOrDefaults("bseRecommendationWrite", List.of("BSE", "GT_FIELD_TEAM", "GT_PMU", "MANPOWER_AGENCY", "SIDBI_HO_MAKER", "SIDBI_RO")))
                     .anyRequest().authenticated()
             );
 
         return http.build();
+    }
+
+    private String[] resolveRolesOrDefaults(String policyKey, List<String> defaults) {
+        try {
+            return endpointRolePolicyService.resolveRoles(policyKey);
+        } catch (IllegalArgumentException ex) {
+            return defaults.toArray(String[]::new);
+        }
     }
 }

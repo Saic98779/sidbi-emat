@@ -169,6 +169,39 @@ CREATE TABLE ACTIVITY_STATUS (
 );
 
 -- =====================================================
+-- Endpoint Role Policies
+-- =====================================================
+CREATE TABLE endpoint_role_policy (
+    policy_key VARCHAR2(100) PRIMARY KEY,
+    roles_csv VARCHAR2(2000) NOT NULL,
+    description VARCHAR2(500),
+    updated_at TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('usersRead', 'SIDBI_HO_MAKER,SIDBI_HO_CHECKER,SIDBI_RO', 'Users list/search access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('sidbiSde', 'SIDBI_SDE,SIDBI_RO,SIDBI_HO_MAKER,SIDBI_HO_CHECKER', 'SIDBI SDE access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('bseRecommendationWrite', 'BSE,GT_FIELD_TEAM,GT_PMU,MANPOWER_AGENCY,SIDBI_HO_MAKER,SIDBI_RO', 'BSE recommendation write access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('bseRecommendationRead', 'BSE,GT_FIELD_TEAM,GT_PMU,MANPOWER_AGENCY,SIDBI_SDE,SIDBI_RO,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,CLUSTER_EXPERT', 'BSE recommendation read access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('bseRecommendationHo', 'SIDBI_HO_MAKER,SIDBI_HO_CHECKER,SIDBI_RO,GT_PMU', 'BSE recommendation HO access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('industryAssociationWrite', 'GT_FIELD_TEAM,BSE,MANPOWER_AGENCY,SIDBI_HO_MAKER,SIDBI_RO,SIDBI_SDE,SIDBI_HO_CHECKER', 'Industry association write access');
+
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description)
+VALUES ('industryAssociationRead', 'GT_FIELD_TEAM,GT_PMU,BSE,MANPOWER_AGENCY,SIDBI_SDE,SIDBI_RO,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,CLUSTER_EXPERT', 'Industry association read access');
+
+COMMIT;
+
+-- =====================================================
 -- Queries for verification
 -- =====================================================
 -- SELECT COUNT(*) FROM users;

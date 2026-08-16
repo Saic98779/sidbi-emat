@@ -10,10 +10,14 @@ import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.entity.IndustryAssociationRegistration;
 import org.emat.entity.SecretariatStaff;
 import org.emat.entity.User;
+import org.emat.enums.Role;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
 import org.emat.repository.UserRepository;
 import org.emat.util.UuidUtil;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,7 +59,9 @@ public class IndustryAssociationRegistrationService {
                     "Registration already exists for this Industry Association in the state");
         }
 
-        // Fetch the SIDBI approving user if provided
+        boolean isSidbiSdeCaller = isCurrentUserSidbiSde();
+
+        // Fetch the SIDBI approving user if provided, or when SIDBI_SDE is creating the registration
         User sidbiApprover = null;
         if (request.getSidbeApprovedByUserId() != null) {
             sidbiApprover = userRepository.findById(request.getSidbeApprovedByUserId())
@@ -64,6 +70,11 @@ public class IndustryAssociationRegistrationService {
                         return new EntityNotFoundException("User not found with ID: " + request.getSidbeApprovedByUserId());
                     });
             log.info("SIDBI approver user found: {}", sidbiApprover.getUsername());
+        } else if (isSidbiSdeCaller) {
+            sidbiApprover = resolveCurrentUser().orElse(null);
+            if (sidbiApprover != null) {
+                log.info("SIDBI approver defaulted to current authenticated SIDBI_SDE user: {}", sidbiApprover.getUsername());
+            }
         }
 
         IndustryAssociationRegistration registration = IndustryAssociationRegistration.builder()
@@ -131,7 +142,7 @@ public class IndustryAssociationRegistrationService {
                 .envisagedOutcome(request.getEnvisagedOutcome())
                 .envisagedImpact(request.getEnvisagedImpact())
                 .sde(request.getSde())
-                .isSidbeApproved(request.getIsSidbeApproved())
+                .isSidbeApproved(Boolean.TRUE.equals(request.getIsSidbeApproved()) || isSidbiSdeCaller)
                 .sidbeApprovedByUser(sidbiApprover)
                 .createdBy(request.getCreatedBy())
                 .build();
@@ -139,6 +150,26 @@ public class IndustryAssociationRegistrationService {
         IndustryAssociationRegistration saved = repository.save(registration);
         log.info("Industry Association Registration created successfully with UUID: {}", saved.getUuid());
         return convertToResponse(saved);
+    }
+
+    private boolean isCurrentUserSidbiSde() {
+        return resolveCurrentUser()
+                .map(user -> user.getRole() == Role.SIDBI_SDE)
+                .orElse(false);
+    }
+
+    private java.util.Optional<User> resolveCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return java.util.Optional.empty();
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (!(principal instanceof UserDetails userDetails)) {
+            return java.util.Optional.empty();
+        }
+
+        return userRepository.findByUsername(userDetails.getUsername());
     }
 
     /**
