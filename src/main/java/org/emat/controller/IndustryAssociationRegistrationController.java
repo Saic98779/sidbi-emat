@@ -36,7 +36,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with created registration and HTTP 201
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'SIDBI_SDE', 'SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> createRegistration(
             @RequestBody CreateIndustryAssociationRegistrationRequest request) {
         log.info("Received request to create new Industry Association Registration");
@@ -83,7 +83,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with updated registration and HTTP 200
      */
     @PutMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('GT_FIELD_TEAM', 'BSE', 'MANPOWER_AGENCY', 'SIDBI_HO_MAKER', 'SIDBI_RO', 'SIDBI_SDE', 'SIDBI_HO_CHECKER')")
     public ResponseEntity<IndustryAssociationRegistrationResponse> updateRegistration(
             @PathVariable String uuid,
             @RequestBody UpdateIndustryAssociationRegistrationRequest request) {
@@ -100,7 +100,7 @@ public class IndustryAssociationRegistrationController {
      * @return ResponseEntity with HTTP 204 (No Content)
      */
     @DeleteMapping("/{uuid}")
-    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_RO')")
+    @PreAuthorize("hasAnyRole('SIDBI_HO_MAKER', 'SIDBI_HO_CHECKER', 'SIDBI_RO', 'SIDBI_SDE')")
     public ResponseEntity<Void> deleteRegistration(@PathVariable String uuid) {
         log.info("Received request to delete registration with UUID: {}", uuid);
         service.deleteRegistration(uuid);
