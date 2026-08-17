@@ -2,6 +2,7 @@ package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.SidbiSdeDropdownResponse;
+import org.emat.service.EndpointRolePolicyService;
 import org.emat.service.SidbiSdeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +17,8 @@ import java.util.UUID;
 public class SidbiSdeController {
 
     private final SidbiSdeService sidbiSdeService;
+    private final EndpointRolePolicyService endpointRolePolicyService;
+
 
     @GetMapping("/dropdown")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('sidbiSde'))")
