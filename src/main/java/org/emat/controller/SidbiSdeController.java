@@ -23,7 +23,7 @@ public class SidbiSdeController {
     @GetMapping("/dropdown")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('sidbiSde'))")
     public ResponseEntity<List<SidbiSdeDropdownResponse>> getSdeDropdown(
-            @RequestParam UUID branchUuid) {
+            @RequestParam("branchUuid") UUID branchUuid) {
 
         return ResponseEntity.ok(
                 sidbiSdeService.getDropdownByBranch(branchUuid)
