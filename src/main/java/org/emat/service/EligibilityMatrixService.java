@@ -2,6 +2,7 @@ package org.emat.service;
 
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.EligibilityMatrixDto;
+import org.emat.dto.RegistrationDropdownDto;
 import org.emat.entity.EligibilityMatrix;
 import org.emat.entity.IndustryAssociationRegistration;
 import org.emat.repository.EligibilityMatrixRepository;
@@ -243,5 +244,17 @@ public class EligibilityMatrixService {
                 .totalScore(entity.getTotalScore())
 
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<RegistrationDropdownDto> getRegistrationDropdown() {
+
+        return registrationRepository.findAll()
+                .stream()
+                .map(registration -> RegistrationDropdownDto.builder()
+                        .uuid(registration.getUuid())
+                        .name(registration.getIndustryAssociationName())
+                        .build())
+                .toList();
     }
 }

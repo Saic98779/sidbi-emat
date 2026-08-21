@@ -1,6 +1,7 @@
 package org.emat.service;
 
 import lombok.RequiredArgsConstructor;
+import org.emat.dto.AppraisalDropdownDto;
 import org.emat.dto.SustainabilityMatrixRequest;
 import org.emat.dto.SustainabilityMatrixResponse;
 import org.emat.entity.IndustryAssociationAppraisal;
@@ -376,5 +377,17 @@ public class SustainabilityMatrixService {
                 )
 
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<AppraisalDropdownDto> getAppraisalDropdown() {
+
+        return appraisalRepository.findAll()
+                .stream()
+                .map(appraisal -> AppraisalDropdownDto.builder()
+                        .uuid(appraisal.getUuid())
+                        .name(appraisal.getRegistration().getIndustryAssociationName())
+                        .build())
+                .toList();
     }
 }
