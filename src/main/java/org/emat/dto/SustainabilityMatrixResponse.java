@@ -5,17 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SustainabilityMatrixResponse {
 
-    private UUID uuid;
+    private Long id;
 
-    private UUID appraisalUuid;
+    private Long appraisalId;
 
     private Boolean activeGoverningBody;
     private Boolean election;

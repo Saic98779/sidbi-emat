@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UploadedFileRepository extends JpaRepository<UploadedFile, Long> {
-    List<UploadedFile> findByRegistrationUuid(String registrationUuid);
-    Optional<UploadedFile> findByRegistrationUuidAndFilename(String registrationUuid, String filename);
+
+    Optional<UploadedFile> findByRegistrationIdAndFilename(String registrationId, String filename);
+
+    List<UploadedFile> findByRegistrationId(String registrationId);
 }
 

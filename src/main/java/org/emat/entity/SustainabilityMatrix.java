@@ -3,10 +3,9 @@ package org.emat.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "SUSTAINABILITY_MATRIX")
@@ -14,15 +13,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode(callSuper = true)
 public class SustainabilityMatrix extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", nullable = false, updatable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SUSTAINABILITY_MATRIX")
+    @SequenceGenerator(name = "SEQ_SUSTAINABILITY_MATRIX", sequenceName = "SEQ_SUSTAINABILITY_MATRIX", allocationSize = 1)
+    @Column(name = "ID", nullable = false, updatable = false)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "APPRAISAL_UUID", nullable = false)
+    @JoinColumn(name = "APPRAISAL_ID", nullable = false)
     private IndustryAssociationAppraisal industryAssociationAppraisal;
 
     // 1. Active governing body

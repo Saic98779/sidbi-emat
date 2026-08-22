@@ -8,22 +8,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface SidbiSdeRepository extends JpaRepository<SidbiSde, String> {
+public interface SidbiSdeRepository extends JpaRepository<SidbiSde, Long> {
 
     @Query("""
         SELECT new org.emat.dto.SidbiSdeDropdownResponse(
-            s.uuid,
+            s.id,
             s.name
         )
         FROM Branch b
         JOIN b.regionalOffice ro
         JOIN ro.sdeList s
-        WHERE b.uuid = :branchUuid
+        WHERE b.id = :branchId
         ORDER BY s.name
         """)
-    List<SidbiSdeDropdownResponse> findDropdownByBranchUuid(@Param("branchUuid") UUID branchUuid);
-
+    List<SidbiSdeDropdownResponse> findDropdownByBranchId(@Param("branchId") Long branchId);
 }

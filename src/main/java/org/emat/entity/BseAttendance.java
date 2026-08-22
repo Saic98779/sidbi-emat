@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "BSE_ATTENDANCE")
@@ -18,9 +17,10 @@ import java.util.UUID;
 public class BseAttendance extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", nullable = false, updatable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BSE_ATTENDANCE")
+    @SequenceGenerator(name = "SEQ_BSE_ATTENDANCE", sequenceName = "SEQ_BSE_ATTENDANCE", allocationSize = 1)
+    @Column(name = "ID", nullable = false, updatable = false)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BSE_ID", nullable = false)

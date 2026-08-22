@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 public class CreateIndustryAssociationAppraisalRequest {
 
-    private String registrationUuid;
+    private Long registrationId;
 
     // Due Diligence
     private String cibilReportReferenceNo;

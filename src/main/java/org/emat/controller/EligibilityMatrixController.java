@@ -1,6 +1,7 @@
 package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.EligibilityMatrixDto;
 import org.emat.dto.RegistrationDropdownDto;
 import org.emat.service.EligibilityMatrixService;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/eligibility-matrix")
@@ -19,61 +19,60 @@ public class EligibilityMatrixController {
     private final EligibilityMatrixService eligibilityMatrixService;
 
     @PostMapping
-    public ResponseEntity<EligibilityMatrixDto> create(@RequestBody EligibilityMatrixDto request) {
+    public ResponseEntity<ApiResponse<EligibilityMatrixDto>> create(@RequestBody EligibilityMatrixDto request) {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(eligibilityMatrixService.create(request));
+                .body(ApiResponse.created("Eligibility matrix created successfully", eligibilityMatrixService.create(request)));
     }
 
-    @GetMapping("/{uuid}")
-    public ResponseEntity<EligibilityMatrixDto> getById(@PathVariable UUID uuid) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<EligibilityMatrixDto>> getById(@PathVariable Long id) {
 
         return ResponseEntity.ok(
-                eligibilityMatrixService.getById(uuid)
+                ApiResponse.success("Eligibility matrix fetched successfully", eligibilityMatrixService.getById(id))
         );
     }
 
     @GetMapping
-    public ResponseEntity<List<EligibilityMatrixDto>> getAll() {
+    public ResponseEntity<ApiResponse<List<EligibilityMatrixDto>>> getAll() {
 
         return ResponseEntity.ok(
-                eligibilityMatrixService.getAll()
+                ApiResponse.success("Eligibility matrices fetched successfully", eligibilityMatrixService.getAll())
         );
     }
 
-    @GetMapping("/registration/{registrationUuid}")
-    public ResponseEntity<EligibilityMatrixDto>
-    getByRegistrationUuid(
-            @PathVariable String registrationUuid) {
+    @GetMapping("/registration/{registrationId}")
+    public ResponseEntity<ApiResponse<EligibilityMatrixDto>> getByRegistrationId(@PathVariable Long registrationId) {
 
         return ResponseEntity.ok(
-                eligibilityMatrixService
-                        .getByRegistrationUuid(registrationUuid)
+                ApiResponse.success("Eligibility matrix fetched successfully", eligibilityMatrixService.getByRegistrationId(registrationId))
         );
     }
 
-    @PutMapping("/{uuid}")
-    public ResponseEntity<EligibilityMatrixDto> update(@PathVariable UUID uuid, @RequestBody EligibilityMatrixDto request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<EligibilityMatrixDto>> update(@PathVariable Long id, @RequestBody EligibilityMatrixDto request) {
 
         return ResponseEntity.ok(
-                eligibilityMatrixService.update(uuid, request)
+                ApiResponse.success("Eligibility matrix updated successfully", eligibilityMatrixService.update(id, request))
         );
     }
 
-    @DeleteMapping("/{uuid}")
-    public ResponseEntity<Void> delete(@PathVariable UUID uuid) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
 
-        eligibilityMatrixService.delete(uuid);
+        eligibilityMatrixService.delete(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                ApiResponse.success("Eligibility matrix deleted successfully", null)
+        );
     }
 
     @GetMapping("/registration-dropdown")
-    public ResponseEntity<List<RegistrationDropdownDto>> getRegistrationDropdown() {
+    public ResponseEntity<ApiResponse<List<RegistrationDropdownDto>>> getRegistrationDropdown() {
 
         return ResponseEntity.ok(
-                eligibilityMatrixService.getRegistrationDropdown()
+                ApiResponse.success("Registration dropdown fetched successfully", eligibilityMatrixService.getRegistrationDropdown())
         );
     }
 }

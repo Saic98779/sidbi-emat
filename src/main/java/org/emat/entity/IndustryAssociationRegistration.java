@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Entity representing Industry Association Registration.
@@ -26,9 +25,10 @@ import java.util.UUID;
 public class IndustryAssociationRegistration extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", updatable = false, nullable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION")
+    @SequenceGenerator(name = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION", sequenceName = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION", allocationSize = 1)
+    @Column(name = "ID", updatable = false, nullable = false)
+    private Long id;
 
     // Basic Information
     @Column(name = "STATE", nullable = false, length = 100)
@@ -178,7 +178,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @ElementCollection
     @CollectionTable(
             name = "IA_SECRETARIAT_STAFF",
-            joinColumns = @JoinColumn(name = "UUID"))
+            joinColumns = @JoinColumn(name = "ID"))
     private List<SecretariatStaff> secretariatStaff;
 
     @Column(name = "ADVERSE_REMARKS_AVAILABLE")
@@ -194,7 +194,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @ElementCollection
     @CollectionTable(
             name = "IA_BASIS_SELECTION",
-            joinColumns = @JoinColumn(name = "UUID"))
+            joinColumns = @JoinColumn(name = "ID"))
     @Column(name = "BASIS")
     private List<String> selectionCriteria;
 

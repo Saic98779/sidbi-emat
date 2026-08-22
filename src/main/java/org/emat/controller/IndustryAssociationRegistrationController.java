@@ -3,6 +3,7 @@ package org.emat.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * REST Controller for Industry Association Registration endpoints.
- * Provides CRUD operations and query endpoints for managing registrations.
- */
+
 @RestController
 @RequestMapping("/industry-association-registrations")
 @RequiredArgsConstructor
@@ -30,127 +28,73 @@ public class IndustryAssociationRegistrationController {
     private final IndustryAssociationRegistrationService service;
     private final EndpointRolePolicyService endpointRolePolicyService;
 
-    /**
-     * Create a new Industry Association Registration.
-     * POST /industry-association-registrations
-     *
-     * @param request the creation request
-     * @return ResponseEntity with created registration and HTTP 201
-     */
     @PostMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationWrite'))")
-    public ResponseEntity<IndustryAssociationRegistrationResponse> createRegistration(
+    public ResponseEntity<ApiResponse<IndustryAssociationRegistrationResponse>> createRegistration(
             @RequestBody CreateIndustryAssociationRegistrationRequest request) {
         log.info("Received request to create new Industry Association Registration");
-        IndustryAssociationRegistrationResponse response = service.createRegistration(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.created("Registration created successfully", service.createRegistration(request)));
     }
 
-    /**
-     * Retrieve a registration by UUID.
-     * GET /industry-association-registrations/{uuid}
-     *
-     * @param uuid the unique identifier
-     * @return ResponseEntity with registration and HTTP 200
-     */
-    @GetMapping("/{uuid}")
+
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationRead'))")
-    public ResponseEntity<IndustryAssociationRegistrationResponse> getRegistrationById(
-            @PathVariable String uuid) {
-        log.info("Received request to fetch registration with UUID: {}", uuid);
-        IndustryAssociationRegistrationResponse response = service.getRegistrationById(uuid);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<IndustryAssociationRegistrationResponse>> getRegistrationById(
+            @PathVariable Long id) {
+        log.info("Received request to fetch registration with ID: {}", id);
+        return ResponseEntity.ok(ApiResponse.success("Registration fetched successfully", service.getRegistrationById(id)));
     }
 
-    /**
-     * Retrieve all active registrations.
-     * GET /industry-association-registrations
-     *
-     * @return ResponseEntity with list of registrations and HTTP 200
-     */
+
     @GetMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationRead'))")
-    public ResponseEntity<List<IndustryAssociationRegistrationResponse>> getAllRegistrations() {
+    public ResponseEntity<ApiResponse<List<IndustryAssociationRegistrationResponse>>> getAllRegistrations() {
         log.info("Received request to fetch all registrations");
-        List<IndustryAssociationRegistrationResponse> responses = service.getAllRegistrations();
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok(ApiResponse.success("Registrations fetched successfully", service.getAllRegistrations()));
     }
 
-    /**
-     * Update an existing registration.
-     * PUT /industry-association-registrations/{uuid}
-     *
-     * @param uuid the unique identifier
-     * @param request the update request
-     * @return ResponseEntity with updated registration and HTTP 200
-     */
-    @PutMapping("/{uuid}")
+
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationWrite'))")
-    public ResponseEntity<IndustryAssociationRegistrationResponse> updateRegistration(
-            @PathVariable String uuid,
+    public ResponseEntity<ApiResponse<IndustryAssociationRegistrationResponse>> updateRegistration(
+            @PathVariable Long id,
             @RequestBody UpdateIndustryAssociationRegistrationRequest request) {
-        log.info("Received request to update registration with UUID: {}", uuid);
-        IndustryAssociationRegistrationResponse response = service.updateRegistration(uuid, request);
-        return ResponseEntity.ok(response);
+        log.info("Received request to update registration with ID: {}", id);
+        return ResponseEntity.ok(ApiResponse.success("Registration updated successfully", service.updateRegistration(id, request)));
     }
 
-    /**
-     * Soft delete a registration (mark as inactive).
-     * DELETE /industry-association-registrations/{uuid}
-     *
-     * @param uuid the unique identifier
-     * @return ResponseEntity with HTTP 204 (No Content)
-     */
-    @DeleteMapping("/{uuid}")
+
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('sidbiSde'))")
-    public ResponseEntity<Void> deleteRegistration(@PathVariable String uuid) {
-        log.info("Received request to delete registration with UUID: {}", uuid);
-        service.deleteRegistration(uuid);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<Void>> deleteRegistration(@PathVariable Long id) {
+        log.info("Received request to delete registration with ID: {}", id);
+        service.deleteRegistration(id);
+        return ResponseEntity.ok(ApiResponse.success("Registration deleted successfully", null));
     }
 
-    /**
-     * Approve or reject a registration by SIDBE.
-     * PATCH /industry-association-registrations/{uuid}/approve
-     *
-     * @param uuid the unique identifier
-     * @param approvalRequest the approval request
-     * @param authentication the current authenticated user
-     * @return ResponseEntity with updated registration and HTTP 200
-     */
-    @PatchMapping("/{uuid}/approve")
+
+    @PatchMapping("/{id}/approve")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('sidbiSde'))")
-    public ResponseEntity<IndustryAssociationRegistrationResponse> approveBySidbe(
-            @PathVariable String uuid,
+    public ResponseEntity<ApiResponse<IndustryAssociationRegistrationResponse>> approveBySidbe(
+            @PathVariable Long id,
             @RequestBody ApprovalRequest approvalRequest,
             Authentication authentication) {
-        log.info("Received SIDBE approval request for registration with UUID: {}", uuid);
-        String username = authentication.getName();
-        IndustryAssociationRegistrationResponse response = service.approveBySidbe(uuid, approvalRequest, username);
-        return ResponseEntity.ok(response);
+        log.info("Received SIDBE approval request for registration with ID: {}", id);
+        return ResponseEntity.ok(ApiResponse.success("Registration approved successfully", service.approveBySidbe(id, approvalRequest, authentication.getName())));
     }
 
-    /**
-     * Retrieve Industry Association Registrations by state, district and SIDBI approval status.
-     *
-     * @param state the state where the Industry Association is registered
-     * @param district the district where the Industry Association is registered
-     * @param isSidbeApproved SIDBI approval status (true = approved, false = not approved)
-     * @return list of matching Industry Association Registration records
-     */
+
     @Operation(
             summary = "Search Industry Association Registrations",
             description = "Retrieves Industry Association Registrations filtered by state, district, and SIDBI approval status."
     )
     @GetMapping("/search")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationRead'))")
-    public ResponseEntity<List<IndustryAssociationRegistrationResponse>> getRegistrations(
+    public ResponseEntity<ApiResponse<List<IndustryAssociationRegistrationResponse>>> getRegistrations(
             @RequestParam String state,
             @RequestParam String district,
             @RequestParam Boolean isSidbeApproved) {
-
-        return ResponseEntity.ok(
-                service.getRegistrations(state, district, isSidbeApproved)
-        );
+        return ResponseEntity.ok(ApiResponse.success("Registrations fetched successfully", service.getRegistrations(state, district, isSidbeApproved)));
     }
 }

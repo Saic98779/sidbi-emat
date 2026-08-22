@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "VENDOR")
@@ -16,9 +15,10 @@ import java.util.UUID;
 public class Vendor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID")
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VENDOR")
+    @SequenceGenerator(name = "SEQ_VENDOR", sequenceName = "SEQ_VENDOR", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
     @Column(name = "VENDOR_ID")
     private String vendorId;

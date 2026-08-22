@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,15 +17,16 @@ import java.util.UUID;
 public class IndustryAssociationBseRecommendation extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", nullable = false, updatable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IA_BSE_RECOMMENDATION")
+    @SequenceGenerator(name = "SEQ_IA_BSE_RECOMMENDATION", sequenceName = "SEQ_IA_BSE_RECOMMENDATION", allocationSize = 1)
+    @Column(name = "ID", nullable = false, updatable = false)
+    private Long id;
 
     /**
      * Approved Industry Association
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGISTRATION_UUID", nullable = false)
+    @JoinColumn(name = "REGISTRATION_ID", nullable = false)
     private IndustryAssociationRegistration registration;
 
     // ==========================================================

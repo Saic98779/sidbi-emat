@@ -1,6 +1,7 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +12,14 @@ import java.util.List;
 
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "BSE_SALARY")
 public class BseSalary extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BSE_SALARY")
+    @SequenceGenerator(name = "SEQ_BSE_SALARY", sequenceName = "SEQ_BSE_SALARY", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 

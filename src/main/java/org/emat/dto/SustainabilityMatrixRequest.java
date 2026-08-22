@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SustainabilityMatrixRequest {
 
-    private UUID appraisalUuid;
+    private Long appraisalId;
 
     private Boolean activeGoverningBody;
     private Boolean election;

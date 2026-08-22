@@ -13,5 +13,5 @@ public class UpdateSidbiSdeRequest {
 
     private String mobileNo;
 
-    private String regionalOfficeUuid;
+    private String regionalOfficeId;
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +14,7 @@ import java.util.UUID;
 @Builder
 public class CreateBseRecommendationRequest {
 
-    private UUID registrationUuid;
+    private Long registrationId;
 
     // Vendor Details
     private Long userId;

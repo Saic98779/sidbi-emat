@@ -2,13 +2,14 @@ package org.emat.repository;
 
 import org.emat.entity.EligibilityMatrix;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface EligibilityMatrixRepository extends JpaRepository<EligibilityMatrix, UUID> {
+@Repository
+public interface EligibilityMatrixRepository extends JpaRepository<EligibilityMatrix, Long> {
 
-    Optional<EligibilityMatrix> findByRegistration_Uuid(UUID registrationUuid);
+    boolean existsByRegistrationId(Long registrationId);
 
-    boolean existsByRegistration_Uuid(UUID registrationUuid);
+    Optional<EligibilityMatrix> findByRegistrationId(Long registrationId);
 }

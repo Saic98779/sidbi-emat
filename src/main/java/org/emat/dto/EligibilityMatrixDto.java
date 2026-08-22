@@ -5,16 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class EligibilityMatrixDto {
-    private UUID uuid;
+    private Long id;
 
-    private String registrationUuid;
+    private Long registrationId;
 
     private Boolean activeMembers200;
     private Boolean activeMsmes;

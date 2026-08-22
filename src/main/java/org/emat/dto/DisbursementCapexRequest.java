@@ -11,7 +11,9 @@ import java.time.LocalDate;
 @Builder
 public class DisbursementCapexRequest {
 
-    private String registrationUuid;
+    private Long id;
+
+    private Long registrationId;
 
     private String gstinIa;
 

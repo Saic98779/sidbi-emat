@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,30 +19,27 @@ public class SustainabilityMatrixService {
 
     private final SustainabilityMatrixRepository repository;
     private final IndustryAssociationAppraisalRepository appraisalRepository;
+    private static final String NOT_FOUND = "Sustainability Matrix not found: ";
 
-    /**
-     * Create Sustainability Matrix
-     */
+
     @Transactional
     public SustainabilityMatrixResponse create(
             SustainabilityMatrixRequest request
     ) {
 
-        if (request.getAppraisalUuid() == null) {
-            throw new IllegalArgumentException("Appraisal UUID is required");
+        Long appraisalId = request.getAppraisalId();
+        if (appraisalId == null) {
+            throw new IllegalArgumentException("Appraisal ID is required");
         }
 
-        IndustryAssociationAppraisal appraisal =
-                appraisalRepository.findByUuid(request.getAppraisalUuid())
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Appraisal not found: "
-                                                + request.getAppraisalUuid()
-                                )
-                        );
+        IndustryAssociationAppraisal appraisal = appraisalRepository.findById(appraisalId)
+                .orElseThrow(() -> new IllegalArgumentException("Appraisal not found: " + appraisalId));
+
+        if (repository.existsByIndustryAssociationAppraisal_Id(appraisalId)) {
+            throw new IllegalStateException("Sustainability Matrix already exists for Appraisal ID: " + appraisalId);
+        }
 
         SustainabilityMatrix matrix = new SustainabilityMatrix();
-
         matrix.setIndustryAssociationAppraisal(appraisal);
 
         setFields(matrix, request);
@@ -56,40 +52,23 @@ public class SustainabilityMatrixService {
         return toResponse(saved);
     }
 
-    /**
-     * Update Sustainability Matrix
-     */
+
     @Transactional
     public SustainabilityMatrixResponse update(
-            UUID uuid,
+            Long id,
             SustainabilityMatrixRequest request
     ) {
 
-        SustainabilityMatrix matrix =
-                repository.findById(uuid)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Sustainability Matrix not found: "
-                                                + uuid
-                                )
-                        );
+        SustainabilityMatrix matrix = repository.findById(id)
+                .orElseThrow(() -> new IllegalStateException(NOT_FOUND + id));
 
         /*
-         * Update appraisal if appraisalUuid is provided
+         * Update appraisal if appraisalId is provided
          */
-        if (request.getAppraisalUuid() != null) {
+        if (request.getAppraisalId() != null) {
 
-            IndustryAssociationAppraisal appraisal =
-                    appraisalRepository.findByUuid(
-                                    request.getAppraisalUuid()
-                            )
-                            .orElseThrow(() ->
-                                    new RuntimeException(
-                                            "Appraisal not found: "
-                                                    + request.getAppraisalUuid()
-                                    )
-                            );
-
+            IndustryAssociationAppraisal appraisal = appraisalRepository.findById(request.getAppraisalId())
+                    .orElseThrow(() -> new IllegalArgumentException("Appraisal not found: " + request.getAppraisalId()));
             matrix.setIndustryAssociationAppraisal(appraisal);
         }
 
@@ -103,72 +82,44 @@ public class SustainabilityMatrixService {
         return toResponse(updated);
     }
 
-    /**
-     * Get Sustainability Matrix by UUID
-     */
-    @Transactional(readOnly = true)
-    public SustainabilityMatrixResponse getById(UUID uuid) {
 
-        SustainabilityMatrix matrix =
-                repository.findById(uuid)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Sustainability Matrix not found: "
-                                                + uuid
-                                )
-                        );
+    @Transactional(readOnly = true)
+    public SustainabilityMatrixResponse getById(Long id) {
+
+        SustainabilityMatrix matrix = repository.findById(id)
+                .orElseThrow(() -> new IllegalStateException(NOT_FOUND + id));
 
         return toResponse(matrix);
     }
 
-    /**
-     * Get Sustainability Matrix by Appraisal UUID
-     */
-    @Transactional(readOnly = true)
-    public List<SustainabilityMatrixResponse> getByAppraisalUuid(
-            UUID appraisalUuid
-    ) {
 
-        return repository
-                .findByIndustryAssociationAppraisalUuid(appraisalUuid)
+    @Transactional(readOnly = true)
+    public List<SustainabilityMatrixResponse> getByAppraisalId(Long appraisalId) {
+
+        return repository.findByIndustryAssociationAppraisal_Id(appraisalId)
                 .stream()
                 .map(this::toResponse)
                 .toList();
     }
 
-    /**
-     * Get all Sustainability Matrix records
-     */
+
     @Transactional(readOnly = true)
     public List<SustainabilityMatrixResponse> getAll() {
 
-        return repository.findAll()
-                .stream()
-                .map(this::toResponse)
-                .toList();
+        return repository.findAll().stream().map(this::toResponse).toList();
     }
 
-    /**
-     * Delete Sustainability Matrix
-     */
-    @Transactional
-    public void delete(UUID uuid) {
 
-        SustainabilityMatrix matrix =
-                repository.findById(uuid)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Sustainability Matrix not found: "
-                                                + uuid
-                                )
-                        );
+    @Transactional
+    public void delete(Long id) {
+
+        SustainabilityMatrix matrix = repository.findById(id)
+                .orElseThrow(() -> new IllegalStateException(NOT_FOUND + id));
 
         repository.delete(matrix);
     }
 
-    /**
-     * Set request fields into entity
-     */
+
     private void setFields(
             SustainabilityMatrix matrix,
             SustainabilityMatrixRequest request
@@ -263,9 +214,7 @@ public class SustainabilityMatrixService {
         );
     }
 
-    /**
-     * Convert Entity to Response DTO
-     */
+
     public SustainabilityMatrixResponse toResponse(
             SustainabilityMatrix entity
     ) {
@@ -276,11 +225,11 @@ public class SustainabilityMatrixService {
 
         return SustainabilityMatrixResponse.builder()
 
-                .uuid(entity.getUuid())
+                .id(entity.getId())
 
-                .appraisalUuid(
+                .appraisalId(
                         entity.getIndustryAssociationAppraisal() != null
-                                ? entity.getIndustryAssociationAppraisal().getUuid()
+                                ? entity.getIndustryAssociationAppraisal().getId()
                                 : null
                 )
 
@@ -382,11 +331,10 @@ public class SustainabilityMatrixService {
     @Transactional(readOnly = true)
     public List<AppraisalDropdownDto> getAppraisalDropdown() {
 
-        return appraisalRepository.findAll()
-                .stream()
+        return appraisalRepository.findAll().stream()
                 .map(appraisal -> AppraisalDropdownDto.builder()
-                        .uuid(appraisal.getUuid())
-                        .name(appraisal.getRegistration().getIndustryAssociationName())
+                        .id(appraisal.getId())
+                        .name(appraisal.getRegistration() != null ? appraisal.getRegistration().getIndustryAssociationName() : null)
                         .build())
                 .toList();
     }

@@ -1,6 +1,7 @@
 package org.emat.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateUserRequest;
 import org.emat.dto.LoginRequest;
 import org.emat.dto.LoginResponse;
@@ -42,9 +43,9 @@ public class UserController {
      * POST /api/users
      */
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest request) {
-        UserResponse user = userService.createUser(request);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@RequestBody CreateUserRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.created("User created successfully", userService.createUser(request)));
     }
 
     /**
@@ -52,9 +53,8 @@ public class UserController {
      * GET /api/users
      */
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        List<UserResponse> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
+        return ResponseEntity.ok(ApiResponse.success("Users fetched successfully", userService.getAllUsers()));
     }
 
     /**
@@ -63,7 +63,7 @@ public class UserController {
      * All parameters are optional. You can search by any combination.
      */
     @GetMapping("/search")
-    public ResponseEntity<List<UserResponse>> getUsersByLocation(
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsersByLocation(
             @RequestParam(required = false) String district,
             @RequestParam(required = false) String state,
             @RequestParam(required = false) Role role) {
@@ -96,7 +96,7 @@ public class UserController {
             users = userService.getAllUsers();
         }
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(ApiResponse.success("Users fetched successfully", users));
     }
 
     /**
@@ -105,7 +105,7 @@ public class UserController {
      */
     @PostMapping("/login")
     @SecurityRequirement(name = "")  // This endpoint doesn't require authentication
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
         if (request.getUsername() == null || request.getPassword() == null) {
             throw new BadCredentialsException("Invalid username or password");
         }
@@ -130,14 +130,11 @@ public class UserController {
                 user.getRole(),
                 user.isActive()
         );
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.success("Login successful", response));
     }
 
     @GetMapping("/by-role")
-    public ResponseEntity<List<UserResponse>> getUsersByRole(@RequestParam Role role) {
-
-        List<UserResponse> users = userService.getUsersByRole(role);
-
-        return ResponseEntity.ok(users);
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsersByRole(@RequestParam Role role) {
+        return ResponseEntity.ok(ApiResponse.success("Users fetched successfully", userService.getUsersByRole(role)));
     }
 }

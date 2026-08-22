@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Data
 public class MonthlySalaryDetailsRequest {
 
-    private String bseId;
+    private Long bseId;
     private String salaryMonth;
     private Integer salaryDays;
     private Integer paidDays;

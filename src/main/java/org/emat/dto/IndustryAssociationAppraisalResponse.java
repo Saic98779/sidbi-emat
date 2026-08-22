@@ -20,8 +20,8 @@ import java.util.List;
 @Builder
 public class IndustryAssociationAppraisalResponse {
 
-    private String uuid;
-    private String registrationUuid;
+    private Long id;
+    private Long registrationId;
     private String registrationName;
     private String sidbiBranch;
     private String sidbiBranchName;

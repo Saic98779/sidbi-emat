@@ -3,17 +3,15 @@ package org.emat.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 public class BranchDropdownResponse {
 
-    private UUID uuid;
+    private Long id;
     private String branchName;
 
-    public BranchDropdownResponse(UUID uuid, String branchName) {
-        this.uuid = uuid;
+    public BranchDropdownResponse(Long id, String branchName) {
+        this.id = id;
         this.branchName = branchName;
     }
 }
