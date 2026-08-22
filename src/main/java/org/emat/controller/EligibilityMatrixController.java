@@ -2,6 +2,7 @@ package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.EligibilityMatrixDto;
+import org.emat.dto.RegistrationDropdownDto;
 import org.emat.service.EligibilityMatrixService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,5 +67,13 @@ public class EligibilityMatrixController {
         eligibilityMatrixService.delete(uuid);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/registration-dropdown")
+    public ResponseEntity<List<RegistrationDropdownDto>> getRegistrationDropdown() {
+
+        return ResponseEntity.ok(
+                eligibilityMatrixService.getRegistrationDropdown()
+        );
     }
 }

@@ -1,6 +1,7 @@
 package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.emat.dto.AppraisalDropdownDto;
 import org.emat.dto.SustainabilityMatrixRequest;
 import org.emat.dto.SustainabilityMatrixResponse;
 import org.emat.entity.SustainabilityMatrix;
@@ -61,5 +62,10 @@ public class SustainabilityMatrixController {
         service.delete(uuid);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/appraisal-dropdown")
+    public ResponseEntity<List<AppraisalDropdownDto>> getAppraisalDropdown() {
+        return ResponseEntity.ok(service.getAppraisalDropdown());
     }
 }
