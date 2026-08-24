@@ -12,7 +12,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'prod',
                         credentialsId: 'github-token',
                         url: 'https://github.com/Saic98779/sidbi-emat.git'
             }
