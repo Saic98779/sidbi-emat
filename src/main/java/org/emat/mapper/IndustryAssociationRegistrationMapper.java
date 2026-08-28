@@ -9,6 +9,7 @@ import org.emat.entity.SecretariatStaff;
 import org.emat.entity.User;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -138,11 +139,31 @@ public class IndustryAssociationRegistrationMapper {
         if (request.getWebsiteUrl() != null) registration.setWebsiteUrl(request.getWebsiteUrl());
         if (request.getPaidServicesAvailable() != null) registration.setPaidServicesAvailable(request.getPaidServicesAvailable());
         if (request.getPaidServicesDetails() != null) registration.setPaidServicesDetails(request.getPaidServicesDetails());
-        if (request.getSecretariatStaff() != null) registration.setSecretariatStaff(toSecretariatStaff(request.getSecretariatStaff()));
+        if (request.getSecretariatStaff() != null) {
+
+            if (registration.getSecretariatStaff() == null) {
+                registration.setSecretariatStaff(new ArrayList<>());
+            } else {
+                registration.getSecretariatStaff().clear();
+            }
+
+            registration.getSecretariatStaff()
+                    .addAll(toSecretariatStaff(request.getSecretariatStaff()));
+        }
         if (request.getAdverseRemarksAvailable() != null) registration.setAdverseRemarksAvailable(request.getAdverseRemarksAvailable());
         if (request.getAdverseRemarks() != null) registration.setAdverseRemarks(request.getAdverseRemarks());
         if (request.getWebReport() != null) registration.setWebReport(request.getWebReport());
-        if (request.getSelectionCriteria() != null) registration.setSelectionCriteria(request.getSelectionCriteria());
+        if (request.getSelectionCriteria() != null) {
+
+            if (registration.getSelectionCriteria() == null) {
+                registration.setSelectionCriteria(new ArrayList<>());
+            } else {
+                registration.getSelectionCriteria().clear();
+            }
+
+            registration.getSelectionCriteria()
+                    .addAll(request.getSelectionCriteria());
+        }
         if (request.getWillingnessComments() != null) registration.setWillingnessComments(request.getWillingnessComments());
         if (request.getWorkedWithSidbiBefore() != null) registration.setWorkedWithSidbiBefore(request.getWorkedWithSidbiBefore());
         if (request.getGrantProposed() != null) registration.setGrantProposed(request.getGrantProposed());
