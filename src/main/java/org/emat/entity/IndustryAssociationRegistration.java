@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -179,7 +180,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @CollectionTable(
             name = "IA_SECRETARIAT_STAFF",
             joinColumns = @JoinColumn(name = "ID"))
-    private List<SecretariatStaff> secretariatStaff;
+    private List<SecretariatStaff> secretariatStaff = new ArrayList<>();
 
     @Column(name = "ADVERSE_REMARKS_AVAILABLE")
     private Boolean adverseRemarksAvailable;
@@ -196,7 +197,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
             name = "IA_BASIS_SELECTION",
             joinColumns = @JoinColumn(name = "ID"))
     @Column(name = "BASIS")
-    private List<String> selectionCriteria;
+    private List<String> selectionCriteria = new ArrayList<>();
 
     // Willingness & Output
     @Column(name = "WILLINGNESS_COMMENTS", length = 500)
