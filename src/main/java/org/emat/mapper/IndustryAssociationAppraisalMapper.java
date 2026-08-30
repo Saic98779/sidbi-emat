@@ -108,6 +108,9 @@ public class IndustryAssociationAppraisalMapper {
                 .beneficialOwnerSmartAvailable(request.getBeneficialOwnerSmartAvailable())
                 .beneficialOwnerSmartDate(request.getBeneficialOwnerSmartDate())
                 .paidServicesDetails(request.getPaidServicesDetails())
+                .smartReportAvailable(request.getSmartReportAvailable())
+                .ngoDarpanFile(request.getNgoDarpanFile())
+                .nabardBlacklistFile(request.getNabardBlacklistFile())
                 .build();
     }
 
@@ -198,6 +201,9 @@ public class IndustryAssociationAppraisalMapper {
         if (request.getBeneficialOwnerSmartAvailable() != null) appraisal.setBeneficialOwnerSmartAvailable(request.getBeneficialOwnerSmartAvailable());
         if (request.getBeneficialOwnerSmartDate() != null) appraisal.setBeneficialOwnerSmartDate(request.getBeneficialOwnerSmartDate());
         if (request.getPaidServicesDetails() != null) appraisal.setPaidServicesDetails(request.getPaidServicesDetails());
+        if (request.getSmartReportAvailable() != null) appraisal.setSmartReportAvailable(request.getSmartReportAvailable());
+        if (request.getNgoDarpanFile() != null) appraisal.setNgoDarpanFile(request.getNgoDarpanFile());
+        if (request.getNabardBlacklistFile() != null) appraisal.setNabardBlacklistFile(request.getNabardBlacklistFile());
     }
 
     public IndustryAssociationAppraisalResponse toResponse(IndustryAssociationAppraisal appraisal) {
@@ -306,6 +312,9 @@ public class IndustryAssociationAppraisalMapper {
                 .beneficialOwnerSmartAvailable(appraisal.getBeneficialOwnerSmartAvailable())
                 .beneficialOwnerSmartDate(appraisal.getBeneficialOwnerSmartDate())
                 .paidServicesDetails(appraisal.getPaidServicesDetails())
+                .smartReportAvailable(appraisal.getSmartReportAvailable())
+                .ngoDarpanFile(appraisal.getNgoDarpanFile())
+                .nabardBlacklistFile(appraisal.getNabardBlacklistFile())
                 .build();
     }
 }

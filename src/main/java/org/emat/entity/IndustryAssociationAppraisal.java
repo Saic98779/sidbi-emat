@@ -358,8 +358,14 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "BENEFICIAL_OWNER_SMART_DATE")
     private LocalDate beneficialOwnerSmartDate;
 
-
     // Paid Services
     @Column(name = "PAID_SERVICES_DETAILS")
     private String paidServicesDetails;
+
+    @Column(name = "SMART_REPORT_AVAILABLE")
+    private Boolean smartReportAvailable;
+    @Column(name = "NGO_DARPAN_FILES")
+    private String ngoDarpanFile;
+    @Column(name = "NABARD_BLACKLIST_FILE")
+    private String nabardBlacklistFile;
 }
