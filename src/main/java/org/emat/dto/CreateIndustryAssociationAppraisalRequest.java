@@ -161,4 +161,10 @@ public class CreateIndustryAssociationAppraisalRequest {
     private LocalDate beneficialOwnerSmartDate;
 
     private String paidServicesDetails;
+
+    private Boolean smartReportAvailable;
+
+    private String ngoDarpanFile;
+
+    private String nabardBlacklistFile;
 }
