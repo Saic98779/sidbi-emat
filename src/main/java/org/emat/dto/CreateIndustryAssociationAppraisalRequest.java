@@ -141,4 +141,24 @@ public class CreateIndustryAssociationAppraisalRequest {
     private Boolean referralArrangementReady;
     private Boolean bseReadinessReady;
     private BigDecimal financingScopeCrore;
+
+    private String holderCibilReferenceNo;
+    private LocalDate holderCibilDate;
+    private String holderCibilScore;
+    private String holderCibilRemarks;
+    private String holderCibilFile;
+
+    private Boolean holderSmartAvailable;
+    private LocalDate holderSmartDate;
+    private String holderSmartRemarks;
+
+    private String beneficialOwnerCibilReferenceNo;
+    private LocalDate beneficialOwnerCibilDate;
+    private String beneficialOwnerCibilRanking;
+    private String beneficialOwnerCibilFile;
+
+    private Boolean beneficialOwnerSmartAvailable;
+    private LocalDate beneficialOwnerSmartDate;
+
+    private String paidServicesDetails;
 }
