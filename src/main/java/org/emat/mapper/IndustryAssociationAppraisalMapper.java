@@ -93,6 +93,21 @@ public class IndustryAssociationAppraisalMapper {
                 .grantDetails(request.getGrantDetails())
                 .envisagedOutput(request.getEnvisagedOutput())
                 .envisagedOutcome(request.getEnvisagedOutcome())
+                .holderCibilReferenceNo(request.getHolderCibilReferenceNo())
+                .holderCibilDate(request.getHolderCibilDate())
+                .holderCibilScore(request.getHolderCibilScore())
+                .holderCibilRemarks(request.getHolderCibilRemarks())
+                .holderCibilFile(request.getHolderCibilFile())
+                .holderSmartAvailable(request.getHolderSmartAvailable())
+                .holderSmartDate(request.getHolderSmartDate())
+                .holderSmartRemarks(request.getHolderSmartRemarks())
+                .beneficialOwnerCibilReferenceNo(request.getBeneficialOwnerCibilReferenceNo())
+                .beneficialOwnerCibilDate(request.getBeneficialOwnerCibilDate())
+                .beneficialOwnerCibilRanking(request.getBeneficialOwnerCibilRanking())
+                .beneficialOwnerCibilFile(request.getBeneficialOwnerCibilFile())
+                .beneficialOwnerSmartAvailable(request.getBeneficialOwnerSmartAvailable())
+                .beneficialOwnerSmartDate(request.getBeneficialOwnerSmartDate())
+                .paidServicesDetails(request.getPaidServicesDetails())
                 .build();
     }
 
@@ -168,6 +183,21 @@ public class IndustryAssociationAppraisalMapper {
         if (request.getEnvisagedOutput() != null) appraisal.setEnvisagedOutput(request.getEnvisagedOutput());
         if (request.getEnvisagedOutcome() != null) appraisal.setEnvisagedOutcome(request.getEnvisagedOutcome());
         if (request.getFinancialYear() != null) appraisal.setFinancialYear(request.getFinancialYear());
+        if (request.getHolderCibilReferenceNo() != null) appraisal.setHolderCibilReferenceNo(request.getHolderCibilReferenceNo());
+        if (request.getHolderCibilDate() != null) appraisal.setHolderCibilDate(request.getHolderCibilDate());
+        if (request.getHolderCibilScore() != null) appraisal.setHolderCibilScore(request.getHolderCibilScore());
+        if (request.getHolderCibilRemarks() != null) appraisal.setHolderCibilRemarks(request.getHolderCibilRemarks());
+        if (request.getHolderCibilFile() != null) appraisal.setHolderCibilFile(request.getHolderCibilFile());
+        if (request.getHolderSmartAvailable() != null) appraisal.setHolderSmartAvailable(request.getHolderSmartAvailable());
+        if (request.getHolderSmartDate() != null) appraisal.setHolderSmartDate(request.getHolderSmartDate());
+        if (request.getHolderSmartRemarks() != null) appraisal.setHolderSmartRemarks(request.getHolderSmartRemarks());
+        if (request.getBeneficialOwnerCibilReferenceNo() != null) appraisal.setBeneficialOwnerCibilReferenceNo(request.getBeneficialOwnerCibilReferenceNo());
+        if (request.getBeneficialOwnerCibilDate() != null) appraisal.setBeneficialOwnerCibilDate(request.getBeneficialOwnerCibilDate());
+        if (request.getBeneficialOwnerCibilRanking() != null) appraisal.setBeneficialOwnerCibilRanking(request.getBeneficialOwnerCibilRanking());
+        if (request.getBeneficialOwnerCibilFile() != null) appraisal.setBeneficialOwnerCibilFile(request.getBeneficialOwnerCibilFile());
+        if (request.getBeneficialOwnerSmartAvailable() != null) appraisal.setBeneficialOwnerSmartAvailable(request.getBeneficialOwnerSmartAvailable());
+        if (request.getBeneficialOwnerSmartDate() != null) appraisal.setBeneficialOwnerSmartDate(request.getBeneficialOwnerSmartDate());
+        if (request.getPaidServicesDetails() != null) appraisal.setPaidServicesDetails(request.getPaidServicesDetails());
     }
 
     public IndustryAssociationAppraisalResponse toResponse(IndustryAssociationAppraisal appraisal) {
@@ -261,6 +291,21 @@ public class IndustryAssociationAppraisalMapper {
                 .grantDetails(appraisal.getGrantDetails())
                 .envisagedOutput(appraisal.getEnvisagedOutput())
                 .envisagedOutcome(appraisal.getEnvisagedOutcome())
+                .holderCibilReferenceNo(appraisal.getHolderCibilReferenceNo())
+                .holderCibilDate(appraisal.getHolderCibilDate())
+                .holderCibilScore(appraisal.getHolderCibilScore())
+                .holderCibilRemarks(appraisal.getHolderCibilRemarks())
+                .holderCibilFile(appraisal.getHolderCibilFile())
+                .holderSmartAvailable(appraisal.getHolderSmartAvailable())
+                .holderSmartDate(appraisal.getHolderSmartDate())
+                .holderSmartRemarks(appraisal.getHolderSmartRemarks())
+                .beneficialOwnerCibilReferenceNo(appraisal.getBeneficialOwnerCibilReferenceNo())
+                .beneficialOwnerCibilDate(appraisal.getBeneficialOwnerCibilDate())
+                .beneficialOwnerCibilRanking(appraisal.getBeneficialOwnerCibilRanking())
+                .beneficialOwnerCibilFile(appraisal.getBeneficialOwnerCibilFile())
+                .beneficialOwnerSmartAvailable(appraisal.getBeneficialOwnerSmartAvailable())
+                .beneficialOwnerSmartDate(appraisal.getBeneficialOwnerSmartDate())
+                .paidServicesDetails(appraisal.getPaidServicesDetails())
                 .build();
     }
 }

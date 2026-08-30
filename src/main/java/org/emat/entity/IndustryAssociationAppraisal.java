@@ -309,5 +309,57 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "ENVISAGED_OUTCOME", length = 500)
     private String envisagedOutcome;
 
+    // Office Holder CIBIL
+    @Column(name = "HOLDER_CIBIL_REFERENCE_NO")
+    private String holderCibilReferenceNo;
 
+    @Column(name = "HOLDER_CIBIL_DATE")
+    private LocalDate holderCibilDate;
+
+    @Column(name = "HOLDER_CIBIL_SCORE")
+    private String holderCibilScore;
+
+    @Column(name = "HOLDER_CIBIL_REMARKS")
+    private String holderCibilRemarks;
+
+    @Column(name = "HOLDER_CIBIL_FILE")
+    private String holderCibilFile;
+
+
+    // Office Holder SMART
+    @Column(name = "HOLDER_SMART_AVAILABLE")
+    private Boolean holderSmartAvailable;
+
+    @Column(name = "HOLDER_SMART_DATE")
+    private LocalDate holderSmartDate;
+
+    @Column(name = "HOLDER_SMART_REMARKS")
+    private String holderSmartRemarks;
+
+
+    // Beneficial Owner CIBIL
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_REFERENCE_NO")
+    private String beneficialOwnerCibilReferenceNo;
+
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_DATE")
+    private LocalDate beneficialOwnerCibilDate;
+
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_RANKING")
+    private String beneficialOwnerCibilRanking;
+
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_FILE")
+    private String beneficialOwnerCibilFile;
+
+
+    // Beneficial Owner SMART
+    @Column(name = "BENEFICIAL_OWNER_SMART_AVAILABLE")
+    private Boolean beneficialOwnerSmartAvailable;
+
+    @Column(name = "BENEFICIAL_OWNER_SMART_DATE")
+    private LocalDate beneficialOwnerSmartDate;
+
+
+    // Paid Services
+    @Column(name = "PAID_SERVICES_DETAILS")
+    private String paidServicesDetails;
 }
