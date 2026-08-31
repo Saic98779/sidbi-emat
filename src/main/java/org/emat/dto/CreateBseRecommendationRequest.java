@@ -65,4 +65,5 @@ public class CreateBseRecommendationRequest {
 
     private BigDecimal longitude;
     private BigDecimal latitude;
+    private String momFile;
 }

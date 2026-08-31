@@ -171,4 +171,7 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     @Column(name = "LONGITUDE", precision = 10, scale = 7)
     private BigDecimal longitude;
 
+    @Column(name = "MOM_FILE")
+    private String momFile;
+
 }

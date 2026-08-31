@@ -19,6 +19,7 @@ public class IndustryAssociationBseRecommendationMapper {
         return IndustryAssociationBseRecommendation.builder()
                 .registration(registration)
                 .user(user)
+                .momFile(request.getMomFile())
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
                 .iaSelected(request.getIaSelected())
@@ -79,6 +80,7 @@ public class IndustryAssociationBseRecommendationMapper {
         bseRecommendation.setIaSelected(request.getIaSelected());
         if (request.getLatitude() != null) bseRecommendation.setLatitude(request.getLatitude());
         if (request.getLongitude() != null) bseRecommendation.setLongitude(request.getLongitude());
+        if (request.getMomFile() != null) bseRecommendation.setMomFile(request.getMomFile());
     }
 
     private void applyBasicBseDetails(UpdateBseRecommendationRequest request, IndustryAssociationBseRecommendation bseRecommendation) {
