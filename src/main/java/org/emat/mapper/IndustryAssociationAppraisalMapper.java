@@ -181,7 +181,8 @@ public class IndustryAssociationAppraisalMapper {
         if (request.getWebReport() != null) appraisal.setWebReport(request.getWebReport());
         if (request.getWillingnessComments() != null) appraisal.setWillingnessComments(request.getWillingnessComments());
         if (request.getWorkedWithSidbiBefore() != null) appraisal.setWorkedWithSidbiBefore(request.getWorkedWithSidbiBefore());
-        if (request.getGrantProposedSalary() != null) appraisal.setGrantProposedCapex(request.getGrantProposedSalary());
+        if (request.getGrantProposedCapex() != null) appraisal.setGrantProposedCapex(request.getGrantProposedCapex());
+        if (request.getGrantProposedSalary() != null) appraisal.setGrantProposedSalary(request.getGrantProposedSalary());
         if (request.getGrantDetails() != null) appraisal.setGrantDetails(request.getGrantDetails());
         if (request.getEnvisagedOutput() != null) appraisal.setEnvisagedOutput(request.getEnvisagedOutput());
         if (request.getEnvisagedOutcome() != null) appraisal.setEnvisagedOutcome(request.getEnvisagedOutcome());
