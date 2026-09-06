@@ -33,6 +33,7 @@ public class IndustryAssociationRegistrationService {
     private final IndustryAssociationRegistrationMapper registrationMapper;
     private final CommonUtil commonUtil;
     private final IndustryAssociationRegistrationValidator registrationValidator;
+    private final StageService stageService;
 
     public IndustryAssociationRegistrationResponse createRegistration(
             CreateIndustryAssociationRegistrationRequest request) {
@@ -49,6 +50,7 @@ public class IndustryAssociationRegistrationService {
 
         IndustryAssociationRegistration saved = repository.save(registration);
         log.info("Industry Association Registration created successfully with ID: {}", saved.getId());
+        stageService.updateStage(registration,1L,"");
         return registrationMapper.toResponse(saved);
     }
 

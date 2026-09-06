@@ -247,4 +247,18 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "IS_ELIGIBILITY_MATRIX_ADDED")
     private Boolean isEligibleMatricsAdded;
 
+    // Current Stage Details
+    @ManyToOne
+    @JoinColumn(name = "current_stage_id")
+    private Stage currentStage;
+
+    // Stage History
+    @ElementCollection
+    @CollectionTable(
+            name = "IA_STAGE_HISTORY",
+            joinColumns = @JoinColumn(name = "REGISTRATION_ID")
+    )
+    @OrderColumn(name = "HISTORY_ORDER")
+    private List<StageHistory> history = new ArrayList<>();
+
 }
