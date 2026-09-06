@@ -77,4 +77,5 @@ public class BseRecommendationResponse {
     private Boolean isActive;
     private BigDecimal longitude;
     private BigDecimal latitude;
+    private String momFile;
 }

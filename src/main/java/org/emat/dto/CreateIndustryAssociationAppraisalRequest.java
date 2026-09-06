@@ -59,7 +59,7 @@ public class CreateIndustryAssociationAppraisalRequest {
     private BigDecimal utilizedAmount;
     private BigDecimal availableBudget;
 
-    // Terms
+    // Termstu
     private String termsAndConditions;
 
     // DoP
@@ -167,4 +167,7 @@ public class CreateIndustryAssociationAppraisalRequest {
     private String ngoDarpanFile;
 
     private String nabardBlacklistFile;
+
+    private Long stageId;
+    private String stageComments;
 }

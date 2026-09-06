@@ -8,6 +8,7 @@ import org.emat.entity.IndustryAssociationAppraisal;
 import org.emat.entity.SustainabilityMatrix;
 import org.emat.repository.IndustryAssociationAppraisalRepository;
 import org.emat.repository.SustainabilityMatrixRepository;
+import org.emat.util.CommonUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SustainabilityMatrixService {
 
+    private static final String SUSTAINABILITY_MATRIX_SUBMITTED = "SUSTAINABILITY_MATRIX_SUBMITTED";
+    private static final String FROM_SUSTAINABILITY_MATRIX = "from sustainability matrix";
+
     private final SustainabilityMatrixRepository repository;
     private final IndustryAssociationAppraisalRepository appraisalRepository;
+    private final StageService stageService;
+    private final CommonUtil commonUtil;
     private static final String NOT_FOUND = "Sustainability Matrix not found: ";
 
 
@@ -48,6 +54,14 @@ public class SustainabilityMatrixService {
         matrix.setTotalScore(request.getTotalScore());
 
         SustainabilityMatrix saved = repository.save(matrix);
+
+        if(saved != null) {
+        stageService.updateStage(
+                appraisal.getRegistration().getId(),
+                request.getStageId(),
+                request.getStageComments(),
+                commonUtil.getCurrentUsername());
+        }
 
         return toResponse(saved);
     }

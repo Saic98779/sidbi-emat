@@ -5,9 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
+import org.emat.dto.StageHistoryResponse;
+import org.emat.dto.StageResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.entity.IndustryAssociationRegistration;
 import org.emat.entity.User;
+import org.emat.enums.Role;
 import org.emat.exception.EntityNotFoundException;
 import org.emat.mapper.IndustryAssociationRegistrationMapper;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
@@ -27,12 +30,17 @@ public class IndustryAssociationRegistrationService {
 
     private static final String REGISTRATION_NOT_FOUND_MESSAGE = "Registration not found with ID: ";
     private static final String USER_NOT_FOUND_WITH_USERNAME_MESSAGE = "User not found with username: ";
+    private static final String IN_PRINCIPLE_APPROVAL_OF_IA_SUBMISSION = "IN_PRINCIPLE_APPROVAL_OF_IA_SUBMISSION";
+    private static final String IN_PRINCIPLE_APPROVAL_OF_SDE_APPROVAL = "IN_PRINCIPLE_APPROVAL_OF_SDE_APPROVAL";
+    private static final String FROM_PRINCIPLE_COMMENT = "from principle";
+    private static final Long IA_REGISTRATION_CREATED_STAGE_ID = 1L;
 
     private final IndustryAssociationRegistrationRepository repository;
     private final UserRepository userRepository;
     private final IndustryAssociationRegistrationMapper registrationMapper;
     private final CommonUtil commonUtil;
     private final IndustryAssociationRegistrationValidator registrationValidator;
+    private final StageService stageService;
 
     public IndustryAssociationRegistrationResponse createRegistration(
             CreateIndustryAssociationRegistrationRequest request) {
@@ -49,6 +57,16 @@ public class IndustryAssociationRegistrationService {
 
         IndustryAssociationRegistration saved = repository.save(registration);
         log.info("Industry Association Registration created successfully with ID: {}", saved.getId());
+
+
+        if(saved != null) {
+            stageService.updateStage(
+                    saved.getId(),
+                    request.getStageId(),
+                    request.getStageComments(),
+                    commonUtil.getCurrentUsername());
+        }
+
         return registrationMapper.toResponse(saved);
     }
 
@@ -76,6 +94,13 @@ public class IndustryAssociationRegistrationService {
         registrationMapper.applyUpdateRequest(registration, request);
 
         IndustryAssociationRegistration updated = repository.save(registration);
+
+        stageService.updateStage(
+                updated.getId(),
+                request.getStageId(),
+                request.getStageComments(),
+                commonUtil.getCurrentUsername());
+
         log.info("Industry Association Registration updated successfully with ID: {}", id);
         return registrationMapper.toResponse(updated);
     }
@@ -96,7 +121,6 @@ public class IndustryAssociationRegistrationService {
 
         User approver = getUserByUsernameOrThrow(username);
 
-        registration.setIsSidbeApproved(approvalRequest.getIsSidbeApproved());
         registration.setSidbeApprovedByUser(approver);
 
         IndustryAssociationRegistration updated = repository.save(registration);
@@ -105,22 +129,20 @@ public class IndustryAssociationRegistrationService {
         return registrationMapper.toResponse(updated);
     }
 
-    @Transactional
-    public List<IndustryAssociationRegistrationResponse> getRegistrations(
-            String state,
-            String district,
-            Boolean isSidbeApproved) {
+    @Transactional(readOnly = true)
+    public List<StageHistoryResponse> getStageHistoryByRegistrationId(Long registrationId) {
+        return stageService.getStageHistoryByRegistrationId(registrationId);
+    }
 
-        log.debug("Fetching Industry Association Registrations for state: {}, district: {}, approved: {}",
-                state, district, isSidbeApproved);
+    @Transactional(readOnly = true)
+    public List<StageResponse> getAllStages() {
+        return stageService.getAllStages();
+    }
 
-        List<IndustryAssociationRegistration> registrations =
-                repository.findAllByIsActiveTrueAndStateAndDistrictAndIsSidbeApproved(
-                        state,
-                        district,
-                        isSidbeApproved);
-
-        return registrations.stream()
+    @Transactional(readOnly = true)
+    public List<IndustryAssociationRegistrationResponse> getRegistrationsByStageId(Long stageId) {
+        log.debug("Fetching Industry Association Registrations for stage ID: {}", stageId);
+        return repository.findAllByIsActiveTrueAndCurrentStageId(stageId).stream()
                 .map(registrationMapper::toResponse)
                 .toList();
     }

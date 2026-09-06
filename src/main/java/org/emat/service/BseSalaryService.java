@@ -60,7 +60,7 @@ public class BseSalaryService {
 
     @Transactional(readOnly = true)
     public List<String> getApprovedIndustryAssociationNames() {
-        return registrationRepository.findAllByIsActiveTrueAndIsSidbeApprovedTrue().stream()
+        return registrationRepository.findAllByIsActiveTrueAndCurrentStageId(18L).stream()
                 .map(IndustryAssociationRegistration::getIndustryAssociationName)
                 .filter(name -> name != null && !name.isBlank())
                 .toList();

@@ -36,6 +36,7 @@ public class EligibilityMatrixDto {
     private Boolean supportsGovtFinancialConvergence;
     private Boolean memberDirectoryAdvertised;
     private Boolean supportsGiAct;
-
     private Integer totalScore;
+    private Long stageId;
+    private String stageComments;
 }

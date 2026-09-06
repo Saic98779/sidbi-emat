@@ -1,0 +1,18 @@
+package org.emat.enums;
+
+public enum IndustryAssociationRegistrationStatus {
+    SDE_APPROVAL_1,
+    SDE_REVERTED_1,
+    SDE_REJECTED_1,
+    CLUSTER_EXPERT_APPROVAL,
+    CLUSTER_EXPERT_REVERTED,
+    CLUSTER_EXPERT_SUBMITTED,
+    SDE_APPROVAL_2,
+    SDE_REVERTED_2,
+    SDE_REJECTED_2,
+    HO_MAKER_APPROVAL,
+    HO_MAKER_REVERTED,
+    HO_MAKER_REJECTED,
+    PANEL_APPROVAL
+}
+

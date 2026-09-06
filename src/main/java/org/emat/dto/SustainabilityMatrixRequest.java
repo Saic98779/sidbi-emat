@@ -34,4 +34,6 @@ public class SustainabilityMatrixRequest {
     private Boolean dedicatedStaff;
     private Boolean operationalProcesses;
     private Integer totalScore;
+    private Long stageId;
+    private String stageComments;
 }
