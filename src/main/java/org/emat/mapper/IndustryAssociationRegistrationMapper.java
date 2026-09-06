@@ -250,6 +250,7 @@ public class IndustryAssociationRegistrationMapper {
                 .updatedAt(registration.getUpdatedAt())
                 .createdBy(registration.getCreatedBy())
                 .updatedBy(registration.getUpdatedBy())
+                .currentStage(registration.getCurrentStage() != null ? registration.getCurrentStage().getStage() : null)
                 .build();
     }
 

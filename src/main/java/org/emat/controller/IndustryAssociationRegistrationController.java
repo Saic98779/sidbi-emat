@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
+import org.emat.dto.StageHistoryResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.service.EndpointRolePolicyService;
 import org.emat.service.IndustryAssociationRegistrationService;
@@ -96,5 +97,15 @@ public class IndustryAssociationRegistrationController {
             @RequestParam String district,
             @RequestParam Boolean isSidbeApproved) {
         return ResponseEntity.ok(ApiResponse.success("Registrations fetched successfully", service.getRegistrations(state, district, isSidbeApproved)));
+    }
+
+    @GetMapping("/{registrationId}/stage-history")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationRead'))")
+    public ResponseEntity<ApiResponse<List<StageHistoryResponse>>> getStageHistoryByRegistrationId(
+            @PathVariable Long registrationId) {
+        log.info("Received request to fetch stage history for registration ID: {}", registrationId);
+        return ResponseEntity.ok(ApiResponse.success(
+                "Stage history fetched successfully",
+                service.getStageHistoryByRegistrationId(registrationId)));
     }
 }

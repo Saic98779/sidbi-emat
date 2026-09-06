@@ -59,7 +59,7 @@ public class CreateIndustryAssociationAppraisalRequest {
     private BigDecimal utilizedAmount;
     private BigDecimal availableBudget;
 
-    // Terms
+    // Termstu
     private String termsAndConditions;
 
     // DoP
