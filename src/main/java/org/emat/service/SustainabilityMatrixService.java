@@ -56,10 +56,10 @@ public class SustainabilityMatrixService {
         SustainabilityMatrix saved = repository.save(matrix);
 
         if(saved != null) {
-        stageService.updateStageBySubStage(
+        stageService.updateStage(
                 appraisal.getRegistration().getId(),
-                SUSTAINABILITY_MATRIX_SUBMITTED,
-                FROM_SUSTAINABILITY_MATRIX,
+                request.getStageId(),
+                request.getStageComments(),
                 commonUtil.getCurrentUsername());
         }
 

@@ -232,8 +232,6 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @JoinColumn(name = "SIDBE_APPROVED_BY_USER_ID")
     private User sidbeApprovedByUser;
 
-    private Boolean isSidbeApproved;
-
     // Bidirectional 1:1 relationship with IndustryAssociationAppraisal
     @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private IndustryAssociationAppraisal appraisal;
@@ -243,9 +241,6 @@ public class IndustryAssociationRegistration extends BaseEntity {
 
     @Column(name = "PAN_NO", length = 15,unique = true)
     private String panNo;
-
-    @Column(name = "IS_ELIGIBILITY_MATRIX_ADDED")
-    private Boolean isEligibleMatricsAdded;
 
     // Current Stage Details
     @ManyToOne

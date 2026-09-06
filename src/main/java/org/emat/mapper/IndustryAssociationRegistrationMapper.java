@@ -81,7 +81,6 @@ public class IndustryAssociationRegistrationMapper {
                 .envisagedOutcome(request.getEnvisagedOutcome())
                 .envisagedImpact(request.getEnvisagedImpact())
                 .sde(request.getSde())
-                .isSidbeApproved(Boolean.TRUE.equals(request.getIsSidbeApproved()) || isSidbiSdeCaller)
                 .sidbeApprovedByUser(sidbiApprover)
                 .createdBy(request.getCreatedBy())
                 .build();
@@ -92,7 +91,6 @@ public class IndustryAssociationRegistrationMapper {
             UpdateIndustryAssociationRegistrationRequest request) {
 
         if (request.getState() != null) registration.setState(request.getState());
-        if (request.getIsEligibleMatricsAdded() != null) registration.setIsEligibleMatricsAdded(request.getIsEligibleMatricsAdded());
         if (request.getEmail() != null) registration.setEmail(request.getEmail());
         if (request.getPanNo() != null) registration.setPanNo(request.getPanNo());
         if (request.getIndustryAssociationName() != null) registration.setIndustryAssociationName(request.getIndustryAssociationName());
@@ -180,7 +178,6 @@ public class IndustryAssociationRegistrationMapper {
         return IndustryAssociationRegistrationResponse.builder()
                 .id(registration.getId())
                 .state(registration.getState())
-                .isEligibleMatricsAdded(registration.getIsEligibleMatricsAdded())
                 .email(registration.getEmail())
                 .panNo(registration.getPanNo())
                 .industryAssociationName(registration.getIndustryAssociationName())
@@ -240,7 +237,6 @@ public class IndustryAssociationRegistrationMapper {
                 .envisagedOutcome(registration.getEnvisagedOutcome())
                 .envisagedImpact(registration.getEnvisagedImpact())
                 .sde(registration.getSde())
-                .isSidbeApproved(registration.getIsSidbeApproved())
                 .sidbeApprovedByUserId(registration.getSidbeApprovedByUser() != null
                         ? registration.getSidbeApprovedByUser().getId() : null)
                 .sidbeApprovedByUsername(registration.getSidbeApprovedByUser() != null
@@ -250,7 +246,7 @@ public class IndustryAssociationRegistrationMapper {
                 .updatedAt(registration.getUpdatedAt())
                 .createdBy(registration.getCreatedBy())
                 .updatedBy(registration.getUpdatedBy())
-                .currentStage(registration.getCurrentStage() != null ? registration.getCurrentStage().getStage() : null)
+                .currentStage(registration.getCurrentStage() != null ? registration.getCurrentStage().getStage() +  (registration.getCurrentStage().getSubStage() != null ? "." + registration.getCurrentStage().getSubStage() : "") : null)
                 .build();
     }
 

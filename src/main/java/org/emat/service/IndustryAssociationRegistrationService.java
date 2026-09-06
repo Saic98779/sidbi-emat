@@ -6,6 +6,7 @@ import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
 import org.emat.dto.StageHistoryResponse;
+import org.emat.dto.StageResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.entity.IndustryAssociationRegistration;
 import org.emat.entity.User;
@@ -57,11 +58,14 @@ public class IndustryAssociationRegistrationService {
         IndustryAssociationRegistration saved = repository.save(registration);
         log.info("Industry Association Registration created successfully with ID: {}", saved.getId());
 
-        stageService.updateStage(
-                saved.getId(),
-                IA_REGISTRATION_CREATED_STAGE_ID,
-                "",
-                commonUtil.getCurrentUsername());
+
+        if(saved != null) {
+            stageService.updateStage(
+                    saved.getId(),
+                    request.getStageId(),
+                    request.getStageComments(),
+                    commonUtil.getCurrentUsername());
+        }
 
         return registrationMapper.toResponse(saved);
     }
@@ -91,21 +95,11 @@ public class IndustryAssociationRegistrationService {
 
         IndustryAssociationRegistration updated = repository.save(registration);
 
-        Role currentUserRole = commonUtil.resolveCurrentUser().map(User::getRole).orElse(null);
-
-        if (currentUserRole == Role.GT_FIELD_TEAM) {
-            stageService.updateStageBySubStage(
-                    updated.getId(),
-                    IN_PRINCIPLE_APPROVAL_OF_IA_SUBMISSION,
-                    FROM_PRINCIPLE_COMMENT,
-                    commonUtil.getCurrentUsername());
-        } else if (currentUserRole == Role.SIDBI_SDE) {
-            stageService.updateStageBySubStage(
-                    updated.getId(),
-                    IN_PRINCIPLE_APPROVAL_OF_SDE_APPROVAL,
-                    "",
-                    commonUtil.getCurrentUsername());
-        }
+        stageService.updateStage(
+                updated.getId(),
+                request.getStageId(),
+                request.getStageComments(),
+                commonUtil.getCurrentUsername());
 
         log.info("Industry Association Registration updated successfully with ID: {}", id);
         return registrationMapper.toResponse(updated);
@@ -127,7 +121,6 @@ public class IndustryAssociationRegistrationService {
 
         User approver = getUserByUsernameOrThrow(username);
 
-        registration.setIsSidbeApproved(approvalRequest.getIsSidbeApproved());
         registration.setSidbeApprovedByUser(approver);
 
         IndustryAssociationRegistration updated = repository.save(registration);
@@ -136,29 +129,22 @@ public class IndustryAssociationRegistrationService {
         return registrationMapper.toResponse(updated);
     }
 
-    @Transactional
-    public List<IndustryAssociationRegistrationResponse> getRegistrations(
-            String state,
-            String district,
-            Boolean isSidbeApproved) {
-
-        log.debug("Fetching Industry Association Registrations for state: {}, district: {}, approved: {}",
-                state, district, isSidbeApproved);
-
-        List<IndustryAssociationRegistration> registrations =
-                repository.findAllByIsActiveTrueAndStateAndDistrictAndIsSidbeApproved(
-                        state,
-                        district,
-                        isSidbeApproved);
-
-        return registrations.stream()
-                .map(registrationMapper::toResponse)
-                .toList();
-    }
-
     @Transactional(readOnly = true)
     public List<StageHistoryResponse> getStageHistoryByRegistrationId(Long registrationId) {
         return stageService.getStageHistoryByRegistrationId(registrationId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StageResponse> getAllStages() {
+        return stageService.getAllStages();
+    }
+
+    @Transactional(readOnly = true)
+    public List<IndustryAssociationRegistrationResponse> getRegistrationsByStageId(Long stageId) {
+        log.debug("Fetching Industry Association Registrations for stage ID: {}", stageId);
+        return repository.findAllByIsActiveTrueAndCurrentStageId(stageId).stream()
+                .map(registrationMapper::toResponse)
+                .toList();
     }
 
     private IndustryAssociationRegistration getRegistrationOrThrow(Long id) {

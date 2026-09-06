@@ -8,6 +8,7 @@ import org.emat.entity.IndustryAssociationRegistration;
 import org.emat.mapper.EligibilityMatrixMapper;
 import org.emat.repository.EligibilityMatrixRepository;
 import org.emat.repository.IndustryAssociationRegistrationRepository;
+import org.emat.util.CommonUtil;
 import org.emat.validator.EligibilityMatrixValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,8 @@ public class EligibilityMatrixService {
     private final IndustryAssociationRegistrationRepository registrationRepository;
     private final EligibilityMatrixMapper eligibilityMatrixMapper;
     private final EligibilityMatrixValidator eligibilityMatrixValidator;
+    private final StageService stageService;
+    private final CommonUtil commonUtil;
 
     @Transactional
     public EligibilityMatrixDto create(EligibilityMatrixDto request) {
@@ -35,8 +38,14 @@ public class EligibilityMatrixService {
         eligibilityMatrixMapper.updateEntityFromRequest(request, entity);
 
         EligibilityMatrix saved = eligibilityMatrixRepository.save(entity);
-        registration.setIsEligibleMatricsAdded(true);
         registrationRepository.save(registration);
+        if(saved != null) {
+            stageService.updateStage(
+                    saved.getRegistration().getId(),
+                    request.getStageId(),
+                    request.getStageComments(),
+                    commonUtil.getCurrentUsername());
+        }
         return eligibilityMatrixMapper.toResponse(saved);
     }
 

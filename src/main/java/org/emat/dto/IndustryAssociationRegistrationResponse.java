@@ -75,7 +75,6 @@ public class IndustryAssociationRegistrationResponse {
     private String envisagedOutcome;
     private String envisagedImpact;
     private String sde;
-    private Boolean isSidbeApproved;
     private Long sidbeApprovedByUserId;
     private String sidbeApprovedByUsername;
     private Boolean isActive;
@@ -85,6 +84,6 @@ public class IndustryAssociationRegistrationResponse {
     private String updatedBy;
     private String panNo;
     private String email;
-    private Boolean isEligibleMatricsAdded;
     private String currentStage;
+    private String comments;
 }

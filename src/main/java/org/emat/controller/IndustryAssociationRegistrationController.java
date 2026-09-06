@@ -8,6 +8,7 @@ import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
 import org.emat.dto.StageHistoryResponse;
+import org.emat.dto.StageResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.service.EndpointRolePolicyService;
 import org.emat.service.IndustryAssociationRegistrationService;
@@ -85,20 +86,6 @@ public class IndustryAssociationRegistrationController {
         return ResponseEntity.ok(ApiResponse.success("Registration approved successfully", service.approveBySidbe(id, approvalRequest, authentication.getName())));
     }
 
-
-    @Operation(
-            summary = "Search Industry Association Registrations",
-            description = "Retrieves Industry Association Registrations filtered by state, district, and SIDBI approval status."
-    )
-    @GetMapping("/search")
-    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationRead'))")
-    public ResponseEntity<ApiResponse<List<IndustryAssociationRegistrationResponse>>> getRegistrations(
-            @RequestParam String state,
-            @RequestParam String district,
-            @RequestParam Boolean isSidbeApproved) {
-        return ResponseEntity.ok(ApiResponse.success("Registrations fetched successfully", service.getRegistrations(state, district, isSidbeApproved)));
-    }
-
     @GetMapping("/{registrationId}/stage-history")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationRead'))")
     public ResponseEntity<ApiResponse<List<StageHistoryResponse>>> getStageHistoryByRegistrationId(
@@ -107,5 +94,30 @@ public class IndustryAssociationRegistrationController {
         return ResponseEntity.ok(ApiResponse.success(
                 "Stage history fetched successfully",
                 service.getStageHistoryByRegistrationId(registrationId)));
+    }
+
+    @Operation(
+            summary = "Get all stages",
+            description = "Retrieves all stages with their ID, stage and sub-stage."
+    )
+    @GetMapping("/stages")
+    public ResponseEntity<ApiResponse<List<StageResponse>>> getAllStages() {
+        log.info("Received request to fetch all stages");
+        return ResponseEntity.ok(ApiResponse.success(
+                "Stages fetched successfully",
+                service.getAllStages()));
+    }
+
+    @Operation(
+            summary = "Get registrations by stage ID",
+            description = "Retrieves all active Industry Association Registrations that are currently at the given stage."
+    )
+    @GetMapping("/stage/{stageId}")
+    public ResponseEntity<ApiResponse<List<IndustryAssociationRegistrationResponse>>> getRegistrationsByStageId(
+            @PathVariable Long stageId) {
+        log.info("Received request to fetch registrations for stage ID: {}", stageId);
+        return ResponseEntity.ok(ApiResponse.success(
+                "Registrations fetched successfully",
+                service.getRegistrationsByStageId(stageId)));
     }
 }

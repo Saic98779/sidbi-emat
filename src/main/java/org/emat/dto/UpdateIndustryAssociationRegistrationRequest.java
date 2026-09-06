@@ -77,6 +77,7 @@ public class UpdateIndustryAssociationRegistrationRequest {
     private String updatedBy;
     private String panNo;
     private String email;
-    private Boolean isEligibleMatricsAdded;
+    private Long stageId;
+    private String stageComments;
 }
 

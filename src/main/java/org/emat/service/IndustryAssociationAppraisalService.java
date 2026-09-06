@@ -11,6 +11,7 @@ import org.emat.entity.IndustryAssociationRegistration;
 import org.emat.entity.User;
 import org.emat.mapper.IndustryAssociationAppraisalMapper;
 import org.emat.repository.IndustryAssociationAppraisalRepository;
+import org.emat.util.CommonUtil;
 import org.emat.validator.IndustryAssociationAppraisalValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,8 @@ public class IndustryAssociationAppraisalService {
     private final IndustryAssociationAppraisalRepository appraisalRepository;
     private final IndustryAssociationAppraisalMapper appraisalMapper;
     private final IndustryAssociationAppraisalValidator appraisalValidator;
+    private final StageService stageService;
+    private final CommonUtil commonUtil;
 
     public IndustryAssociationAppraisalResponse createAppraisal(
             CreateIndustryAssociationAppraisalRequest request) {
@@ -39,6 +42,13 @@ public class IndustryAssociationAppraisalService {
 
         IndustryAssociationAppraisal saved = appraisalRepository.save(appraisal);
         log.info("Industry Association Appraisal created successfully with ID: {}", saved.getId());
+        if(saved != null) {
+            stageService.updateStage(
+                    saved.getRegistration().getId(),
+                    request.getStageId(),
+                    request.getStageComments(),
+                    commonUtil.getCurrentUsername());
+        }
         return appraisalMapper.toResponse(saved);
     }
 
@@ -73,6 +83,13 @@ public class IndustryAssociationAppraisalService {
 
         IndustryAssociationAppraisal updated = appraisalRepository.save(appraisal);
         log.info("Industry Association Appraisal updated successfully with ID: {}", id);
+        if(updated != null) {
+            stageService.updateStage(
+                    updated.getRegistration().getId(),
+                    request.getStageId(),
+                    request.getStageComments(),
+                    commonUtil.getCurrentUsername());
+        }
         return appraisalMapper.toResponse(updated);
     }
 
@@ -86,6 +103,13 @@ public class IndustryAssociationAppraisalService {
         appraisal.setSidbeApprovedByUser(approver);
 
         IndustryAssociationAppraisal updated = appraisalRepository.save(appraisal);
+        if(updated != null) {
+            stageService.updateStage(
+                    updated.getRegistration().getId(),
+                    approvalRequest.getStageId(),
+                    approvalRequest.getStageComments(),
+                    commonUtil.getCurrentUsername());
+        }
         log.info("SIDBE approval processed successfully for appraisal ID: {} by user: {}", id, username);
 
         return appraisalMapper.toResponse(updated);

@@ -2,6 +2,7 @@ package org.emat.service;
 
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.StageHistoryResponse;
+import org.emat.dto.StageResponse;
 import org.emat.entity.IndustryAssociationRegistration;
 import org.emat.entity.Stage;
 import org.emat.entity.StageHistory;
@@ -43,6 +44,17 @@ public class StageService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<StageResponse> getAllStages() {
+        return stageRepository.findAll().stream()
+                .map(stage -> StageResponse.builder()
+                        .id(stage.getId())
+                        .stage(stage.getStage())
+                        .subStage(stage.getSubStage())
+                        .build())
+                .toList();
+    }
+
     @Async
     @Transactional
     public void updateStage(
@@ -54,21 +66,6 @@ public class StageService {
 
         Stage stage = stageRepository.findById(stageId)
                 .orElseThrow(() -> new EntityNotFoundException(STAGE_NOT_FOUND_MESSAGE + stageId));
-
-        persistStageTransition(registrationId, stage, comment, createdBy);
-    }
-
-    @Async
-    @Transactional
-    public void updateStageBySubStage(
-            Long registrationId,
-            String subStage,
-            String comment,
-            String createdBy
-    ) {
-
-        Stage stage = stageRepository.findFirstBySubStageIgnoreCase(subStage)
-                .orElseThrow(() -> new EntityNotFoundException(STAGE_NOT_FOUND_WITH_SUB_STAGE_MESSAGE + subStage));
 
         persistStageTransition(registrationId, stage, comment, createdBy);
     }

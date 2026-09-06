@@ -163,5 +163,7 @@ public class UpdateIndustryAssociationAppraisalRequest {
     private String ngoDarpanFile;
 
     private String nabardBlacklistFile;
+    private Long stageId;
+    private String stageComments;
 }
 
