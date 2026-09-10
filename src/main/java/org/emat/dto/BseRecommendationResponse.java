@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,8 +15,8 @@ import java.util.UUID;
 @Builder
 public class BseRecommendationResponse {
 
-    private UUID uuid;
-    private UUID registrationUuid;
+    private Long id;
+    private Long registrationId;
     private String industryAssociationName;
 
     // Vendor Details
@@ -78,4 +77,5 @@ public class BseRecommendationResponse {
     private Boolean isActive;
     private BigDecimal longitude;
     private BigDecimal latitude;
+    private String momFile;
 }

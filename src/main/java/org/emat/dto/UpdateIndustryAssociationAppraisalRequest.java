@@ -137,5 +137,33 @@ public class UpdateIndustryAssociationAppraisalRequest {
     private String envisagedOutput;
     private String envisagedOutcome;
     private String envisagedImpact;
+
+    private String holderCibilReferenceNo;
+    private LocalDate holderCibilDate;
+    private String holderCibilScore;
+    private String holderCibilRemarks;
+    private String holderCibilFile;
+
+    private Boolean holderSmartAvailable;
+    private LocalDate holderSmartDate;
+    private String holderSmartRemarks;
+
+    private String beneficialOwnerCibilReferenceNo;
+    private LocalDate beneficialOwnerCibilDate;
+    private String beneficialOwnerCibilRanking;
+    private String beneficialOwnerCibilFile;
+
+    private Boolean beneficialOwnerSmartAvailable;
+    private LocalDate beneficialOwnerSmartDate;
+
+    private String paidServicesDetails;
+
+    private Boolean smartReportAvailable;
+
+    private String ngoDarpanFile;
+
+    private String nabardBlacklistFile;
+    private Long stageId;
+    private String stageComments;
 }
 

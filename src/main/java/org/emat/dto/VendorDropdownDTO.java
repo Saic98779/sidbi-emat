@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class VendorDropdownDTO {
 
-    private UUID uuid;
+    private Long id;
     private String vendorId;
     private String vendorName;
 }

@@ -4,16 +4,15 @@ import org.emat.entity.IndustryAssociationRegistration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Repository for IndustryAssociationRegistration entity.
  * Provides database access operations for Industry Association Registration records.
  */
 @Repository
-public interface IndustryAssociationRegistrationRepository extends JpaRepository<IndustryAssociationRegistration, UUID> {
+public interface IndustryAssociationRegistrationRepository extends JpaRepository<IndustryAssociationRegistration, Long> {
 
     /**
      * Find all active registrations.
@@ -23,14 +22,6 @@ public interface IndustryAssociationRegistrationRepository extends JpaRepository
     List<IndustryAssociationRegistration> findAllByIsActiveTrue();
 
     /**
-     * Find registration by UUID.
-     *
-     * @param uuid the unique identifier
-     * @return Optional containing the registration if found
-     */
-    Optional<IndustryAssociationRegistration> findByUuid(UUID uuid);
-
-    /**
      * Check if registration exists by industry association name.
      *
      * @param industryAssociationName the industry association name
@@ -38,23 +29,6 @@ public interface IndustryAssociationRegistrationRepository extends JpaRepository
      */
     boolean existsByIndustryAssociationNameAndStateAndIsActiveTrue(String industryAssociationName, String state);
 
-    /**
-     * Find all active registrations by state, district and SIDBI approval status.
-     *
-     * @param state state name
-     * @param district district name
-     * @param isSidbeApproved SIDBI approval status
-     * @return list of matching registrations
-     */
-    List<IndustryAssociationRegistration> findAllByIsActiveTrueAndStateAndDistrictAndIsSidbeApproved(
-            String state,
-            String district,
-            Boolean isSidbeApproved);
 
-    /**
-     * Find all active and SIDBI-approved industry association names.
-     *
-     * @return list of approved industry association names
-     */
-    List<IndustryAssociationRegistration> findAllByIsActiveTrueAndIsSidbeApprovedTrue();
+    List<IndustryAssociationRegistration> findAllByIsActiveTrueAndCurrentStageId(long stageId);
 }

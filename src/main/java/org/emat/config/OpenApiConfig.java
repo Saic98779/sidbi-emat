@@ -20,7 +20,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
 
         Server productionServer = new Server();
-        productionServer.setUrl("https://api.emat.metaversedu.in/emat/v1");
+        productionServer.setUrl("https://api.emat-prod.metaversedu.in/emat/v1");
         productionServer.setDescription("Production");
 
         Server localServer = new Server();

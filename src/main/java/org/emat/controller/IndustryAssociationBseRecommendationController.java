@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.BseRecommendationResponse;
 import org.emat.dto.CreateBseRecommendationRequest;
 import org.emat.dto.UpdateBseRecommendationRequest;
@@ -15,7 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/bse-recommendations")
@@ -27,129 +27,89 @@ public class IndustryAssociationBseRecommendationController {
 
     private final IndustryAssociationBseRecommendationService bseRecommendationService;
 
-    /**
-     * Create a new BSE recommendation
-     */
     @PostMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationCreate'))")
     @Operation(summary = "Create BSE recommendation", description = "Create a new BSE recommendation for an industry association")
-    public ResponseEntity<BseRecommendationResponse> createBseRecommendation(
+    public ResponseEntity<ApiResponse<BseRecommendationResponse>> createBseRecommendation(
             @RequestBody CreateBseRecommendationRequest request) {
-        log.info("REST request to create BSE recommendation for registration: {}", request.getRegistrationUuid());
-        BseRecommendationResponse response = bseRecommendationService.createBseRecommendation(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        log.info("REST request to create BSE recommendation for registration: {}", request.getRegistrationId());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.created("BSE recommendation created successfully", bseRecommendationService.createBseRecommendation(request)));
     }
 
-    /**
-     * Get all BSE recommendations
-     */
     @GetMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(summary = "Get all BSE recommendations", description = "Retrieve all active BSE recommendations")
-    public ResponseEntity<List<BseRecommendationResponse>> getAllBseRecommendations() {
+    public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getAllBseRecommendations() {
         log.info("REST request to get all BSE recommendations");
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.getAllBseRecommendations();
-        return ResponseEntity.ok(recommendations);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendations fetched successfully", bseRecommendationService.getAllBseRecommendations()));
     }
 
-    /**
-     * Get BSE recommendation by UUID
-     */
-    @GetMapping("/{uuid}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
-    @Operation(summary = "Get BSE recommendation by UUID", description = "Retrieve a specific BSE recommendation by its UUID")
-    public ResponseEntity<BseRecommendationResponse> getBseRecommendationByUuid(@PathVariable UUID uuid) {
-        log.info("REST request to get BSE recommendation with UUID: {}", uuid);
-        BseRecommendationResponse response = bseRecommendationService.getBseRecommendationByUuid(uuid);
-        return ResponseEntity.ok(response);
+    @Operation(summary = "Get BSE recommendation by ID", description = "Retrieve a specific BSE recommendation by its ID")
+    public ResponseEntity<ApiResponse<BseRecommendationResponse>> getBseRecommendationById(@PathVariable("id") Long id) {
+        log.info("REST request to get BSE recommendation with ID: {}", id);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendation fetched successfully", bseRecommendationService.getBseRecommendationById(id)));
     }
 
-    /**
-     * Get BSE recommendations by registration UUID
-     */
-    @GetMapping("/registration/{registrationUuid}")
+    @GetMapping("/registration/{registrationId}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(summary = "Get BSE recommendations by registration", description = "Retrieve all BSE recommendations for a specific industry association")
-    public ResponseEntity<List<BseRecommendationResponse>> getBseRecommendationsByRegistration(
-            @PathVariable UUID registrationUuid) {
-        log.info("REST request to get BSE recommendations for registration: {}", registrationUuid);
-        List<BseRecommendationResponse> recommendations = bseRecommendationService
-                .getBseRecommendationsByRegistration(registrationUuid);
-        return ResponseEntity.ok(recommendations);
+    public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getBseRecommendationsByRegistration(
+            @PathVariable Long registrationId) {
+        log.info("REST request to get BSE recommendations for registration: {}", registrationId);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendations fetched successfully", bseRecommendationService.getBseRecommendationsByRegistration(registrationId)));
     }
 
-    /**
-     * Update BSE recommendation
-     */
-    @PutMapping("/{uuid}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationUpdate'))")
     @Operation(summary = "Update BSE recommendation", description = "Update an existing BSE recommendation")
-    public ResponseEntity<BseRecommendationResponse> updateBseRecommendation(
-            @PathVariable UUID uuid,
+    public ResponseEntity<ApiResponse<BseRecommendationResponse>> updateBseRecommendation(
+            @PathVariable("id") Long id,
             @RequestBody UpdateBseRecommendationRequest request) {
-        log.info("REST request to update BSE recommendation with UUID: {}", uuid);
-        BseRecommendationResponse response = bseRecommendationService.updateBseRecommendation(uuid, request);
-        return ResponseEntity.ok(response);
+        log.info("REST request to update BSE recommendation with ID: {}", id);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendation updated successfully", bseRecommendationService.updateBseRecommendation(id, request)));
     }
 
-    /**
-     * Search BSE recommendations by name
-     */
     @GetMapping("/search")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(summary = "Search BSE recommendations by name", description = "Search BSE recommendations by BSE name")
-    public ResponseEntity<List<BseRecommendationResponse>> searchByBseName(@RequestParam String bseName) {
+    public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> searchByBseName(@RequestParam String bseName) {
         log.info("REST request to search BSE recommendations by name: {}", bseName);
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.searchByBseName(bseName);
-        return ResponseEntity.ok(recommendations);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendations fetched successfully", bseRecommendationService.searchByBseName(bseName)));
     }
 
-    /**
-     * Get BSE recommendations by GT recommendation status
-     */
     @GetMapping("/gt-recommendation")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(summary = "Get BSE recommendations by GT status", description = "Filter BSE recommendations where GT recommendation is not null or null based on isRecommended")
-    public ResponseEntity<List<BseRecommendationResponse>> getByGtRecommendation(@RequestParam boolean isRecommended) {
+    public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getByGtRecommendation(@RequestParam boolean isRecommended) {
         log.info("REST request to get BSE recommendations with GT recommendation set");
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByGtRecommendation(isRecommended);
-        return ResponseEntity.ok(recommendations);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendations fetched successfully", bseRecommendationService.getByGtRecommendation(isRecommended)));
     }
 
-    /**
-     * Get BSE recommendations by PMU recommendation status
-     */
     @GetMapping("/pmu-recommendation")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(summary = "Get BSE recommendations by PMU status", description = "Filter BSE recommendations where PMU recommendation is not null or null based on isRecommended")
-    public ResponseEntity<List<BseRecommendationResponse>> getByPmuRecommendation(@RequestParam boolean isRecommended) {
+    public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getByPmuRecommendation(@RequestParam boolean isRecommended) {
         log.info("REST request to get BSE recommendations with PMU recommendation set");
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByPmuRecommendation(isRecommended);
-        return ResponseEntity.ok(recommendations);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendations fetched successfully", bseRecommendationService.getByPmuRecommendation(isRecommended)));
     }
 
-    /**
-     * Get BSE recommendations by HO recommendation status
-     */
     @GetMapping("/ho-recommendation")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(summary = "Get BSE recommendations by HO status", description = "Filter BSE recommendations where HO recommendation is not null")
-    public ResponseEntity<List<BseRecommendationResponse>> getByHoRecommendation(@RequestParam boolean isRecommended) {
+    public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getByHoRecommendation(@RequestParam boolean isRecommended) {
         log.info("REST request to get BSE recommendations with HO recommendation set");
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByHoRecommendation(isRecommended);
-        return ResponseEntity.ok(recommendations);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendations fetched successfully", bseRecommendationService.getByHoRecommendation(isRecommended)));
     }
 
-    /**
-     * Get mapped/unmapped BSE recommendations
-     */
     @GetMapping("/mapped/{status}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(summary = "Get BSE recommendations by mapped status", description = "Filter BSE recommendations by IA mapping status")
-    public ResponseEntity<List<BseRecommendationResponse>> getByMappedStatus(@PathVariable Boolean status) {
+    public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getByMappedStatus(@PathVariable Boolean status) {
         log.info("REST request to get BSE recommendations by mapped status: {}", status);
-        List<BseRecommendationResponse> recommendations = bseRecommendationService.getByMappedStatus(status);
-        return ResponseEntity.ok(recommendations);
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendations fetched successfully", bseRecommendationService.getByMappedStatus(status)));
     }
 
     @Operation(
@@ -157,10 +117,10 @@ public class IndustryAssociationBseRecommendationController {
             description = "Fetches all active BSE recommendations mapped to the specified vendor where the recommendation is marked as selected."
     )
     @GetMapping("/user/{userId}/selected")
-    public ResponseEntity<List<BseRecommendationResponse>> getSelectedBseByVendor(
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
+    public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getSelectedBseByVendor(
             @PathVariable Long userId) {
 
-        return ResponseEntity.ok(
-                bseRecommendationService.getSelectedBseByVendor(userId));
+        return ResponseEntity.ok(ApiResponse.success("BSE recommendations fetched successfully", bseRecommendationService.getSelectedBseByVendor(userId)));
     }
 }

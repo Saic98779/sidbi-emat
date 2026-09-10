@@ -5,7 +5,6 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -13,9 +12,9 @@ import java.util.UUID;
 @Builder
 public class BseAttendanceManualRequestDTO {
 
-    private UUID uuid;
+    private Long id;
 
-    private UUID bseRecommendationId;
+    private Long bseRecommendationId;
 
     private LocalDate attendanceDate;
 
@@ -29,5 +28,5 @@ public class BseAttendanceManualRequestDTO {
 
     private LocalDateTime approvedDate;
 
-    private UUID approvedBy;
+    private Long approvedBy;
 }

@@ -4,10 +4,9 @@ import org.emat.entity.BseAttendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface BseAttendanceRepository extends JpaRepository<BseAttendance, UUID> {
+public interface BseAttendanceRepository extends JpaRepository<BseAttendance, Long> {
 
-    List<BseAttendance> findByBseRecommendationUuid(UUID bseRecommendationId);
+    List<BseAttendance> findByBseRecommendationId(Long bseRecommendationId);
 
 }

@@ -7,7 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,14 +25,16 @@ import java.time.LocalDateTime;
 public class Activity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ACTIVITY")
+    @SequenceGenerator(name = "SEQ_ACTIVITY", sequenceName = "SEQ_ACTIVITY", allocationSize = 1)
     @Column(name = "ACTIVITY_ID")
     private Long activityId;
 
     @Column(name = "ACTIVITY_TYPE")
     private String activityType;
 
-    @Column(name = "DETAILS", columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "DETAILS")
     private String details;
 
     @Column(name = "DATE_TIME")

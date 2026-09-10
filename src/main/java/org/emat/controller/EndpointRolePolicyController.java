@@ -1,20 +1,14 @@
 package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.EndpointRolePolicyRequest;
 import org.emat.dto.EndpointRolePolicyResponse;
 import org.emat.enums.Role;
 import org.emat.service.EndpointRolePolicyCacheService;
 import org.emat.service.EndpointRolePolicyService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,45 +22,45 @@ public class EndpointRolePolicyController {
     private final EndpointRolePolicyCacheService cacheService;
 
     @GetMapping
-    public ResponseEntity<List<EndpointRolePolicyResponse>> getAll() {
-        return ResponseEntity.ok(service.getAllPolicies());
+    public ResponseEntity<ApiResponse<List<EndpointRolePolicyResponse>>> getAll() {
+        return ResponseEntity.ok(ApiResponse.success("Policies fetched successfully", service.getAllPolicies()));
     }
 
     @GetMapping("/roles")
-    public ResponseEntity<List<String>> getAvailableRoles() {
-        return ResponseEntity.ok(Arrays.stream(Role.values()).map(Enum::name).toList());
+    public ResponseEntity<ApiResponse<List<String>>> getAvailableRoles() {
+        return ResponseEntity.ok(ApiResponse.success("Roles fetched successfully", Arrays.stream(Role.values()).map(Enum::name).toList()));
     }
 
     @GetMapping("/{policyKey}")
-    public ResponseEntity<EndpointRolePolicyResponse> getOne(@PathVariable String policyKey) {
-        return ResponseEntity.ok(service.getPolicy(policyKey));
+    public ResponseEntity<ApiResponse<EndpointRolePolicyResponse>> getOne(@PathVariable String policyKey) {
+        return ResponseEntity.ok(ApiResponse.success("Policy fetched successfully", service.getPolicy(policyKey)));
     }
 
     @PostMapping
-    public ResponseEntity<EndpointRolePolicyResponse> upsert(@RequestBody EndpointRolePolicyRequest request) {
-        return ResponseEntity.ok(service.upsertPolicy(request));
+    public ResponseEntity<ApiResponse<EndpointRolePolicyResponse>> upsert(@RequestBody EndpointRolePolicyRequest request) {
+        return ResponseEntity.ok(ApiResponse.success("Policy upserted successfully", service.upsertPolicy(request)));
     }
 
     @PutMapping("/{policyKey}")
-    public ResponseEntity<EndpointRolePolicyResponse> updateByPolicyKey(
+    public ResponseEntity<ApiResponse<EndpointRolePolicyResponse>> updateByPolicyKey(
             @PathVariable String policyKey,
             @RequestBody EndpointRolePolicyRequest request) {
-        return ResponseEntity.ok(service.upsertPolicy(new EndpointRolePolicyRequest(
+        return ResponseEntity.ok(ApiResponse.success("Policy updated successfully", service.upsertPolicy(new EndpointRolePolicyRequest(
                 policyKey,
                 request.roles(),
                 request.description()
-        )));
+        ))));
     }
 
     @PostMapping("/refresh-cache")
-    public ResponseEntity<Void> refreshCache() {
+    public ResponseEntity<ApiResponse<Void>> refreshCache() {
         cacheService.refreshCache();
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.success("Cache refreshed successfully", null));
     }
 
     @DeleteMapping("/{policyKey}")
-    public ResponseEntity<Void> delete(@PathVariable String policyKey) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable String policyKey) {
         service.deletePolicy(policyKey);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.success("Policy deleted successfully", null));
     }
 }

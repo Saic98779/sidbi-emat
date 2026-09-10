@@ -36,7 +36,7 @@ public class RegionalOfficeService {
     private RegionalOfficeResponse convertToResponse(RegionalOffice office) {
 
         return RegionalOfficeResponse.builder()
-                .uuid(office.getUuid())
+                .id(office.getId())
                 .roId(office.getRoId())
                 .roName(office.getRoName())
                 .city(office.getCity())

@@ -3,12 +3,11 @@ package org.emat.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 public class VendorResponseDTO {
 
-    private UUID uuid;
+    private Long id;
     private String vendorId;
     private String vendorName;
     private String companyName;
