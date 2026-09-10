@@ -68,21 +68,25 @@ public class SustainabilityMatrixService {
 
 
     @Transactional
-    public SustainabilityMatrixResponse update(
-            Long id,
-            SustainabilityMatrixRequest request
-    ) {
+    public SustainabilityMatrixResponse update(Long id, SustainabilityMatrixRequest request)
+    {
 
-        SustainabilityMatrix matrix = repository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(NOT_FOUND + id));
+        SustainabilityMatrix matrix = repository.findById(id).orElseThrow(() -> new IllegalStateException(NOT_FOUND + id));
+
+        IndustryAssociationAppraisal appraisal = matrix.getIndustryAssociationAppraisal();
 
         /*
          * Update appraisal if appraisalId is provided
          */
         if (request.getAppraisalId() != null) {
 
-            IndustryAssociationAppraisal appraisal = appraisalRepository.findById(request.getAppraisalId())
-                    .orElseThrow(() -> new IllegalArgumentException("Appraisal not found: " + request.getAppraisalId()));
+            appraisal = appraisalRepository.findById(request.getAppraisalId())
+                    .orElseThrow(() ->
+                            new IllegalArgumentException(
+                                    "Appraisal not found: " + request.getAppraisalId()
+                            )
+                    );
+
             matrix.setIndustryAssociationAppraisal(appraisal);
         }
 
@@ -90,12 +94,22 @@ public class SustainabilityMatrixService {
 
         // Score comes directly from request
         matrix.setTotalScore(request.getTotalScore());
-
+        matrix.setActionPlanClusterExpertComment(request.getActionPlanClusterExpertComment());
+        matrix.setActionPlans(request.getActionPlans());
         SustainabilityMatrix updated = repository.save(matrix);
+
+        // Update stage
+        if (appraisal != null && appraisal.getRegistration() != null) {
+            stageService.updateStage(
+                    appraisal.getRegistration().getId(),
+                    request.getStageId(),
+                    request.getStageComments(),
+                    commonUtil.getCurrentUsername()
+            );
+        }
 
         return toResponse(updated);
     }
-
 
     @Transactional(readOnly = true)
     public SustainabilityMatrixResponse getById(Long id) {
@@ -338,7 +352,8 @@ public class SustainabilityMatrixService {
                 .totalScore(
                         entity.getTotalScore()
                 )
-
+                .actionPlans(entity.getActionPlans())
+                .actionPlanClusterExpertComment(entity.getActionPlanClusterExpertComment())
                 .build();
     }
 

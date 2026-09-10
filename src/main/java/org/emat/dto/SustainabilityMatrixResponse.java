@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -39,4 +41,7 @@ public class SustainabilityMatrixResponse {
     private Boolean operationalProcesses;
 
     private Integer totalScore;
+
+    private List<String> actionPlans;
+    private String actionPlanClusterExpertComment;
 }

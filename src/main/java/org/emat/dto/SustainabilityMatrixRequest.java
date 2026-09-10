@@ -1,8 +1,12 @@
 package org.emat.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,4 +40,6 @@ public class SustainabilityMatrixRequest {
     private Integer totalScore;
     private Long stageId;
     private String stageComments;
+    private List<String> actionPlans;
+    private String actionPlanClusterExpertComment;
 }

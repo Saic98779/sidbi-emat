@@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "SUSTAINABILITY_MATRIX")
 @Data
@@ -116,4 +119,15 @@ public class SustainabilityMatrix extends BaseEntity {
 
     @Column(name = "TOTAL_SCORE")
     private Integer totalScore;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "ACTION_PLANS",
+            joinColumns = @JoinColumn(name = "MATRIX_ID")
+    )
+    @Column(name = "ACTION_PLAN")
+    private List<String> actionPlans = new ArrayList<>();
+
+    @Column(name = "ACTION_PLAN_CLUSTER_EXPERT_COMMENT")
+    private String actionPlanClusterExpertComment;
 }
