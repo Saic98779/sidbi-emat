@@ -16,7 +16,8 @@ public class EligibilityMatrixMapper {
         entity.setBusinessWithinCluster(request.getBusinessWithinCluster());
         entity.setHandicraftArtisanal10Percent(request.getHandicraftArtisanal10Percent());
         entity.setSocioEconomicDevelopmentalImpact(request.getSocioEconomicDevelopmentalImpact());
-        entity.setSmallSectorFocussedSustainableGrowth(request.getSmallSectorFocussedSustainableGrowth());
+        entity.setSmallSectorFocussedSustainableGrowth(
+                request.getSmallSectorFocussedSustainableGrowth());
         entity.setRequiresInstitutionalSupport(request.getRequiresInstitutionalSupport());
         entity.setAdequateInfrastructure(request.getAdequateInfrastructure());
         entity.setConductsFairsInIndia(request.getConductsFairsInIndia());
@@ -38,14 +39,16 @@ public class EligibilityMatrixMapper {
     public EligibilityMatrixDto toResponse(EligibilityMatrix entity) {
         return EligibilityMatrixDto.builder()
                 .id(entity.getId())
-                .registrationId(entity.getRegistration() != null ? entity.getRegistration().getId() : null)
+                .registrationId(
+                        entity.getRegistration() != null ? entity.getRegistration().getId() : null)
                 .activeMembers200(entity.getActiveMembers200())
                 .activeMsmes(entity.getActiveMsmes())
                 .membershipFeesBelow30(entity.getMembershipFeesBelow30())
                 .businessWithinCluster(entity.getBusinessWithinCluster())
                 .handicraftArtisanal10Percent(entity.getHandicraftArtisanal10Percent())
                 .socioEconomicDevelopmentalImpact(entity.getSocioEconomicDevelopmentalImpact())
-                .smallSectorFocussedSustainableGrowth(entity.getSmallSectorFocussedSustainableGrowth())
+                .smallSectorFocussedSustainableGrowth(
+                        entity.getSmallSectorFocussedSustainableGrowth())
                 .requiresInstitutionalSupport(entity.getRequiresInstitutionalSupport())
                 .adequateInfrastructure(entity.getAdequateInfrastructure())
                 .conductsFairsInIndia(entity.getConductsFairsInIndia())
@@ -65,11 +68,11 @@ public class EligibilityMatrixMapper {
                 .build();
     }
 
-    public RegistrationDropdownDto toRegistrationDropdown(IndustryAssociationRegistration registration) {
+    public RegistrationDropdownDto toRegistrationDropdown(
+            IndustryAssociationRegistration registration) {
         return RegistrationDropdownDto.builder()
                 .id(registration.getId())
                 .name(registration.getIndustryAssociationName())
                 .build();
     }
 }
-

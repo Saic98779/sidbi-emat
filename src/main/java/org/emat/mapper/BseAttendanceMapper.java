@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class BseAttendanceMapper {
 
-    public BseAttendance toEntity(BseAttendanceDTO request, IndustryAssociationBseRecommendation recommendation) {
+    public BseAttendance toEntity(
+            BseAttendanceDTO request, IndustryAssociationBseRecommendation recommendation) {
         BseAttendance attendance = new BseAttendance();
         attendance.setBseRecommendation(recommendation);
         attendance.setAttendanceDate(request.getAttendanceDate());
@@ -37,4 +38,3 @@ public class BseAttendanceMapper {
                 .build();
     }
 }
-

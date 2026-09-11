@@ -1,10 +1,9 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -17,7 +16,10 @@ public class RegionalOffice extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REGIONAL_OFFICE")
-    @SequenceGenerator(name = "SEQ_REGIONAL_OFFICE", sequenceName = "SEQ_REGIONAL_OFFICE", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_REGIONAL_OFFICE",
+            sequenceName = "SEQ_REGIONAL_OFFICE",
+            allocationSize = 1)
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 

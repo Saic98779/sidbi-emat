@@ -1,11 +1,10 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,13 +17,14 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IA_BSE_RECOMMENDATION")
-    @SequenceGenerator(name = "SEQ_IA_BSE_RECOMMENDATION", sequenceName = "SEQ_IA_BSE_RECOMMENDATION", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_IA_BSE_RECOMMENDATION",
+            sequenceName = "SEQ_IA_BSE_RECOMMENDATION",
+            allocationSize = 1)
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 
-    /**
-     * Approved Industry Association
-     */
+    /** Approved Industry Association */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REGISTRATION_ID", nullable = false)
     private IndustryAssociationRegistration registration;
@@ -155,9 +155,7 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     @Column(name = "OFFER_LETTER", length = 500)
     private String offerLetter;
 
-    /**
-     * User Details
-     */
+    /** User Details */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
@@ -173,5 +171,4 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
 
     @Column(name = "MOM_FILE")
     private String momFile;
-
 }

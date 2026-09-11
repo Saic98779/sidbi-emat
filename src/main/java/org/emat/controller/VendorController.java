@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.VendorDropdownDTO;
@@ -10,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/vendor")
 @RequiredArgsConstructor
@@ -20,28 +19,31 @@ public class VendorController {
     private final VendorService vendorService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<VendorResponseDTO>> createVendor(@RequestBody VendorRequestDTO request) {
+    public ResponseEntity<ApiResponse<VendorResponseDTO>> createVendor(
+            @RequestBody VendorRequestDTO request) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.created("Vendor created successfully", vendorService.createVendor(request)));
+                .body(
+                        ApiResponse.created(
+                                "Vendor created successfully",
+                                vendorService.createVendor(request)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<VendorResponseDTO>> updateVendor(
-            @PathVariable Long id,
-            @RequestBody VendorRequestDTO request) {
+            @PathVariable Long id, @RequestBody VendorRequestDTO request) {
 
         return ResponseEntity.ok(
-                ApiResponse.success("Vendor updated successfully", vendorService.updateVendor(id, request)));
+                ApiResponse.success(
+                        "Vendor updated successfully", vendorService.updateVendor(id, request)));
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<VendorResponseDTO>> getVendorById(
-            @PathVariable Long id) {
+    public ResponseEntity<ApiResponse<VendorResponseDTO>> getVendorById(@PathVariable Long id) {
 
         return ResponseEntity.ok(
-                ApiResponse.success("Vendor fetched successfully", vendorService.getVendorById(id)));
+                ApiResponse.success(
+                        "Vendor fetched successfully", vendorService.getVendorById(id)));
     }
 
     @GetMapping("/user/{userId}")
@@ -49,7 +51,8 @@ public class VendorController {
             @PathVariable Long userId) {
 
         return ResponseEntity.ok(
-                ApiResponse.success("Vendor fetched successfully", vendorService.getVendorByUserId(userId)));
+                ApiResponse.success(
+                        "Vendor fetched successfully", vendorService.getVendorByUserId(userId)));
     }
 
     @GetMapping
@@ -63,12 +66,12 @@ public class VendorController {
     public ResponseEntity<ApiResponse<List<VendorDropdownDTO>>> getVendorDropdown() {
 
         return ResponseEntity.ok(
-                ApiResponse.success("Vendor dropdown fetched successfully", vendorService.getVendorDropdown()));
+                ApiResponse.success(
+                        "Vendor dropdown fetched successfully", vendorService.getVendorDropdown()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteVendor(
-            @PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> deleteVendor(@PathVariable Long id) {
 
         vendorService.deleteVendor(id);
 

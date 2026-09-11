@@ -1,19 +1,16 @@
 package org.emat.dto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.entity.IndustryAssociationAppraisal;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
-/**
- * DTO for Industry Association Appraisal response.
- */
+/** DTO for Industry Association Appraisal response. */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -88,7 +85,6 @@ public class IndustryAssociationAppraisalResponse {
     private String createdBy;
     private String updatedBy;
     private Boolean isActive;
-
 
     // Apex Holder Information (KYC)
     private String apexHolderName;
@@ -177,4 +173,3 @@ public class IndustryAssociationAppraisalResponse {
 
     private String nabardBlacklistFile;
 }
-

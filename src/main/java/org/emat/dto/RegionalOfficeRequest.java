@@ -6,20 +6,15 @@ import lombok.Data;
 @Data
 public class RegionalOfficeRequest {
 
-    @NotBlank
-    private String roId;
+    @NotBlank private String roId;
 
-    @NotBlank
-    private String roName;
+    @NotBlank private String roName;
 
-    @NotBlank
-    private String city;
+    @NotBlank private String city;
 
-    @NotBlank
-    private String district;
+    @NotBlank private String district;
 
-    @NotBlank
-    private String state;
+    @NotBlank private String state;
 
     private String address;
 

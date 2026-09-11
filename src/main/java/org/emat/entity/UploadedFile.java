@@ -12,11 +12,14 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-public class UploadedFile extends BaseEntity{
+public class UploadedFile extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UPLOADED_FILES")
-    @SequenceGenerator(name = "SEQ_UPLOADED_FILES", sequenceName = "SEQ_UPLOADED_FILES", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_UPLOADED_FILES",
+            sequenceName = "SEQ_UPLOADED_FILES",
+            allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 

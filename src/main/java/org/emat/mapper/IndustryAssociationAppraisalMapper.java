@@ -117,94 +117,168 @@ public class IndustryAssociationAppraisalMapper {
     public void applyUpdateRequest(
             IndustryAssociationAppraisal appraisal,
             UpdateIndustryAssociationAppraisalRequest request) {
-        if (request.getCibilReportReferenceNo() != null) appraisal.setCibilReportReferenceNo(request.getCibilReportReferenceNo());
-        if (request.getCibilReportDate() != null) appraisal.setCibilReportDate(request.getCibilReportDate());
+        if (request.getCibilReportReferenceNo() != null)
+            appraisal.setCibilReportReferenceNo(request.getCibilReportReferenceNo());
+        if (request.getCibilReportDate() != null)
+            appraisal.setCibilReportDate(request.getCibilReportDate());
         if (request.getCibilRanking() != null) appraisal.setCibilRanking(request.getCibilRanking());
         if (request.getCibilRemarks() != null) appraisal.setCibilRemarks(request.getCibilRemarks());
-        if (request.getNgoDarpanNumber() != null) appraisal.setNgoDarpanNumber(request.getNgoDarpanNumber());
-        if (request.getNabardBlacklisted() != null) appraisal.setNabardBlacklisted(request.getNabardBlacklisted());
-        if (request.getSmartReportReferenceNo() != null) appraisal.setSmartReportReferenceNo(request.getSmartReportReferenceNo());
-        if (request.getSmartReportDate() != null) appraisal.setSmartReportDate(request.getSmartReportDate());
-        if (request.getSmartReportRemarks() != null) appraisal.setSmartReportRemarks(request.getSmartReportRemarks());
-        if (request.getWebSearchVerified() != null) appraisal.setWebSearchVerified(request.getWebSearchVerified());
-        if (request.getWebSearchDocument() != null) appraisal.setWebSearchDocument(request.getWebSearchDocument());
-        if (request.getBeneficialOwnerCibilRemarks() != null) appraisal.setBeneficialOwnerCibilRemarks(request.getBeneficialOwnerCibilRemarks());
-        if (request.getBeneficialOwnerSmartRemarks() != null) appraisal.setBeneficialOwnerSmartRemarks(request.getBeneficialOwnerSmartRemarks());
-        if (request.getMajorSourcesOfIncome() != null) appraisal.setMajorSourcesOfIncome(request.getMajorSourcesOfIncome());
-        if (request.getActivitiesLastYear() != null) appraisal.setActivitiesLastYear(request.getActivitiesLastYear());
-        if (request.getFormalizationComments() != null) appraisal.setFormalizationComments(request.getFormalizationComments());
-        if (request.getReferralArrangementComments() != null) appraisal.setReferralArrangementComments(request.getReferralArrangementComments());
-        if (request.getReferralArrangementReady() != null) appraisal.setReferralArrangementReady(request.getReferralArrangementReady());
-        if (request.getBseReadinessComments() != null) appraisal.setBseReadinessComments(request.getBseReadinessComments());
-        if (request.getBseReadinessReady() != null) appraisal.setBseReadinessReady(request.getBseReadinessReady());
+        if (request.getNgoDarpanNumber() != null)
+            appraisal.setNgoDarpanNumber(request.getNgoDarpanNumber());
+        if (request.getNabardBlacklisted() != null)
+            appraisal.setNabardBlacklisted(request.getNabardBlacklisted());
+        if (request.getSmartReportReferenceNo() != null)
+            appraisal.setSmartReportReferenceNo(request.getSmartReportReferenceNo());
+        if (request.getSmartReportDate() != null)
+            appraisal.setSmartReportDate(request.getSmartReportDate());
+        if (request.getSmartReportRemarks() != null)
+            appraisal.setSmartReportRemarks(request.getSmartReportRemarks());
+        if (request.getWebSearchVerified() != null)
+            appraisal.setWebSearchVerified(request.getWebSearchVerified());
+        if (request.getWebSearchDocument() != null)
+            appraisal.setWebSearchDocument(request.getWebSearchDocument());
+        if (request.getBeneficialOwnerCibilRemarks() != null)
+            appraisal.setBeneficialOwnerCibilRemarks(request.getBeneficialOwnerCibilRemarks());
+        if (request.getBeneficialOwnerSmartRemarks() != null)
+            appraisal.setBeneficialOwnerSmartRemarks(request.getBeneficialOwnerSmartRemarks());
+        if (request.getMajorSourcesOfIncome() != null)
+            appraisal.setMajorSourcesOfIncome(request.getMajorSourcesOfIncome());
+        if (request.getActivitiesLastYear() != null)
+            appraisal.setActivitiesLastYear(request.getActivitiesLastYear());
+        if (request.getFormalizationComments() != null)
+            appraisal.setFormalizationComments(request.getFormalizationComments());
+        if (request.getReferralArrangementComments() != null)
+            appraisal.setReferralArrangementComments(request.getReferralArrangementComments());
+        if (request.getReferralArrangementReady() != null)
+            appraisal.setReferralArrangementReady(request.getReferralArrangementReady());
+        if (request.getBseReadinessComments() != null)
+            appraisal.setBseReadinessComments(request.getBseReadinessComments());
+        if (request.getBseReadinessReady() != null)
+            appraisal.setBseReadinessReady(request.getBseReadinessReady());
         if (request.getSectors() != null) appraisal.setSectors(request.getSectors());
-        if (request.getFinancingScope() != null) appraisal.setFinancingScope(request.getFinancingScope());
-        if (request.getFinancingScopeCrore() != null) appraisal.setFinancingScopeCrore(request.getFinancingScopeCrore());
-        if (request.getProjectLocation() != null) appraisal.setProjectLocation(request.getProjectLocation());
-        if (request.getClusterExpertComments() != null) appraisal.setClusterExpertComments(request.getClusterExpertComments());
-        if (request.getBudgetAllocated() != null) appraisal.setBudgetAllocated(request.getBudgetAllocated());
-        if (request.getUtilizedAmount() != null) appraisal.setUtilizedAmount(request.getUtilizedAmount());
-        if (request.getAvailableBudget() != null) appraisal.setAvailableBudget(request.getAvailableBudget());
-        if (request.getTermsAndConditions() != null) appraisal.setTermsAndConditions(request.getTermsAndConditions());
+        if (request.getFinancingScope() != null)
+            appraisal.setFinancingScope(request.getFinancingScope());
+        if (request.getFinancingScopeCrore() != null)
+            appraisal.setFinancingScopeCrore(request.getFinancingScopeCrore());
+        if (request.getProjectLocation() != null)
+            appraisal.setProjectLocation(request.getProjectLocation());
+        if (request.getClusterExpertComments() != null)
+            appraisal.setClusterExpertComments(request.getClusterExpertComments());
+        if (request.getBudgetAllocated() != null)
+            appraisal.setBudgetAllocated(request.getBudgetAllocated());
+        if (request.getUtilizedAmount() != null)
+            appraisal.setUtilizedAmount(request.getUtilizedAmount());
+        if (request.getAvailableBudget() != null)
+            appraisal.setAvailableBudget(request.getAvailableBudget());
+        if (request.getTermsAndConditions() != null)
+            appraisal.setTermsAndConditions(request.getTermsAndConditions());
         if (request.getDopDate() != null) appraisal.setDopDate(request.getDopDate());
-        if (request.getRecommendation() != null) appraisal.setRecommendation(request.getRecommendation());
-        if (request.getRecommendationRemarks() != null) appraisal.setRecommendationRemarks(request.getRecommendationRemarks());
+        if (request.getRecommendation() != null)
+            appraisal.setRecommendation(request.getRecommendation());
+        if (request.getRecommendationRemarks() != null)
+            appraisal.setRecommendationRemarks(request.getRecommendationRemarks());
         if (request.getUpdatedBy() != null) appraisal.setUpdatedBy(request.getUpdatedBy());
         if (request.getIsActive() != null) appraisal.setIsActive(request.getIsActive());
         if (request.getNodalName() != null) appraisal.setNodalName(request.getNodalName());
-        if (request.getNodalDesignation() != null) appraisal.setNodalDesignation(request.getNodalDesignation());
+        if (request.getNodalDesignation() != null)
+            appraisal.setNodalDesignation(request.getNodalDesignation());
         if (request.getNodalMobile() != null) appraisal.setNodalMobile(request.getNodalMobile());
         if (request.getNodalEmail() != null) appraisal.setNodalEmail(request.getNodalEmail());
         if (request.getSidbiBranch() != null) appraisal.setSidbiBranch(request.getSidbiBranch());
-        if (request.getMappedWithCluster() != null) appraisal.setMappedWithCluster(request.getMappedWithCluster());
+        if (request.getMappedWithCluster() != null)
+            appraisal.setMappedWithCluster(request.getMappedWithCluster());
         if (request.getClusterName() != null) appraisal.setClusterName(request.getClusterName());
-        if (request.getMappedWithImportantDistrict() != null) appraisal.setMappedWithImportantDistrict(request.getMappedWithImportantDistrict());
-        if (request.getDistrictMsmeCount() != null) appraisal.setDistrictMsmeCount(request.getDistrictMsmeCount());
-        if (request.getActiveMembersAbove200() != null) appraisal.setActiveMembersAbove200(request.getActiveMembersAbove200());
-        if (request.getActiveMembersCount() != null) appraisal.setActiveMembersCount(request.getActiveMembersCount());
-        if (request.getJustification() != null) appraisal.setJustification(request.getJustification());
-        if (request.getApprovalLetter() != null) appraisal.setApprovalLetter(request.getApprovalLetter());
-        if (request.getMsmeCountWithoutTraders() != null) appraisal.setMsmeCountWithoutTraders(request.getMsmeCountWithoutTraders());
-        if (request.getMemberDirectoryAvailable() != null) appraisal.setMemberDirectoryAvailable(request.getMemberDirectoryAvailable());
+        if (request.getMappedWithImportantDistrict() != null)
+            appraisal.setMappedWithImportantDistrict(request.getMappedWithImportantDistrict());
+        if (request.getDistrictMsmeCount() != null)
+            appraisal.setDistrictMsmeCount(request.getDistrictMsmeCount());
+        if (request.getActiveMembersAbove200() != null)
+            appraisal.setActiveMembersAbove200(request.getActiveMembersAbove200());
+        if (request.getActiveMembersCount() != null)
+            appraisal.setActiveMembersCount(request.getActiveMembersCount());
+        if (request.getJustification() != null)
+            appraisal.setJustification(request.getJustification());
+        if (request.getApprovalLetter() != null)
+            appraisal.setApprovalLetter(request.getApprovalLetter());
+        if (request.getMsmeCountWithoutTraders() != null)
+            appraisal.setMsmeCountWithoutTraders(request.getMsmeCountWithoutTraders());
+        if (request.getMemberDirectoryAvailable() != null)
+            appraisal.setMemberDirectoryAvailable(request.getMemberDirectoryAvailable());
         if (request.getBuildingType() != null) appraisal.setBuildingType(request.getBuildingType());
-        if (request.getDeclarationSigned() != null) appraisal.setDeclarationSigned(request.getDeclarationSigned());
-        if (request.getElectricityBill() != null) appraisal.setElectricityBill(request.getElectricityBill());
-        if (request.getTelephoneBill() != null) appraisal.setTelephoneBill(request.getTelephoneBill());
-        if (request.getItInfrastructureAvailable() != null) appraisal.setItInfrastructureAvailable(request.getItInfrastructureAvailable());
-        if (request.getInfrastructureType() != null) appraisal.setInfrastructureType(request.getInfrastructureType());
-        if (request.getSecretariatStaffAvailable() != null) appraisal.setSecretariatStaffAvailable(request.getSecretariatStaffAvailable());
-        if (request.getWebsiteAvailable() != null) appraisal.setWebsiteAvailable(request.getWebsiteAvailable());
+        if (request.getDeclarationSigned() != null)
+            appraisal.setDeclarationSigned(request.getDeclarationSigned());
+        if (request.getElectricityBill() != null)
+            appraisal.setElectricityBill(request.getElectricityBill());
+        if (request.getTelephoneBill() != null)
+            appraisal.setTelephoneBill(request.getTelephoneBill());
+        if (request.getItInfrastructureAvailable() != null)
+            appraisal.setItInfrastructureAvailable(request.getItInfrastructureAvailable());
+        if (request.getInfrastructureType() != null)
+            appraisal.setInfrastructureType(request.getInfrastructureType());
+        if (request.getSecretariatStaffAvailable() != null)
+            appraisal.setSecretariatStaffAvailable(request.getSecretariatStaffAvailable());
+        if (request.getWebsiteAvailable() != null)
+            appraisal.setWebsiteAvailable(request.getWebsiteAvailable());
         if (request.getWebsiteUrl() != null) appraisal.setWebsiteUrl(request.getWebsiteUrl());
-        if (request.getPaidServicesAvailable() != null) appraisal.setPaidServicesAvailable(request.getPaidServicesAvailable());
-        if (request.getAdverseRemarksAvailable() != null) appraisal.setAdverseRemarksAvailable(request.getAdverseRemarksAvailable());
-        if (request.getAdverseRemarks() != null) appraisal.setAdverseRemarks(request.getAdverseRemarks());
+        if (request.getPaidServicesAvailable() != null)
+            appraisal.setPaidServicesAvailable(request.getPaidServicesAvailable());
+        if (request.getAdverseRemarksAvailable() != null)
+            appraisal.setAdverseRemarksAvailable(request.getAdverseRemarksAvailable());
+        if (request.getAdverseRemarks() != null)
+            appraisal.setAdverseRemarks(request.getAdverseRemarks());
         if (request.getWebReport() != null) appraisal.setWebReport(request.getWebReport());
-        if (request.getWillingnessComments() != null) appraisal.setWillingnessComments(request.getWillingnessComments());
-        if (request.getWorkedWithSidbiBefore() != null) appraisal.setWorkedWithSidbiBefore(request.getWorkedWithSidbiBefore());
-        if (request.getGrantProposedCapex() != null) appraisal.setGrantProposedCapex(request.getGrantProposedCapex());
-        if (request.getGrantProposedSalary() != null) appraisal.setGrantProposedSalary(request.getGrantProposedSalary());
+        if (request.getWillingnessComments() != null)
+            appraisal.setWillingnessComments(request.getWillingnessComments());
+        if (request.getWorkedWithSidbiBefore() != null)
+            appraisal.setWorkedWithSidbiBefore(request.getWorkedWithSidbiBefore());
+        if (request.getGrantProposedCapex() != null)
+            appraisal.setGrantProposedCapex(request.getGrantProposedCapex());
+        if (request.getGrantProposedSalary() != null)
+            appraisal.setGrantProposedSalary(request.getGrantProposedSalary());
         if (request.getGrantDetails() != null) appraisal.setGrantDetails(request.getGrantDetails());
-        if (request.getEnvisagedOutput() != null) appraisal.setEnvisagedOutput(request.getEnvisagedOutput());
-        if (request.getEnvisagedOutcome() != null) appraisal.setEnvisagedOutcome(request.getEnvisagedOutcome());
-        if (request.getFinancialYear() != null) appraisal.setFinancialYear(request.getFinancialYear());
-        if (request.getHolderCibilReferenceNo() != null) appraisal.setHolderCibilReferenceNo(request.getHolderCibilReferenceNo());
-        if (request.getHolderCibilDate() != null) appraisal.setHolderCibilDate(request.getHolderCibilDate());
-        if (request.getHolderCibilScore() != null) appraisal.setHolderCibilScore(request.getHolderCibilScore());
-        if (request.getHolderCibilRemarks() != null) appraisal.setHolderCibilRemarks(request.getHolderCibilRemarks());
-        if (request.getHolderCibilFile() != null) appraisal.setHolderCibilFile(request.getHolderCibilFile());
-        if (request.getHolderSmartAvailable() != null) appraisal.setHolderSmartAvailable(request.getHolderSmartAvailable());
-        if (request.getHolderSmartDate() != null) appraisal.setHolderSmartDate(request.getHolderSmartDate());
-        if (request.getHolderSmartRemarks() != null) appraisal.setHolderSmartRemarks(request.getHolderSmartRemarks());
-        if (request.getBeneficialOwnerCibilReferenceNo() != null) appraisal.setBeneficialOwnerCibilReferenceNo(request.getBeneficialOwnerCibilReferenceNo());
-        if (request.getBeneficialOwnerCibilDate() != null) appraisal.setBeneficialOwnerCibilDate(request.getBeneficialOwnerCibilDate());
-        if (request.getBeneficialOwnerCibilRanking() != null) appraisal.setBeneficialOwnerCibilRanking(request.getBeneficialOwnerCibilRanking());
-        if (request.getBeneficialOwnerCibilFile() != null) appraisal.setBeneficialOwnerCibilFile(request.getBeneficialOwnerCibilFile());
-        if (request.getBeneficialOwnerSmartAvailable() != null) appraisal.setBeneficialOwnerSmartAvailable(request.getBeneficialOwnerSmartAvailable());
-        if (request.getBeneficialOwnerSmartDate() != null) appraisal.setBeneficialOwnerSmartDate(request.getBeneficialOwnerSmartDate());
-        if (request.getPaidServicesDetails() != null) appraisal.setPaidServicesDetails(request.getPaidServicesDetails());
-        if (request.getSmartReportAvailable() != null) appraisal.setSmartReportAvailable(request.getSmartReportAvailable());
-        if (request.getNgoDarpanFile() != null) appraisal.setNgoDarpanFile(request.getNgoDarpanFile());
-        if (request.getNabardBlacklistFile() != null) appraisal.setNabardBlacklistFile(request.getNabardBlacklistFile());
+        if (request.getEnvisagedOutput() != null)
+            appraisal.setEnvisagedOutput(request.getEnvisagedOutput());
+        if (request.getEnvisagedOutcome() != null)
+            appraisal.setEnvisagedOutcome(request.getEnvisagedOutcome());
+        if (request.getFinancialYear() != null)
+            appraisal.setFinancialYear(request.getFinancialYear());
+        if (request.getHolderCibilReferenceNo() != null)
+            appraisal.setHolderCibilReferenceNo(request.getHolderCibilReferenceNo());
+        if (request.getHolderCibilDate() != null)
+            appraisal.setHolderCibilDate(request.getHolderCibilDate());
+        if (request.getHolderCibilScore() != null)
+            appraisal.setHolderCibilScore(request.getHolderCibilScore());
+        if (request.getHolderCibilRemarks() != null)
+            appraisal.setHolderCibilRemarks(request.getHolderCibilRemarks());
+        if (request.getHolderCibilFile() != null)
+            appraisal.setHolderCibilFile(request.getHolderCibilFile());
+        if (request.getHolderSmartAvailable() != null)
+            appraisal.setHolderSmartAvailable(request.getHolderSmartAvailable());
+        if (request.getHolderSmartDate() != null)
+            appraisal.setHolderSmartDate(request.getHolderSmartDate());
+        if (request.getHolderSmartRemarks() != null)
+            appraisal.setHolderSmartRemarks(request.getHolderSmartRemarks());
+        if (request.getBeneficialOwnerCibilReferenceNo() != null)
+            appraisal.setBeneficialOwnerCibilReferenceNo(
+                    request.getBeneficialOwnerCibilReferenceNo());
+        if (request.getBeneficialOwnerCibilDate() != null)
+            appraisal.setBeneficialOwnerCibilDate(request.getBeneficialOwnerCibilDate());
+        if (request.getBeneficialOwnerCibilRanking() != null)
+            appraisal.setBeneficialOwnerCibilRanking(request.getBeneficialOwnerCibilRanking());
+        if (request.getBeneficialOwnerCibilFile() != null)
+            appraisal.setBeneficialOwnerCibilFile(request.getBeneficialOwnerCibilFile());
+        if (request.getBeneficialOwnerSmartAvailable() != null)
+            appraisal.setBeneficialOwnerSmartAvailable(request.getBeneficialOwnerSmartAvailable());
+        if (request.getBeneficialOwnerSmartDate() != null)
+            appraisal.setBeneficialOwnerSmartDate(request.getBeneficialOwnerSmartDate());
+        if (request.getPaidServicesDetails() != null)
+            appraisal.setPaidServicesDetails(request.getPaidServicesDetails());
+        if (request.getSmartReportAvailable() != null)
+            appraisal.setSmartReportAvailable(request.getSmartReportAvailable());
+        if (request.getNgoDarpanFile() != null)
+            appraisal.setNgoDarpanFile(request.getNgoDarpanFile());
+        if (request.getNabardBlacklistFile() != null)
+            appraisal.setNabardBlacklistFile(request.getNabardBlacklistFile());
     }
 
     public IndustryAssociationAppraisalResponse toResponse(IndustryAssociationAppraisal appraisal) {
@@ -248,8 +322,14 @@ public class IndustryAssociationAppraisalMapper {
                 .recommendation(appraisal.getRecommendation())
                 .recommendationRemarks(appraisal.getRecommendationRemarks())
                 .isSidbeApproved(appraisal.getIsSidbeApproved())
-                .sidbeApprovedByUserId(appraisal.getSidbeApprovedByUser() != null ? appraisal.getSidbeApprovedByUser().getId() : null)
-                .sidbeApprovedByUsername(appraisal.getSidbeApprovedByUser() != null ? appraisal.getSidbeApprovedByUser().getUsername() : null)
+                .sidbeApprovedByUserId(
+                        appraisal.getSidbeApprovedByUser() != null
+                                ? appraisal.getSidbeApprovedByUser().getId()
+                                : null)
+                .sidbeApprovedByUsername(
+                        appraisal.getSidbeApprovedByUser() != null
+                                ? appraisal.getSidbeApprovedByUser().getUsername()
+                                : null)
                 .createdAt(appraisal.getCreatedAt())
                 .updatedAt(appraisal.getUpdatedAt())
                 .createdBy(appraisal.getCreatedBy())
@@ -319,4 +399,3 @@ public class IndustryAssociationAppraisalMapper {
                 .build();
     }
 }
-

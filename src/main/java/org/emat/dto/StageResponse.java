@@ -15,4 +15,3 @@ public class StageResponse {
     private String stage;
     private String subStage;
 }
-

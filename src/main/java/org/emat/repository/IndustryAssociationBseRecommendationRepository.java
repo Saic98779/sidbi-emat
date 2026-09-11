@@ -1,93 +1,75 @@
 package org.emat.repository;
 
+import java.util.List;
+import java.util.Optional;
 import org.emat.entity.IndustryAssociationBseRecommendation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
 @Repository
-public interface IndustryAssociationBseRecommendationRepository extends JpaRepository<IndustryAssociationBseRecommendation, Long> {
+public interface IndustryAssociationBseRecommendationRepository
+        extends JpaRepository<IndustryAssociationBseRecommendation, Long> {
 
-    /**
-     * Find all active BSE recommendations
-     */
+    /** Find all active BSE recommendations */
     List<IndustryAssociationBseRecommendation> findByIsActiveTrue();
 
-    /**
-     * Find BSE recommendation by ID and active status
-     */
+    /** Find BSE recommendation by ID and active status */
     Optional<IndustryAssociationBseRecommendation> findByIdAndIsActiveTrue(Long id);
 
-    /**
-     * Find all BSE recommendations for a specific registration
-     */
-    @Query("SELECT b FROM IndustryAssociationBseRecommendation b WHERE b.registration.id = :registrationId AND b.isActive = true")
-    List<IndustryAssociationBseRecommendation> findByRegistrationId(@Param("registrationId") Long registrationId);
+    /** Find all BSE recommendations for a specific registration */
+    @Query(
+            "SELECT b FROM IndustryAssociationBseRecommendation b WHERE b.registration.id ="
+                    + " :registrationId AND b.isActive = true")
+    List<IndustryAssociationBseRecommendation> findByRegistrationId(
+            @Param("registrationId") Long registrationId);
 
-    /**
-     * Find BSE recommendations by BSE name
-     */
-    List<IndustryAssociationBseRecommendation> findByBseNameContainingIgnoreCaseAndIsActiveTrue(String bseName);
+    /** Find BSE recommendations by BSE name */
+    List<IndustryAssociationBseRecommendation> findByBseNameContainingIgnoreCaseAndIsActiveTrue(
+            String bseName);
 
-    /**
-     * Find BSE recommendations by email
-     */
+    /** Find BSE recommendations by email */
     Optional<IndustryAssociationBseRecommendation> findByEmailIdAndIsActiveTrue(String emailId);
 
-    /**
-     * Find BSE recommendations by mobile number
-     */
-    Optional<IndustryAssociationBseRecommendation> findByMobileNumberAndIsActiveTrue(String mobileNumber);
+    /** Find BSE recommendations by mobile number */
+    Optional<IndustryAssociationBseRecommendation> findByMobileNumberAndIsActiveTrue(
+            String mobileNumber);
 
-    /**
-     * Find BSE recommendations by GT recommendation status
-     */
-    List<IndustryAssociationBseRecommendation> findByGtRecommendationAndIsActiveTrue(String gtRecommendation);
+    /** Find BSE recommendations by GT recommendation status */
+    List<IndustryAssociationBseRecommendation> findByGtRecommendationAndIsActiveTrue(
+            String gtRecommendation);
 
-    /**
-     * Find BSE recommendations by GT recommendation set
-     */
+    /** Find BSE recommendations by GT recommendation set */
     List<IndustryAssociationBseRecommendation> findByGtRecommendationIsNotNullAndIsActiveTrue();
 
     List<IndustryAssociationBseRecommendation> findByGtRecommendationIsNullAndIsActiveTrue();
 
-    /**
-     * Find BSE recommendations by PMU recommendation status
-     */
-    List<IndustryAssociationBseRecommendation> findByPmuRecommendationAndIsActiveTrue(String pmuRecommendation);
+    /** Find BSE recommendations by PMU recommendation status */
+    List<IndustryAssociationBseRecommendation> findByPmuRecommendationAndIsActiveTrue(
+            String pmuRecommendation);
 
-    /**
-     * Find BSE recommendations by PMU recommendation set
-     */
+    /** Find BSE recommendations by PMU recommendation set */
     List<IndustryAssociationBseRecommendation> findByPmuRecommendationIsNotNullAndIsActiveTrue();
 
     List<IndustryAssociationBseRecommendation> findByPmuRecommendationIsNullAndIsActiveTrue();
 
-    /**
-     * Find BSE recommendations by HO recommendation status
-     */
-    List<IndustryAssociationBseRecommendation> findByHoRecommendationAndIsActiveTrue(String hoRecommendation);
+    /** Find BSE recommendations by HO recommendation status */
+    List<IndustryAssociationBseRecommendation> findByHoRecommendationAndIsActiveTrue(
+            String hoRecommendation);
 
-    /**
-     * Find BSE recommendations by committee recommendation status
-     */
-    List<IndustryAssociationBseRecommendation> findByCommitteeRecommendationAndIsActiveTrue(String committeeRecommendation);
+    /** Find BSE recommendations by committee recommendation status */
+    List<IndustryAssociationBseRecommendation> findByCommitteeRecommendationAndIsActiveTrue(
+            String committeeRecommendation);
 
-    /**
-     * Find mapped BSE recommendations
-     */
+    /** Find mapped BSE recommendations */
     List<IndustryAssociationBseRecommendation> findByIaMappedAndIsActiveTrue(Boolean iaMapped);
 
-    /**
-     * Find BSE recommendations with HO recommendation set
-     */
+    /** Find BSE recommendations with HO recommendation set */
     List<IndustryAssociationBseRecommendation> findByHoRecommendationIsNotNullAndIsActiveTrue();
 
     List<IndustryAssociationBseRecommendation> findByHoRecommendationIsNullAndIsActiveTrue();
 
-    List<IndustryAssociationBseRecommendation> findByUserIdAndIaSelectedTrueAndIsActiveTrue(Long userId);
+    List<IndustryAssociationBseRecommendation> findByUserIdAndIaSelectedTrueAndIsActiveTrue(
+            Long userId);
 }

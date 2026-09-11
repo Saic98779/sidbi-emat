@@ -1,8 +1,7 @@
 package org.emat.dto;
 
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 public class UploadedFileResponse {
@@ -16,7 +15,14 @@ public class UploadedFileResponse {
 
     public UploadedFileResponse() {}
 
-    public UploadedFileResponse(Long id, String registrationId, String filename, String contentType, Long size, String downloadUrl, LocalDateTime createdAt) {
+    public UploadedFileResponse(
+            Long id,
+            String registrationId,
+            String filename,
+            String contentType,
+            Long size,
+            String downloadUrl,
+            LocalDateTime createdAt) {
         this.id = id;
         this.registrationId = registrationId;
         this.filename = filename;
@@ -26,4 +32,3 @@ public class UploadedFileResponse {
         this.createdAt = createdAt;
     }
 }
-

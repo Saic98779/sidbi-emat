@@ -1,5 +1,9 @@
 package org.emat.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 import org.emat.dto.BseSalaryRequest;
 import org.emat.dto.BseSalaryResponse;
 import org.emat.dto.BseSalaryUpdateRequest;
@@ -9,11 +13,6 @@ import org.emat.dto.MonthlySalaryDetailsUpdateRequest;
 import org.emat.entity.BseSalary;
 import org.emat.entity.MonthlySalaryDetails;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
 
 @Component
 public class BseSalaryMapper {
@@ -59,7 +58,9 @@ public class BseSalaryMapper {
         applyIfNotNull(request.getTotalAmount(), entity::setTotalAmount);
         applyIfNotNull(request.getTdsApplicable(), entity::setTdsApplicable);
         applyIfNotNull(request.getTdsNotApplicableReason(), entity::setTdsNotApplicableReason);
-        applyIfNotNull(request.getRecommendedDisbursementAmount(), entity::setRecommendedDisbursementAmount);
+        applyIfNotNull(
+                request.getRecommendedDisbursementAmount(),
+                entity::setRecommendedDisbursementAmount);
         applyIfNotNull(request.getAccountCode(), entity::setAccountCode);
         applyIfNotNull(request.getComplianceTerms(), entity::setComplianceTerms);
         applyIfNotNull(request.getRecommendation(), entity::setRecommendation);
@@ -69,33 +70,39 @@ public class BseSalaryMapper {
         applyIfNotNull(request.getApprovedBy(), entity::setApprovedBy);
     }
 
-    public List<MonthlySalaryDetails> mapCreateDetails(List<MonthlySalaryDetailsRequest> requests, BseSalary parent) {
+    public List<MonthlySalaryDetails> mapCreateDetails(
+            List<MonthlySalaryDetailsRequest> requests, BseSalary parent) {
         if (requests == null) {
             return new ArrayList<>();
         }
         return requests.stream().map(r -> mapCreateDetail(r, parent)).toList();
     }
 
-    public List<MonthlySalaryDetails> mapUpdateDetails(List<MonthlySalaryDetailsUpdateRequest> requests, BseSalary parent) {
+    public List<MonthlySalaryDetails> mapUpdateDetails(
+            List<MonthlySalaryDetailsUpdateRequest> requests, BseSalary parent) {
         if (requests == null) {
             return new ArrayList<>();
         }
-        return requests.stream().map(r -> {
-            MonthlySalaryDetails detail = new MonthlySalaryDetails();
-            detail.setBseSalary(parent);
-            detail.setSalaryMonth(r.getSalaryMonth());
-            detail.setSalaryDays(r.getSalaryDays());
-            detail.setPaidDays(r.getPaidDays());
-            detail.setAdditionalAmount(r.getAdditionalAmount());
-            detail.setAdditionalAmountReason(r.getAdditionalAmountReason());
-            detail.setPaymentToBse(r.getPaymentToBse());
-            detail.setGtAttendanceComments(r.getGtAttendanceComments());
-            detail.setGtAdditionalComments(r.getGtAdditionalComments());
-            return detail;
-        }).toList();
+        return requests.stream()
+                .map(
+                        r -> {
+                            MonthlySalaryDetails detail = new MonthlySalaryDetails();
+                            detail.setBseSalary(parent);
+                            detail.setSalaryMonth(r.getSalaryMonth());
+                            detail.setSalaryDays(r.getSalaryDays());
+                            detail.setPaidDays(r.getPaidDays());
+                            detail.setAdditionalAmount(r.getAdditionalAmount());
+                            detail.setAdditionalAmountReason(r.getAdditionalAmountReason());
+                            detail.setPaymentToBse(r.getPaymentToBse());
+                            detail.setGtAttendanceComments(r.getGtAttendanceComments());
+                            detail.setGtAdditionalComments(r.getGtAdditionalComments());
+                            return detail;
+                        })
+                .toList();
     }
 
-    private MonthlySalaryDetails mapCreateDetail(MonthlySalaryDetailsRequest request, BseSalary parent) {
+    private MonthlySalaryDetails mapCreateDetail(
+            MonthlySalaryDetailsRequest request, BseSalary parent) {
         MonthlySalaryDetails detail = new MonthlySalaryDetails();
         detail.setBseSalary(parent);
         detail.setSalaryMonth(request.getSalaryMonth());
@@ -140,20 +147,27 @@ public class BseSalaryMapper {
                         entity.getMonthlySalaryDetails() == null
                                 ? new ArrayList<>()
                                 : entity.getMonthlySalaryDetails().stream()
-                                .map(d -> MonthlySalaryDetailsResponse.builder()
-                                        .id(d.getId())
-                                        .bseName(null)
-                                        .manpowerAgencyName(null)
-                                        .salaryMonth(d.getSalaryMonth())
-                                        .salaryDays(d.getSalaryDays())
-                                        .paidDays(d.getPaidDays())
-                                        .additionalAmount(d.getAdditionalAmount())
-                                        .additionalAmountReason(d.getAdditionalAmountReason())
-                                        .paymentToBse(d.getPaymentToBse())
-                                        .gtAttendanceComments(d.getGtAttendanceComments())
-                                        .gtAdditionalComments(d.getGtAdditionalComments())
-                                        .build())
-                                .toList())
+                                        .map(
+                                                d ->
+                                                        MonthlySalaryDetailsResponse.builder()
+                                                                .id(d.getId())
+                                                                .bseName(null)
+                                                                .manpowerAgencyName(null)
+                                                                .salaryMonth(d.getSalaryMonth())
+                                                                .salaryDays(d.getSalaryDays())
+                                                                .paidDays(d.getPaidDays())
+                                                                .additionalAmount(
+                                                                        d.getAdditionalAmount())
+                                                                .additionalAmountReason(
+                                                                        d
+                                                                                .getAdditionalAmountReason())
+                                                                .paymentToBse(d.getPaymentToBse())
+                                                                .gtAttendanceComments(
+                                                                        d.getGtAttendanceComments())
+                                                                .gtAdditionalComments(
+                                                                        d.getGtAdditionalComments())
+                                                                .build())
+                                        .toList())
                 .build();
     }
 
@@ -166,10 +180,12 @@ public class BseSalaryMapper {
                 .filter(Objects::nonNull)
                 .map(BseSalary::getMonthlySalaryDetails)
                 .findFirst()
-                .map(details -> details.stream()
-                        .findFirst()
-                        .map(MonthlySalaryDetails::getSalaryMonth)
-                        .orElse(null))
+                .map(
+                        details ->
+                                details.stream()
+                                        .findFirst()
+                                        .map(MonthlySalaryDetails::getSalaryMonth)
+                                        .orElse(null))
                 .orElse(null);
     }
 
@@ -179,4 +195,3 @@ public class BseSalaryMapper {
         }
     }
 }
-

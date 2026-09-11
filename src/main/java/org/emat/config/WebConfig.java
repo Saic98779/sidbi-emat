@@ -9,7 +9,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/files/**")
-                .addResourceLocations("file:/home/ubuntu/uploads/");
+        registry.addResourceHandler("/files/**").addResourceLocations("file:/home/ubuntu/uploads/");
     }
 }

@@ -4,9 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-/**
- * Database configuration for Oracle.
- */
+/** Database configuration for Oracle. */
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "org.emat.repository")

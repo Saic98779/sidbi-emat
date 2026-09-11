@@ -7,6 +7,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,13 +19,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.crypto.SecretKey;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
 /**
- * JWT Authentication Filter
- * Intercepts requests and validates JWT tokens from Authorization header
+ * JWT Authentication Filter Intercepts requests and validates JWT tokens from Authorization header
  */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -30,16 +28,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final SecretKey signingKey;
     private final UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(@Value("${jwt.secret}") String jwtSecret,
-                                   UserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(
+            @Value("${jwt.secret}") String jwtSecret, UserDetailsService userDetailsService) {
         this.signingKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
         this.userDetailsService = userDetailsService;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
         logger.debug("Processing request to: " + request.getRequestURI());
@@ -50,27 +48,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             logger.debug("JWT token found, attempting to validate");
 
             try {
-                Claims claims = Jwts.parser()
-                        .verifyWith(signingKey)
-                        .build()
-                        .parseSignedClaims(token)
-                        .getPayload();
+                Claims claims =
+                        Jwts.parser()
+                                .verifyWith(signingKey)
+                                .build()
+                                .parseSignedClaims(token)
+                                .getPayload();
 
                 String username = claims.getSubject();
                 logger.debug("JWT token validated successfully for user: " + username);
 
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (username != null
+                        && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                     // Create authentication token
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(
-                                    userDetails,
-                                    null,
-                                    userDetails.getAuthorities()
-                            );
+                                    userDetails, null, userDetails.getAuthorities());
 
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                     logger.debug("SecurityContext set for user: " + username);
                 }
@@ -83,4 +81,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-

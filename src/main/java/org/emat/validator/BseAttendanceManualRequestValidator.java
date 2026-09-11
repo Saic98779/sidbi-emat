@@ -20,17 +20,20 @@ public class BseAttendanceManualRequestValidator {
     private final IndustryAssociationBseRecommendationRepository recommendationRepository;
 
     public BseAttendanceManualRequest getManualRequestOrThrow(Long id) {
-        return repository.findById(id)
+        return repository
+                .findById(id)
                 .orElseThrow(() -> new RuntimeException(MANUAL_REQUEST_NOT_FOUND));
     }
 
     public BseAttendanceManualRequest getManualRequestOrThrowTitleCase(Long id) {
-        return repository.findById(id)
+        return repository
+                .findById(id)
                 .orElseThrow(() -> new RuntimeException(MANUAL_REQUEST_NOT_FOUND_TITLE_CASE));
     }
 
     public IndustryAssociationBseRecommendation getRecommendationOrThrow(Long recommendationId) {
-        return recommendationRepository.findById(recommendationId)
+        return recommendationRepository
+                .findById(recommendationId)
                 .orElseThrow(() -> new RuntimeException(BSE_RECOMMENDATION_NOT_FOUND));
     }
 
@@ -40,4 +43,3 @@ public class BseAttendanceManualRequestValidator {
         }
     }
 }
-

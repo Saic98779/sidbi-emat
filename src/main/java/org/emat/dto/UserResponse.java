@@ -1,15 +1,12 @@
 package org.emat.dto;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.enums.Role;
 
-import java.time.LocalDateTime;
-
-/**
- * Data Transfer Object for user response.
- */
+/** Data Transfer Object for user response. */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,4 +24,3 @@ public class UserResponse {
     private LocalDateTime updatedAt;
     private String contactNo;
 }
-

@@ -1,16 +1,13 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.enums.Role;
 
-import java.time.LocalDateTime;
-
-/**
- * User entity representing a user in the EMAT system.
- */
+/** User entity representing a user in the EMAT system. */
 @Entity
 @Table(name = "users")
 @Data

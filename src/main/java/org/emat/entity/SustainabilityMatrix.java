@@ -18,7 +18,10 @@ public class SustainabilityMatrix extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SUSTAINABILITY_MATRIX")
-    @SequenceGenerator(name = "SEQ_SUSTAINABILITY_MATRIX", sequenceName = "SEQ_SUSTAINABILITY_MATRIX", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_SUSTAINABILITY_MATRIX",
+            sequenceName = "SEQ_SUSTAINABILITY_MATRIX",
+            allocationSize = 1)
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 
