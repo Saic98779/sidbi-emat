@@ -100,7 +100,8 @@ public class SustainabilityMatrixServiceImpl implements SustainabilityMatrixServ
 
         // Score comes directly from request
         matrix.setTotalScore(request.getTotalScore());
-
+        matrix.setActionPlanClusterExpertComment(request.getActionPlanClusterExpertComment());
+        matrix.setActionPlans(request.getActionPlans());
         SustainabilityMatrix updated = repository.save(matrix);
 
         return toResponse(updated);
@@ -229,6 +230,8 @@ public class SustainabilityMatrixServiceImpl implements SustainabilityMatrixServ
                 .dedicatedStaff(entity.getDedicatedStaff())
                 .operationalProcesses(entity.getOperationalProcesses())
                 .totalScore(entity.getTotalScore())
+                .actionPlans(entity.getActionPlans())
+                .actionPlanClusterExpertComment(entity.getActionPlanClusterExpertComment())
                 .build();
     }
 
