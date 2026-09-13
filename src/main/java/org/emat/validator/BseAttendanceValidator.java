@@ -18,13 +18,14 @@ public class BseAttendanceValidator {
     private final IndustryAssociationBseRecommendationRepository recommendationRepository;
 
     public IndustryAssociationBseRecommendation getRecommendationOrThrow(Long recommendationId) {
-        return recommendationRepository.findById(recommendationId)
+        return recommendationRepository
+                .findById(recommendationId)
                 .orElseThrow(() -> new RuntimeException(BSE_RECOMMENDATION_NOT_FOUND));
     }
 
     public BseAttendance getAttendanceOrThrow(Long attendanceId) {
-        return attendanceRepository.findById(attendanceId)
+        return attendanceRepository
+                .findById(attendanceId)
                 .orElseThrow(() -> new RuntimeException(ATTENDANCE_NOT_FOUND));
     }
 }
-

@@ -10,13 +10,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BseSalaryValidator {
 
-    private static final String BSE_SALARY_NOT_FOUND_MESSAGE = "VendorDisbursement not found with id: ";
+    private static final String BSE_SALARY_NOT_FOUND_MESSAGE =
+            "VendorDisbursement not found with id: ";
 
     private final BseSalaryRepository bseSalaryRepository;
 
     public BseSalary getByIdOrThrow(Long id) {
-        return bseSalaryRepository.findById(id)
+        return bseSalaryRepository
+                .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(BSE_SALARY_NOT_FOUND_MESSAGE + id));
     }
 }
-

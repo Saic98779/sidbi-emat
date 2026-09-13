@@ -1,20 +1,19 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Entity representing Industry Association Registration.
- * Maps to the INDUSTRY_ASSOCIATION_REGISTRATION table in Oracle database.
+ * Entity representing Industry Association Registration. Maps to the
+ * INDUSTRY_ASSOCIATION_REGISTRATION table in Oracle database.
  */
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,8 +25,13 @@ import java.util.List;
 public class IndustryAssociationRegistration extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION")
-    @SequenceGenerator(name = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION", sequenceName = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION", allocationSize = 1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION")
+    @SequenceGenerator(
+            name = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION",
+            sequenceName = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION",
+            allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id;
 
@@ -177,9 +181,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     private String paidServicesDetails;
 
     @ElementCollection
-    @CollectionTable(
-            name = "IA_SECRETARIAT_STAFF",
-            joinColumns = @JoinColumn(name = "ID"))
+    @CollectionTable(name = "IA_SECRETARIAT_STAFF", joinColumns = @JoinColumn(name = "ID"))
     private List<SecretariatStaff> secretariatStaff = new ArrayList<>();
 
     @Column(name = "ADVERSE_REMARKS_AVAILABLE")
@@ -193,9 +195,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
 
     // MANPOWER_AGENCY Details - Selection Criteria
     @ElementCollection
-    @CollectionTable(
-            name = "IA_BASIS_SELECTION",
-            joinColumns = @JoinColumn(name = "ID"))
+    @CollectionTable(name = "IA_BASIS_SELECTION", joinColumns = @JoinColumn(name = "ID"))
     @Column(name = "BASIS")
     private List<String> selectionCriteria = new ArrayList<>();
 
@@ -239,7 +239,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "EMAIL", length = 100)
     private String email;
 
-    @Column(name = "PAN_NO", length = 15,unique = true)
+    @Column(name = "PAN_NO", length = 15, unique = true)
     private String panNo;
 
     // Current Stage Details
@@ -249,11 +249,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
 
     // Stage History
     @ElementCollection
-    @CollectionTable(
-            name = "IA_STAGE_HISTORY",
-            joinColumns = @JoinColumn(name = "REGISTRATION_ID")
-    )
+    @CollectionTable(name = "IA_STAGE_HISTORY", joinColumns = @JoinColumn(name = "REGISTRATION_ID"))
     @OrderColumn(name = "HISTORY_ORDER")
     private List<StageHistory> history = new ArrayList<>();
-
 }

@@ -1,166 +1,33 @@
 package org.emat.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
 import org.emat.dto.StageHistoryResponse;
 import org.emat.dto.StageResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
-import org.emat.entity.IndustryAssociationRegistration;
-import org.emat.entity.User;
-import org.emat.enums.Role;
-import org.emat.exception.EntityNotFoundException;
-import org.emat.mapper.IndustryAssociationRegistrationMapper;
-import org.emat.repository.IndustryAssociationRegistrationRepository;
-import org.emat.repository.UserRepository;
-import org.emat.util.CommonUtil;
-import org.emat.validator.IndustryAssociationRegistrationValidator;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+public interface IndustryAssociationRegistrationService {
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
-@Transactional
-public class IndustryAssociationRegistrationService {
+    IndustryAssociationRegistrationResponse createRegistration(
+            CreateIndustryAssociationRegistrationRequest request);
 
-    private static final String REGISTRATION_NOT_FOUND_MESSAGE = "Registration not found with ID: ";
-    private static final String USER_NOT_FOUND_WITH_USERNAME_MESSAGE = "User not found with username: ";
-    private static final String IN_PRINCIPLE_APPROVAL_OF_IA_SUBMISSION = "IN_PRINCIPLE_APPROVAL_OF_IA_SUBMISSION";
-    private static final String IN_PRINCIPLE_APPROVAL_OF_SDE_APPROVAL = "IN_PRINCIPLE_APPROVAL_OF_SDE_APPROVAL";
-    private static final String FROM_PRINCIPLE_COMMENT = "from principle";
-    private static final Long IA_REGISTRATION_CREATED_STAGE_ID = 1L;
+    IndustryAssociationRegistrationResponse getRegistrationById(Long id);
 
-    private final IndustryAssociationRegistrationRepository repository;
-    private final UserRepository userRepository;
-    private final IndustryAssociationRegistrationMapper registrationMapper;
-    private final CommonUtil commonUtil;
-    private final IndustryAssociationRegistrationValidator registrationValidator;
-    private final StageService stageService;
+    List<IndustryAssociationRegistrationResponse> getAllRegistrations();
 
-    public IndustryAssociationRegistrationResponse createRegistration(
-            CreateIndustryAssociationRegistrationRequest request) {
-        log.info("Creating new Industry Association Registration for: {}", request.getIndustryAssociationName());
-        registrationValidator.validateCreateRequest(request);
+    IndustryAssociationRegistrationResponse updateRegistration(
+            Long id, UpdateIndustryAssociationRegistrationRequest request);
 
-        boolean isSidbiSdeCaller = commonUtil.isCurrentUserSidbiSde();
-        User sidbiApprover = commonUtil.resolveSidbiApprover(request.getSidbeApprovedByUserId(), isSidbiSdeCaller);
+    void deleteRegistration(Long id);
 
-        IndustryAssociationRegistration registration = registrationMapper.toEntity(
-                request,
-                isSidbiSdeCaller,
-                sidbiApprover);
+    IndustryAssociationRegistrationResponse approveBySidbe(
+            Long id, ApprovalRequest approvalRequest, String username);
 
-        IndustryAssociationRegistration saved = repository.save(registration);
-        log.info("Industry Association Registration created successfully with ID: {}", saved.getId());
+    List<StageHistoryResponse> getStageHistoryByRegistrationId(Long registrationId);
 
+    List<StageResponse> getAllStages();
 
-        if(saved != null) {
-            stageService.updateStage(
-                    saved.getId(),
-                    request.getStageId(),
-                    request.getStageComments(),
-                    commonUtil.getCurrentUsername());
-        }
-
-        return registrationMapper.toResponse(saved);
-    }
-
-
-    @Transactional(readOnly = true)
-    public IndustryAssociationRegistrationResponse getRegistrationById(Long id) {
-        log.debug("Fetching Industry Association Registration with ID: {}", id);
-        IndustryAssociationRegistration registration = getRegistrationOrThrow(id);
-        return registrationMapper.toResponse(registration);
-    }
-
-    @Transactional(readOnly = true)
-    public List<IndustryAssociationRegistrationResponse> getAllRegistrations() {
-        log.debug("Fetching all active Industry Association Registrations");
-        return repository.findAllByIsActiveTrue().stream()
-                .map(registrationMapper::toResponse)
-                .toList();
-    }
-
-    public IndustryAssociationRegistrationResponse updateRegistration(
-            Long id, UpdateIndustryAssociationRegistrationRequest request) {
-        log.info("Updating Industry Association Registration with ID: {}", id);
-        IndustryAssociationRegistration registration = getRegistrationOrThrow(id);
-
-        registrationMapper.applyUpdateRequest(registration, request);
-
-        IndustryAssociationRegistration updated = repository.save(registration);
-
-        stageService.updateStage(
-                updated.getId(),
-                request.getStageId(),
-                request.getStageComments(),
-                commonUtil.getCurrentUsername());
-
-        log.info("Industry Association Registration updated successfully with ID: {}", id);
-        return registrationMapper.toResponse(updated);
-    }
-
-    public void deleteRegistration(Long id) {
-        log.info("Deleting (soft delete) Industry Association Registration with ID: {}", id);
-        IndustryAssociationRegistration registration = getRegistrationOrThrow(id);
-
-        registration.setIsActive(false);
-        repository.save(registration);
-        log.info("Industry Association Registration deleted successfully with ID: {}", id);
-    }
-
-    public IndustryAssociationRegistrationResponse approveBySidbe(
-            Long id, ApprovalRequest approvalRequest, String username) {
-        log.info("Processing SIDBE approval for registration with ID: {} by user: {}", id, username);
-        IndustryAssociationRegistration registration = getRegistrationOrThrow(id);
-
-        User approver = getUserByUsernameOrThrow(username);
-
-        registration.setSidbeApprovedByUser(approver);
-
-        IndustryAssociationRegistration updated = repository.save(registration);
-        log.info("SIDBE approval processed successfully for registration ID: {} by user: {}", id, username);
-
-        return registrationMapper.toResponse(updated);
-    }
-
-    @Transactional(readOnly = true)
-    public List<StageHistoryResponse> getStageHistoryByRegistrationId(Long registrationId) {
-        return stageService.getStageHistoryByRegistrationId(registrationId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<StageResponse> getAllStages() {
-        return stageService.getAllStages();
-    }
-
-    @Transactional(readOnly = true)
-    public List<IndustryAssociationRegistrationResponse> getRegistrationsByStageId(Long stageId) {
-        log.debug("Fetching Industry Association Registrations for stage ID: {}", stageId);
-        return repository.findAllByIsActiveTrueAndCurrentStageId(stageId).stream()
-                .map(registrationMapper::toResponse)
-                .toList();
-    }
-
-    private IndustryAssociationRegistration getRegistrationOrThrow(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> {
-                    log.error(REGISTRATION_NOT_FOUND_MESSAGE + id);
-                    return new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + id);
-                });
-    }
-
-
-    private User getUserByUsernameOrThrow(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> {
-                    log.error("User not found with username: {}", username);
-                    return new EntityNotFoundException(USER_NOT_FOUND_WITH_USERNAME_MESSAGE + username);
-                });
-    }
+    List<IndustryAssociationRegistrationResponse> getRegistrationsByStageId(Long stageId);
 }

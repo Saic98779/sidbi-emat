@@ -1,12 +1,11 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "STAGE_HISTORY")
@@ -20,12 +19,8 @@ public class StageHistory {
     @SequenceGenerator(
             name = "stage_history_seq",
             sequenceName = "STAGE_HISTORY_SEQ",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "stage_history_seq"
-    )
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stage_history_seq")
     @Column(name = "ID")
     private Long id;
 

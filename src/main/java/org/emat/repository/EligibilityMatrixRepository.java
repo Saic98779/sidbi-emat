@@ -1,10 +1,9 @@
 package org.emat.repository;
 
+import java.util.Optional;
 import org.emat.entity.EligibilityMatrix;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface EligibilityMatrixRepository extends JpaRepository<EligibilityMatrix, Long> {

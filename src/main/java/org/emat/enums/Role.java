@@ -1,8 +1,6 @@
 package org.emat.enums;
 
-/**
- * Enumeration of available roles in the EMAT system.
- */
+/** Enumeration of available roles in the EMAT system. */
 public enum Role {
     MANPOWER_AGENCY,
     BSE,
@@ -14,4 +12,3 @@ public enum Role {
     SIDBI_HO_CHECKER,
     CLUSTER_EXPERT
 }
-

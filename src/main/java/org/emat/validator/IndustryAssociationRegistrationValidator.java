@@ -19,10 +19,11 @@ public class IndustryAssociationRegistrationValidator {
     public void validateCreateRequest(CreateIndustryAssociationRegistrationRequest request) {
         if (repository.existsByIndustryAssociationNameAndStateAndIsActiveTrue(
                 request.getIndustryAssociationName(), request.getState())) {
-            log.warn("Duplicate registration attempt for: {} in state: {}",
-                    request.getIndustryAssociationName(), request.getState());
+            log.warn(
+                    "Duplicate registration attempt for: {} in state: {}",
+                    request.getIndustryAssociationName(),
+                    request.getState());
             throw new IllegalArgumentException(DUPLICATE_REGISTRATION_MESSAGE);
         }
     }
 }
-

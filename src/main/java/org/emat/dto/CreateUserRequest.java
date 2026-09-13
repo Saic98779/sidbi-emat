@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.enums.Role;
 
-/**
- * Data Transfer Object for creating a new user.
- */
+/** Data Transfer Object for creating a new user. */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +20,3 @@ public class CreateUserRequest {
     private Role role;
     private String contactNo;
 }
-

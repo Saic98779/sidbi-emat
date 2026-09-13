@@ -1,18 +1,17 @@
 package org.emat.repository;
 
+import java.util.List;
 import org.emat.entity.IndustryAssociationRegistration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.List;
-
 /**
- * Repository for IndustryAssociationRegistration entity.
- * Provides database access operations for Industry Association Registration records.
+ * Repository for IndustryAssociationRegistration entity. Provides database access operations for
+ * Industry Association Registration records.
  */
 @Repository
-public interface IndustryAssociationRegistrationRepository extends JpaRepository<IndustryAssociationRegistration, Long> {
+public interface IndustryAssociationRegistrationRepository
+        extends JpaRepository<IndustryAssociationRegistration, Long> {
 
     /**
      * Find all active registrations.
@@ -27,8 +26,8 @@ public interface IndustryAssociationRegistrationRepository extends JpaRepository
      * @param industryAssociationName the industry association name
      * @return true if exists, false otherwise
      */
-    boolean existsByIndustryAssociationNameAndStateAndIsActiveTrue(String industryAssociationName, String state);
-
+    boolean existsByIndustryAssociationNameAndStateAndIsActiveTrue(
+            String industryAssociationName, String state);
 
     List<IndustryAssociationRegistration> findAllByIsActiveTrueAndCurrentStageId(long stageId);
 }

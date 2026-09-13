@@ -1,95 +1,22 @@
 package org.emat.service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 import org.emat.dto.EligibilityMatrixDto;
 import org.emat.dto.RegistrationDropdownDto;
-import org.emat.entity.EligibilityMatrix;
-import org.emat.entity.IndustryAssociationRegistration;
-import org.emat.mapper.EligibilityMatrixMapper;
-import org.emat.repository.EligibilityMatrixRepository;
-import org.emat.repository.IndustryAssociationRegistrationRepository;
-import org.emat.util.CommonUtil;
-import org.emat.validator.EligibilityMatrixValidator;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+public interface EligibilityMatrixService {
 
-@Service
-@RequiredArgsConstructor
-public class EligibilityMatrixService {
+    EligibilityMatrixDto create(EligibilityMatrixDto request);
 
-    private final EligibilityMatrixRepository eligibilityMatrixRepository;
-    private final IndustryAssociationRegistrationRepository registrationRepository;
-    private final EligibilityMatrixMapper eligibilityMatrixMapper;
-    private final EligibilityMatrixValidator eligibilityMatrixValidator;
-    private final StageService stageService;
-    private final CommonUtil commonUtil;
+    EligibilityMatrixDto getById(Long id);
 
-    @Transactional
-    public EligibilityMatrixDto create(EligibilityMatrixDto request) {
-        Long registrationId = request.getRegistrationId();
+    List<EligibilityMatrixDto> getAll();
 
-        eligibilityMatrixValidator.validateCreateAllowed(registrationId);
-        IndustryAssociationRegistration registration = eligibilityMatrixValidator.getRegistrationOrThrow(registrationId);
+    EligibilityMatrixDto getByRegistrationId(Long registrationId);
 
-        EligibilityMatrix entity = new EligibilityMatrix();
-        entity.setRegistration(registration);
-        eligibilityMatrixMapper.updateEntityFromRequest(request, entity);
+    EligibilityMatrixDto update(Long id, EligibilityMatrixDto request);
 
-        EligibilityMatrix saved = eligibilityMatrixRepository.save(entity);
-        registrationRepository.save(registration);
-        if(saved != null) {
-            stageService.updateStage(
-                    saved.getRegistration().getId(),
-                    request.getStageId(),
-                    request.getStageComments(),
-                    commonUtil.getCurrentUsername());
-        }
-        return eligibilityMatrixMapper.toResponse(saved);
-    }
+    void delete(Long id);
 
-    @Transactional(readOnly = true)
-    public EligibilityMatrixDto getById(Long id) {
-        EligibilityMatrix entity = eligibilityMatrixValidator.getEligibilityByIdOrThrow(id);
-        return eligibilityMatrixMapper.toResponse(entity);
-    }
-
-    @Transactional(readOnly = true)
-    public List<EligibilityMatrixDto> getAll() {
-        return eligibilityMatrixRepository.findAll().stream().map(eligibilityMatrixMapper::toResponse).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public EligibilityMatrixDto getByRegistrationId(Long registrationId) {
-        EligibilityMatrix entity = eligibilityMatrixValidator.getEligibilityByRegistrationIdOrThrow(registrationId);
-        return eligibilityMatrixMapper.toResponse(entity);
-    }
-
-    @Transactional
-    public EligibilityMatrixDto update(Long id, EligibilityMatrixDto request) {
-        EligibilityMatrix entity = eligibilityMatrixValidator.getEligibilityByIdOrThrow(id);
-
-        if (request.getRegistrationId() != null && !request.getRegistrationId().equals(entity.getRegistration().getId())) {
-            IndustryAssociationRegistration registration =
-                    eligibilityMatrixValidator.getRegistrationOrThrow(request.getRegistrationId());
-            entity.setRegistration(registration);
-        }
-
-        eligibilityMatrixMapper.updateEntityFromRequest(request, entity);
-        return eligibilityMatrixMapper.toResponse(eligibilityMatrixRepository.save(entity));
-    }
-
-    @Transactional
-    public void delete(Long id) {
-        eligibilityMatrixValidator.validateExistsById(id);
-        eligibilityMatrixRepository.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    public List<RegistrationDropdownDto> getRegistrationDropdown() {
-        return registrationRepository.findAll().stream()
-                .map(eligibilityMatrixMapper::toRegistrationDropdown)
-                .toList();
-    }
+    List<RegistrationDropdownDto> getRegistrationDropdown();
 }

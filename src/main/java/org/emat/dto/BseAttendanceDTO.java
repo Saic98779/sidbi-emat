@@ -1,9 +1,8 @@
 package org.emat.dto;
 
-import lombok.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
+import lombok.*;
 
 @Data
 @NoArgsConstructor

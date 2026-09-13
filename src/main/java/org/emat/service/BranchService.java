@@ -1,21 +1,8 @@
 package org.emat.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.emat.dto.BranchDropdownResponse;
-import org.emat.repository.BranchRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.emat.dto.BranchDropdownResponse;
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
-public class BranchService {
-
-    private final BranchRepository repository;
-
-    public List<BranchDropdownResponse> getBranchDropdownByState(String state) {
-        return repository.findBranchDropdownByState(state);
-    }
+public interface BranchService {
+    List<BranchDropdownResponse> getBranchDropdownByState(String state);
 }

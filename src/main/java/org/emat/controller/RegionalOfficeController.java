@@ -1,13 +1,12 @@
 package org.emat.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.RegionalOfficeResponse;
 import org.emat.service.RegionalOfficeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/regional-office")
@@ -18,6 +17,9 @@ public class RegionalOfficeController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<RegionalOfficeResponse>>> getRegionalOffice() {
-        return ResponseEntity.ok(ApiResponse.success("Regional offices fetched successfully", regionalOfficeService.getAllRegionalOffices()));
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Regional offices fetched successfully",
+                        regionalOfficeService.getAllRegionalOffices()));
     }
 }

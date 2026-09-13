@@ -1,11 +1,10 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,7 +17,10 @@ public class DisbursementCapex extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_DISBURSEMENT_CAPEX")
-    @SequenceGenerator(name = "SEQ_DISBURSEMENT_CAPEX", sequenceName = "SEQ_DISBURSEMENT_CAPEX", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_DISBURSEMENT_CAPEX",
+            sequenceName = "SEQ_DISBURSEMENT_CAPEX",
+            allocationSize = 1)
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 

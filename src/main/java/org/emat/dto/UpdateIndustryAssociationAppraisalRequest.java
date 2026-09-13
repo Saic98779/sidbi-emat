@@ -1,18 +1,15 @@
 package org.emat.dto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.entity.IndustryAssociationAppraisal;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
-/**
- * DTO for updating an existing Industry Association Appraisal.
- */
+/** DTO for updating an existing Industry Association Appraisal. */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -166,4 +163,3 @@ public class UpdateIndustryAssociationAppraisalRequest {
     private Long stageId;
     private String stageComments;
 }
-

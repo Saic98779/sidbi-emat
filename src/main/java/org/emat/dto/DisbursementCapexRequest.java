@@ -1,9 +1,8 @@
 package org.emat.dto;
 
-import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lombok.*;
 
 @Data
 @NoArgsConstructor

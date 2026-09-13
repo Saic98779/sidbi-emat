@@ -1,15 +1,12 @@
 package org.emat.dto;
 
-/**
- * Request DTO for login API.
- */
+/** Request DTO for login API. */
 public class LoginRequest {
 
     private String username;
     private String password;
 
-    public LoginRequest() {
-    }
+    public LoginRequest() {}
 
     public LoginRequest(String username, String password) {
         this.username = username;
@@ -32,4 +29,3 @@ public class LoginRequest {
         this.password = password;
     }
 }
-

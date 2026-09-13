@@ -18,17 +18,17 @@ public class EligibilityMatrix extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ELIGIBILITY_MATRIX")
-    @SequenceGenerator(name = "SEQ_ELIGIBILITY_MATRIX", sequenceName = "SEQ_ELIGIBILITY_MATRIX", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_ELIGIBILITY_MATRIX",
+            sequenceName = "SEQ_ELIGIBILITY_MATRIX",
+            allocationSize = 1)
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 
-    /**
-     * Approved Industry Association
-     */
+    /** Approved Industry Association */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REGISTRATION_ID", nullable = false)
     private IndustryAssociationRegistration registration;
-
 
     // 1. Number of Active Members (IA's) - Ideal size: 200
     @Column(name = "ACTIVE_MEMBERS_200")

@@ -1,5 +1,6 @@
 package org.emat.util;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.entity.User;
@@ -10,8 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -37,9 +36,7 @@ public class CommonUtil {
     }
 
     public boolean isCurrentUserSidbiSde() {
-        return resolveCurrentUser()
-                .map(user -> user.getRole() == Role.SIDBI_SDE)
-                .orElse(false);
+        return resolveCurrentUser().map(user -> user.getRole() == Role.SIDBI_SDE).orElse(false);
     }
 
     public String getCurrentUsername() {
@@ -49,11 +46,18 @@ public class CommonUtil {
 
     public User resolveSidbiApprover(Long sidbeApprovedByUserId, boolean isSidbiSdeCaller) {
         if (sidbeApprovedByUserId != null) {
-            User sidbiApprover = userRepository.findById(sidbeApprovedByUserId)
-                    .orElseThrow(() -> {
-                        log.error("SIDBI approver user not found with ID: {}", sidbeApprovedByUserId);
-                        return new EntityNotFoundException(USER_NOT_FOUND_WITH_ID_MESSAGE + sidbeApprovedByUserId);
-                    });
+            User sidbiApprover =
+                    userRepository
+                            .findById(sidbeApprovedByUserId)
+                            .orElseThrow(
+                                    () -> {
+                                        log.error(
+                                                "SIDBI approver user not found with ID: {}",
+                                                sidbeApprovedByUserId);
+                                        return new EntityNotFoundException(
+                                                USER_NOT_FOUND_WITH_ID_MESSAGE
+                                                        + sidbeApprovedByUserId);
+                                    });
             log.info("SIDBI approver user found: {}", sidbiApprover.getUsername());
             return sidbiApprover;
         }
@@ -65,4 +69,3 @@ public class CommonUtil {
         return null;
     }
 }
-

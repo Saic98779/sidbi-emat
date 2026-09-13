@@ -18,19 +18,24 @@ public class IndustryAssociationAppraisalValidator {
 
     private static final String APPRAISAL_NOT_FOUND_MESSAGE = "Appraisal not found with ID: ";
     private static final String REGISTRATION_NOT_FOUND_MESSAGE = "Registration not found with ID: ";
-    private static final String USER_NOT_FOUND_WITH_USERNAME_MESSAGE = "User not found with username: ";
-    private static final String APPRAISAL_ALREADY_EXISTS_MESSAGE = "Appraisal already exists for this registration";
+    private static final String USER_NOT_FOUND_WITH_USERNAME_MESSAGE =
+            "User not found with username: ";
+    private static final String APPRAISAL_ALREADY_EXISTS_MESSAGE =
+            "Appraisal already exists for this registration";
 
     private final IndustryAssociationAppraisalRepository appraisalRepository;
     private final IndustryAssociationRegistrationRepository registrationRepository;
     private final UserRepository userRepository;
 
     public IndustryAssociationRegistration getRegistrationOrThrow(Long registrationId) {
-        return registrationRepository.findById(registrationId)
-                .orElseThrow(() -> {
-                    log.error(REGISTRATION_NOT_FOUND_MESSAGE + registrationId);
-                    return new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + registrationId);
-                });
+        return registrationRepository
+                .findById(registrationId)
+                .orElseThrow(
+                        () -> {
+                            log.error(REGISTRATION_NOT_FOUND_MESSAGE + registrationId);
+                            return new EntityNotFoundException(
+                                    REGISTRATION_NOT_FOUND_MESSAGE + registrationId);
+                        });
     }
 
     public void validateAppraisalNotExists(Long registrationId) {
@@ -41,28 +46,35 @@ public class IndustryAssociationAppraisalValidator {
     }
 
     public IndustryAssociationAppraisal getAppraisalOrThrow(Long id) {
-        return appraisalRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.error(APPRAISAL_NOT_FOUND_MESSAGE + id);
-                    return new EntityNotFoundException(APPRAISAL_NOT_FOUND_MESSAGE + id);
-                });
+        return appraisalRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> {
+                            log.error(APPRAISAL_NOT_FOUND_MESSAGE + id);
+                            return new EntityNotFoundException(APPRAISAL_NOT_FOUND_MESSAGE + id);
+                        });
     }
 
     public IndustryAssociationAppraisal getAppraisalByRegistrationOrThrow(Long registrationId) {
-        return appraisalRepository.findByRegistrationId(registrationId)
-                .orElseThrow(() -> {
-                    String message = "Appraisal not found for registration ID: " + registrationId;
-                    log.error(message);
-                    return new EntityNotFoundException(message);
-                });
+        return appraisalRepository
+                .findByRegistrationId(registrationId)
+                .orElseThrow(
+                        () -> {
+                            String message =
+                                    "Appraisal not found for registration ID: " + registrationId;
+                            log.error(message);
+                            return new EntityNotFoundException(message);
+                        });
     }
 
     public User getUserByUsernameOrThrow(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> {
-                    log.error("User not found with username: {}", username);
-                    return new EntityNotFoundException(USER_NOT_FOUND_WITH_USERNAME_MESSAGE + username);
-                });
+        return userRepository
+                .findByUsername(username)
+                .orElseThrow(
+                        () -> {
+                            log.error("User not found with username: {}", username);
+                            return new EntityNotFoundException(
+                                    USER_NOT_FOUND_WITH_USERNAME_MESSAGE + username);
+                        });
     }
 }
-

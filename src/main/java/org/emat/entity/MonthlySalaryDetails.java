@@ -1,11 +1,10 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -16,7 +15,10 @@ public class MonthlySalaryDetails extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MONTHLY_SALARY_DETAIL")
-    @SequenceGenerator(name = "SEQ_MONTHLY_SALARY_DETAIL", sequenceName = "SEQ_MONTHLY_SALARY_DETAIL", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_MONTHLY_SALARY_DETAIL",
+            sequenceName = "SEQ_MONTHLY_SALARY_DETAIL",
+            allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 

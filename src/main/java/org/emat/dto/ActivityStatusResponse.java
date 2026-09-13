@@ -1,8 +1,7 @@
 package org.emat.dto;
 
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 public class ActivityStatusResponse {
@@ -15,4 +14,3 @@ public class ActivityStatusResponse {
     private LocalDateTime statusUpdatedDtStamp;
     private String statusRemarks;
 }
-

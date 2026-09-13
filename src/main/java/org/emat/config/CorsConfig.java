@@ -1,16 +1,15 @@
 package org.emat.config;
 
+import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-
 /**
- * CORS configuration for the EMAT application.
- * Allows cross-origin requests from Swagger UI and other clients.
+ * CORS configuration for the EMAT application. Allows cross-origin requests from Swagger UI and
+ * other clients.
  */
 @Configuration
 public class CorsConfig {
@@ -23,7 +22,8 @@ public class CorsConfig {
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 
         // Allow common HTTP methods
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedMethods(
+                Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 
         // Allow common headers
         configuration.setAllowedHeaders(Arrays.asList("*"));
@@ -43,4 +43,3 @@ public class CorsConfig {
         return source;
     }
 }
-

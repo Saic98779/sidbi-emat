@@ -7,11 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ACTIVITY_STATUS")
@@ -22,7 +21,10 @@ public class ActivityStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ACTIVITY_STATUS")
-    @SequenceGenerator(name = "SEQ_ACTIVITY_STATUS", sequenceName = "SEQ_ACTIVITY_STATUS", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_ACTIVITY_STATUS",
+            sequenceName = "SEQ_ACTIVITY_STATUS",
+            allocationSize = 1)
     @Column(name = "STATUS_ID")
     private Long statusId;
 

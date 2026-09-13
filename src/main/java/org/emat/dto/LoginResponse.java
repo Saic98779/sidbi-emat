@@ -1,12 +1,9 @@
 package org.emat.dto;
 
+import java.time.Instant;
 import org.emat.enums.Role;
 
-import java.time.Instant;
-
-/**
- * Response DTO for login API.
- */
+/** Response DTO for login API. */
 public class LoginResponse {
 
     private String token;
@@ -21,20 +18,20 @@ public class LoginResponse {
     private Role role;
     private boolean active;
 
-    public LoginResponse() {
-    }
+    public LoginResponse() {}
 
-    public LoginResponse(String token,
-                         Instant expiresAt,
-                         Long userId,
-                         String username,
-                         String email,
-                         String firstName,
-                         String lastName,
-                         String district,
-                         String state,
-                         Role role,
-                         boolean active) {
+    public LoginResponse(
+            String token,
+            Instant expiresAt,
+            Long userId,
+            String username,
+            String email,
+            String firstName,
+            String lastName,
+            String district,
+            String state,
+            Role role,
+            boolean active) {
         this.token = token;
         this.expiresAt = expiresAt;
         this.userId = userId;

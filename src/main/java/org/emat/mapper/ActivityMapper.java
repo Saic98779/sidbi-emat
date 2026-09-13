@@ -1,5 +1,7 @@
 package org.emat.mapper;
 
+import java.time.LocalDateTime;
+import java.util.function.Function;
 import org.emat.dto.ActivityRequest;
 import org.emat.dto.ActivityResponse;
 import org.emat.dto.ActivityStatusResponse;
@@ -10,20 +12,21 @@ import org.emat.entity.ActivityStatus;
 import org.emat.entity.User;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.function.Function;
-
 @Component
 public class ActivityMapper {
 
-    public void updateEntityFromRequest(ActivityRequest request, Activity activity, Function<Long, User> userResolver) {
+    public void updateEntityFromRequest(
+            ActivityRequest request, Activity activity, Function<Long, User> userResolver) {
         activity.setActivityType(request.getActivityType());
         activity.setDetails(request.getDetails());
         activity.setDateTime(request.getDateTime());
         activity.setFollowUpReq(request.getFollowUpReq());
         activity.setFollowUpId(request.getFollowUpId());
         activity.setLocationDetails(request.getLocationDetails());
-        activity.setCreatedUser(request.getCreatedUserId() == null ? null : userResolver.apply(request.getCreatedUserId()));
+        activity.setCreatedUser(
+                request.getCreatedUserId() == null
+                        ? null
+                        : userResolver.apply(request.getCreatedUserId()));
         activity.setCreatedDtStamp(request.getCreatedDtStamp());
         activity.setApprovedDtStamp(request.getApprovedDtStamp());
         activity.setBseId(request.getBseId());
@@ -39,7 +42,8 @@ public class ActivityMapper {
         response.setFollowUpReq(activity.getFollowUpReq());
         response.setFollowUpId(activity.getFollowUpId());
         response.setLocationDetails(activity.getLocationDetails());
-        response.setCreatedUserId(activity.getCreatedUser() != null ? activity.getCreatedUser().getId() : null);
+        response.setCreatedUserId(
+                activity.getCreatedUser() != null ? activity.getCreatedUser().getId() : null);
         response.setCreatedDtStamp(activity.getCreatedDtStamp());
         response.setApprovedDtStamp(activity.getApprovedDtStamp());
         response.setBseId(activity.getBseId());
@@ -54,9 +58,10 @@ public class ActivityMapper {
         status.setStatus(request.getStatus());
         status.setStatusUpdatedByRole(request.getStatusUpdatedByRole());
         status.setStatusApprovalRequired(request.getStatusApprovalRequired());
-        status.setStatusUpdatedDtStamp(request.getStatusUpdatedDtStamp() != null
-                ? request.getStatusUpdatedDtStamp()
-                : LocalDateTime.now());
+        status.setStatusUpdatedDtStamp(
+                request.getStatusUpdatedDtStamp() != null
+                        ? request.getStatusUpdatedDtStamp()
+                        : LocalDateTime.now());
         status.setStatusRemarks(request.getStatusRemarks());
         return status;
     }
@@ -87,4 +92,3 @@ public class ActivityMapper {
         return response;
     }
 }
-

@@ -1,6 +1,7 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -10,11 +11,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
-
 /**
- * Base entity class containing common audit fields.
- * All entities should extend this class to inherit audit tracking capabilities.
+ * Base entity class containing common audit fields. All entities should extend this class to
+ * inherit audit tracking capabilities.
  */
 @MappedSuperclass
 @Data

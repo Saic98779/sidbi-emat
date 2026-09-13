@@ -1,9 +1,15 @@
-package org.emat.service;
+package org.emat.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.*;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.emat.dto.UploadedFileResponse;
 import org.emat.entity.UploadedFile;
 import org.emat.exception.FileStorageException;
 import org.emat.repository.UploadedFileRepository;
+import org.emat.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -11,12 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.*;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
@@ -30,7 +30,10 @@ public class FileStorageServiceImpl implements FileStorageService {
     private final UploadedFileRepository repository;
     private final String downloadBase;
 
-    public FileStorageServiceImpl(@Value("${file.storage.base:uploads}") String storageBase, @Value("${file.download.base:/files}") String downloadBase, UploadedFileRepository repository) {
+    public FileStorageServiceImpl(
+            @Value("${file.storage.base:uploads}") String storageBase,
+            @Value("${file.download.base:/files}") String downloadBase,
+            UploadedFileRepository repository) {
         this.storageBase = Paths.get(storageBase).toAbsolutePath().normalize();
         this.repository = repository;
         this.downloadBase = downloadBase;
@@ -64,8 +67,10 @@ public class FileStorageServiceImpl implements FileStorageService {
                 Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            UploadedFile entity = repository.findByRegistrationIdAndFilename(registrationId, filename)
-                    .orElseGet(() -> UploadedFile.builder().build());
+            UploadedFile entity =
+                    repository
+                            .findByRegistrationIdAndFilename(registrationId, filename)
+                            .orElseGet(() -> UploadedFile.builder().build());
 
             entity.setRegistrationId(registrationId);
             entity.setFilename(filename);
@@ -92,9 +97,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             throw new IllegalArgumentException("Files list cannot be null");
         }
 
-        return files.stream()
-                .map(file -> storeInternal(registrationId, file))
-                .toList();
+        return files.stream().map(file -> storeInternal(registrationId, file)).toList();
     }
 
     @Override
@@ -119,9 +122,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     public List<UploadedFileResponse> listFiles(String registrationId) {
         validateRegistrationId(registrationId);
         List<UploadedFile> list = repository.findByRegistrationId(registrationId);
-        return list.stream()
-                .map(this::toResponse)
-                .toList();
+        return list.stream().map(this::toResponse).toList();
     }
 
     @Override
@@ -133,7 +134,9 @@ public class FileStorageServiceImpl implements FileStorageService {
         try {
             Path file = resolveAndValidateStoragePath(registrationId, sanitizedFilename);
             Files.deleteIfExists(file);
-            repository.findByRegistrationIdAndFilename(registrationId, sanitizedFilename).ifPresent(repository::delete);
+            repository
+                    .findByRegistrationIdAndFilename(registrationId, sanitizedFilename)
+                    .ifPresent(repository::delete);
         } catch (IOException e) {
             throw new FileStorageException(DELETE_ERROR, e);
         }
@@ -153,8 +156,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                 file.getContentType(),
                 file.getSize(),
                 buildDownloadUrl(file.getRegistrationId(), file.getFilename()),
-                file.getCreatedAt()
-        );
+                file.getCreatedAt());
     }
 
     private void validateRegistrationId(String registrationId) {

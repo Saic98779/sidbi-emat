@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
-
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "BRANCH")
@@ -48,16 +46,32 @@ public class Branch extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Branch{" +
-                "id=" + id +
-                ", boId='" + boId + '\'' +
-                ", regionalOffice=" + regionalOffice +
-                ", branchName='" + branchName + '\'' +
-                ", city='" + city + '\'' +
-                ", district='" + district + '\'' +
-                ", state='" + state + '\'' +
-                ", address='" + address + '\'' +
-                ", contactNo='" + contactNo + '\'' +
-                '}';
+        return "Branch{"
+                + "id="
+                + id
+                + ", boId='"
+                + boId
+                + '\''
+                + ", regionalOffice="
+                + regionalOffice
+                + ", branchName='"
+                + branchName
+                + '\''
+                + ", city='"
+                + city
+                + '\''
+                + ", district='"
+                + district
+                + '\''
+                + ", state='"
+                + state
+                + '\''
+                + ", address='"
+                + address
+                + '\''
+                + ", contactNo='"
+                + contactNo
+                + '\''
+                + '}';
     }
 }

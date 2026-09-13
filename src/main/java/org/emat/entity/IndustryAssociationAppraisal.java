@@ -1,20 +1,18 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
 /**
- * Entity representing Industry Association Appraisal.
- * Maps to the INDUSTRY_ASSOCOCIATION_APPRAISAL table in Oracle database.
- * Has a 1:1 relationship with IndustryAssociationRegistration.
+ * Entity representing Industry Association Appraisal. Maps to the INDUSTRY_ASSOCOCIATION_APPRAISAL
+ * table in Oracle database. Has a 1:1 relationship with IndustryAssociationRegistration.
  */
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,8 +24,13 @@ import java.util.List;
 public class IndustryAssociationAppraisal extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL")
-    @SequenceGenerator(name = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL", sequenceName = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL", allocationSize = 1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL")
+    @SequenceGenerator(
+            name = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL",
+            sequenceName = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL",
+            allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id;
 
@@ -167,8 +170,6 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "IS_SIDBE_APPROVED")
     private Boolean isSidbeApproved;
 
-
-
     // Apex Holder Information (KYC)
     @Column(name = "APEX_HOLDER_NAME", length = 200)
     private String apexHolderName;
@@ -284,7 +285,6 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "WEB_REPORT", length = 500)
     private String webReport;
 
-
     // Willingness & Output
     @Column(name = "WILLINGNESS_COMMENTS", length = 500)
     private String willingnessComments;
@@ -325,7 +325,6 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "HOLDER_CIBIL_FILE")
     private String holderCibilFile;
 
-
     // Office Holder SMART
     @Column(name = "HOLDER_SMART_AVAILABLE")
     private Boolean holderSmartAvailable;
@@ -335,7 +334,6 @@ public class IndustryAssociationAppraisal extends BaseEntity {
 
     @Column(name = "HOLDER_SMART_REMARKS")
     private String holderSmartRemarks;
-
 
     // Beneficial Owner CIBIL
     @Column(name = "BENEFICIAL_OWNER_CIBIL_REFERENCE_NO")
@@ -350,7 +348,6 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "BENEFICIAL_OWNER_CIBIL_FILE")
     private String beneficialOwnerCibilFile;
 
-
     // Beneficial Owner SMART
     @Column(name = "BENEFICIAL_OWNER_SMART_AVAILABLE")
     private Boolean beneficialOwnerSmartAvailable;
@@ -364,8 +361,10 @@ public class IndustryAssociationAppraisal extends BaseEntity {
 
     @Column(name = "SMART_REPORT_AVAILABLE")
     private Boolean smartReportAvailable;
+
     @Column(name = "NGO_DARPAN_FILES")
     private String ngoDarpanFile;
+
     @Column(name = "NABARD_BLACKLIST_FILE")
     private String nabardBlacklistFile;
 }

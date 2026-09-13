@@ -1,14 +1,13 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -41,7 +40,7 @@ public class BseSalary extends BaseEntity {
     @Column(name = "DISBURSEMENT_SOUGHT_IN")
     private BigDecimal disbursementSoughtIn;
 
-    @Column(name = "NATURE_OF_PAYMENT", length =2000)
+    @Column(name = "NATURE_OF_PAYMENT", length = 2000)
     private String natureOfPayment;
 
     // Invoice details
@@ -51,7 +50,7 @@ public class BseSalary extends BaseEntity {
     @Column(name = "INVOICE_NUMBER")
     private String invoiceNumber;
 
-    @Column(name = "DETAILS_OF_ITEMS", length =2000)
+    @Column(name = "DETAILS_OF_ITEMS", length = 2000)
     private String detailsOfItems;
 
     @Column(name = "INVOICE_VALUE")
@@ -75,10 +74,10 @@ public class BseSalary extends BaseEntity {
     @Column(name = "ACCOUNT_CODE")
     private String accountCode;
 
-    @Column(name = "COMPLIANCE_TERMS", length =2000)
+    @Column(name = "COMPLIANCE_TERMS", length = 2000)
     private String complianceTerms;
 
-    @Column(name = "RECOMMENDATION", length =2000)
+    @Column(name = "RECOMMENDATION", length = 2000)
     private String recommendation;
 
     // Workflow
@@ -94,10 +93,6 @@ public class BseSalary extends BaseEntity {
     @Column(name = "APPROVED_BY")
     private String approvedBy;
 
-    @OneToMany(
-            mappedBy = "bseSalary",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "bseSalary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MonthlySalaryDetails> monthlySalaryDetails = new ArrayList<>();
 }

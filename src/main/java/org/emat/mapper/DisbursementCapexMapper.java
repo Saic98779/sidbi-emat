@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 public class DisbursementCapexMapper {
 
     public DisbursementCapex toEntity(
-            DisbursementCapexRequest request,
-            IndustryAssociationRegistration registration) {
+            DisbursementCapexRequest request, IndustryAssociationRegistration registration) {
         return DisbursementCapex.builder()
                 .registration(registration)
                 .gstinIa(request.getGstinIa())
@@ -37,7 +36,8 @@ public class DisbursementCapexMapper {
                 .build();
     }
 
-    public void updateEntityFromRequest(DisbursementCapex existing, DisbursementCapexRequest request) {
+    public void updateEntityFromRequest(
+            DisbursementCapex existing, DisbursementCapexRequest request) {
         existing.setGstinIa(request.getGstinIa());
         existing.setGstinNotApplicable(request.getGstinNotApplicable());
         existing.setGstinNotApplicableReason(request.getGstinNotApplicableReason());
@@ -88,4 +88,3 @@ public class DisbursementCapexMapper {
                 .build();
     }
 }
-

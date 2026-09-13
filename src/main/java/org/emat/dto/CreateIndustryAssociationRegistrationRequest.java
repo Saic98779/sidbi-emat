@@ -1,18 +1,14 @@
 package org.emat.dto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-import org.emat.dto.SecretariatStaffDto;
-
-/**
- * Request DTO for creating Industry Association Registration.
- */
+/** Request DTO for creating Industry Association Registration. */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -119,4 +115,3 @@ public class CreateIndustryAssociationRegistrationRequest {
     private Long stageId;
     private String stageComments;
 }
-

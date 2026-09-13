@@ -1,10 +1,9 @@
 package org.emat.service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 import org.emat.dto.AppraisalDropdownDto;
 import org.emat.dto.SustainabilityMatrixRequest;
 import org.emat.dto.SustainabilityMatrixResponse;
-import org.emat.entity.IndustryAssociationAppraisal;
 import org.emat.entity.SustainabilityMatrix;
 import org.emat.repository.IndustryAssociationAppraisalRepository;
 import org.emat.repository.SustainabilityMatrixRepository;
@@ -329,25 +328,15 @@ public class SustainabilityMatrixService {
                         entity.getBanks()
                 )
 
-                .sidbi(
-                        entity.getSidbi()
-                )
+public interface SustainabilityMatrixService {
 
-                .academia(
-                        entity.getAcademia()
-                )
+    SustainabilityMatrixResponse create(SustainabilityMatrixRequest request);
 
-                .corporates(
-                        entity.getCorporates()
-                )
+    SustainabilityMatrixResponse update(Long id, SustainabilityMatrixRequest request);
 
-                .dedicatedStaff(
-                        entity.getDedicatedStaff()
-                )
+    SustainabilityMatrixResponse getById(Long id);
 
-                .operationalProcesses(
-                        entity.getOperationalProcesses()
-                )
+    List<SustainabilityMatrixResponse> getByAppraisalId(Long appraisalId);
 
                 .totalScore(
                         entity.getTotalScore()
@@ -357,14 +346,7 @@ public class SustainabilityMatrixService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
-    public List<AppraisalDropdownDto> getAppraisalDropdown() {
+    SustainabilityMatrixResponse toResponse(SustainabilityMatrix entity);
 
-        return appraisalRepository.findAll().stream()
-                .map(appraisal -> AppraisalDropdownDto.builder()
-                        .id(appraisal.getId())
-                        .name(appraisal.getRegistration() != null ? appraisal.getRegistration().getIndustryAssociationName() : null)
-                        .build())
-                .toList();
-    }
+    List<AppraisalDropdownDto> getAppraisalDropdown();
 }

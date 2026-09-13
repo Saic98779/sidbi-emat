@@ -15,4 +15,3 @@ public enum IndustryAssociationRegistrationStatus {
     HO_MAKER_REJECTED,
     PANEL_APPROVAL
 }
-

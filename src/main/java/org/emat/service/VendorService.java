@@ -1,107 +1,29 @@
 package org.emat.service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 import org.emat.dto.VendorDropdownDTO;
 import org.emat.dto.VendorRequestDTO;
 import org.emat.dto.VendorResponseDTO;
-import org.emat.entity.Vendor;
-import org.emat.mapper.VendorMapper;
-import org.emat.repository.VendorRepository;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
+public interface VendorService {
 
-@Service
-@RequiredArgsConstructor
-public class VendorService {
+    /** Create Vendor */
+    VendorResponseDTO createVendor(VendorRequestDTO request);
 
-    private final VendorRepository vendorRepository;
-    private final VendorMapper vendorMapper;
+    /** Update Vendor */
+    VendorResponseDTO updateVendor(Long id, VendorRequestDTO request);
 
-    /**
-     * Create Vendor
-     */
-    public VendorResponseDTO createVendor(VendorRequestDTO request) {
+    /** Get Vendor By Id */
+    VendorResponseDTO getVendorById(Long id);
 
-        Vendor vendor = new Vendor();
+    VendorResponseDTO getVendorByUserId(Long userId);
 
-        vendorMapper.updateEntityFromRequest(request, vendor);
+    /** Get All Vendors */
+    List<VendorResponseDTO> getAllVendors();
 
-        vendor.setCreatedDate(LocalDateTime.now());
+    /** Delete Vendor */
+    void deleteVendor(Long id);
 
-        Vendor savedVendor = vendorRepository.save(vendor);
-
-        return vendorMapper.toResponse(savedVendor);
-    }
-
-    /**
-     * Update Vendor
-     */
-    public VendorResponseDTO updateVendor(Long id, VendorRequestDTO request) {
-
-        Vendor vendor = vendorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Vendor not found"));
-
-        vendorMapper.updateEntityFromRequest(request, vendor);
-
-        vendor.setUpdatedDate(LocalDateTime.now());
-
-        Vendor updatedVendor = vendorRepository.save(vendor);
-
-        return vendorMapper.toResponse(updatedVendor);
-    }
-
-    /**
-     * Get Vendor By Id
-     */
-    public VendorResponseDTO getVendorById(Long id) {
-
-        Vendor vendor = vendorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Vendor not found"));
-
-        return vendorMapper.toResponse(vendor);
-    }
-
-    public VendorResponseDTO getVendorByUserId(Long userId) {
-
-        Vendor vendor = vendorRepository.findByUserId(userId)
-                .orElseThrow(() ->
-                        new RuntimeException("Vendor not found for user: " + userId));
-
-        return vendorMapper.toResponse(vendor);
-    }
-    /**
-     * Get All Vendors
-     */
-    public List<VendorResponseDTO> getAllVendors() {
-
-        return vendorRepository.findAll()
-                .stream()
-                .map(vendorMapper::toResponse)
-                .toList();
-    }
-
-    /**
-     * Delete Vendor
-     */
-    public void deleteVendor(Long id) {
-
-        Vendor vendor = vendorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Vendor not found"));
-
-        vendorRepository.delete(vendor);
-    }
-
-    /**
-     * Vendor Dropdown
-     */
-    public List<VendorDropdownDTO> getVendorDropdown() {
-
-        return vendorRepository.findAll()
-                .stream()
-                .filter(v -> Boolean.TRUE.equals(v.getActive()))
-                .map(vendorMapper::toDropdown)
-                .toList();
-    }
+    /** Vendor Dropdown */
+    List<VendorDropdownDTO> getVendorDropdown();
 }

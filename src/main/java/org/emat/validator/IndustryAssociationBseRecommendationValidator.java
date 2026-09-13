@@ -14,8 +14,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class IndustryAssociationBseRecommendationValidator {
 
-    private static final String REGISTRATION_NOT_FOUND_MESSAGE = "Industry Association Registration not found with ID: ";
-    private static final String BSE_RECOMMENDATION_NOT_FOUND_MESSAGE = "BSE Recommendation not found with ID: ";
+    private static final String REGISTRATION_NOT_FOUND_MESSAGE =
+            "Industry Association Registration not found with ID: ";
+    private static final String BSE_RECOMMENDATION_NOT_FOUND_MESSAGE =
+            "BSE Recommendation not found with ID: ";
     private static final String USER_NOT_FOUND_MESSAGE = "User not found with ID: ";
 
     private final IndustryAssociationBseRecommendationRepository bseRecommendationRepository;
@@ -23,21 +25,29 @@ public class IndustryAssociationBseRecommendationValidator {
     private final UserRepository userRepository;
 
     public IndustryAssociationRegistration getRegistrationOrThrow(Long registrationId) {
-        return registrationRepository.findById(registrationId)
-                .orElseThrow(() -> new EntityNotFoundException(REGISTRATION_NOT_FOUND_MESSAGE + registrationId));
+        return registrationRepository
+                .findById(registrationId)
+                .orElseThrow(
+                        () ->
+                                new EntityNotFoundException(
+                                        REGISTRATION_NOT_FOUND_MESSAGE + registrationId));
     }
 
     public IndustryAssociationBseRecommendation getActiveRecommendationOrThrow(Long id) {
-        return bseRecommendationRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new EntityNotFoundException(BSE_RECOMMENDATION_NOT_FOUND_MESSAGE + id));
+        return bseRecommendationRepository
+                .findByIdAndIsActiveTrue(id)
+                .orElseThrow(
+                        () ->
+                                new EntityNotFoundException(
+                                        BSE_RECOMMENDATION_NOT_FOUND_MESSAGE + id));
     }
 
     public User getUserOrNull(Long userId) {
         if (userId == null) {
             return null;
         }
-        return userRepository.findById(userId)
+        return userRepository
+                .findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + userId));
     }
 }
-

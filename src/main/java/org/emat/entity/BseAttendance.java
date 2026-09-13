@@ -1,11 +1,10 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "BSE_ATTENDANCE")
@@ -18,7 +17,10 @@ public class BseAttendance extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BSE_ATTENDANCE")
-    @SequenceGenerator(name = "SEQ_BSE_ATTENDANCE", sequenceName = "SEQ_BSE_ATTENDANCE", allocationSize = 1)
+    @SequenceGenerator(
+            name = "SEQ_BSE_ATTENDANCE",
+            sequenceName = "SEQ_BSE_ATTENDANCE",
+            allocationSize = 1)
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 

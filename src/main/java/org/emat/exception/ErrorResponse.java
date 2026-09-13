@@ -1,13 +1,10 @@
 package org.emat.exception;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
-/**
- * Standard error response format.
- */
+/** Standard error response format. */
 @Data
 @AllArgsConstructor
 public class ErrorResponse {
@@ -17,4 +14,3 @@ public class ErrorResponse {
     private String message;
     private String path;
 }
-
