@@ -12,5 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ApprovalRequest {
     private Boolean isSidbeApproved;
+    private Long stageId;
+    private String stageComments;
+
 }
 

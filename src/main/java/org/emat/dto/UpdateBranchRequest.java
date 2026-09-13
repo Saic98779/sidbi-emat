@@ -17,5 +17,5 @@ public class UpdateBranchRequest {
 
     private String contactNo;
 
-    private String regionalOfficeUuid;
+    private String regionalOfficeId;
 }

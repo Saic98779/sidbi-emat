@@ -3,6 +3,7 @@ package org.emat.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationAppraisalRequest;
 import org.emat.dto.IndustryAssociationAppraisalResponse;
@@ -13,13 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-/**
- * REST Controller for Industry Association Appraisal endpoints.
- * Provides CRUD operations for managing appraisals with 1:1 relationship to registrations.
- */
 @RestController
 @RequestMapping("/industry-association-appraisals")
 @RequiredArgsConstructor
@@ -28,143 +24,77 @@ public class IndustryAssociationAppraisalController {
 
     private final IndustryAssociationAppraisalService service;
 
-    /**
-     * Create a new Industry Association Appraisal.
-     * POST /industry-association-appraisals
-     *
-     * @param request the creation request
-     * @return ResponseEntity with created appraisal and HTTP 201
-     */
     @PostMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalCreate'))")
-    public ResponseEntity<IndustryAssociationAppraisalResponse> createAppraisal(
+    public ResponseEntity<ApiResponse<IndustryAssociationAppraisalResponse>> createAppraisal(
             @RequestBody CreateIndustryAssociationAppraisalRequest request) {
         log.info("Received request to create new Industry Association Appraisal");
-        IndustryAssociationAppraisalResponse response = service.createAppraisal(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.created("Appraisal created successfully", service.createAppraisal(request)));
     }
 
-    /**
-     * Retrieve an appraisal by UUID.
-     * GET /industry-association-appraisals/{uuid}
-     *
-     * @param uuid the unique identifier
-     * @return ResponseEntity with appraisal and HTTP 200
-     */
-    @GetMapping("/{uuid}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
-    public ResponseEntity<IndustryAssociationAppraisalResponse> getAppraisalById(
-            @PathVariable String uuid) {
-        log.info("Received request to fetch appraisal with UUID: {}", uuid);
-        IndustryAssociationAppraisalResponse response = service.getAppraisalById(uuid);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<IndustryAssociationAppraisalResponse>> getAppraisalById(
+            @PathVariable("id") Long id) {
+        log.info("Received request to fetch appraisal with ID: {}", id);
+        return ResponseEntity.ok(ApiResponse.success("Appraisal fetched successfully", service.getAppraisalById(id)));
     }
 
-    /**
-     * Retrieve appraisal by registration UUID.
-     * GET /industry-association-appraisals/registration/{registrationUuid}
-     *
-     * @param registrationUuid the registration unique identifier
-     * @return ResponseEntity with appraisal and HTTP 200
-     */
-    @GetMapping("/registration/{registrationUuid}")
+    @GetMapping("/registration/{registrationId}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
-    public ResponseEntity<IndustryAssociationAppraisalResponse> getAppraisalByRegistrationUuid(
-            @PathVariable String registrationUuid) {
-        log.info("Received request to fetch appraisal for registration UUID: {}", registrationUuid);
-        IndustryAssociationAppraisalResponse response = service.getAppraisalByRegistrationUuid(registrationUuid);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<IndustryAssociationAppraisalResponse>> getAppraisalByRegistrationUId(
+            @PathVariable("registrationId") Long registrationId) {
+        log.info("Received request to fetch appraisal for registration ID: {}", registrationId);
+        return ResponseEntity.ok(ApiResponse.success("Appraisal fetched successfully", service.getAppraisalByRegistrationId(registrationId)));
     }
 
-    /**
-     * Retrieve all active appraisals.
-     * GET /industry-association-appraisals
-     *
-     * @return ResponseEntity with list of appraisals and HTTP 200
-     */
     @GetMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
-    public ResponseEntity<List<IndustryAssociationAppraisalResponse>> getAllAppraisals() {
+    public ResponseEntity<ApiResponse<List<IndustryAssociationAppraisalResponse>>> getAllAppraisals() {
         log.info("Received request to fetch all appraisals");
-        List<IndustryAssociationAppraisalResponse> responses = service.getAllAppraisals();
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok(ApiResponse.success("Appraisals fetched successfully", service.getAllAppraisals()));
     }
 
-    /**
-     * Update an existing appraisal.
-     * PUT /industry-association-appraisals/{uuid}
-     *
-     * @param uuid the unique identifier
-     * @param request the update request
-     * @return ResponseEntity with updated appraisal and HTTP 200
-     */
-    @PutMapping("/{uuid}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalUpdate'))")
-    public ResponseEntity<IndustryAssociationAppraisalResponse> updateAppraisal(
-            @PathVariable String uuid,
+    public ResponseEntity<ApiResponse<IndustryAssociationAppraisalResponse>> updateAppraisal(
+            @PathVariable("id") Long id,
             @RequestBody UpdateIndustryAssociationAppraisalRequest request) {
-        log.info("Received request to update appraisal with UUID: {}", uuid);
-        IndustryAssociationAppraisalResponse response = service.updateAppraisal(uuid, request);
-        return ResponseEntity.ok(response);
+        log.info("Received request to update appraisal with ID: {}", id);
+        return ResponseEntity.ok(ApiResponse.success("Appraisal updated successfully", service.updateAppraisal(id, request)));
     }
 
-    /**
-     * Approve or reject an appraisal by SIDBE.
-     * PATCH /industry-association-appraisals/{uuid}/approve
-     *
-     * @param uuid the unique identifier
-     * @param approvalRequest the approval request
-     * @param authentication the current authenticated user
-     * @return ResponseEntity with updated appraisal and HTTP 200
-     */
-    @PatchMapping("/{uuid}/approve")
+    @PatchMapping("/{id}/approve")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalApprove'))")
-    public ResponseEntity<IndustryAssociationAppraisalResponse> approveBySidbe(
-            @PathVariable String uuid,
+    public ResponseEntity<ApiResponse<IndustryAssociationAppraisalResponse>> approveBySidbe(
+            @PathVariable("id") Long id,
             @RequestBody ApprovalRequest approvalRequest,
             Authentication authentication) {
-        log.info("Received SIDBE approval request for appraisal with UUID: {}", uuid);
-        String username = authentication.getName();
-        IndustryAssociationAppraisalResponse response = service.approveBySidbe(uuid, approvalRequest, username);
-        return ResponseEntity.ok(response);
+        log.info("Received SIDBE approval request for appraisal with ID: {}", id);
+        return ResponseEntity.ok(ApiResponse.success("Appraisal approved successfully", service.approveBySidbe(id, approvalRequest, authentication.getName())));
     }
 
-    /**
-     * Permanently delete an appraisal (hard delete).
-     * DELETE /industry-association-appraisals/{uuid}/permanent
-     *
-     * @param uuid the unique identifier
-     * @return ResponseEntity with HTTP 204 (No Content)
-     */
-    @DeleteMapping("/{uuid}")
+
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalDelete'))")
-    public ResponseEntity<Void> deleteAppraisal(@PathVariable String uuid) {
-        log.info("Received request to permanently delete appraisal with UUID: {}", uuid);
-        service.permanentlyDeleteAppraisal(uuid);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<Void>> deleteAppraisal(@PathVariable("id") Long id) {
+        log.info("Received request to permanently delete appraisal with ID: {}", id);
+        service.permanentlyDeleteAppraisal(id);
+        return ResponseEntity.ok(ApiResponse.success("Appraisal deleted successfully", null));
     }
 
-    /**
-     * Retrieve Industry Association Appraisals by state, district and SIDBI approval status.
-     *
-     * @param state the state where the Industry Association is registered
-     * @param district the district where the Industry Association is registered
-     * @param isSidbeApproved SIDBI approval status (true = approved, false = not approved)
-     * @return list of matching Industry Association Appraisal records
-     */
+
     @Operation(
             summary = "Search Industry Association Appraisals",
             description = "Retrieves Industry Association Appraisals filtered by state, district, and SIDBI approval status."
     )
     @GetMapping("/search")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalSearch'))")
-    public ResponseEntity<List<IndustryAssociationAppraisalResponse>> getAppraisals(
+    public ResponseEntity<ApiResponse<List<IndustryAssociationAppraisalResponse>>> getAppraisals(
             @RequestParam String state,
             @RequestParam String district,
             @RequestParam Boolean isSidbeApproved) {
-
-        return ResponseEntity.ok(
-                service.getAppraisals(state, district, isSidbeApproved)
-        );
+        return ResponseEntity.ok(ApiResponse.success("Appraisals fetched successfully", service.getAppraisals(state, district, isSidbeApproved)));
     }
 }

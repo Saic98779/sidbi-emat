@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -17,9 +16,10 @@ import java.util.UUID;
 public class RegionalOffice extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", nullable = false, updatable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REGIONAL_OFFICE")
+    @SequenceGenerator(name = "SEQ_REGIONAL_OFFICE", sequenceName = "SEQ_REGIONAL_OFFICE", allocationSize = 1)
+    @Column(name = "ID", nullable = false, updatable = false)
+    private Long id;
 
     @Column(name = "RO_ID", nullable = false, unique = true, length = 50)
     private String roId;

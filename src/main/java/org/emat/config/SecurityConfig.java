@@ -96,7 +96,6 @@ public class SecurityConfig {
                     .requestMatchers("/industry-association-registrations/**").hasAnyRole(resolveRolesOrDefaults("industryAssociationRead", List.of("GT_FIELD_TEAM", "GT_PMU", "BSE", "MANPOWER_AGENCY", "SIDBI_SDE", "SIDBI_RO", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "CLUSTER_EXPERT")))
                     .requestMatchers("/industry-association-appraisals/**").hasAnyRole(resolveRolesOrDefaults("industryAssociationRead", List.of("GT_FIELD_TEAM", "GT_PMU", "BSE", "MANPOWER_AGENCY", "SIDBI_SDE", "SIDBI_RO", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "CLUSTER_EXPERT")))
                     .requestMatchers("/bse-recommendations/**").hasAnyRole(resolveRolesOrDefaults("bseRecommendationRead", List.of("BSE", "GT_FIELD_TEAM", "GT_PMU", "MANPOWER_AGENCY", "SIDBI_SDE", "SIDBI_RO", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER", "CLUSTER_EXPERT")))
-                    .requestMatchers("/sidbi-sde/**").hasAnyRole(resolveRolesOrDefaults(EndpointRolePolicyService.SIDBI_SDE, List.of("SIDBI_SDE", "SIDBI_RO", "SIDBI_HO_MAKER", "SIDBI_HO_CHECKER")))
                     .requestMatchers("/vendor-disbursements/**").hasAnyRole(resolveRolesOrDefaults("bseRecommendationWrite", List.of("BSE", "GT_FIELD_TEAM", "GT_PMU", "MANPOWER_AGENCY", "SIDBI_HO_MAKER", "SIDBI_RO")))
                     .anyRequest().authenticated()
             );

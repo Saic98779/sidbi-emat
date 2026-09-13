@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import org.emat.dto.ApiResponse;
 import org.emat.dto.UploadedFileResponse;
 import org.emat.service.FileStorageService;
 import org.springframework.core.io.Resource;
@@ -21,38 +22,37 @@ public class FileController {
         this.storageService = storageService;
     }
 
-    @PostMapping(value = "/{registrationUuid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<UploadedFileResponse> uploadFile(@PathVariable String registrationUuid, @RequestPart("file") MultipartFile file) {
-        UploadedFileResponse resp = storageService.store(registrationUuid, file);
-        return ResponseEntity.status(201).body(resp);
+    @PostMapping(value = "/{registrationId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<UploadedFileResponse>> uploadFile(@PathVariable String registrationId,
+                                                                         @RequestPart("file") MultipartFile file) {
+        return ResponseEntity.status(201)
+                .body(ApiResponse.created("File uploaded successfully", storageService.store(registrationId, file)));
     }
 
-    @PostMapping(value = "/{registrationUuid}/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<List<UploadedFileResponse>> uploadFiles(@PathVariable String registrationUuid, @RequestPart("files") List<MultipartFile> files) {
-        List<UploadedFileResponse> responses = storageService.storeAll(registrationUuid, files);
-        return ResponseEntity.status(201).body(responses);
+    @PostMapping(value = "/{registrationId}/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<List<UploadedFileResponse>>> uploadFiles(@PathVariable String registrationId,
+                                                                                @RequestPart("files") List<MultipartFile> files) {
+        return ResponseEntity.status(201)
+                .body(ApiResponse.created("Files uploaded successfully", storageService.storeAll(registrationId, files)));
     }
 
-    @GetMapping("/{registrationUuid}")
-    public ResponseEntity<List<UploadedFileResponse>> listFiles(@PathVariable String registrationUuid) {
-        List<UploadedFileResponse> list = storageService.listFiles(registrationUuid);
-        return ResponseEntity.ok(list);
+    @GetMapping("/{registrationId}")
+    public ResponseEntity<ApiResponse<List<UploadedFileResponse>>> listFiles(@PathVariable String registrationId) {
+        return ResponseEntity.ok(ApiResponse.success("Files fetched successfully", storageService.listFiles(registrationId)));
     }
 
-    @GetMapping("/{registrationUuid}/{filename:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String registrationUuid, @PathVariable String filename) {
-        Resource resource = storageService.loadAsResource(registrationUuid, filename);
-        String contentType = "application/octet-stream";
+    @GetMapping("/{registrationId}/{filename:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String registrationId, @PathVariable String filename) {
+        Resource resource = storageService.loadAsResource(registrationId, filename);
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
                 .body(resource);
     }
 
-    @DeleteMapping("/{registrationUuid}/{filename:.+}")
-    public ResponseEntity<Void> deleteFile(@PathVariable String registrationUuid, @PathVariable String filename) {
-        storageService.delete(registrationUuid, filename);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{registrationId}/{filename:.+}")
+    public ResponseEntity<ApiResponse<Void>> deleteFile(@PathVariable String registrationId, @PathVariable String filename) {
+        storageService.delete(registrationId, filename);
+        return ResponseEntity.ok(ApiResponse.success("File deleted successfully", null));
     }
 }
-

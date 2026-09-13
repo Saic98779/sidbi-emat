@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Entity representing Industry Association Appraisal.
@@ -27,12 +26,13 @@ import java.util.UUID;
 public class IndustryAssociationAppraisal extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", updatable = false, nullable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL")
+    @SequenceGenerator(name = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL", sequenceName = "SEQ_INDUSTRY_ASSOCIATION_APPRAISAL", allocationSize = 1)
+    @Column(name = "ID", updatable = false, nullable = false)
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGISTRATION_UUID", nullable = false, unique = true)
+    @JoinColumn(name = "REGISTRATION_ID", nullable = false, unique = true)
     private IndustryAssociationRegistration registration;
 
     // Due Diligence
@@ -102,7 +102,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @ElementCollection
     @CollectionTable(
             name = "IA_APPRAISAL_TOP_SECTORS",
-            joinColumns = @JoinColumn(name = "APPRAISAL_UUID"))
+            joinColumns = @JoinColumn(name = "APPRAISAL_ID"))
     private List<SectorDetail> sectors;
 
     @Embeddable
@@ -309,5 +309,63 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "ENVISAGED_OUTCOME", length = 500)
     private String envisagedOutcome;
 
+    // Office Holder CIBIL
+    @Column(name = "HOLDER_CIBIL_REFERENCE_NO")
+    private String holderCibilReferenceNo;
 
+    @Column(name = "HOLDER_CIBIL_DATE")
+    private LocalDate holderCibilDate;
+
+    @Column(name = "HOLDER_CIBIL_SCORE")
+    private String holderCibilScore;
+
+    @Column(name = "HOLDER_CIBIL_REMARKS")
+    private String holderCibilRemarks;
+
+    @Column(name = "HOLDER_CIBIL_FILE")
+    private String holderCibilFile;
+
+
+    // Office Holder SMART
+    @Column(name = "HOLDER_SMART_AVAILABLE")
+    private Boolean holderSmartAvailable;
+
+    @Column(name = "HOLDER_SMART_DATE")
+    private LocalDate holderSmartDate;
+
+    @Column(name = "HOLDER_SMART_REMARKS")
+    private String holderSmartRemarks;
+
+
+    // Beneficial Owner CIBIL
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_REFERENCE_NO")
+    private String beneficialOwnerCibilReferenceNo;
+
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_DATE")
+    private LocalDate beneficialOwnerCibilDate;
+
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_RANKING")
+    private String beneficialOwnerCibilRanking;
+
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_FILE")
+    private String beneficialOwnerCibilFile;
+
+
+    // Beneficial Owner SMART
+    @Column(name = "BENEFICIAL_OWNER_SMART_AVAILABLE")
+    private Boolean beneficialOwnerSmartAvailable;
+
+    @Column(name = "BENEFICIAL_OWNER_SMART_DATE")
+    private LocalDate beneficialOwnerSmartDate;
+
+    // Paid Services
+    @Column(name = "PAID_SERVICES_DETAILS")
+    private String paidServicesDetails;
+
+    @Column(name = "SMART_REPORT_AVAILABLE")
+    private Boolean smartReportAvailable;
+    @Column(name = "NGO_DARPAN_FILES")
+    private String ngoDarpanFile;
+    @Column(name = "NABARD_BLACKLIST_FILE")
+    private String nabardBlacklistFile;
 }

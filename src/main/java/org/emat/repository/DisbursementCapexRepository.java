@@ -2,11 +2,12 @@ package org.emat.repository;
 
 import org.emat.entity.DisbursementCapex;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface DisbursementCapexRepository extends JpaRepository<DisbursementCapex, UUID> {
+@Repository
+public interface DisbursementCapexRepository extends JpaRepository<DisbursementCapex, Long> {
 
-    Optional<DisbursementCapex> findByRegistrationUuid(UUID registrationUuid);
+    Optional<DisbursementCapex> findByRegistrationId(Long registrationId);
 }

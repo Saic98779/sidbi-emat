@@ -1,17 +1,19 @@
 package org.emat.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SustainabilityMatrixRequest {
 
-    private UUID appraisalUuid;
+    private Long appraisalId;
 
     private Boolean activeGoverningBody;
     private Boolean election;
@@ -36,4 +38,8 @@ public class SustainabilityMatrixRequest {
     private Boolean dedicatedStaff;
     private Boolean operationalProcesses;
     private Integer totalScore;
+    private Long stageId;
+    private String stageComments;
+    private List<String> actionPlans;
+    private String actionPlanClusterExpertComment;
 }

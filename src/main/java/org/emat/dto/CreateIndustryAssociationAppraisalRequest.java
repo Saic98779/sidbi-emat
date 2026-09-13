@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 public class CreateIndustryAssociationAppraisalRequest {
 
-    private String registrationUuid;
+    private Long registrationId;
 
     // Due Diligence
     private String cibilReportReferenceNo;
@@ -59,7 +59,7 @@ public class CreateIndustryAssociationAppraisalRequest {
     private BigDecimal utilizedAmount;
     private BigDecimal availableBudget;
 
-    // Terms
+    // Termstu
     private String termsAndConditions;
 
     // DoP
@@ -141,4 +141,33 @@ public class CreateIndustryAssociationAppraisalRequest {
     private Boolean referralArrangementReady;
     private Boolean bseReadinessReady;
     private BigDecimal financingScopeCrore;
+
+    private String holderCibilReferenceNo;
+    private LocalDate holderCibilDate;
+    private String holderCibilScore;
+    private String holderCibilRemarks;
+    private String holderCibilFile;
+
+    private Boolean holderSmartAvailable;
+    private LocalDate holderSmartDate;
+    private String holderSmartRemarks;
+
+    private String beneficialOwnerCibilReferenceNo;
+    private LocalDate beneficialOwnerCibilDate;
+    private String beneficialOwnerCibilRanking;
+    private String beneficialOwnerCibilFile;
+
+    private Boolean beneficialOwnerSmartAvailable;
+    private LocalDate beneficialOwnerSmartDate;
+
+    private String paidServicesDetails;
+
+    private Boolean smartReportAvailable;
+
+    private String ngoDarpanFile;
+
+    private String nabardBlacklistFile;
+
+    private Long stageId;
+    private String stageComments;
 }

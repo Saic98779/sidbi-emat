@@ -1,7 +1,7 @@
 package org.emat.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.VendorDropdownDTO;
 import org.emat.dto.VendorRequestDTO;
 import org.emat.dto.VendorResponseDTO;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/vendor")
@@ -20,78 +19,59 @@ public class VendorController {
 
     private final VendorService vendorService;
 
-    /**
-     * Create Vendor
-     */
     @PostMapping
-    public ResponseEntity<VendorResponseDTO> createVendor(@RequestBody VendorRequestDTO request) {
+    public ResponseEntity<ApiResponse<VendorResponseDTO>> createVendor(@RequestBody VendorRequestDTO request) {
 
-        return new ResponseEntity<>(
-                vendorService.createVendor(request),
-                HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.created("Vendor created successfully", vendorService.createVendor(request)));
     }
 
-    /**
-     * Update Vendor
-     */
-    @PutMapping("/{uuid}")
-    public ResponseEntity<VendorResponseDTO> updateVendor(
-            @PathVariable UUID uuid,
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<VendorResponseDTO>> updateVendor(
+            @PathVariable Long id,
             @RequestBody VendorRequestDTO request) {
 
         return ResponseEntity.ok(
-                vendorService.updateVendor(uuid, request));
+                ApiResponse.success("Vendor updated successfully", vendorService.updateVendor(id, request)));
     }
 
-    /**
-     * Get Vendor By UUID
-     */
-    @GetMapping("/{uuid}")
-    public ResponseEntity<VendorResponseDTO> getVendorById(
-            @PathVariable UUID uuid) {
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<VendorResponseDTO>> getVendorById(
+            @PathVariable Long id) {
 
         return ResponseEntity.ok(
-                vendorService.getVendorById(uuid));
+                ApiResponse.success("Vendor fetched successfully", vendorService.getVendorById(id)));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<VendorResponseDTO> getVendorByUserId(
+    public ResponseEntity<ApiResponse<VendorResponseDTO>> getVendorByUserId(
             @PathVariable Long userId) {
 
         return ResponseEntity.ok(
-                vendorService.getVendorByUserId(userId)
-        );
+                ApiResponse.success("Vendor fetched successfully", vendorService.getVendorByUserId(userId)));
     }
 
-    /**
-     * Get All Vendors
-     */
     @GetMapping
-    public ResponseEntity<List<VendorResponseDTO>> getAllVendors() {
+    public ResponseEntity<ApiResponse<List<VendorResponseDTO>>> getAllVendors() {
 
         return ResponseEntity.ok(
-                vendorService.getAllVendors());
+                ApiResponse.success("Vendors fetched successfully", vendorService.getAllVendors()));
     }
 
-    /**
-     * Vendor Dropdown
-     */
     @GetMapping("/dropdown")
-    public ResponseEntity<List<VendorDropdownDTO>> getVendorDropdown() {
+    public ResponseEntity<ApiResponse<List<VendorDropdownDTO>>> getVendorDropdown() {
 
         return ResponseEntity.ok(
-                vendorService.getVendorDropdown());
+                ApiResponse.success("Vendor dropdown fetched successfully", vendorService.getVendorDropdown()));
     }
 
-    /**
-     * Delete Vendor
-     */
-    @DeleteMapping("/{uuid}")
-    public ResponseEntity<String> deleteVendor(
-            @PathVariable UUID uuid) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteVendor(
+            @PathVariable Long id) {
 
-        vendorService.deleteVendor(uuid);
+        vendorService.deleteVendor(id);
 
-        return ResponseEntity.ok("Vendor deleted successfully.");
+        return ResponseEntity.ok(ApiResponse.success("Vendor deleted successfully", null));
     }
 }

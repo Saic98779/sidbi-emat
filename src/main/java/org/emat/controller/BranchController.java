@@ -1,6 +1,7 @@
 package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.BranchDropdownResponse;
 import org.emat.service.BranchService;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,9 @@ public class BranchController {
     private final BranchService branchService;
 
     @GetMapping("/dropdown")
-    public ResponseEntity<List<BranchDropdownResponse>> getBranchDropdown(
+    public ResponseEntity<ApiResponse<List<BranchDropdownResponse>>> getBranchDropdown(
             @RequestParam String state) {
 
-        return ResponseEntity.ok(branchService.getBranchDropdownByState(state));
+        return ResponseEntity.ok(ApiResponse.success("Branch dropdown fetched successfully", branchService.getBranchDropdownByState(state)));
     }
 }

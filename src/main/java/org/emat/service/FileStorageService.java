@@ -7,10 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface FileStorageService {
-    UploadedFileResponse store(String registrationUuid, MultipartFile file);
-    List<UploadedFileResponse> storeAll(String registrationUuid, List<MultipartFile> files);
-    Resource loadAsResource(String registrationUuid, String filename);
-    List<UploadedFileResponse> listFiles(String registrationUuid);
-    void delete(String registrationUuid, String filename);
+    UploadedFileResponse store(String registrationId, MultipartFile file);
+    List<UploadedFileResponse> storeAll(String registrationId, List<MultipartFile> files);
+    Resource loadAsResource(String registrationId, String filename);
+    List<UploadedFileResponse> listFiles(String registrationId);
+    void delete(String registrationId, String filename);
 }
 

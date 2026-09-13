@@ -3,10 +3,9 @@ package org.emat.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "ELIGIBILITY_MATRIX")
@@ -14,18 +13,20 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode(callSuper = true)
 public class EligibilityMatrix extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", nullable = false, updatable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ELIGIBILITY_MATRIX")
+    @SequenceGenerator(name = "SEQ_ELIGIBILITY_MATRIX", sequenceName = "SEQ_ELIGIBILITY_MATRIX", allocationSize = 1)
+    @Column(name = "ID", nullable = false, updatable = false)
+    private Long id;
 
     /**
      * Approved Industry Association
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGISTRATION_UUID", nullable = false)
+    @JoinColumn(name = "REGISTRATION_ID", nullable = false)
     private IndustryAssociationRegistration registration;
 
 

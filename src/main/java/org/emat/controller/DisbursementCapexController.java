@@ -1,6 +1,7 @@
 package org.emat.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.emat.dto.ApiResponse;
 import org.emat.dto.DisbursementCapexRequest;
 import org.emat.dto.DisbursementCapexResponse;
 import org.emat.service.DisbursementCapexService;
@@ -9,70 +10,57 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/disbursement-capex")
 @RequiredArgsConstructor
 public class DisbursementCapexController {
 
-    private final DisbursementCapexService vendorExpenditureService;
+    private final DisbursementCapexService disbursementCapexService;
 
     @PostMapping
-    public ResponseEntity<DisbursementCapexResponse> create(
+    public ResponseEntity<ApiResponse<DisbursementCapexResponse>> create(
             @RequestBody DisbursementCapexRequest request) {
-
-        DisbursementCapexResponse response =
-                vendorExpenditureService.create(request);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.created("Disbursement capex created successfully", disbursementCapexService.create(request)));
     }
 
-    @GetMapping("/{uuid}")
-    public ResponseEntity<DisbursementCapexResponse> getById(
-            @PathVariable UUID uuid) {
-
-        return ResponseEntity.ok(
-                vendorExpenditureService.getById(uuid)
-        );
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<DisbursementCapexResponse>> getById(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.success(
+                "Disbursement capex fetched successfully",
+                disbursementCapexService.getById(id)));
     }
 
-    @GetMapping("/registration/{registrationUuid}")
-    public ResponseEntity<DisbursementCapexResponse> getByRegistrationUuid(
-            @PathVariable UUID registrationUuid) {
-
-        return ResponseEntity.ok(
-                vendorExpenditureService
-                        .getByRegistrationUuid(registrationUuid)
-        );
+    @GetMapping("/registration/{registrationId}")
+    public ResponseEntity<ApiResponse<DisbursementCapexResponse>> getByRegistrationId(
+            @PathVariable Long registrationId) {
+        return ResponseEntity.ok(ApiResponse.success(
+                "Disbursement capex fetched successfully",
+                disbursementCapexService.getByRegistrationId(registrationId)));
     }
 
     @GetMapping
-    public ResponseEntity<List<DisbursementCapexResponse>> getAll() {
-
-        return ResponseEntity.ok(
-                vendorExpenditureService.getAll()
-        );
+    public ResponseEntity<ApiResponse<List<DisbursementCapexResponse>>> getAll() {
+        return ResponseEntity.ok(ApiResponse.success(
+                "Disbursement capex list fetched successfully",
+                disbursementCapexService.getAll()));
     }
 
-    @PutMapping("/{uuid}")
-    public ResponseEntity<DisbursementCapexResponse> update(
-            @PathVariable UUID uuid,
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<DisbursementCapexResponse>> update(
+            @PathVariable Long id,
             @RequestBody DisbursementCapexRequest request) {
-
-        return ResponseEntity.ok(
-                vendorExpenditureService.update(uuid, request)
-        );
+        return ResponseEntity.ok(ApiResponse.success(
+                "Disbursement capex updated successfully",
+                disbursementCapexService.update(id, request)));
     }
 
-    @DeleteMapping("/{uuid}")
-    public ResponseEntity<Void> delete(
-            @PathVariable UUID uuid) {
-
-        vendorExpenditureService.delete(uuid);
-
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> delete(
+            @PathVariable Long id) {
+        disbursementCapexService.delete(id);
+        return ResponseEntity.ok(ApiResponse.success("Disbursement capex deleted successfully", null));
     }
 }

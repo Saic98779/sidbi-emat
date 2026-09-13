@@ -15,12 +15,13 @@ import lombok.experimental.SuperBuilder;
 public class UploadedFile extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UPLOADED_FILES")
+    @SequenceGenerator(name = "SEQ_UPLOADED_FILES", sequenceName = "SEQ_UPLOADED_FILES", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "REGISTRATION_UUID", nullable = false)
-    private String registrationUuid;
+    @Column(name = "REGISTRATION_ID", nullable = false)
+    private String registrationId;
 
     @Column(name = "FILENAME", nullable = false)
     private String filename;

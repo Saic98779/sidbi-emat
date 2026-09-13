@@ -2,18 +2,17 @@ package org.emat.repository;
 
 import org.emat.entity.SustainabilityMatrix;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface SustainabilityMatrixRepository
-        extends JpaRepository<SustainabilityMatrix, UUID> {
+@Repository
+public interface SustainabilityMatrixRepository extends JpaRepository<SustainabilityMatrix, Long> {
 
-    List<SustainabilityMatrix> findByIndustryAssociationAppraisalUuid(
-            UUID appraisalUuid
-    );
+    List<SustainabilityMatrix> findByIndustryAssociationAppraisal_Id(@Param("appraisalId") @NonNull Long appraisalId);
 
-    boolean existsByIndustryAssociationAppraisalUuid(
-            UUID appraisalUuid
-    );
+    boolean existsByIndustryAssociationAppraisal_Id(@Param("appraisalId") @NonNull Long appraisalId);
 }

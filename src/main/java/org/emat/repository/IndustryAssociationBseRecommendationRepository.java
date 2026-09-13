@@ -6,13 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface IndustryAssociationBseRecommendationRepository extends JpaRepository<IndustryAssociationBseRecommendation, UUID> {
+public interface IndustryAssociationBseRecommendationRepository extends JpaRepository<IndustryAssociationBseRecommendation, Long> {
 
     /**
      * Find all active BSE recommendations
@@ -20,15 +18,15 @@ public interface IndustryAssociationBseRecommendationRepository extends JpaRepos
     List<IndustryAssociationBseRecommendation> findByIsActiveTrue();
 
     /**
-     * Find BSE recommendation by UUID and active status
+     * Find BSE recommendation by ID and active status
      */
-    Optional<IndustryAssociationBseRecommendation> findByUuidAndIsActiveTrue(UUID uuid);
+    Optional<IndustryAssociationBseRecommendation> findByIdAndIsActiveTrue(Long id);
 
     /**
      * Find all BSE recommendations for a specific registration
      */
-    @Query("SELECT b FROM IndustryAssociationBseRecommendation b WHERE b.registration.uuid = :registrationUuid AND b.isActive = true")
-    List<IndustryAssociationBseRecommendation> findByRegistrationUuid(@Param("registrationUuid") UUID registrationUuid);
+    @Query("SELECT b FROM IndustryAssociationBseRecommendation b WHERE b.registration.id = :registrationId AND b.isActive = true")
+    List<IndustryAssociationBseRecommendation> findByRegistrationId(@Param("registrationId") Long registrationId);
 
     /**
      * Find BSE recommendations by BSE name
@@ -91,4 +89,5 @@ public interface IndustryAssociationBseRecommendationRepository extends JpaRepos
 
     List<IndustryAssociationBseRecommendation> findByHoRecommendationIsNullAndIsActiveTrue();
 
-    List<IndustryAssociationBseRecommendation> findByUserIdAndIaSelectedTrueAndIsActiveTrue(Long userId);}
+    List<IndustryAssociationBseRecommendation> findByUserIdAndIaSelectedTrueAndIsActiveTrue(Long userId);
+}

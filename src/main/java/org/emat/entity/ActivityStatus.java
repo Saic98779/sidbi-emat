@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,8 @@ import java.time.LocalDateTime;
 public class ActivityStatus {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ACTIVITY_STATUS")
+    @SequenceGenerator(name = "SEQ_ACTIVITY_STATUS", sequenceName = "SEQ_ACTIVITY_STATUS", allocationSize = 1)
     @Column(name = "STATUS_ID")
     private Long statusId;
 
@@ -45,4 +47,3 @@ public class ActivityStatus {
     @Column(name = "STATUS_REMARKS")
     private String statusRemarks;
 }
-

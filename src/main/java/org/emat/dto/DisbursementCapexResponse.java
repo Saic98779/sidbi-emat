@@ -4,7 +4,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -12,9 +11,9 @@ import java.util.UUID;
 @Builder
 public class DisbursementCapexResponse {
 
-    private UUID uuid;
+    private Long id;
 
-    private UUID registrationUuid;
+    private Long registrationId;
 
     private String industryAssociationName;
 

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -64,4 +63,5 @@ public class UpdateBseRecommendationRequest {
 
     private BigDecimal longitude;
     private BigDecimal latitude;
+    private String momFile;
 }

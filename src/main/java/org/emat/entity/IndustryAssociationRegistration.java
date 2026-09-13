@@ -9,8 +9,8 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Entity representing Industry Association Registration.
@@ -26,9 +26,10 @@ import java.util.UUID;
 public class IndustryAssociationRegistration extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", updatable = false, nullable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION")
+    @SequenceGenerator(name = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION", sequenceName = "SEQ_INDUSTRY_ASSOCIATION_REGISTRATION", allocationSize = 1)
+    @Column(name = "ID", updatable = false, nullable = false)
+    private Long id;
 
     // Basic Information
     @Column(name = "STATE", nullable = false, length = 100)
@@ -178,8 +179,8 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @ElementCollection
     @CollectionTable(
             name = "IA_SECRETARIAT_STAFF",
-            joinColumns = @JoinColumn(name = "UUID"))
-    private List<SecretariatStaff> secretariatStaff;
+            joinColumns = @JoinColumn(name = "ID"))
+    private List<SecretariatStaff> secretariatStaff = new ArrayList<>();
 
     @Column(name = "ADVERSE_REMARKS_AVAILABLE")
     private Boolean adverseRemarksAvailable;
@@ -194,9 +195,9 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @ElementCollection
     @CollectionTable(
             name = "IA_BASIS_SELECTION",
-            joinColumns = @JoinColumn(name = "UUID"))
+            joinColumns = @JoinColumn(name = "ID"))
     @Column(name = "BASIS")
-    private List<String> selectionCriteria;
+    private List<String> selectionCriteria = new ArrayList<>();
 
     // Willingness & Output
     @Column(name = "WILLINGNESS_COMMENTS", length = 500)
@@ -231,8 +232,6 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @JoinColumn(name = "SIDBE_APPROVED_BY_USER_ID")
     private User sidbeApprovedByUser;
 
-    private Boolean isSidbeApproved;
-
     // Bidirectional 1:1 relationship with IndustryAssociationAppraisal
     @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private IndustryAssociationAppraisal appraisal;
@@ -243,7 +242,18 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "PAN_NO", length = 15,unique = true)
     private String panNo;
 
-    @Column(name = "IS_ELIGIBILITY_MATRIX_ADDED")
-    private Boolean isEligibleMatricsAdded;
+    // Current Stage Details
+    @ManyToOne
+    @JoinColumn(name = "current_stage_id")
+    private Stage currentStage;
+
+    // Stage History
+    @ElementCollection
+    @CollectionTable(
+            name = "IA_STAGE_HISTORY",
+            joinColumns = @JoinColumn(name = "REGISTRATION_ID")
+    )
+    @OrderColumn(name = "HISTORY_ORDER")
+    private List<StageHistory> history = new ArrayList<>();
 
 }

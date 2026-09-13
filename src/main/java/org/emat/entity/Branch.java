@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.UUID;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -16,15 +16,16 @@ import java.util.UUID;
 public class Branch extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UUID", nullable = false, updatable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BRANCH")
+    @SequenceGenerator(name = "SEQ_BRANCH", sequenceName = "SEQ_BRANCH", allocationSize = 1)
+    @Column(name = "ID", nullable = false, updatable = false)
+    private Long id;
 
     @Column(name = "BO_ID", nullable = false, unique = true, length = 50)
     private String boId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RO_UUID", nullable = false)
+    @JoinColumn(name = "RO_ID", nullable = false)
     private RegionalOffice regionalOffice;
 
     @Column(name = "BRANCH_NAME", nullable = false, length = 200)
@@ -44,4 +45,19 @@ public class Branch extends BaseEntity {
 
     @Column(name = "CONTACT_NO", length = 20)
     private String contactNo;
+
+    @Override
+    public String toString() {
+        return "Branch{" +
+                "id=" + id +
+                ", boId='" + boId + '\'' +
+                ", regionalOffice=" + regionalOffice +
+                ", branchName='" + branchName + '\'' +
+                ", city='" + city + '\'' +
+                ", district='" + district + '\'' +
+                ", state='" + state + '\'' +
+                ", address='" + address + '\'' +
+                ", contactNo='" + contactNo + '\'' +
+                '}';
+    }
 }

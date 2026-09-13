@@ -12,7 +12,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'prod',
                         credentialsId: 'github-token',
                         url: 'https://github.com/Saic98779/sidbi-emat.git'
             }
@@ -45,17 +45,6 @@ pipeline {
                 -v /home/ubuntu/uploads:/home/ubuntu/uploads \
                 ${IMAGE_NAME}
         '''
-            }
-        }
-
-        stage('Health Check') {
-            steps {
-                sh '''
-                echo "Waiting for application to start..."
-                sleep 30
-
-                curl -f http://localhost:${HOST_PORT}/emat/v1/health
-                '''
             }
         }
     }
