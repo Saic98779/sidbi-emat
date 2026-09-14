@@ -103,7 +103,13 @@ public class SustainabilityMatrixServiceImpl implements SustainabilityMatrixServ
         matrix.setActionPlanClusterExpertComment(request.getActionPlanClusterExpertComment());
         matrix.setActionPlans(request.getActionPlans());
         SustainabilityMatrix updated = repository.save(matrix);
-
+        if (updated != null) {
+            stageService.updateStage(
+                    updated.getIndustryAssociationAppraisal().getRegistration().getId(),
+                    request.getStageId(),
+                    request.getStageComments(),
+                    commonUtil.getCurrentUsername());
+        }
         return toResponse(updated);
     }
 
