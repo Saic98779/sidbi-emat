@@ -17,7 +17,7 @@ import org.emat.service.EndpointRolePolicyService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("endpointRolePolicyService")
 @RequiredArgsConstructor
 @Transactional
 public class EndpointRolePolicyServiceImpl implements EndpointRolePolicyService {
