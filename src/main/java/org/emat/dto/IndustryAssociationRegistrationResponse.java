@@ -1,5 +1,6 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +18,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class IndustryAssociationRegistrationResponse {
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
+
     private String state;
     private String industryAssociationName;
     private String constitutionType;
@@ -28,16 +33,26 @@ public class IndustryAssociationRegistrationResponse {
     private String pincode;
     private String apexHolderName;
     private String apexHolderDesignation;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String apexHolderMobile;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String apexHolderEmail;
+
     private String addressProofType;
     private String addressProof;
     private String idProofType;
     private String idProof;
     private String nodalName;
     private String nodalDesignation;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String nodalMobile;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String nodalEmail;
+
     private String sidbiBranch;
     private String sidbiBranchName;
     private Boolean mappedWithCluster;
@@ -74,6 +89,8 @@ public class IndustryAssociationRegistrationResponse {
     private String envisagedOutcome;
     private String envisagedImpact;
     private String sde;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long sidbeApprovedByUserId;
     private String sidbeApprovedByUsername;
     private Boolean isActive;
@@ -81,8 +98,12 @@ public class IndustryAssociationRegistrationResponse {
     private LocalDateTime updatedAt;
     private String createdBy;
     private String updatedBy;
+
     private String panNo;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String email;
+
     private String currentStage;
     private String comments;
 }

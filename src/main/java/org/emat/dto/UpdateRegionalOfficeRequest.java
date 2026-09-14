@@ -1,6 +1,10 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import org.emat.dto.serializer.PiiStringDecryptDeserializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
 
 @Data
 public class UpdateRegionalOfficeRequest {
@@ -15,5 +19,7 @@ public class UpdateRegionalOfficeRequest {
 
     private String address;
 
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String contactNo;
 }

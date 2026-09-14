@@ -1,5 +1,6 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
 
 @Data
 @NoArgsConstructor
@@ -14,13 +17,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BseRecommendationResponse {
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long registrationId;
+
     private String industryAssociationName;
 
     // Vendor Details
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long userId;
+
     private String userName;
     private Boolean iaSelected;
 
@@ -29,8 +38,13 @@ public class BseRecommendationResponse {
     private String district;
     private String industryRegistrationId;
     private String bseName;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String mobileNumber;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String emailId;
+
     private String highestQualification;
     private Boolean experienced;
     private Integer experienceYears;

@@ -1,5 +1,7 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -7,6 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.dto.serializer.PiiStringDecryptDeserializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
 import org.emat.entity.IndustryAssociationAppraisal;
 
 /** DTO for creating a new Industry Association Appraisal. */
@@ -16,6 +22,8 @@ import org.emat.entity.IndustryAssociationAppraisal;
 @Builder
 public class CreateIndustryAssociationAppraisalRequest {
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long registrationId;
 
     // Due Diligence
@@ -72,8 +80,15 @@ public class CreateIndustryAssociationAppraisalRequest {
     // Apex Holder Information (KYC)
     private String apexHolderName;
     private String apexHolderDesignation;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String apexHolderMobile;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String apexHolderEmail;
+
     private String addressProofType;
     private String addressProof;
     private String idProofType;
@@ -82,7 +97,13 @@ public class CreateIndustryAssociationAppraisalRequest {
     // Nodal Contact Information
     private String nodalName;
     private String nodalDesignation;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String nodalMobile;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String nodalEmail;
 
     // SIDBI Details
@@ -162,6 +183,8 @@ public class CreateIndustryAssociationAppraisalRequest {
 
     private String nabardBlacklistFile;
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long stageId;
     private String stageComments;
 }

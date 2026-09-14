@@ -1,5 +1,6 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
 import org.emat.entity.IndustryAssociationAppraisal;
 
 /** DTO for Industry Association Appraisal response. */
@@ -17,8 +20,12 @@ import org.emat.entity.IndustryAssociationAppraisal;
 @Builder
 public class IndustryAssociationAppraisalResponse {
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long registrationId;
+
     private String registrationName;
     private String sidbiBranch;
     private String sidbiBranchName;
@@ -76,6 +83,8 @@ public class IndustryAssociationAppraisalResponse {
 
     // SIDBE Approval
     private Boolean isSidbeApproved;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long sidbeApprovedByUserId;
     private String sidbeApprovedByUsername;
 
@@ -89,8 +98,13 @@ public class IndustryAssociationAppraisalResponse {
     // Apex Holder Information (KYC)
     private String apexHolderName;
     private String apexHolderDesignation;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String apexHolderMobile;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String apexHolderEmail;
+
     private String addressProofType;
     private String addressProof;
     private String idProofType;
@@ -99,7 +113,11 @@ public class IndustryAssociationAppraisalResponse {
     // Nodal Contact Information
     private String nodalName;
     private String nodalDesignation;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String nodalMobile;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String nodalEmail;
 
     // Cluster Details

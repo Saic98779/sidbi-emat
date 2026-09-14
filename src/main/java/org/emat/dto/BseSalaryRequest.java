@@ -9,7 +9,9 @@ import lombok.Data;
 public class BseSalaryRequest {
 
     private String gstinOfAgency;
+
     private String reasonForNoGstin;
+
     private String gstinOfSdbi;
 
     private BigDecimal sanctionedAmount;
@@ -33,6 +35,7 @@ public class BseSalaryRequest {
     private BigDecimal recommendedDisbursementAmount;
 
     private String accountCode;
+
     private String complianceTerms;
     private String recommendation;
 

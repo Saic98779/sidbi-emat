@@ -11,7 +11,9 @@ public class BseSalaryUpdateRequest {
     private String bseId;
 
     private String gstinOfAgency;
+
     private String reasonForNoGstin;
+
     private String gstinOfSdbi;
 
     private BigDecimal sanctionedAmount;
@@ -35,6 +37,7 @@ public class BseSalaryUpdateRequest {
     private BigDecimal recommendedDisbursementAmount;
 
     private String accountCode;
+
     private String complianceTerms;
     private String recommendation;
 

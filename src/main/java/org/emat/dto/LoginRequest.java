@@ -1,9 +1,17 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+import org.emat.dto.serializer.PiiStringDecryptDeserializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
+
 /** Request DTO for login API. */
 public class LoginRequest {
 
     private String username;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String password;
 
     public LoginRequest() {}

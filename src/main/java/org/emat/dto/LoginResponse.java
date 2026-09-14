@@ -1,6 +1,9 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonSerialize;
 import java.time.Instant;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
 import org.emat.enums.Role;
 
 /** Response DTO for login API. */
@@ -8,9 +11,14 @@ public class LoginResponse {
 
     private String token;
     private Instant expiresAt;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long userId;
     private String username;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String email;
+
     private String firstName;
     private String lastName;
     private String district;

@@ -1,8 +1,10 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.*;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
 
 @Data
 @NoArgsConstructor
@@ -10,8 +12,10 @@ import lombok.*;
 @Builder
 public class DisbursementCapexResponse {
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long registrationId;
 
     private String industryAssociationName;

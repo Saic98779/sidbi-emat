@@ -1,5 +1,7 @@
 package org.emat.dto;
 
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -7,6 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.dto.serializer.PiiStringDecryptDeserializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
 
 /** Request DTO for creating Industry Association Registration. */
 @Data
@@ -34,8 +40,15 @@ public class CreateIndustryAssociationRegistrationRequest {
     // Apex Holder Information (KYC)
     private String apexHolderName;
     private String apexHolderDesignation;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String apexHolderMobile;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String apexHolderEmail;
+
     private String addressProofType;
     private String addressProof;
     private String idProofType;
@@ -44,7 +57,13 @@ public class CreateIndustryAssociationRegistrationRequest {
     // Nodal Contact Information
     private String nodalName;
     private String nodalDesignation;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String nodalMobile;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String nodalEmail;
 
     // SIDBI Details
@@ -105,13 +124,24 @@ public class CreateIndustryAssociationRegistrationRequest {
 
     // SIDBI Approval Fields
     private Boolean isSidbeApproved;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long sidbeApprovedByUserId;
 
     // Audit Fields
     private String createdBy;
+
     private String panNo;
+
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String email;
+
     private Boolean isEligibleMatricsAdded;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long stageId;
     private String stageComments;
 }
