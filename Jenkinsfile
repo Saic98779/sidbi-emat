@@ -32,6 +32,41 @@ pipeline {
             }
         }
 
+        stage('Check Deployment Config') {
+            steps {
+                sh '''
+            echo "========================================"
+            echo "Jenkins deployment configuration"
+            echo "========================================"
+
+            echo "Current user:"
+            whoami
+
+            echo "Workspace:"
+            pwd
+
+            echo "Git commit:"
+            git rev-parse HEAD
+
+            echo "Git branch:"
+            git branch --show-current
+
+            echo "Checking env file:"
+            if [ -r /opt/emat-config/.env ]; then
+                echo "ENV_FILE_READABLE=YES"
+            else
+                echo "ENV_FILE_READABLE=NO"
+            fi
+
+            echo "Checking Vault variables WITHOUT showing values:"
+            grep -E '^(VAULT_ROLE_ID|VAULT_SECRET_ID)=' /opt/emat-config/.env \
+                | sed 's/=.*$/=<SET>/'
+
+            echo "========================================"
+        '''
+            }
+        }
+
         stage('Deploy') {
             steps {
                 sh '''
