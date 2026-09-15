@@ -1,26 +1,19 @@
 services:
-  vault:
-    image: hashicorp/vault:latest
-    container_name: emat-vault
-
-    cap_add:
-      - IPC_LOCK
+  emat-app:
+    image: emat:latest
+    container_name: emat-app
 
     ports:
-      - "127.0.0.1:8200:8200"
-      - "127.0.0.1:8201:8201"
-
-    volumes:
-      - vault-data:/vault/data
-      - ./config/vault-config.hcl:/vault/config/vault-config.hcl:ro
-      - ./tls:/vault/tls:ro
+      - "127.0.0.1:8086:8086"
 
     environment:
-      VAULT_ADDR: https://vault-emat.metaversedu.in
+      SPRING_PROFILES_ACTIVE: "prod"
 
-    command: vault server -config=/vault/config/vault-config.hcl
+      VAULT_SCHEME: "https"
+      VAULT_HOST: "vault-emat.metaversedu.in"
+      VAULT_PORT: "443"
+
+      VAULT_ROLE_ID: "${VAULT_ROLE_ID}"
+      VAULT_SECRET_ID: "${VAULT_SECRET_ID}"
 
     restart: unless-stopped
-
-volumes:
-  vault-data:
