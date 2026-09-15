@@ -35,21 +35,39 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-            docker stop ${APP_NAME} || true
-            docker rm ${APP_NAME} || true
+                    docker stop ${APP_NAME} || true
+                    docker rm ${APP_NAME} || true
 
-            docker run -d \
-                --network host \
-                --name ${APP_NAME} \
-                --restart unless-stopped \
-                --env-file /opt/emat-config/.env \
-                -e SPRING_PROFILES_ACTIVE=prod \
-                -e VAULT_SCHEME=https \
-                -e VAULT_HOST=vault-emat.metaversedu.in \
-                -e VAULT_PORT=443 \
-                -v /home/ubuntu/uploads:/home/ubuntu/uploads \
-                ${IMAGE_NAME}
-        '''
+                    docker run -d \
+                        --network host \
+                        --name ${APP_NAME} \
+                        --restart unless-stopped \
+                        --env-file /opt/emat-config/.env \
+                        -e SPRING_PROFILES_ACTIVE=prod \
+                        -e VAULT_SCHEME=https \
+                        -e VAULT_HOST=vault-emat.metaversedu.in \
+                        -e VAULT_PORT=443 \
+                        -v /home/ubuntu/uploads:/home/ubuntu/uploads \
+                        ${IMAGE_NAME}
+                '''
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                sh '''
+                    echo "Waiting for application to start..."
+                    sleep 10
+
+                    if ! docker ps --filter "name=${APP_NAME}" --filter "status=running" | grep -q "${APP_NAME}"; then
+                        echo "Application container is not running"
+                        docker logs --tail=100 ${APP_NAME} || true
+                        exit 1
+                    fi
+
+                    echo "Application container is running"
+                    docker logs --tail=50 ${APP_NAME}
+                '''
             }
         }
     }
