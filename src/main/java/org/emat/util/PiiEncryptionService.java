@@ -112,6 +112,9 @@ public class PiiEncryptionService {
 
     /** Decrypts a Long backend identifier received from the frontend. */
     public Long decryptId(String encryptedId) {
+        if (encryptedId != null) {
+            encryptedId = encryptedId.replaceAll("^\"|\"$", "");
+        }
         return Long.parseLong(decrypt(encryptedId));
     }
 

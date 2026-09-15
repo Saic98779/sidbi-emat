@@ -25,6 +25,7 @@ public class EncryptedIdConverter implements Converter<String, Long> {
         if (source == null || source.isEmpty()) {
             return null;
         }
+        source = source.replaceAll("^\"|\"$", "");
         if (encryptionService.isEncrypted(source)) {
             return encryptionService.decryptId(source);
         }
