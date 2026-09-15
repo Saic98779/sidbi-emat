@@ -69,6 +69,14 @@ public class GlobalExceptionHandler {
                 HttpStatus.UNAUTHORIZED, "Unauthorized", ex.getMessage(), request);
     }
 
+    /** Handle Vault AppRole authentication/authorization failures. */
+    @ExceptionHandler(VaultAppRoleAuthenticationException.class)
+    public ResponseEntity<ProblemDetail> handleVaultAppRoleAuthenticationException(
+            VaultAppRoleAuthenticationException ex, WebRequest request) {
+        return buildProblemDetail(
+                ex.getStatus(), ex.getStatus().getReasonPhrase(), ex.getMessage(), request);
+    }
+
     /** Handle authorization failures. */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ProblemDetail> handleAccessDeniedException(

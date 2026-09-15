@@ -60,4 +60,15 @@ public class RoleAccessProperties {
                     "SIDBI_HO_MAKER",
                     "SIDBI_HO_CHECKER",
                     "CLUSTER_EXPERT");
+    private List<String> piiEncryptionKeyRead =
+            List.of(
+                    "GT_FIELD_TEAM",
+                    "GT_PMU",
+                    "BSE",
+                    "MANPOWER_AGENCY",
+                    "SIDBI_SDE",
+                    "SIDBI_RO",
+                    "SIDBI_HO_MAKER",
+                    "SIDBI_HO_CHECKER",
+                    "CLUSTER_EXPERT");
 }

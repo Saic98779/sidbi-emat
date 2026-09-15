@@ -24,11 +24,11 @@ import org.springframework.stereotype.Component;
  * encryption layer for sensitive fields so that PII is never exchanged with the frontend in plain
  * text, even if TLS is terminated upstream (e.g. at a load balancer/proxy).
  *
- * <p>Algorithm: AES-256-GCM (authenticated encryption). Output format:
- * {@code ENC:<url-safe-base64(iv + ciphertext) without padding>}. The URL-safe encoding keeps
- * encrypted values safe to embed in URL path segments and query strings (e.g. encrypted identifiers
- * passed back as {@code @PathVariable}/{@code @RequestParam}), and also round-trips losslessly in
- * JSON bodies. A fixed prefix allows the deserializer to detect whether an inbound value is already
+ * <p>Algorithm: AES-256-GCM (authenticated encryption). Output format: {@code
+ * ENC:<url-safe-base64(iv + ciphertext) without padding>}. The URL-safe encoding keeps encrypted
+ * values safe to embed in URL path segments and query strings (e.g. encrypted identifiers passed
+ * back as {@code @PathVariable}/{@code @RequestParam}), and also round-trips losslessly in JSON
+ * bodies. A fixed prefix allows the deserializer to detect whether an inbound value is already
  * encrypted, and gracefully fall back to treating it as plain text otherwise (useful while client
  * applications are migrated to the new contract).
  */
@@ -80,6 +80,10 @@ public class PiiEncryptionService {
         return enabled;
     }
 
+    public String getSecretKeyValue() {
+        return secretKeyValue;
+    }
+
     /** Returns true if the given value carries the marker of a value encrypted by this service. */
     public boolean isEncrypted(String value) {
         return value != null && value.startsWith(ENCRYPTED_PREFIX);
@@ -99,7 +103,8 @@ public class PiiEncryptionService {
             byte[] cipherText = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
             ByteBuffer buffer = ByteBuffer.allocate(iv.length + cipherText.length);
             buffer.put(iv).put(cipherText);
-            return ENCRYPTED_PREFIX + Base64.getUrlEncoder().withoutPadding().encodeToString(buffer.array());
+            return ENCRYPTED_PREFIX
+                    + Base64.getUrlEncoder().withoutPadding().encodeToString(buffer.array());
         } catch (GeneralSecurityException e) {
             throw new IllegalStateException("Failed to encrypt PII value", e);
         }
@@ -128,7 +133,8 @@ public class PiiEncryptionService {
             return value;
         }
         try {
-            byte[] decoded = Base64.getUrlDecoder().decode(value.substring(ENCRYPTED_PREFIX.length()));
+            byte[] decoded =
+                    Base64.getUrlDecoder().decode(value.substring(ENCRYPTED_PREFIX.length()));
             ByteBuffer buffer = ByteBuffer.wrap(decoded);
             byte[] iv = new byte[GCM_IV_LENGTH_BYTES];
             buffer.get(iv);
