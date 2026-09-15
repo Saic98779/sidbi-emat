@@ -148,6 +148,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Spring Cloud Vault Config (secrets from HashiCorp Vault) -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-vault-config</artifactId>
+            <version>5.0.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,0 +1,26 @@
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: emat-vault
+
+    cap_add:
+      - IPC_LOCK
+
+    ports:
+      - "127.0.0.1:8200:8200"
+      - "127.0.0.1:8201:8201"
+
+    volumes:
+      - vault-data:/vault/data
+      - ./config/vault-config.hcl:/vault/config/vault-config.hcl:ro
+      - ./tls:/vault/tls:ro
+
+    environment:
+      VAULT_ADDR: https://vault-emat.metaversedu.in
+
+    command: vault server -config=/vault/config/vault-config.hcl
+
+    restart: unless-stopped
+
+volumes:
+  vault-data:

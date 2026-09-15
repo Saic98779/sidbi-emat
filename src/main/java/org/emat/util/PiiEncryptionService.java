@@ -54,19 +54,25 @@ public class PiiEncryptionService {
 
     @PostConstruct
     void init() {
-        byte[] keyBytes = secretKeyValue.getBytes(StandardCharsets.UTF_8);
-        if (keyBytes.length != 16 && keyBytes.length != 24 && keyBytes.length != 32) {
+        try {
+            byte[] keyBytes = Base64.getDecoder().decode(secretKeyValue);
+
+            if (keyBytes.length != 32) {
+                throw new IllegalStateException(
+                        "pii.encryption.secret-key must decode to exactly 32 bytes for AES-256");
+            }
+
+            this.secretKey = new SecretKeySpec(keyBytes, "AES");
+
+            if (!enabled) {
+                log.warn(
+                        "PII field-level encryption is DISABLED "
+                                + "(pii.field-encryption.enabled=false). "
+                                + "This should never be the case in production.");
+            }
+        } catch (IllegalArgumentException e) {
             throw new IllegalStateException(
-                    "pii.encryption.secret-key must be exactly 16, 24 or 32 characters long "
-                            + "(AES-128/192/256), but was "
-                            + keyBytes.length
-                            + " characters.");
-        }
-        this.secretKey = new SecretKeySpec(keyBytes, "AES");
-        if (!enabled) {
-            log.warn(
-                    "PII field-level encryption is DISABLED (pii.field-encryption.enabled=false). "
-                            + "This should never be the case in production.");
+                    "pii.encryption.secret-key must be a valid Base64-encoded AES-256 key", e);
         }
     }
 
