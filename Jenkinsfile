@@ -34,34 +34,22 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                withCredentials([
-                        string(
-                                credentialsId: 'VAULT_ROLE_ID',
-                                variable: 'VAULT_ROLE_ID'
-                        ),
-                        string(
-                                credentialsId: 'VAULT_SECRET_ID',
-                                variable: 'VAULT_SECRET_ID'
-                        )
-                ]) {
-                    sh '''
-                        docker stop ${APP_NAME} || true
-                        docker rm ${APP_NAME} || true
+                sh '''
+            docker stop ${APP_NAME} || true
+            docker rm ${APP_NAME} || true
 
-                        docker run -d \
-                            --network host \
-                            --name ${APP_NAME} \
-                            --restart unless-stopped \
-                            -e SPRING_PROFILES_ACTIVE=prod \
-                            -e VAULT_SCHEME=https \
-                            -e VAULT_HOST=vault-emat.metaversedu.in \
-                            -e VAULT_PORT=443 \
-                            -e VAULT_ROLE_ID="$VAULT_ROLE_ID" \
-                            -e VAULT_SECRET_ID="$VAULT_SECRET_ID" \
-                            -v /home/ubuntu/uploads:/home/ubuntu/uploads \
-                            ${IMAGE_NAME}
-                    '''
-                }
+            docker run -d \
+                --network host \
+                --name ${APP_NAME} \
+                --restart unless-stopped \
+                --env-file /opt/emat-config/.env \
+                -e SPRING_PROFILES_ACTIVE=prod \
+                -e VAULT_SCHEME=https \
+                -e VAULT_HOST=vault-emat.metaversedu.in \
+                -e VAULT_PORT=443 \
+                -v /home/ubuntu/uploads:/home/ubuntu/uploads \
+                ${IMAGE_NAME}
+        '''
             }
         }
     }
