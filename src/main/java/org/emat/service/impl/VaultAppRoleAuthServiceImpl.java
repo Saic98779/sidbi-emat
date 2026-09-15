@@ -38,6 +38,8 @@ public class VaultAppRoleAuthServiceImpl implements VaultAppRoleAuthService {
     private final RestClient restClient;
     private final String appRoleLoginUrl;
     private final String kvSecretUrl;
+    private final String vaultRoleId;
+    private final String vaultSecretId;
 
     public VaultAppRoleAuthServiceImpl(
             ObjectMapper objectMapper,
@@ -48,9 +50,13 @@ public class VaultAppRoleAuthServiceImpl implements VaultAppRoleAuthService {
             @Value("${spring.cloud.vault.kv.backend:secret}") String kvBackend,
             @Value("${spring.cloud.vault.application-name:emat}") String applicationName,
             @Value("${spring.profiles.active:local}") String profile,
-            @Value("${pii.key-endpoint.vault-approle-path:auth/approle}") String appRolePath) {
+            @Value("${pii.key-endpoint.vault-approle-path:auth/approle}") String appRolePath,
+            @Value("${spring.cloud.vault.app-role.role-id}") String vaultRoleId,
+            @Value("${spring.cloud.vault.app-role.secret-id}") String vaultSecretId) {
         this.encryptionService = encryptionService;
         this.objectMapper = objectMapper;
+        this.vaultRoleId = vaultRoleId;
+        this.vaultSecretId = vaultSecretId;
         this.restClient = RestClient.create();
         String baseUrl = scheme + "://" + host + ":" + port;
         String normalizedAppRolePath =
@@ -61,8 +67,8 @@ public class VaultAppRoleAuthServiceImpl implements VaultAppRoleAuthService {
     }
 
     @Override
-    public String resolveSecretKey(String roleId, String secretId) {
-        String clientToken = authenticate(roleId, secretId);
+    public String resolveSecretKey() {
+        String clientToken = authenticate(vaultRoleId, vaultSecretId);
         String key = readSecretKey(clientToken);
         if (key == null || key.isBlank()) {
             log.warn(
