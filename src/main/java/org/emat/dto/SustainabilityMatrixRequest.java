@@ -3,6 +3,10 @@ package org.emat.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 
@@ -10,7 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SustainabilityMatrixRequest {
-
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long appraisalId;
 
     private Boolean activeGoverningBody;

@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 @Data
 @Builder
@@ -12,6 +16,8 @@ import lombok.NoArgsConstructor;
 public class EligibilityMatrixDto {
     private Long id;
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long registrationId;
 
     private Boolean activeMembers200;

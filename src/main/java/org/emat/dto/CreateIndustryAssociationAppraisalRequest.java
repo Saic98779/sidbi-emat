@@ -23,7 +23,7 @@ import org.emat.entity.IndustryAssociationAppraisal;
 public class CreateIndustryAssociationAppraisalRequest {
 
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
-        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long registrationId;
 
     // Due Diligence

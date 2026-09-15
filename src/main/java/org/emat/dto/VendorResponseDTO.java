@@ -11,7 +11,7 @@ public class VendorResponseDTO {
 
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
-
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private String vendorId;
     private String vendorName;
     private String companyName;

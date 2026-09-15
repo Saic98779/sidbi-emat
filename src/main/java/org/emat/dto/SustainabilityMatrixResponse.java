@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 
@@ -12,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SustainabilityMatrixResponse {
-
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
-
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long appraisalId;
 
     private Boolean activeGoverningBody;

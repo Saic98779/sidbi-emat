@@ -4,10 +4,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 @Data
 public class BseSalaryUpdateRequest {
-
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private String bseId;
 
     private String gstinOfAgency;

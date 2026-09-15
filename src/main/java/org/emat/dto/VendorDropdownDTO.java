@@ -13,6 +13,7 @@ public class VendorDropdownDTO {
 
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private String vendorId;
     private String vendorName;
 }

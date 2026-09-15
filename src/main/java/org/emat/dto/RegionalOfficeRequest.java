@@ -1,5 +1,7 @@
 package org.emat.dto;
 
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +11,8 @@ import org.emat.dto.serializer.PiiStringEncryptSerializer;
 
 @Data
 public class RegionalOfficeRequest {
-
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     @NotBlank private String roId;
 
     @NotBlank private String roName;

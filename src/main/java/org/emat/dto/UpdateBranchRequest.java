@@ -1,5 +1,7 @@
 package org.emat.dto;
 
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
@@ -22,6 +24,7 @@ public class UpdateBranchRequest {
     @JsonSerialize(using = PiiStringEncryptSerializer.class)
         @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String contactNo;
-
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private String regionalOfficeId;
 }
