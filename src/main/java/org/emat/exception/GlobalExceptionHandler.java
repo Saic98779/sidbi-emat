@@ -51,6 +51,13 @@ public class GlobalExceptionHandler {
         return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", detail, request);
     }
 
+    /** Handle CAPTCHA validation failures. */
+    @ExceptionHandler(CaptchaValidationException.class)
+    public ResponseEntity<ProblemDetail> handleCaptchaValidationException(
+            CaptchaValidationException ex, WebRequest request) {
+        return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
+    }
+
     /** Handle bad request parameter issues. */
     @ExceptionHandler({
         MissingServletRequestParameterException.class,

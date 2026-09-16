@@ -56,6 +56,16 @@ spring:
     virtual:
       enabled: true
 
+security:
+  captcha:
+    # Backend-managed CAPTCHA for the login endpoint.
+    enabled: ${SECURITY_CAPTCHA_ENABLED:true}
+    expiry-in-seconds: 300
+    length: 5
+    image:
+      width: 180
+      height: 60
+
 logging:
   level:
     root: INFO

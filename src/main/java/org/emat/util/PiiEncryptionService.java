@@ -136,9 +136,9 @@ public class PiiEncryptionService {
     }
 
     /**
-     * Decrypts a value received from the frontend. When strict mode is enabled
-     * ({@code pii.strict-encryption.enabled=true}, the default), any inbound value that is not in
-     * the encrypted {@code ENC:...} format is rejected with an {@link IllegalArgumentException} so
+     * Decrypts a value received from the frontend. When strict mode is enabled ({@code
+     * pii.strict-encryption.enabled=true}, the default), any inbound value that is not in the
+     * encrypted {@code ENC:...} format is rejected with an {@link IllegalArgumentException} so
      * PII/identifiers are never accepted in plain text. When strict mode is disabled, non-encrypted
      * values pass through unchanged for backward compatibility while clients migrate.
      */
@@ -149,7 +149,8 @@ public class PiiEncryptionService {
         if (!isEncrypted(value)) {
             if (strictMode) {
                 throw new IllegalArgumentException(
-                        "Plain-text value rejected: expected an encrypted ENC:... value for a PII-protected field");
+                        "Plain-text value rejected: expected an encrypted ENC:... value for a"
+                                + " PII-protected field");
             }
             return value;
         }

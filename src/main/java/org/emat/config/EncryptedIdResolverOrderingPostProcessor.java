@@ -10,13 +10,13 @@ import org.springframework.web.servlet.mvc.method.annotation.PathVariableMethodA
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 /**
- * Ensures {@link EncryptedIdResolver} runs before Spring's default
- * {@link PathVariableMethodArgumentResolver} for {@code @PathVariable Long} parameters.
+ * Ensures {@link EncryptedIdResolver} runs before Spring's default {@link
+ * PathVariableMethodArgumentResolver} for {@code @PathVariable Long} parameters.
  *
  * <p>Spring appends custom resolvers (WebMvcConfigurer#addArgumentResolvers) AFTER all default
  * resolvers, so the default path-variable resolver would otherwise always win and the
- * encryption-aware resolver would never be invoked. This post-processor relocates the
- * {@link EncryptedIdResolver} to the front of the resolver list on the MVC handler adapter.
+ * encryption-aware resolver would never be invoked. This post-processor relocates the {@link
+ * EncryptedIdResolver} to the front of the resolver list on the MVC handler adapter.
  */
 @Component
 public class EncryptedIdResolverOrderingPostProcessor implements BeanPostProcessor {
