@@ -12,6 +12,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 /** Global exception handler for the application. */
@@ -61,11 +62,16 @@ public class GlobalExceptionHandler {
     /** Handle bad request parameter issues. */
     @ExceptionHandler({
         MissingServletRequestParameterException.class,
-        MethodArgumentTypeMismatchException.class
+        MethodArgumentTypeMismatchException.class,
+        HttpMessageNotReadableException.class
     })
     public ResponseEntity<ProblemDetail> handleBadRequestExceptions(
             Exception ex, WebRequest request) {
-        return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
+        String detail = ex.getMessage();
+        if (ex instanceof HttpMessageNotReadableException && ex.getCause() != null) {
+            detail = ex.getCause().getMessage();
+        }
+        return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", detail, request);
     }
 
     /** Handle authentication failures. */

@@ -7,6 +7,7 @@ Complements:
 
 - [`PII_DATA_PROTECTION.md`](./PII_DATA_PROTECTION.md) - what & why
 - [`FE_BE_ENCRYPTION_CONTRACT.md`](./FE_BE_ENCRYPTION_CONTRACT.md) - the wire contract + full JS implementation
+- [`LOGIN_RSA_TESTING_GUIDE.md`](./LOGIN_RSA_TESTING_GUIDE.md) - how to test the RSA login password flow (pre-auth)
 
 ---
 
@@ -16,7 +17,7 @@ Complements:
 |---|---|---|
 | Email | `email`, `emailId`, `apexHolderEmail`, `nodalEmail` | `ENC:...` |
 | Mobile / contact | `contactNo`, `mobileNo`, `mobileNumber`, `spocMobileNo`, `apexHolderMobile`, `nodalMobile` | `ENC:...` |
-| Credentials | `password` | `ENC:...` (requests only; never in responses) |
+| Credentials | `password` | `ENC:...` (requests only; never in responses). **Exception: the login endpoint** encrypts `password` with RSA-OAEP instead - see [`LOGIN_RSA_TESTING_GUIDE.md`](./LOGIN_RSA_TESTING_GUIDE.md). |
 | Backend ids (`Long`) | `id`, `userId`, `registrationId`, `stageId`, `sidbeApprovedByUserId`, `bseId` | `ENC:...` (string, not number) |
 | **NOT encrypted** | `gstNo`, `panNo`, `accountNumber`, `ifscCode`, `gstinOfAgency`, `gstinOfSdbi`, `gstinIa`, `gstinSidbi`, `accountCode`, usernames, all other business data | plain text |
 
@@ -41,16 +42,20 @@ pii.field-encryption.enabled=true
 ## 3. Postman setup
 
 1. Base URL for all requests: `http://localhost:8086/emat/v1`
-2. **Login** first (public endpoint) and copy the JWT:
+2. **Login** first (public endpoint) and copy the JWT.
+
+   > Login `password` uses the **RSA public-key flow**, not the AES `ENC:` format. Follow
+   > [`LOGIN_RSA_TESTING_GUIDE.md`](./LOGIN_RSA_TESTING_GUIDE.md) to fetch
+   > `GET /auth/public-key`, encrypt the password, and call `POST /users/login`.
 
    `POST /emat/v1/users/login`
    ```json
    {
      "username": "admin",
-     "password": "ENC:..."
+     "password": "<base64 RSA ciphertext>"
    }
    ```
-   `password` can also be sent **plain** during development (see §5).
+   After login, continue below - the rest of this guide tests the **AES** `ENC:` flows.
 3. For protected endpoints add the header:
    ```
    Authorization: Bearer <token-from-login>
@@ -215,12 +220,17 @@ Content-Type: application/json
 
 ### 6.1 Login (public)
 
+> Login uses the **RSA public-key flow** - the password is base64 RSA-OAEP/SHA-256 ciphertext, not
+> `ENC:...`. See [`LOGIN_RSA_TESTING_GUIDE.md`](./LOGIN_RSA_TESTING_GUIDE.md) for the full walk-through.
+
 ```
-POST http://localhost:8086/emat/v1/users/login
-Body: { "username": "admin", "password": "ENC:C3oYfw..." }   // or plain "Test@123"
+1. GET  /auth/public-key                        -> copy data.publicKey
+2. <encrypt password with it (Web Crypto RSA-OAEP/SHA-256) -> base64>
+3. POST /users/login  { "username": "admin", "password": "<base64 RSA ciphertext>" }
 ```
 
-Expected response - **`userId` and `email` are encrypted strings**:
+Expected response - **`userId` and `email` are AES-encrypted `ENC:` strings** (returned after a
+successful login, so the AES key is now available):
 
 ```json
 {
@@ -349,7 +359,7 @@ matches the value you posted.
 | `401 Unauthorized` on protected calls | Missing/invalid `Authorization: Bearer <token>` |
 | `malformed payload` on a `ENC:` value | Value was clipped by Postman or the key used to generate it differs from `application.properties` |
 | `Id starting with ENC not recognized`-style conversion errors | Wrong endpoint param type; the URL converter handles `Long` params only - check the controller signature |
-| Login `password` rejected | Sending `ENC:` that decrypts fine but password is wrong, or sending plain while account password was set via a different value |
+| Login `password` rejected | Login uses **RSA**, not `ENC:` - see the login guide; if you sent `ENC:` or plain text you get `400`, wrong credentials give `401` |
 | Everything returns plain text | `pii.field-encryption.enabled=false` is set; encryption is effectively off |
 | Response shows `ENC:` but garbage | Response was produced under a different key or truncated; regenerate and verify with `decPii` |
 
@@ -357,7 +367,7 @@ matches the value you posted.
 
 - [ ] `pii.field-encryption.enabled=true` in `application.properties`
 - [ ] `pii.encryption.secret-key` matches the key used in your encryption helper
-- [ ] Login works with `ENC:` password (or plain)
+- [ ] Login works with the RSA-encrypted password (see the login guide)
 - [ ] `userId`/`email` in the login response are `ENC:` strings
 - [ ] Create vendor: business strings plain, PII strings encrypted, `id` encrypted
 - [ ] `GET /vendor/{id}` works with both encrypted and plain id

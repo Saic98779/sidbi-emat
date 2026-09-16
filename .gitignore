@@ -4,6 +4,9 @@ target/
 !**/src/test/**/target/
 .kotlin
 
+### Local PII login RSA key (dev) ###
+.emat/
+
 ### HashiCorp Vault ###
 deploy/vault/keys/
 *.env

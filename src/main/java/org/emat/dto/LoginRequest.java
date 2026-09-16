@@ -1,17 +1,14 @@
 package org.emat.dto;
 
 import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.annotation.JsonSerialize;
-import org.emat.dto.serializer.PiiStringDecryptDeserializer;
-import org.emat.dto.serializer.PiiStringEncryptSerializer;
+import org.emat.dto.serializer.RsaStringDecryptDeserializer;
 
 /** Request DTO for login API. */
 public class LoginRequest {
 
     private String username;
 
-    @JsonSerialize(using = PiiStringEncryptSerializer.class)
-        @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
+    @JsonDeserialize(using = RsaStringDecryptDeserializer.class)
     private String password;
 
     /** Id of the CAPTCHA obtained from GET /captcha. */
