@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -59,6 +60,20 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ProblemDetail> handleBadRequestExceptions(
             Exception ex, WebRequest request) {
         return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
+    }
+
+    /**
+     * Handle malformed/unreadable JSON request bodies (e.g. a plain ID sent for an encrypted
+     * field).
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ProblemDetail> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException ex, WebRequest request) {
+        return buildProblemDetail(
+                HttpStatus.BAD_REQUEST,
+                "Bad Request",
+                "Malformed request body: " + ex.getMessage(),
+                request);
     }
 
     /** Handle authentication failures. */

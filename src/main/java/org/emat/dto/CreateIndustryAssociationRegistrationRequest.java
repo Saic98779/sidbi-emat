@@ -140,8 +140,6 @@ public class CreateIndustryAssociationRegistrationRequest {
 
     private Boolean isEligibleMatricsAdded;
 
-    @JsonSerialize(using = PiiIdEncryptSerializer.class)
-        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long stageId;
     private String stageComments;
 }

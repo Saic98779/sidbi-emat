@@ -14,14 +14,24 @@ public class ActivityRequest {
     private LocalDateTime dateTime;
     private String status;
     private Boolean followUpReq;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long followUpId;
+
     private String locationDetails;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long createdUserId;
+
     private LocalDateTime createdDtStamp;
     private LocalDateTime approvedDtStamp;
+
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long bseId;
+
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long gtId;

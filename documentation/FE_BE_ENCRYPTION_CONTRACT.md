@@ -19,9 +19,9 @@ are **not** encrypted and are passed as plain text: `gstNo`, `panNo`, `accountNu
 
 | Direction | Backend behaviour |
 |---|---|
-| Request (FE -> BE) | Encrypted string fields and encrypted `Long` identifiers are **decrypted** by Jackson deserializers before reaching services. Plain values are also accepted (see §6). |
-| Response (BE -> FE) | String PII fields and `Long` identifiers that carry the encryption marker are **encrypted** by Jackson serializers before leaving the backend. |
-| URL path / query params | Encrypted identifiers returned in JSON are accepted back in URLs (`@PathVariable`) and query strings (`@RequestParam`) - `EncryptedIdConverter` decrypts them transparently. |
+| Request (FE -> BE) | Encrypted string PII fields and encrypted `Long` identifiers are **decrypted** by Jackson deserializers before reaching services. String PII fields still accept plain values for backward compatibility. **`Long` identifiers must be encrypted** - plain numeric values are rejected with a `400 Bad Request`. |
+| Response (BE -> FE) | String PII fields and `Long` identifiers are **encrypted** by Jackson serializers before leaving the backend. |
+| URL path / query params | Encrypted identifiers returned in JSON are accepted back in URLs (`@PathVariable`) and query strings (`@RequestParam`) - `EncryptedIdConverter` decrypts them transparently. Plain numeric values are rejected for `Long` parameters. |
 
 ### Fields currently encrypted
 
@@ -104,7 +104,9 @@ Backend processing on the way in:
    `PiiEncryptionService.decrypt`/`decryptId`.
 2. `decrypt()` checks the `ENC:` prefix. If present it base64url-decodes, splits off the first 12
    bytes as the IV, AES-256-GCM decrypts and returns the plain value. If the marker is absent the
-   value is returned unchanged (backward-compatible no-op).
+   string value is returned unchanged (backward-compatible no-op for string PII only). For `Long`
+   identifiers, `decryptId()` is **strict** - a value without the `ENC:` marker (e.g. a plain
+   number) is rejected with `IllegalArgumentException` (surfaced as `400 Bad Request`).
 3. The controller/service receives the **plain** value. Uniqueness checks, BCrypt hashing,
    validation (`@Email`, `@NotBlank`), DB lookups on identifiers and persistence all run on the
    plain value.
@@ -242,7 +244,8 @@ the encoding is URL-safe and the backend decrypts it automatically (`EncryptedId
 const res = await fetch(`/emat/v1/vendor/${vendor.id}`, ...); // vendor.id === "ENC:..."
 ```
 
-If you prefer, the decrypted plain number also works since the converter accepts both forms.
+The `ENC:` string must be passed as-is - a plain number in the URL/path/query is rejected for
+`Long` identifiers.
 
 ### Java (reference for backend parity, useful to cross-check your implementation)
 
@@ -260,15 +263,16 @@ buf.put(iv).put(out);
 String value = "ENC:" + Base64.getUrlEncoder().withoutPadding().encodeToString(buf.array());
 ```
 
-## 6. Backward compatibility (important for rollout)
+## 6. Backward compatibility
 
-- **Inbound:** if a client (or Postman) sends a *plain* value for a protected string field or a
-  *plain number* for a `Long` identifier, the backend treats it as plain and uses it as-is. This
-  means existing clients keep working while they migrate to the encrypted contract.
-- **Outbound:** every response is *always* encrypted for the protected fields/identifiers, so new
+- **Inbound - string PII:** if a client sends a *plain* value for a protected string field (email,
+  mobile, password), the backend treats it as plain and uses it as-is. This eases migration.
+- **Inbound - `Long` identifiers: STRICT.** A plain number for any identifier (`id`, `userId`,
+  `registrationId`, `stageId`, `sidbeApprovedByUserId`, `bseId`, `approvedBy`, etc.) - in a JSON
+  body, URL path or query string - is rejected with `400 Bad Request`. Every identifier must be
+  sent in `ENC:<...>` form.
+- **Outbound:** every response is *always* encrypted for the protected fields/identifiers, so
   clients must handle the `ENC:` marker for display purposes.
-- **URLs:** encrypted and plain identifier forms are both accepted in URL paths and query strings
-  (`EncryptedIdConverter`), so existing links keep working.
 
 ## 7. Things to watch
 
@@ -290,7 +294,7 @@ String value = "ENC:" + Base64.getUrlEncoder().withoutPadding().encodeToString(b
 | What is NOT encrypted? | GSTIN/PAN/account number/IFSC/account codes, usernames, all other business data. |
 | Algorithm | AES-256-GCM (128-bit tag, 12-byte IV prepended). |
 | Encoded as | `ENC:` + base64url (no padding), covering `IV \|\| ciphertext`. |
-| Backend request handling | Decrypt on `@JsonDeserialize` fields (both `String` and `Long`); plain values accepted too. |
+| Backend request handling | Decrypt on `@JsonDeserialize` fields (both `String` and `Long`); string PII accepts plain, `Long` ids require `ENC:` (plain numbers rejected with 400). |
 | Backend response handling | Encrypt on `@JsonSerialize` fields (both `String` and `Long`) before writing the response. |
-| URLs / query params | Encrypted or plain ids both accepted (`EncryptedIdConverter` string->Long). |
+| URLs / query params | Encrypted ids accepted (`EncryptedIdConverter` string->Long); plain numbers rejected. |
 | Database | Plain text (transport-level protection only). |

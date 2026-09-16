@@ -62,10 +62,10 @@ using AES-256-GCM authenticated encryption.
 - Because `EncryptedIdConverter` is registered globally, encrypted identifiers returned in JSON
   payloads can be passed straight back in REST URLs (`@PathVariable`) or query strings
   (`@RequestParam`) without extra frontend work beyond using the same encryption helper.
-- **Backward-compatible by design**: if an inbound value does not carry the `ENC:` marker, it is
-  treated as plain text (with a decrypt no-op). This allows a phased rollout - existing/legacy
-  clients keep working while new clients adopt the encrypted contract, and Postman/manual testing
-  during development remains simple.
+- **Strictly encrypted IDs**: all inbound `Long` identifiers **must** carry the `ENC:` marker
+  (produced by `PiiEncryptionService.encryptId`). Plain numeric identifiers are rejected with a
+  `400 Bad Request`. String PII fields (email, mobile, password) still accept plain values for
+  backward compatibility.
 - Field encryption can be globally toggled off with `pii.field-encryption.enabled=false` (should
   only ever be used for local debugging).
 

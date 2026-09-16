@@ -2,10 +2,14 @@ package org.emat.dto;
 
 import java.time.LocalDateTime;
 import lombok.Data;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 @Data
 public class UploadedFileResponse {
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
+
     private String registrationId;
     private String filename;
     private String contentType;

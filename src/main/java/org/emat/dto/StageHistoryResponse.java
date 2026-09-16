@@ -8,7 +8,9 @@ import lombok.Data;
 @Builder
 public class StageHistoryResponse {
     private Long id;
+
     private Long registrationId;
+
     private String stage;
     private String subStage;
     private LocalDateTime time;

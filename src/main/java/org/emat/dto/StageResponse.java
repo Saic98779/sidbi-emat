@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class StageResponse {
 
     private Long id;
+
     private String stage;
     private String subStage;
 }

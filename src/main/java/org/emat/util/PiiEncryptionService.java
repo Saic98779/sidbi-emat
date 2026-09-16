@@ -29,8 +29,8 @@ import org.springframework.stereotype.Component;
  * values safe to embed in URL path segments and query strings (e.g. encrypted identifiers passed
  * back as {@code @PathVariable}/{@code @RequestParam}), and also round-trips losslessly in JSON
  * bodies. A fixed prefix allows the deserializer to detect whether an inbound value is already
- * encrypted, and gracefully fall back to treating it as plain text otherwise (useful while client
- * applications are migrated to the new contract).
+ * encrypted. String PII fields accept plain values for backward compatibility, but backend
+ * identifiers ({@code Long} IDs) are enforced strictly: only encrypted forms are accepted.
  */
 @Component
 public class PiiEncryptionService {
@@ -115,18 +115,40 @@ public class PiiEncryptionService {
         return encrypt(String.valueOf(id));
     }
 
-    /** Decrypts a Long backend identifier received from the frontend. */
+    /**
+     * Decrypts a Long backend identifier received from the frontend.
+     *
+     * <p>Strict mode: whenever field encryption is enabled, the value must carry the {@code ENC:}
+     * marker produced by this service. Plain numeric identifiers are rejected with an {@link
+     * IllegalArgumentException} so that IDs can only ever travel in encrypted form. If encryption
+     * is disabled (local debug only), plain numbers pass through.
+     *
+     * @throws IllegalArgumentException if field encryption is enabled and the value is not in the
+     *     recognized encrypted format
+     */
     public Long decryptId(String encryptedId) {
         if (encryptedId != null) {
             encryptedId = encryptedId.replaceAll("^\"|\"$", "");
         }
-        return Long.parseLong(decrypt(encryptedId));
+        if (enabled && !isEncrypted(encryptedId)) {
+            throw new IllegalArgumentException(
+                    "Plain IDs are not accepted. Expected an encrypted identifier in the form "
+                            + "ENC:<base64url(iv+ciphertext+tag)>; got: "
+                            + masked(encryptedId));
+        }
+        try {
+            return Long.parseLong(decrypt(encryptedId));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    "Encrypted identifier does not resolve to a valid numeric ID", e);
+        }
     }
 
     /**
-     * Decrypts a value received from the frontend. For backward compatibility, if the incoming
-     * value is not in the recognized encrypted format, it is returned unchanged (treated as plain
-     * text) and a warning is logged - this eases migration of existing clients.
+     * Decrypts a string PII value received from the frontend. If the incoming value is not in the
+     * recognized encrypted format, it is returned unchanged (treated as plain text). This
+     * backward-compatible behavior applies to string PII fields (email, mobile, password) only -
+     * {@link #decryptId(String)} is strict and rejects non-encrypted identifiers.
      */
     public String decrypt(String value) {
         if (value == null || !enabled || !isEncrypted(value)) {
@@ -148,5 +170,15 @@ public class PiiEncryptionService {
         } catch (GeneralSecurityException | IllegalArgumentException e) {
             throw new IllegalArgumentException("Failed to decrypt PII value: malformed payload", e);
         }
+    }
+
+    private String masked(String value) {
+        if (value == null || value.isBlank()) {
+            return "<empty>";
+        }
+        if (value.length() <= 6) {
+            return "<redacted>";
+        }
+        return "<redacted length=" + value.length() + ">";
     }
 }

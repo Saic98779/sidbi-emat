@@ -15,8 +15,8 @@ import org.springframework.web.servlet.HandlerMapping;
 
 /**
  * Globally resolves {@code @PathVariable Long} parameters, transparently decrypting encrypted IDs
- * ({@code ENC:...}) before passing them to controller methods. Plain numeric values pass through
- * unchanged.
+ * ({@code ENC:...}) before passing them to controller methods. Strict mode: plain numeric values
+ * are rejected with an {@link IllegalArgumentException} - identifiers must always travel encrypted.
  *
  * <p>This resolver runs before Spring's default {@code PathVariableMethodArgumentResolver} for
  * {@code Long} types, so all controllers automatically support encrypted path variables without any
@@ -42,8 +42,7 @@ public class EncryptedIdResolver implements HandlerMethodArgumentResolver {
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory) {
 
-        HttpServletRequest request =
-                webRequest.getNativeRequest(HttpServletRequest.class);
+        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (request == null) {
             return null;
         }
@@ -65,9 +64,6 @@ public class EncryptedIdResolver implements HandlerMethodArgumentResolver {
             return null;
         }
 
-        if (encryptionService.isEncrypted(value)) {
-            return encryptionService.decryptId(value);
-        }
-        return Long.parseLong(value);
+        return encryptionService.decryptId(value);
     }
 }

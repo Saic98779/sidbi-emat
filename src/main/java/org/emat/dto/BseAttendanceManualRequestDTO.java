@@ -17,6 +17,7 @@ public class BseAttendanceManualRequestDTO {
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long id;
+
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long bseRecommendationId;
@@ -33,5 +34,7 @@ public class BseAttendanceManualRequestDTO {
 
     private LocalDateTime approvedDate;
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long approvedBy;
 }

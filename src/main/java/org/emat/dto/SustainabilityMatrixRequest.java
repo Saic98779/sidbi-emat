@@ -1,5 +1,6 @@
 package org.emat.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +8,6 @@ import org.emat.dto.serializer.PiiIdDecryptDeserializer;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -41,7 +40,9 @@ public class SustainabilityMatrixRequest {
     private Boolean dedicatedStaff;
     private Boolean operationalProcesses;
     private Integer totalScore;
+
     private Long stageId;
+
     private String stageComments;
 
     private List<String> actionPlans;

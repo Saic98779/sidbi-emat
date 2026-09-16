@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 /**
  * Converts encrypted {@code Long} identifiers received in REST URL path segments
  * ({@code @PathVariable}) or query strings ({@code @RequestParam}) into their plain backend values.
- * Plain numeric values pass through unchanged for backward compatibility.
+ * Strict mode: plain numeric values are rejected with an {@link IllegalArgumentException} -
+ * identifiers must always travel encrypted.
  */
 @Component
 public class EncryptedIdConverter implements Converter<String, Long> {
@@ -26,9 +27,6 @@ public class EncryptedIdConverter implements Converter<String, Long> {
             return null;
         }
         source = source.replaceAll("^\"|\"$", "");
-        if (encryptionService.isEncrypted(source)) {
-            return encryptionService.decryptId(source);
-        }
-        return Long.parseLong(source);
+        return encryptionService.decryptId(source);
     }
 }

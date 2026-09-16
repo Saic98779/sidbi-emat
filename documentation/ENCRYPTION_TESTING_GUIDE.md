@@ -119,9 +119,9 @@ System.out.println("ENC:" + Base64.getUrlEncoder().withoutPadding().encodeToStri
 | You send… | Backend does… |
 |---|---|
 | `"ENC:...."` for a protected field | decrypts it |
-| plain value for a protected field | uses it **as-is** (backward compatible; no error) |
+| plain value for a string PII field | uses it **as-is** (backward compatible; no error) |
+| plain number for a `Long` id (JSON body, URL or query param) | **400 Bad Request** - ids must be encrypted |
 | any value for a non-protected field | uses it as-is, never encrypted |
-| plain number `42` in a URL for a `Long` id | works (converter parses it) |
 | `"ENC:...."` in a URL for a `Long` id | works (converter decrypts it) |
 
 **Responses are always encrypted** for protected fields and `Long` ids when `enabled=true`, regardless
@@ -286,11 +286,11 @@ Body:
 
 2. The response contains `"id": "ENC:W9nTqB..."` (encrypted id).
 
-3. Fetch that vendor using **both** the encrypted id and the plain number - both work:
+3. Fetch that vendor using the encrypted id - the plain number is **rejected** with 400:
 
 ```
-GET http://localhost:8086/emat/v1/vendor/ENC:W9nTqB...
-GET http://localhost:8086/emat/v1/vendor/1042
+GET http://localhost:8086/emat/v1/vendor/ENC:W9nTqB...   // works
+GET http://localhost:8086/emat/v1/vendor/1042            // 400 Bad Request
 ```
 
 ### 6.4 Industry Association registration (ids inside the body)
@@ -360,6 +360,6 @@ matches the value you posted.
 - [ ] Login works with `ENC:` password (or plain)
 - [ ] `userId`/`email` in the login response are `ENC:` strings
 - [ ] Create vendor: business strings plain, PII strings encrypted, `id` encrypted
-- [ ] `GET /vendor/{id}` works with both encrypted and plain id
+- [ ] `GET /vendor/{id}` works with encrypted id; plain id returns 400
 - [ ] Decrypt a response field with `decPii` and it matches what you posted
 - [ ] No `ENC:` values in logs (if you see them, don't paste full payloads in logs)

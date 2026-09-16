@@ -3,7 +3,9 @@ package org.emat.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import lombok.*;
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 
 @Data
@@ -12,8 +14,11 @@ import tools.jackson.databind.annotation.JsonSerialize;
 @Builder
 public class BseAttendanceDTO {
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long id;
+
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long bseRecommendationId;
 
     private LocalDate attendanceDate;

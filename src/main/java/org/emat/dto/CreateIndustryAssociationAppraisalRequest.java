@@ -183,8 +183,6 @@ public class CreateIndustryAssociationAppraisalRequest {
 
     private String nabardBlacklistFile;
 
-    @JsonSerialize(using = PiiIdEncryptSerializer.class)
-        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long stageId;
     private String stageComments;
 }
