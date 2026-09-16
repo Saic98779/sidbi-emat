@@ -9,8 +9,8 @@ import tools.jackson.databind.ValueDeserializer;
 
 /**
  * Deserializes a {@code Long} backend identifier that arrived from the frontend in encrypted form,
- * by decrypting it via {@link PiiEncryptionService}. For backward compatibility, plain-text values
- * are accepted as-is (decrypt returns them unchanged).
+ * by decrypting it via {@link PiiEncryptionService}. Rejects plain-text identifiers in strict mode
+ * (default); accepted as-is for backward compatibility only when strict mode is disabled.
  *
  * <p>Jackson 3 (Spring Boot 4) instantiates custom deserializers directly, so the service is held
  * in a static field injected by Spring when this {@code @Component} is created.
@@ -28,12 +28,9 @@ public class PiiIdDecryptDeserializer extends ValueDeserializer<Long> {
     @Override
     public Long deserialize(JsonParser p, DeserializationContext ctxt) {
         String value = p.getValueAsString();
-        if (value == null) {
+        if (value == null || value.isEmpty()) {
             return null;
         }
-        if (encryptionService.isEncrypted(value)) {
-            return encryptionService.decryptId(value);
-        }
-        return Long.parseLong(value);
+        return encryptionService.decryptId(value);
     }
 }

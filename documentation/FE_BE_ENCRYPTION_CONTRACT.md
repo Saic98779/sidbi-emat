@@ -104,7 +104,8 @@ Backend processing on the way in:
    `PiiEncryptionService.decrypt`/`decryptId`.
 2. `decrypt()` checks the `ENC:` prefix. If present it base64url-decodes, splits off the first 12
    bytes as the IV, AES-256-GCM decrypts and returns the plain value. If the marker is absent the
-   value is returned unchanged (backward-compatible no-op).
+   value is **rejected with a 400 Bad Request** in strict mode (default, see
+   `pii.strict-encryption.enabled`); backward-compatible pass-through only when that flag is `false`.
 3. The controller/service receives the **plain** value. Uniqueness checks, BCrypt hashing,
    validation (`@Email`, `@NotBlank`), DB lookups on identifiers and persistence all run on the
    plain value.

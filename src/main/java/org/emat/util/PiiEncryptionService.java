@@ -28,9 +28,9 @@ import org.springframework.stereotype.Component;
  * ENC:<url-safe-base64(iv + ciphertext) without padding>}. The URL-safe encoding keeps encrypted
  * values safe to embed in URL path segments and query strings (e.g. encrypted identifiers passed
  * back as {@code @PathVariable}/{@code @RequestParam}), and also round-trips losslessly in JSON
- * bodies. A fixed prefix allows the deserializer to detect whether an inbound value is already
- * encrypted, and gracefully fall back to treating it as plain text otherwise (useful while client
- * applications are migrated to the new contract).
+ * bodies. A fixed prefix allows the deserializer to detect whether an inbound value is encrypted;
+ * plain-text inbound values are rejected in strict mode (default), or tolerated while client
+ * applications migrate to the new contract (see {@code pii.strict-encryption.enabled}).
  */
 @Component
 public class PiiEncryptionService {
@@ -50,6 +50,9 @@ public class PiiEncryptionService {
     @Value("${pii.field-encryption.enabled:true}")
     private boolean enabled;
 
+    @Value("${pii.strict-encryption.enabled:true}")
+    private boolean strictMode;
+
     private SecretKeySpec secretKey;
 
     @PostConstruct
@@ -63,6 +66,11 @@ public class PiiEncryptionService {
             }
 
             this.secretKey = new SecretKeySpec(keyBytes, "AES");
+
+            log.info(
+                    "PII field-level encryption: enabled={}, strict-plain-text-rejection={}",
+                    enabled,
+                    strictMode);
 
             if (!enabled) {
                 log.warn(
@@ -78,6 +86,10 @@ public class PiiEncryptionService {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public boolean isStrictMode() {
+        return strictMode;
     }
 
     public String getSecretKeyValue() {
@@ -124,12 +136,21 @@ public class PiiEncryptionService {
     }
 
     /**
-     * Decrypts a value received from the frontend. For backward compatibility, if the incoming
-     * value is not in the recognized encrypted format, it is returned unchanged (treated as plain
-     * text) and a warning is logged - this eases migration of existing clients.
+     * Decrypts a value received from the frontend. When strict mode is enabled
+     * ({@code pii.strict-encryption.enabled=true}, the default), any inbound value that is not in
+     * the encrypted {@code ENC:...} format is rejected with an {@link IllegalArgumentException} so
+     * PII/identifiers are never accepted in plain text. When strict mode is disabled, non-encrypted
+     * values pass through unchanged for backward compatibility while clients migrate.
      */
     public String decrypt(String value) {
-        if (value == null || !enabled || !isEncrypted(value)) {
+        if (value == null || value.isBlank() || !enabled) {
+            return value;
+        }
+        if (!isEncrypted(value)) {
+            if (strictMode) {
+                throw new IllegalArgumentException(
+                        "Plain-text value rejected: expected an encrypted ENC:... value for a PII-protected field");
+            }
             return value;
         }
         try {

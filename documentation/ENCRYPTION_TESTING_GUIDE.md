@@ -119,9 +119,9 @@ System.out.println("ENC:" + Base64.getUrlEncoder().withoutPadding().encodeToStri
 | You send… | Backend does… |
 |---|---|
 | `"ENC:...."` for a protected field | decrypts it |
-| plain value for a protected field | uses it **as-is** (backward compatible; no error) |
+| plain value for a protected field | **rejected (400)** in strict mode (default `pii.strict-encryption.enabled=true`); used as-is only if strict mode is disabled |
 | any value for a non-protected field | uses it as-is, never encrypted |
-| plain number `42` in a URL for a `Long` id | works (converter parses it) |
+| plain number `42` in a URL for a `Long` id | **rejected (400)** in strict mode; parsed only if strict mode is disabled |
 | `"ENC:...."` in a URL for a `Long` id | works (converter decrypts it) |
 
 **Responses are always encrypted** for protected fields and `Long` ids when `enabled=true`, regardless

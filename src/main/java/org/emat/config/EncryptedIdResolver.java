@@ -15,12 +15,11 @@ import org.springframework.web.servlet.HandlerMapping;
 
 /**
  * Globally resolves {@code @PathVariable Long} parameters, transparently decrypting encrypted IDs
- * ({@code ENC:...}) before passing them to controller methods. Plain numeric values pass through
- * unchanged.
+ * ({@code ENC:...}) before passing them to controller methods. Plain numeric values are rejected
+ * when PII strict mode is enabled (default).
  *
- * <p>This resolver runs before Spring's default {@code PathVariableMethodArgumentResolver} for
- * {@code Long} types, so all controllers automatically support encrypted path variables without any
- * per-controller changes.
+ * <p>This resolver is registered in {@link WebConfig} for {@code @PathVariable Long} types, so all
+ * controllers automatically support encrypted path variables without any per-controller changes.
  */
 @Component
 @RequiredArgsConstructor
@@ -35,7 +34,6 @@ public class EncryptedIdResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Object resolveArgument(
             MethodParameter parameter,
             ModelAndViewContainer mavContainer,
@@ -65,9 +63,6 @@ public class EncryptedIdResolver implements HandlerMethodArgumentResolver {
             return null;
         }
 
-        if (encryptionService.isEncrypted(value)) {
-            return encryptionService.decryptId(value);
-        }
-        return Long.parseLong(value);
+        return encryptionService.decryptId(value);
     }
 }

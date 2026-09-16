@@ -9,8 +9,8 @@ import tools.jackson.databind.ValueDeserializer;
 
 /**
  * Decrypts an incoming {@link String} PII field (email, mobile number, credential, etc.) received
- * from the frontend. Values not carrying the encrypted marker are passed through unchanged for
- * backward compatibility while clients migrate to the encrypted contract.
+ * from the frontend. Rejects plain-text values in strict mode (default); passed through unchanged
+ * for backward compatibility only when strict mode is disabled.
  *
  * <p>Usage: {@code @JsonDeserialize(using = PiiStringDecryptDeserializer.class)} on the field.
  *
