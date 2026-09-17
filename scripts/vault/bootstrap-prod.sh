@@ -11,7 +11,11 @@
 #   5. Print the VAULT_HOST / VAULT_ROLE_ID / VAULT_SECRET_ID values for the app
 #
 # Prerequisites: docker + docker compose plugin, and the prod secret values:
-#   PROD_DB_URL, PROD_DB_USERNAME, PROD_DB_PASSWORD, JWT_SECRET, PII_ENCRYPTION_SECRET_KEY
+#   PROD_DB_URL, PROD_DB_USERNAME, PROD_DB_PASSWORD, JWT_SECRET, PII_ENCRYPTION_SECRET_KEY,
+#   LOGIN_RSA_PRIVATE_KEY (base64-encoded PKCS#8 RSA private key used to decrypt login passwords)
+# Generate a key with:
+#   openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out login-rsa.pem
+#   openssl pkcs8 -topk8 -nocrypt -in login-rsa.pem -outform DER | base64 -w0
 set -euo pipefail
 
 VAULT_COMPOSE="deploy/vault/docker-compose.yml"
@@ -74,7 +78,8 @@ vault_cli kv put "secret/emat/prod" \
   "spring.datasource.username=${PROD_DB_USERNAME:?Set PROD_DB_USERNAME}" \
   "spring.datasource.password=${PROD_DB_PASSWORD:?Set PROD_DB_PASSWORD}" \
   "jwt.secret=${JWT_SECRET:?Set JWT_SECRET}" \
-  "pii.encryption.secret-key=${PII_ENCRYPTION_SECRET_KEY:?Set PII_ENCRYPTION_SECRET_KEY}"
+  "pii.encryption.secret-key=${PII_ENCRYPTION_SECRET_KEY:?Set PII_ENCRYPTION_SECRET_KEY}" \
+  "pii.login-rsa.private-key=${LOGIN_RSA_PRIVATE_KEY:?Set LOGIN_RSA_PRIVATE_KEY (base64 PKCS#8 RSA key)}"
 
 # --- 4. Policy + AppRole -----------------------------------------------------
 echo "Writing policy $POLICY..."

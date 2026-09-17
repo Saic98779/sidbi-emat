@@ -14,7 +14,6 @@ import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.CreateUserRequest;
 import org.emat.dto.DisbursementCapexRequest;
 import org.emat.dto.EncryptionTestResponse;
-import org.emat.dto.LoginRequest;
 import org.emat.dto.MonthlySalaryDetailsRequest;
 import org.emat.dto.MonthlySalaryDetailsUpdateRequest;
 import org.emat.dto.RegionalOfficeRequest;
@@ -67,7 +66,6 @@ public class EncryptionTestController {
                     UpdateBseRecommendationRequest.class,
                     VendorRequestDTO.class,
                     CreateUserRequest.class,
-                    LoginRequest.class,
                     DisbursementCapexRequest.class,
                     BseSalaryRequest.class,
                     BseSalaryUpdateRequest.class,

@@ -18,16 +18,23 @@ are **not** encrypted and are passed as plain text: `gstNo`, `panNo`, `accountNu
 `gstinOfAgency`, `gstinOfSdbi`, `gstinIa`, `gstinSidbi`, `accountCode`.
 
 | Direction | Backend behaviour |
-|---|---|
-| Request (FE -> BE) | Encrypted string PII fields and encrypted `Long` identifiers are **decrypted** by Jackson deserializers before reaching services. String PII fields still accept plain values for backward compatibility. **`Long` identifiers must be encrypted** - plain numeric values are rejected with a `400 Bad Request`. |
-| Response (BE -> FE) | String PII fields and `Long` identifiers are **encrypted** by Jackson serializers before leaving the backend. |
-| URL path / query params | Encrypted identifiers returned in JSON are accepted back in URLs (`@PathVariable`) and query strings (`@RequestParam`) - `EncryptedIdConverter` decrypts them transparently. Plain numeric values are rejected for `Long` parameters. |
+|---|---|---|
+| Request (FE -> BE) | Encrypted string fields and encrypted `Long` identifiers are **decrypted** by Jackson deserializers before reaching services. Plain values are also accepted (see §6). |
+| Response (BE -> FE) | String PII fields and `Long` identifiers that carry the encryption marker are **encrypted** by Jackson serializers before leaving the backend. |
+| URL path / query params | Encrypted identifiers returned in JSON are accepted back in URLs (`@PathVariable`) and query strings (`@RequestParam`) - `EncryptedIdConverter` decrypts them transparently. |
+
+> **Special case — login (`POST /users/login`):** the `password` field is the *only* pre-authentication
+> value the frontend must encrypt, and the AES-PII key cannot be handed out yet (no JWT exists).
+> Login therefore uses a dedicated **RSA-OAEP/SHA-256** flow: `GET /auth/public-key` returns a public
+> key, the frontend encrypts the password with it, and the backend decrypts with the private key.
+> Full details in [§9](#9-special-case-login-rsa-public-key-flow).
 
 ### Fields currently encrypted
 
 String PII:
 
-- User/auth: `password`, `email`, `contactNo`
+- User/auth: `email`, `contactNo` (AES). `password` is also encrypted: AES in `CreateUserRequest`
+  (post-login), but **RSA-OAEP** in `LoginRequest` (pre-login, see §9).
 - Vendor: `email`, `mobileNo`, `spocMobileNo`
 - Industry Association Registration/Appraisal: `apexHolderEmail`, `apexHolderMobile`,
   `nodalEmail`, `nodalMobile`, `email`
@@ -104,9 +111,8 @@ Backend processing on the way in:
    `PiiEncryptionService.decrypt`/`decryptId`.
 2. `decrypt()` checks the `ENC:` prefix. If present it base64url-decodes, splits off the first 12
    bytes as the IV, AES-256-GCM decrypts and returns the plain value. If the marker is absent the
-   string value is returned unchanged (backward-compatible no-op for string PII only). For `Long`
-   identifiers, `decryptId()` is **strict** - a value without the `ENC:` marker (e.g. a plain
-   number) is rejected with `IllegalArgumentException` (surfaced as `400 Bad Request`).
+   value is **rejected with a 400 Bad Request** in strict mode (default, see
+   `pii.strict-encryption.enabled`); backward-compatible pass-through only when that flag is `false`.
 3. The controller/service receives the **plain** value. Uniqueness checks, BCrypt hashing,
    validation (`@Email`, `@NotBlank`), DB lookups on identifiers and persistence all run on the
    plain value.
@@ -244,8 +250,7 @@ the encoding is URL-safe and the backend decrypts it automatically (`EncryptedId
 const res = await fetch(`/emat/v1/vendor/${vendor.id}`, ...); // vendor.id === "ENC:..."
 ```
 
-The `ENC:` string must be passed as-is - a plain number in the URL/path/query is rejected for
-`Long` identifiers.
+If you prefer, the decrypted plain number also works since the converter accepts both forms.
 
 ### Java (reference for backend parity, useful to cross-check your implementation)
 
@@ -263,16 +268,15 @@ buf.put(iv).put(out);
 String value = "ENC:" + Base64.getUrlEncoder().withoutPadding().encodeToString(buf.array());
 ```
 
-## 6. Backward compatibility
+## 6. Backward compatibility (important for rollout)
 
-- **Inbound - string PII:** if a client sends a *plain* value for a protected string field (email,
-  mobile, password), the backend treats it as plain and uses it as-is. This eases migration.
-- **Inbound - `Long` identifiers: STRICT.** A plain number for any identifier (`id`, `userId`,
-  `registrationId`, `stageId`, `sidbeApprovedByUserId`, `bseId`, `approvedBy`, etc.) - in a JSON
-  body, URL path or query string - is rejected with `400 Bad Request`. Every identifier must be
-  sent in `ENC:<...>` form.
-- **Outbound:** every response is *always* encrypted for the protected fields/identifiers, so
+- **Inbound:** if a client (or Postman) sends a *plain* value for a protected string field or a
+  *plain number* for a `Long` identifier, the backend treats it as plain and uses it as-is. This
+  means existing clients keep working while they migrate to the encrypted contract.
+- **Outbound:** every response is *always* encrypted for the protected fields/identifiers, so new
   clients must handle the `ENC:` marker for display purposes.
+- **URLs:** encrypted and plain identifier forms are both accepted in URL paths and query strings
+  (`EncryptedIdConverter`), so existing links keep working.
 
 ## 7. Things to watch
 
@@ -294,7 +298,130 @@ String value = "ENC:" + Base64.getUrlEncoder().withoutPadding().encodeToString(b
 | What is NOT encrypted? | GSTIN/PAN/account number/IFSC/account codes, usernames, all other business data. |
 | Algorithm | AES-256-GCM (128-bit tag, 12-byte IV prepended). |
 | Encoded as | `ENC:` + base64url (no padding), covering `IV \|\| ciphertext`. |
-| Backend request handling | Decrypt on `@JsonDeserialize` fields (both `String` and `Long`); string PII accepts plain, `Long` ids require `ENC:` (plain numbers rejected with 400). |
+| Backend request handling | Decrypt on `@JsonDeserialize` fields (both `String` and `Long`); plain values accepted too. |
 | Backend response handling | Encrypt on `@JsonSerialize` fields (both `String` and `Long`) before writing the response. |
-| URLs / query params | Encrypted ids accepted (`EncryptedIdConverter` string->Long); plain numbers rejected. |
+| URLs / query params | Encrypted or plain ids both accepted (`EncryptedIdConverter` string->Long). |
 | Database | Plain text (transport-level protection only). |
+
+## 9. Special case: login (RSA public-key flow)
+
+Because `POST /users/login` is the **first** request a client makes, there is no JWT yet and the
+client cannot call the protected `GET /pii-encryption-key` endpoint. The login `password` is
+therefore protected with a dedicated **asymmetric RSA** scheme so the AES field-encryption key is
+never exposed pre-authentication.
+
+### 9.1 Flow
+
+1. **Frontend** calls `GET /auth/public-key` (no auth required, **every time before login**):
+   ```json
+   {
+     "status": 200,
+     "message": "Public key for login password encryption",
+     "data": {
+       "publicKey": "MIIBUzANBgkqhkiG9w0BAQEFAAOC...",   // base64 SPKI (DER)
+       "algorithm": "RSA-OAEP",
+       "hash": "SHA-256",
+       "keySize": 2048
+     }
+   }
+   ```
+2. **Frontend** imports the key with Web Crypto and encrypts the raw password:
+   `RSA-OAEP` with `SHA-256`, output encoded as **plain Base64** (padded, the standard `btoa` form).
+3. **Frontend** sends it as the `password` field of `POST /users/login`:
+   ```json
+   { "username": "jdoe", "password": "Kj3L9mV...base64...", "captchaId": "...", "captchaAnswer": "..." }
+   ```
+4. **Backend** decrypts it with the RSA private key
+   (`RsaStringDecryptDeserializer` -> `LoginRsaKeyService`), then runs the normal BCrypt check.
+
+The private key never leaves the server. It is provisioned via Vault
+(`pii.login-rsa.private-key`, base64 PKCS#8 DER) so every instance shares the same key. If it is not
+configured, the backend generates an ephemeral 2048-bit pair at startup — local dev only.
+
+### 9.2 Wire format
+
+```
+password = base64( RSA-OAEP-SHA256( plaintext-password ) )
+```
+
+- Algorithm: **RSA-OAEP** (`RSA/ECB/OAEPWithSHA-256AndMGF1Padding` on the JVM)
+- Key size: **2048 bits** (max plaintext ≈ 190 bytes — more than enough for any password)
+- Encoding: standard Base64 (use `btoa`, no URL-safe transforms)
+- No `ENC:` prefix; the value is raw RSA ciphertext.
+
+### 9.3 JavaScript (Web Crypto API)
+
+```js
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
+
+function base64ToArrayBuffer(b64) {
+  const bin = atob(b64);
+  return Uint8Array.from(bin, (c) => c.charCodeAt(0));
+}
+
+function arrayBufferToBase64(buf) {
+  const bytes = new Uint8Array(buf);
+  let bin = "";
+  bytes.forEach((b) => (bin += String.fromCharCode(b)));
+  return btoa(bin);
+}
+
+/** Fetch the public key once before login and cache it (re-fetch on login failures). */
+async function fetchLoginPublicKey() {
+  const res = await fetch("/emat/v1/auth/public-key");
+  if (!res.ok) throw new Error("Could not fetch login public key");
+  const body = await res.json();
+  const key = await crypto.subtle.importKey(
+    "spki",
+    base64ToArrayBuffer(body.data.publicKey),
+    { name: "RSA-OAEP", hash: "SHA-256" },
+    false,
+    ["encrypt"]
+  );
+  return key;
+}
+
+/** Encrypt the login password. Returns a base64 string for the `password` field. */
+async function encryptLoginPassword(password, publicKey) {
+  const ciphertext = await crypto.subtle.encrypt(
+    { name: "RSA-OAEP" },
+    publicKey,
+    encoder.encode(password)
+  );
+  return arrayBufferToBase64(ciphertext);
+}
+
+// Usage:
+// const publicKey = await fetchLoginPublicKey();
+// const body = { username, password: await encryptLoginPassword(password, publicKey), ... };
+// await fetch("/emat/v1/users/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+```
+
+### 9.4 Java (backend parity reference)
+
+> Use an explicit `OAEPParameterSpec`, otherwise Java's shorthand transformation
+> (`RSA/ECB/OAEPWithSHA-256AndMGF1Padding`) defaults MGF1 to SHA-1 and will NOT match the
+> Web Crypto ciphertext (BAD PADDING).
+
+```java
+Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPPadding");
+OAEPParameterSpec spec = new OAEPParameterSpec(
+        "SHA-256", "MGF1", MGF1ParameterSpec.SHA256, PSource.PSpecified.DEFAULT);
+cipher.init(Cipher.DECRYPT_MODE, rsaPrivateKey, spec);
+byte[] plain = cipher.doFinal(Base64.getDecoder().decode(base64Ciphertext));
+String password = new String(plain, StandardCharsets.UTF_8);
+```
+
+### 9.5 Things to watch (login)
+
+- **Fetch the public key on every page load / before each login attempt.** If the backend
+  re-provisions an RSA key, values encrypted with a stale public key fail to decrypt with a `400`
+  "mismatched public key" message.
+- **"Login" (requiring RSA) vs "Change password / create user" (AES after JWT):** once the user has
+  a JWT, all other protected fields including the new `password` use the AES `ENC:` contract from §2.
+- The RSA private key must be identical across all backend instances; provision it through Vault
+  (`pii.login-rsa.private-key`), never per-instance generated keys in multi-instance prod. For local
+  development `pii.login-rsa.key-file` persists the generated key to disk so it survives restarts.
+- Max RSA-2048/OAEP-SHA-256 plaintext is 190 bytes; normalise (trim) the password before
+  encrypting so long inputs fail fast with a clear message.

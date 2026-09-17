@@ -15,8 +15,8 @@ import org.springframework.web.servlet.HandlerMapping;
 
 /**
  * Globally resolves {@code @PathVariable Long} parameters, transparently decrypting encrypted IDs
- * ({@code ENC:...}) before passing them to controller methods. Strict mode: plain numeric values
- * are rejected with an {@link IllegalArgumentException} - identifiers must always travel encrypted.
+ * ({@code ENC:...}) before passing them to controller methods. Plain numeric values pass through
+ * unchanged.
  *
  * <p>This resolver runs before Spring's default {@code PathVariableMethodArgumentResolver} for
  * {@code Long} types, so all controllers automatically support encrypted path variables without any

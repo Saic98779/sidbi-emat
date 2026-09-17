@@ -28,7 +28,7 @@ public class PiiIdDecryptDeserializer extends ValueDeserializer<Long> {
     @Override
     public Long deserialize(JsonParser p, DeserializationContext ctxt) {
         String value = p.getValueAsString();
-        if (value == null) {
+        if (value == null || value.isEmpty()) {
             return null;
         }
         return encryptionService.decryptId(value);

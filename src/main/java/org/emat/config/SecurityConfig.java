@@ -96,6 +96,8 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers(
                                                 "/users/login",
+                                                "/captcha",
+                                                "/auth/**",
                                                 "/health",
                                                 "/",
                                                 "/api-docs/**",
