@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
 import org.emat.dto.serializer.PiiStringDecryptDeserializer;
 import org.emat.dto.serializer.PiiStringEncryptSerializer;
 import org.emat.entity.IndustryAssociationAppraisal;
@@ -178,6 +180,8 @@ public class UpdateIndustryAssociationAppraisalRequest {
 
     private String nabardBlacklistFile;
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long stageId;
     private String stageComments;
 }

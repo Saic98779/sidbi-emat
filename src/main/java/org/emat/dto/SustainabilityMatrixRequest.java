@@ -41,6 +41,8 @@ public class SustainabilityMatrixRequest {
     private Boolean operationalProcesses;
     private Integer totalScore;
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long stageId;
 
     private String stageComments;

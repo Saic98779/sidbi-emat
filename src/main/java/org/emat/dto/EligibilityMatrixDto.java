@@ -43,6 +43,8 @@ public class EligibilityMatrixDto {
     private Boolean memberDirectoryAdvertised;
     private Boolean supportsGiAct;
     private Integer totalScore;
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+        @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long stageId;
     private String stageComments;
 }
