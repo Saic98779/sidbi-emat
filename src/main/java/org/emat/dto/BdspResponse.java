@@ -26,6 +26,7 @@ public class BdspResponse {
     private String state;
     private String district;
     private String contact;
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private String email;
     private String kyc;
     private String requestedBy;

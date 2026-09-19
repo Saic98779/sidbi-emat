@@ -15,7 +15,7 @@ public class CreateElearningModuleContentRequest {
 
     private String topic;
     private String moduleName;
-    private String relevanceRationaleOfTopic;
+    private String relevanceOfTopic;
     private String briefOfContent;
     private String mainContent;
     private String attachment;

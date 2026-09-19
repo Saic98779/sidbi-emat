@@ -13,7 +13,7 @@ public class ElearningModuleContentMapper {
         return ElearningModuleContent.builder()
                 .topic(request.getTopic())
                 .moduleName(request.getModuleName())
-                .relevanceRationaleOfTopic(request.getRelevanceRationaleOfTopic())
+                .relevanceOfTopic(request.getRelevanceOfTopic())
                 .briefOfContent(request.getBriefOfContent())
                 .mainContent(request.getMainContent())
                 .attachment(request.getAttachment())
@@ -29,8 +29,8 @@ public class ElearningModuleContentMapper {
             ElearningModuleContent content, UpdateElearningModuleContentRequest request) {
         if (request.getTopic() != null) content.setTopic(request.getTopic());
         if (request.getModuleName() != null) content.setModuleName(request.getModuleName());
-        if (request.getRelevanceRationaleOfTopic() != null)
-            content.setRelevanceRationaleOfTopic(request.getRelevanceRationaleOfTopic());
+        if (request.getRelevanceOfTopic() != null)
+            content.setRelevanceOfTopic(request.getRelevanceOfTopic());
         if (request.getBriefOfContent() != null)
             content.setBriefOfContent(request.getBriefOfContent());
         if (request.getMainContent() != null) content.setMainContent(request.getMainContent());
@@ -47,7 +47,7 @@ public class ElearningModuleContentMapper {
                 .id(content.getId())
                 .topic(content.getTopic())
                 .moduleName(content.getModuleName())
-                .relevanceRationaleOfTopic(content.getRelevanceRationaleOfTopic())
+                .relevanceOfTopic(content.getRelevanceOfTopic())
                 .briefOfContent(content.getBriefOfContent())
                 .mainContent(content.getMainContent())
                 .attachment(content.getAttachment())

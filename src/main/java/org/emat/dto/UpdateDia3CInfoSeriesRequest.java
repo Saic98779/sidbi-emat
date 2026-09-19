@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.enums.BulkMessaging;
 
 /** DTO for updating an existing DIA 3C-Info-Series. */
 @Data
@@ -20,7 +21,7 @@ public class UpdateDia3CInfoSeriesRequest {
     private String subjectLine;
     private String mainContent;
     private String attachment;
-    private String bulkMessaging;
+    private BulkMessaging bulkMessaging;
     private LocalDate proposedPublishDate;
     private String requestedBy;
     private LocalDate requestDate;

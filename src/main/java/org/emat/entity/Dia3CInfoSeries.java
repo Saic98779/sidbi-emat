@@ -1,13 +1,13 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDate;
+import org.emat.enums.BulkMessaging;
 
 /**
  * DIA 3C-Info-Series
@@ -59,8 +59,9 @@ public class Dia3CInfoSeries extends BaseEntity {
     private String attachment;
 
     // Bulk Messaging (mail/SMS/Whatsapp)
+    @Enumerated(EnumType.STRING)
     @Column(name = "BULK_MESSAGING")
-    private String bulkMessaging;
+    private BulkMessaging bulkMessaging;
 
     // Proposed Publish date
     @Column(name = "PROPOSED_PUBLISH_DATE")

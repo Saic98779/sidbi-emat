@@ -39,8 +39,8 @@ public class ElearningModuleContent extends BaseEntity {
     private String moduleName;
 
     // Relevance/Rationale of the Topic
-    @Column(name = "RELEVANCE_RATIONALE_OF_TOPIC")
-    private String relevanceRationaleOfTopic;
+    @Column(name = "RELEVANCE_OF_TOPIC")
+    private String relevanceOfTopic;
 
     // Brief of the Content
     @Column(name = "BRIEF_OF_CONTENT")

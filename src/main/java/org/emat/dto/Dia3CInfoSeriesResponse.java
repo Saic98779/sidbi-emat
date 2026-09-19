@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.BulkMessaging;
 
 /** DTO for DIA 3C-Info-Series response. */
 @Data
@@ -26,7 +27,7 @@ public class Dia3CInfoSeriesResponse {
     private String subjectLine;
     private String mainContent;
     private String attachment;
-    private String bulkMessaging;
+    private BulkMessaging bulkMessaging;
     private LocalDate proposedPublishDate;
     private String requestedBy;
     private LocalDate requestDate;

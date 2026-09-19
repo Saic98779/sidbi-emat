@@ -4,14 +4,20 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
+import org.emat.dto.BdspImportResult;
 import org.emat.dto.BdspResponse;
 import org.emat.dto.CreateBdspRequest;
 import org.emat.dto.UpdateBdspRequest;
 import org.emat.service.BdspService;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/bdsp")
@@ -20,6 +26,35 @@ import org.springframework.web.bind.annotation.*;
 public class BdspController {
 
     private final BdspService service;
+
+    @GetMapping("/import/template")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bdspCreate'))")
+    public ResponseEntity<Resource> downloadImportTemplate() {
+        log.info("Received request to download BDSP import template");
+        ClassPathResource resource = new ClassPathResource("template/bdsp-import-template.xlsx");
+        if (!resource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"bdsp-import-template.xlsx\"")
+                .body(resource);
+    }
+
+    @PostMapping(
+            value = "/import",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bdspCreate'))")
+    public ResponseEntity<ApiResponse<BdspImportResult>> importExcel(
+            @RequestPart("file") MultipartFile file) {
+        log.info("Received request to import BDSP from Excel");
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "BDSP imported successfully", service.importFromExcel(file)));
+    }
 
     @PostMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bdspCreate'))")
