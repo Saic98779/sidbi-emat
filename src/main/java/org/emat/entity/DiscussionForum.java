@@ -53,12 +53,4 @@ public class DiscussionForum extends BaseEntity {
     // Global / Only Members
     @Column(name = "GLOBAL_OR_ONLY_MEMBERS")
     private String globalOrOnlyMembers;
-
-    // Requested by
-    @Column(name = "REQUESTED_BY")
-    private String requestedBy;
-
-    // Request date
-    @Column(name = "REQUEST_DATE")
-    private LocalDate requestDate;
 }

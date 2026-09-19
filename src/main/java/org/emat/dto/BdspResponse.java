@@ -1,7 +1,6 @@
 package org.emat.dto;
 
 import tools.jackson.databind.annotation.JsonSerialize;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,8 +28,6 @@ public class BdspResponse {
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private String email;
     private String kyc;
-    private String requestedBy;
-    private LocalDate requestDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

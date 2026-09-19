@@ -19,8 +19,6 @@ public class ElearningModuleContentMapper {
                 .attachment(request.getAttachment())
                 .link(request.getLink())
                 .placementOfModule(request.getPlacementOfModule())
-                .requestedBy(request.getRequestedBy())
-                .requestDate(request.getRequestDate())
                 .isActive(true)
                 .build();
     }
@@ -38,8 +36,6 @@ public class ElearningModuleContentMapper {
         if (request.getLink() != null) content.setLink(request.getLink());
         if (request.getPlacementOfModule() != null)
             content.setPlacementOfModule(request.getPlacementOfModule());
-        if (request.getRequestedBy() != null) content.setRequestedBy(request.getRequestedBy());
-        if (request.getRequestDate() != null) content.setRequestDate(request.getRequestDate());
     }
 
     public ElearningModuleContentResponse toResponse(ElearningModuleContent content) {
@@ -53,8 +49,6 @@ public class ElearningModuleContentMapper {
                 .attachment(content.getAttachment())
                 .link(content.getLink())
                 .placementOfModule(content.getPlacementOfModule())
-                .requestedBy(content.getRequestedBy())
-                .requestDate(content.getRequestDate())
                 .createdAt(content.getCreatedAt())
                 .updatedAt(content.getUpdatedAt())
                 .createdBy(content.getCreatedBy())

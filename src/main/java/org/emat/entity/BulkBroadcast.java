@@ -65,12 +65,4 @@ public class BulkBroadcast extends BaseEntity {
     // Link
     @Column(name = "LINK")
     private String link;
-
-    // Requested by
-    @Column(name = "REQUESTED_BY")
-    private String requestedBy;
-
-    // Request date
-    @Column(name = "REQUEST_DATE")
-    private LocalDate requestDate;
 }

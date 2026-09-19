@@ -1,6 +1,5 @@
 package org.emat.dto;
 
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +20,4 @@ public class UpdateElearningModuleContentRequest {
     private String attachment;
     private String link;
     private String placementOfModule;
-    private String requestedBy;
-    private LocalDate requestDate;
 }

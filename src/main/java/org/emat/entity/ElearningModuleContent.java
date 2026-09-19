@@ -7,8 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-
 /**
  * E-learning Module Content
  */
@@ -61,12 +59,4 @@ public class ElearningModuleContent extends BaseEntity {
     // Placement of the Module
     @Column(name = "PLACEMENT_OF_MODULE")
     private String placementOfModule;
-
-    // Requested by
-    @Column(name = "REQUESTED_BY")
-    private String requestedBy;
-
-    // Request date
-    @Column(name = "REQUEST_DATE")
-    private LocalDate requestDate;
 }

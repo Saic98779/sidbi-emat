@@ -17,8 +17,6 @@ public class DiscussionForumMapper {
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .globalOrOnlyMembers(request.getGlobalOrOnlyMembers())
-                .requestedBy(request.getRequestedBy())
-                .requestDate(request.getRequestDate())
                 .isActive(true)
                 .build();
     }
@@ -32,8 +30,6 @@ public class DiscussionForumMapper {
         if (request.getEndDate() != null) forum.setEndDate(request.getEndDate());
         if (request.getGlobalOrOnlyMembers() != null)
             forum.setGlobalOrOnlyMembers(request.getGlobalOrOnlyMembers());
-        if (request.getRequestedBy() != null) forum.setRequestedBy(request.getRequestedBy());
-        if (request.getRequestDate() != null) forum.setRequestDate(request.getRequestDate());
     }
 
     public DiscussionForumResponse toResponse(DiscussionForum forum) {
@@ -45,8 +41,6 @@ public class DiscussionForumMapper {
                 .startDate(forum.getStartDate())
                 .endDate(forum.getEndDate())
                 .globalOrOnlyMembers(forum.getGlobalOrOnlyMembers())
-                .requestedBy(forum.getRequestedBy())
-                .requestDate(forum.getRequestDate())
                 .createdAt(forum.getCreatedAt())
                 .updatedAt(forum.getUpdatedAt())
                 .createdBy(forum.getCreatedBy())

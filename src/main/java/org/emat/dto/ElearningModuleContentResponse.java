@@ -1,7 +1,6 @@
 package org.emat.dto;
 
 import tools.jackson.databind.annotation.JsonSerialize;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +26,6 @@ public class ElearningModuleContentResponse {
     private String attachment;
     private String link;
     private String placementOfModule;
-    private String requestedBy;
-    private LocalDate requestDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

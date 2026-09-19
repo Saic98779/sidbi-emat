@@ -20,8 +20,6 @@ public class BulkBroadcastMapper {
                 .broadcastThrough(request.getBroadcastThrough())
                 .attachment(request.getAttachment())
                 .link(request.getLink())
-                .requestedBy(request.getRequestedBy())
-                .requestDate(request.getRequestDate())
                 .isActive(true)
                 .build();
     }
@@ -40,8 +38,6 @@ public class BulkBroadcastMapper {
             broadcast.setBroadcastThrough(request.getBroadcastThrough());
         if (request.getAttachment() != null) broadcast.setAttachment(request.getAttachment());
         if (request.getLink() != null) broadcast.setLink(request.getLink());
-        if (request.getRequestedBy() != null) broadcast.setRequestedBy(request.getRequestedBy());
-        if (request.getRequestDate() != null) broadcast.setRequestDate(request.getRequestDate());
     }
 
     public BulkBroadcastResponse toResponse(BulkBroadcast broadcast) {
@@ -56,8 +52,6 @@ public class BulkBroadcastMapper {
                 .broadcastThrough(broadcast.getBroadcastThrough())
                 .attachment(broadcast.getAttachment())
                 .link(broadcast.getLink())
-                .requestedBy(broadcast.getRequestedBy())
-                .requestDate(broadcast.getRequestDate())
                 .createdAt(broadcast.getCreatedAt())
                 .updatedAt(broadcast.getUpdatedAt())
                 .createdBy(broadcast.getCreatedBy())

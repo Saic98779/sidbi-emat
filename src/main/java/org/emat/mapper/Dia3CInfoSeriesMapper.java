@@ -20,8 +20,6 @@ public class Dia3CInfoSeriesMapper {
                 .attachment(request.getAttachment())
                 .bulkMessaging(request.getBulkMessaging())
                 .proposedPublishDate(request.getProposedPublishDate())
-                .requestedBy(request.getRequestedBy())
-                .requestDate(request.getRequestDate())
                 .isActive(true)
                 .build();
     }
@@ -40,8 +38,6 @@ public class Dia3CInfoSeriesMapper {
         if (request.getBulkMessaging() != null) series.setBulkMessaging(request.getBulkMessaging());
         if (request.getProposedPublishDate() != null)
             series.setProposedPublishDate(request.getProposedPublishDate());
-        if (request.getRequestedBy() != null) series.setRequestedBy(request.getRequestedBy());
-        if (request.getRequestDate() != null) series.setRequestDate(request.getRequestDate());
     }
 
     public Dia3CInfoSeriesResponse toResponse(Dia3CInfoSeries series) {
@@ -56,8 +52,6 @@ public class Dia3CInfoSeriesMapper {
                 .attachment(series.getAttachment())
                 .bulkMessaging(series.getBulkMessaging())
                 .proposedPublishDate(series.getProposedPublishDate())
-                .requestedBy(series.getRequestedBy())
-                .requestDate(series.getRequestDate())
                 .createdAt(series.getCreatedAt())
                 .updatedAt(series.getUpdatedAt())
                 .createdBy(series.getCreatedBy())

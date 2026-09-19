@@ -49,12 +49,4 @@ public class PopUps extends BaseEntity {
     // Attachments
     @Column(name = "ATTACHMENTS")
     private String attachments;
-
-    // Requested by
-    @Column(name = "REQUESTED_BY")
-    private String requestedBy;
-
-    // Request date
-    @Column(name = "REQUEST_DATE")
-    private LocalDate requestDate;
 }

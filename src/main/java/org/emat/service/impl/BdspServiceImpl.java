@@ -1,9 +1,6 @@
 package org.emat.service.impl;
 
 import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,16 +45,7 @@ public class BdspServiceImpl implements BdspService {
         "District",
         "Contact",
         "Email",
-        "KYC",
-        "Requested by",
-        "Request date"
-    };
-
-    private static final DateTimeFormatter[] DATE_FORMATS = {
-        DateTimeFormatter.ISO_LOCAL_DATE,
-        DateTimeFormatter.ofPattern("dd/MM/yyyy"),
-        DateTimeFormatter.ofPattern("dd-MM-yyyy"),
-        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+        "KYC"
     };
 
     private final BdspRepository repository;
@@ -208,8 +196,6 @@ public class BdspServiceImpl implements BdspService {
                 .contact(readString(row, layout, 6))
                 .email(readString(row, layout, 7))
                 .kyc(readString(row, layout, 8))
-                .requestedBy(readString(row, layout, 9))
-                .requestDate(readDate(row, layout, 10))
                 .build();
     }
 
@@ -256,8 +242,6 @@ public class BdspServiceImpl implements BdspService {
         map.put("email", 7);
         map.put("emailid", 7);
         map.put("kyc", 8);
-        map.put("requestedby", 9);
-        map.put("requestdate", 10);
         return map;
     }
 
@@ -292,31 +276,6 @@ public class BdspServiceImpl implements BdspService {
             return null;
         }
         return readCellAsString(row.getCell(layout.indexes[fieldIndex]));
-    }
-
-    private LocalDate readDate(Row row, ColumnLayout layout, int fieldIndex) {
-        if (layout.indexes[fieldIndex] < 0) {
-            return null;
-        }
-        Cell cell = row.getCell(layout.indexes[fieldIndex]);
-        if (cell == null) {
-            return null;
-        }
-        if (cell.getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(cell)) {
-            return cell.getLocalDateTimeCellValue().toLocalDate();
-        }
-        String value = readCellAsString(cell);
-        if (value == null) {
-            return null;
-        }
-        for (DateTimeFormatter formatter : DATE_FORMATS) {
-            try {
-                return LocalDate.parse(value, formatter);
-            } catch (DateTimeParseException ignored) {
-                // try next pattern
-            }
-        }
-        throw new IllegalArgumentException("Invalid date value in cell: " + value);
     }
 
     private String readCellAsString(Cell cell) {

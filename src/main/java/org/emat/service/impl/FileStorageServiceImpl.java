@@ -26,6 +26,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     private static final String STORE_ERROR = "Failed to store file";
     private static final String LOAD_ERROR = "Failed to load file as resource";
     private static final String DELETE_ERROR = "Failed to delete file";
+    private static final String UNREGISTERED_KEY = "unregistered";
 
     private final Path storageBase;
     private final UploadedFileRepository repository;
@@ -60,7 +61,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     private UploadedFileResponse storeInternal(
             Long registrationId, String stage, Long stageId, MultipartFile file) {
-        String regId = idToString(registrationId);
+        String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
         validateStage(stage);
@@ -111,7 +112,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Transactional
     public List<UploadedFileResponse> storeAll(
             Long registrationId, String stage, Long stageId, List<MultipartFile> files) {
-        String regId = idToString(registrationId);
+        String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
         validateStage(stage);
@@ -127,7 +128,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public Resource loadAsResource(Long registrationId, String stage, Long stageId, String filename) {
-        String regId = idToString(registrationId);
+        String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
         validateStage(stage);
@@ -149,7 +150,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public List<UploadedFileResponse> listFiles(Long registrationId, String stage, Long stageId) {
-        String regId = idToString(registrationId);
+        String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
         validateStage(stage);
@@ -164,7 +165,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     @Transactional
     public void delete(Long registrationId, String stage, Long stageId, String filename) {
-        String regId = idToString(registrationId);
+        String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
         validateStage(stage);
@@ -184,13 +185,15 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     // Helper to build download URL from configured base and path parts.
-    // Registration ID and stage ID are encrypted so the URL is safe to use as-is
-    // against the encrypted path-variable endpoints.
+    // Stage ID and registration ID are encrypted query parameters; stage is a plain
+    // query parameter; filename stays in the path.
     private String buildDownloadUrl(Long registrationId, String stage, Long stageId, String filename) {
         String base = (downloadBase == null) ? "" : downloadBase.replaceAll("/+$", "");
-        String regId = encryptionService.encryptId(registrationId);
-        String sId = encryptionService.encryptId(stageId);
-        return base + "/" + regId + "/" + stage + "/" + sId + "/" + filename;
+        String url = base + "/" + filename + "?stage=" + stage + "&stageId=" + encryptionService.encryptId(stageId);
+        if (registrationId != null) {
+            url += "&registrationId=" + encryptionService.encryptId(registrationId);
+        }
+        return url;
     }
 
     private UploadedFileResponse toResponse(UploadedFile file) {
@@ -209,6 +212,13 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     private String idToString(Long id) {
         return id == null ? null : id.toString();
+    }
+
+    // Anonymous uploads (no registration yet) share a fixed storage key so the
+    // required registrationId column/path segment has a stable non-null value.
+    private String normalizeRegistrationKey(Long registrationId) {
+        String key = idToString(registrationId);
+        return key == null ? UNREGISTERED_KEY : key;
     }
 
     private Long parseIdSafely(String value) {

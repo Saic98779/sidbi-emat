@@ -25,8 +25,6 @@ public class DiscussionForumResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private String globalOrOnlyMembers;
-    private String requestedBy;
-    private LocalDate requestDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
