@@ -10,7 +10,12 @@ public class UploadedFileResponse {
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
 
-    private String registrationId;
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    private Long registrationId;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    private Long stageId;
+
     private String filename;
     private String contentType;
     private Long size;
@@ -21,7 +26,8 @@ public class UploadedFileResponse {
 
     public UploadedFileResponse(
             Long id,
-            String registrationId,
+            Long registrationId,
+            Long stageId,
             String filename,
             String contentType,
             Long size,
@@ -29,6 +35,7 @@ public class UploadedFileResponse {
             LocalDateTime createdAt) {
         this.id = id;
         this.registrationId = registrationId;
+        this.stageId = stageId;
         this.filename = filename;
         this.contentType = contentType;
         this.size = size;

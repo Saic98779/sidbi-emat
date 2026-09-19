@@ -26,6 +26,12 @@ public class UploadedFile extends BaseEntity {
     @Column(name = "REGISTRATION_ID", nullable = false)
     private String registrationId;
 
+    @Column(name = "STAGE", nullable = false)
+    private String stage;
+
+    @Column(name = "STAGE_ID", nullable = false)
+    private String stageId;
+
     @Column(name = "FILENAME", nullable = false)
     private String filename;
 

@@ -21,38 +21,54 @@ public class FileController {
         this.storageService = storageService;
     }
 
-    @PostMapping(value = "/{registrationId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(
+            value = "/{registrationId}/{stage}/{stageId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<UploadedFileResponse>> uploadFile(
-            @PathVariable String registrationId, @RequestPart("file") MultipartFile file) {
+            @PathVariable Long registrationId,
+            @PathVariable String stage,
+            @PathVariable Long stageId,
+            @RequestPart("file") MultipartFile file) {
         return ResponseEntity.status(201)
                 .body(
                         ApiResponse.created(
                                 "File uploaded successfully",
-                                storageService.store(registrationId, file)));
+                                storageService.store(registrationId, stage, stageId, file)));
     }
 
-    @PostMapping(value = "/{registrationId}/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(
+            value = "/{registrationId}/{stage}/{stageId}/batch",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<List<UploadedFileResponse>>> uploadFiles(
-            @PathVariable String registrationId, @RequestPart("files") List<MultipartFile> files) {
+            @PathVariable Long registrationId,
+            @PathVariable String stage,
+            @PathVariable Long stageId,
+            @RequestPart("files") List<MultipartFile> files) {
         return ResponseEntity.status(201)
                 .body(
                         ApiResponse.created(
                                 "Files uploaded successfully",
-                                storageService.storeAll(registrationId, files)));
+                                storageService.storeAll(registrationId, stage, stageId, files)));
     }
 
-    @GetMapping("/{registrationId}")
+    @GetMapping("/{registrationId}/{stage}/{stageId}")
     public ResponseEntity<ApiResponse<List<UploadedFileResponse>>> listFiles(
-            @PathVariable String registrationId) {
+            @PathVariable Long registrationId,
+            @PathVariable String stage,
+            @PathVariable Long stageId) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Files fetched successfully", storageService.listFiles(registrationId)));
+                        "Files fetched successfully",
+                        storageService.listFiles(registrationId, stage, stageId)));
     }
 
-    @GetMapping("/{registrationId}/{filename:.+}")
+    @GetMapping("/{registrationId}/{stage}/{stageId}/{filename:.+}")
     public ResponseEntity<Resource> downloadFile(
-            @PathVariable String registrationId, @PathVariable String filename) {
-        Resource resource = storageService.loadAsResource(registrationId, filename);
+            @PathVariable Long registrationId,
+            @PathVariable String stage,
+            @PathVariable Long stageId,
+            @PathVariable String filename) {
+        Resource resource = storageService.loadAsResource(registrationId, stage, stageId, filename);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(
@@ -61,10 +77,13 @@ public class FileController {
                 .body(resource);
     }
 
-    @DeleteMapping("/{registrationId}/{filename:.+}")
+    @DeleteMapping("/{registrationId}/{stage}/{stageId}/{filename:.+}")
     public ResponseEntity<ApiResponse<Void>> deleteFile(
-            @PathVariable String registrationId, @PathVariable String filename) {
-        storageService.delete(registrationId, filename);
+            @PathVariable Long registrationId,
+            @PathVariable String stage,
+            @PathVariable Long stageId,
+            @PathVariable String filename) {
+        storageService.delete(registrationId, stage, stageId, filename);
         return ResponseEntity.ok(ApiResponse.success("File deleted successfully", null));
     }
 }

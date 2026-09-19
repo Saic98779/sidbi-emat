@@ -6,13 +6,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileStorageService {
-    UploadedFileResponse store(String registrationId, MultipartFile file);
+    UploadedFileResponse store(Long registrationId, String stage, Long stageId, MultipartFile file);
 
-    List<UploadedFileResponse> storeAll(String registrationId, List<MultipartFile> files);
+    List<UploadedFileResponse> storeAll(
+            Long registrationId, String stage, Long stageId, List<MultipartFile> files);
 
-    Resource loadAsResource(String registrationId, String filename);
+    Resource loadAsResource(Long registrationId, String stage, Long stageId, String filename);
 
-    List<UploadedFileResponse> listFiles(String registrationId);
+    List<UploadedFileResponse> listFiles(Long registrationId, String stage, Long stageId);
 
-    void delete(String registrationId, String filename);
+    void delete(Long registrationId, String stage, Long stageId, String filename);
 }

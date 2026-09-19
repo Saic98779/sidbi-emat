@@ -16,7 +16,7 @@ import tools.jackson.core.TokenStreamContext;
  */
 public final class SafeInputValidator {
 
-    private static final char[] PROHIBITED_CHARACTERS = {'<', '>', '/', '\\'};
+    private static final char[] PROHIBITED_CHARACTERS = {'<', '>'};
 
     private SafeInputValidator() {}
 
@@ -28,7 +28,7 @@ public final class SafeInputValidator {
         if (value != null) {
             for (int i = 0; i < value.length(); i++) {
                 char c = value.charAt(i);
-                if (c == '<' || c == '>' || c == '/' || c == '\\') {
+                if (c == '<' || c == '>') {
                     return c;
                 }
             }
@@ -55,8 +55,7 @@ public final class SafeInputValidator {
                             + fieldPath(parser)
                             + "' contains invalid character '"
                             + prohibited
-                            + "'. Input must not contain the prohibited characters '<', '>',"
-                            + " '/' or '\\'.");
+                            + "'. Input must not contain the prohibited characters '<', '>',");
         }
     }
 

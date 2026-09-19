@@ -10,4 +10,8 @@ public interface UploadedFileRepository extends JpaRepository<UploadedFile, Long
     Optional<UploadedFile> findByRegistrationIdAndFilename(String registrationId, String filename);
 
     List<UploadedFile> findByRegistrationId(String registrationId);
+
+    Optional<UploadedFile> findByRegistrationIdAndStageAndStageIdAndFilename(String registrationId, String stage, String stageId, String filename);
+
+    List<UploadedFile> findByRegistrationIdAndStageAndStageId(String registrationId, String stage, String stageId);
 }
