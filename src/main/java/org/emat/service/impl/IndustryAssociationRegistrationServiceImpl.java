@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
+import org.emat.dto.RegistrationDropdownDto;
 import org.emat.dto.StageHistoryResponse;
 import org.emat.dto.StageResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
@@ -164,6 +165,19 @@ public class IndustryAssociationRegistrationServiceImpl
         return repository.findAllByIsActiveTrueAndCurrentStageId(stageId).stream()
                 .map(registrationMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RegistrationDropdownDto> getRegistrationDropdown(
+            Long stageId, String state, String createdBy, String district) {
+        log.debug(
+                "Fetching registration dropdown with filters stageId={}, state={}, createdBy={}, district={}",
+                stageId,
+                state,
+                createdBy,
+                district);
+        return repository.findDropdown(stageId, state, createdBy, district);
     }
 
     private IndustryAssociationRegistration getRegistrationOrThrow(Long id) {

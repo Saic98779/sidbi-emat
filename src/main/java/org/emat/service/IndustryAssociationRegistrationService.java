@@ -4,6 +4,7 @@ import java.util.List;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
+import org.emat.dto.RegistrationDropdownDto;
 import org.emat.dto.StageHistoryResponse;
 import org.emat.dto.StageResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
@@ -30,4 +31,7 @@ public interface IndustryAssociationRegistrationService {
     List<StageResponse> getAllStages();
 
     List<IndustryAssociationRegistrationResponse> getRegistrationsByStageId(Long stageId);
+
+    List<RegistrationDropdownDto> getRegistrationDropdown(
+            Long stageId, String state, String createdBy, String district);
 }

@@ -8,11 +8,13 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
+import org.emat.dto.RegistrationDropdownDto;
 import org.emat.dto.StageHistoryResponse;
 import org.emat.dto.StageResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.service.EndpointRolePolicyService;
 import org.emat.service.IndustryAssociationRegistrationService;
+import org.emat.util.PiiEncryptionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +29,7 @@ public class IndustryAssociationRegistrationController {
 
     private final IndustryAssociationRegistrationService service;
     private final EndpointRolePolicyService endpointRolePolicyService;
+    private final PiiEncryptionService encryptionService;
 
     @PostMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationWrite'))")
@@ -58,6 +61,32 @@ public class IndustryAssociationRegistrationController {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Registrations fetched successfully", service.getAllRegistrations()));
+    }
+
+    @GetMapping("/dropdown")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationDropDown'))")
+    public ResponseEntity<ApiResponse<List<RegistrationDropdownDto>>> getRegistrationDropdown(
+            @RequestParam(required = false) String stageId,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String createdBy,
+            @RequestParam(required = false) String district) {
+        log.info("Received request to fetch registration dropdown");
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Registration dropdown fetched successfully",
+                        service.getRegistrationDropdown(
+                                requireEncryptedId(stageId), state, createdBy, district)));
+    }
+
+    private Long requireEncryptedId(String id) {
+        if (id == null || id.isBlank()) {
+            return null;
+        }
+        if (!encryptionService.isEncrypted(id)) {
+            throw new IllegalArgumentException(
+                    "stageId must be provided as an encrypted identifier starting with ENC:");
+        }
+        return encryptionService.decryptId(id);
     }
 
     @PutMapping("/{id}")

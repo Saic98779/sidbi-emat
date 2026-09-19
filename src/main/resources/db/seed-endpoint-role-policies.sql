@@ -59,3 +59,12 @@ INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('popUpsRead', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'View Pop-Ups', SYSTIMESTAMP);
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('popUpsUpdate', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Update Pop-Ups', SYSTIMESTAMP);
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('popUpsDelete', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Delete Pop-Ups', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('actionPlanCreate', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Create Action Plan', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('actionPlanRead', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'View Action Plan', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('actionPlanUpdate', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Update Action Plan', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('actionPlanDelete', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Delete Action Plan', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('surveyCreate', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Create Survey', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('surveyRead', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'View Survey', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('surveyUpdate', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Update Survey', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('surveyDelete', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Delete Survey', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('industryAssociationDropDown', 'MANPOWER_AGENCY,BSE,GT_FIELD_TEAM,GT_PMU,SIDBI_SDE,SIDBI_RO,SIDBI_HO_MAKER,SIDBI_HO_CHECKER,CLUSTER_EXPERT', 'IA Drop Down', SYSTIMESTAMP);
