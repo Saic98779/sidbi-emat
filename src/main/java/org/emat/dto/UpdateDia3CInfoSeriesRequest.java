@@ -1,6 +1,7 @@
 package org.emat.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class UpdateDia3CInfoSeriesRequest {
     private String subjectLine;
     private String mainContent;
     private String attachment;
-    private BulkMessaging bulkMessaging;
+    private List<BulkMessaging> bulkMessaging;
     private LocalDate proposedPublishDate;
     private String requestedBy;
     private LocalDate requestDate;
