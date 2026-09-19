@@ -1,0 +1,76 @@
+package org.emat.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
+
+/**
+ * DIA 3C-Info-Series
+ */
+@Entity
+@Table(name = "DIA_3C_INFO_SERIES")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class Dia3CInfoSeries extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_DIA_3C_INFO_SERIES")
+    @SequenceGenerator(
+            name = "SEQ_DIA_3C_INFO_SERIES",
+            sequenceName = "SEQ_DIA_3C_INFO_SERIES",
+            allocationSize = 1)
+    @Column(name = "ID", nullable = false, updatable = false)
+    private Long id;
+
+    // Topic
+    @Column(name = "TOPIC")
+    private String topic;
+
+    // Relevance of the Topic
+    @Column(name = "RELEVANCE_OF_TOPIC")
+    private String relevanceOfTopic;
+
+    // Brief of the Content
+    @Column(name = "BRIEF_OF_CONTENT")
+    private String briefOfContent;
+
+    // Chapter No.
+    @Column(name = "CHAPTER_NO")
+    private String chapterNo;
+
+    // Subject Line
+    @Column(name = "SUBJECT_LINE")
+    private String subjectLine;
+
+    // Main Content
+    @Column(name = "MAIN_CONTENT")
+    private String mainContent;
+
+    // Attachment - PDF, Word, PPT, Image, etc
+    @Column(name = "ATTACHMENT")
+    private String attachment;
+
+    // Bulk Messaging (mail/SMS/Whatsapp)
+    @Column(name = "BULK_MESSAGING")
+    private String bulkMessaging;
+
+    // Proposed Publish date
+    @Column(name = "PROPOSED_PUBLISH_DATE")
+    private LocalDate proposedPublishDate;
+
+    // Requested by
+    @Column(name = "REQUESTED_BY")
+    private String requestedBy;
+
+    // Request Date
+    @Column(name = "REQUEST_DATE")
+    private LocalDate requestDate;
+}
