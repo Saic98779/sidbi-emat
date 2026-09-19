@@ -2,13 +2,13 @@ package org.emat.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.emat.config.BulkMessagingListConverter;
 import org.emat.enums.BulkMessaging;
 
 /**
@@ -60,10 +60,14 @@ public class Dia3CInfoSeries extends BaseEntity {
     @Column(name = "ATTACHMENT")
     private String attachment;
 
-    // Bulk Messaging (mail/SMS/Whatsapp) - multi-select
-    @Convert(converter = BulkMessagingListConverter.class)
+    @ElementCollection
+    @CollectionTable(
+            name = "DIA_3C_INFO_SERIES_BULK_MESSAGING",
+            joinColumns = @JoinColumn(name = "DIA_3C_INFO_SERIES_ID")
+    )
     @Column(name = "BULK_MESSAGING")
-    private List<BulkMessaging> bulkMessaging;
+    @Enumerated(EnumType.STRING)
+    private List<BulkMessaging> bulkMessaging = new ArrayList<>();
 
     // Proposed Publish date
     @Column(name = "PROPOSED_PUBLISH_DATE")
