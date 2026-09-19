@@ -2,6 +2,8 @@ package org.emat.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -59,9 +61,14 @@ public class Dia3CInfoSeries extends BaseEntity {
     private String attachment;
 
     // Bulk Messaging (mail/SMS/Whatsapp)
-    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(
+            name = "DIA_3C_INFO_SERIES_BULK_MESSAGING",
+            joinColumns = @JoinColumn(name = "DIA_3C_INFO_SERIES_ID")
+    )
     @Column(name = "BULK_MESSAGING")
-    private BulkMessaging bulkMessaging;
+    @Enumerated(EnumType.STRING)
+    private List<BulkMessaging> bulkMessaging = new ArrayList<>();
 
     // Proposed Publish date
     @Column(name = "PROPOSED_PUBLISH_DATE")

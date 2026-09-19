@@ -3,6 +3,7 @@ package org.emat.dto;
 import tools.jackson.databind.annotation.JsonSerialize;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +28,7 @@ public class Dia3CInfoSeriesResponse {
     private String subjectLine;
     private String mainContent;
     private String attachment;
-    private BulkMessaging bulkMessaging;
+    private List<BulkMessaging> bulkMessaging;
     private LocalDate proposedPublishDate;
     private String requestedBy;
     private LocalDate requestDate;
