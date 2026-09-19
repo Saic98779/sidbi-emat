@@ -2,17 +2,13 @@ package org.emat.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
->>>>>>> fdef0fd707e19cdc92c3230611ac59f08b69b024
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.emat.config.BulkMessagingListConverter;
 import org.emat.enums.BulkMessaging;
 
 /**
