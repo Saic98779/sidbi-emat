@@ -18,6 +18,4 @@ public class CreatePopUpsRequest {
     private LocalDate startDate;
     private LocalDate endDate;
     private String attachments;
-    private String requestedBy;
-    private LocalDate requestDate;
 }

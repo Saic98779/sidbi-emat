@@ -19,6 +19,4 @@ public class CreateDiscussionForumRequest {
     private LocalDate startDate;
     private LocalDate endDate;
     private String globalOrOnlyMembers;
-    private String requestedBy;
-    private LocalDate requestDate;
 }

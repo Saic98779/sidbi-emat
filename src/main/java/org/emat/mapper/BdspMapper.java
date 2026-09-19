@@ -20,8 +20,6 @@ public class BdspMapper {
                 .contact(request.getContact())
                 .email(request.getEmail())
                 .kyc(request.getKyc())
-                .requestedBy(request.getRequestedBy())
-                .requestDate(request.getRequestDate())
                 .isActive(true)
                 .build();
     }
@@ -38,8 +36,6 @@ public class BdspMapper {
         if (request.getContact() != null) bdsp.setContact(request.getContact());
         if (request.getEmail() != null) bdsp.setEmail(request.getEmail());
         if (request.getKyc() != null) bdsp.setKyc(request.getKyc());
-        if (request.getRequestedBy() != null) bdsp.setRequestedBy(request.getRequestedBy());
-        if (request.getRequestDate() != null) bdsp.setRequestDate(request.getRequestDate());
     }
 
     public BdspResponse toResponse(Bdsp bdsp) {
@@ -54,8 +50,6 @@ public class BdspMapper {
                 .contact(bdsp.getContact())
                 .email(bdsp.getEmail())
                 .kyc(bdsp.getKyc())
-                .requestedBy(bdsp.getRequestedBy())
-                .requestDate(bdsp.getRequestDate())
                 .createdAt(bdsp.getCreatedAt())
                 .updatedAt(bdsp.getUpdatedAt())
                 .createdBy(bdsp.getCreatedBy())

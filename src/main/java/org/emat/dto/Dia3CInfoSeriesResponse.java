@@ -30,8 +30,6 @@ public class Dia3CInfoSeriesResponse {
     private String attachment;
     private List<BulkMessaging> bulkMessaging;
     private LocalDate proposedPublishDate;
-    private String requestedBy;
-    private LocalDate requestDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -68,12 +68,4 @@ public class Dia3CInfoSeries extends BaseEntity {
     // Proposed Publish date
     @Column(name = "PROPOSED_PUBLISH_DATE")
     private LocalDate proposedPublishDate;
-
-    // Requested by
-    @Column(name = "REQUESTED_BY")
-    private String requestedBy;
-
-    // Request Date
-    @Column(name = "REQUEST_DATE")
-    private LocalDate requestDate;
 }

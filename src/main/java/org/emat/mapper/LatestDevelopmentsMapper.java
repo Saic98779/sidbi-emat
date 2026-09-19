@@ -15,8 +15,6 @@ public class LatestDevelopmentsMapper {
                 .relevanceOfTopic(request.getRelevanceOfTopic())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
-                .requestedBy(request.getRequestedBy())
-                .requestDate(request.getRequestDate())
                 .isActive(true)
                 .build();
     }
@@ -28,10 +26,6 @@ public class LatestDevelopmentsMapper {
             developments.setRelevanceOfTopic(request.getRelevanceOfTopic());
         if (request.getStartDate() != null) developments.setStartDate(request.getStartDate());
         if (request.getEndDate() != null) developments.setEndDate(request.getEndDate());
-        if (request.getRequestedBy() != null)
-            developments.setRequestedBy(request.getRequestedBy());
-        if (request.getRequestDate() != null)
-            developments.setRequestDate(request.getRequestDate());
     }
 
     public LatestDevelopmentsResponse toResponse(LatestDevelopments developments) {
@@ -41,8 +35,6 @@ public class LatestDevelopmentsMapper {
                 .relevanceOfTopic(developments.getRelevanceOfTopic())
                 .startDate(developments.getStartDate())
                 .endDate(developments.getEndDate())
-                .requestedBy(developments.getRequestedBy())
-                .requestDate(developments.getRequestDate())
                 .createdAt(developments.getCreatedAt())
                 .updatedAt(developments.getUpdatedAt())
                 .createdBy(developments.getCreatedBy())

@@ -17,6 +17,4 @@ public class UpdateLatestDevelopmentsRequest {
     private String relevanceOfTopic;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String requestedBy;
-    private LocalDate requestDate;
 }

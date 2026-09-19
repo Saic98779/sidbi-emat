@@ -7,8 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-
 /**
  * BDSP
  */
@@ -65,12 +63,4 @@ public class Bdsp extends BaseEntity {
     // KYC
     @Column(name = "KYC")
     private String kyc;
-
-    // Requested by
-    @Column(name = "REQUESTED_BY")
-    private String requestedBy;
-
-    // Request date
-    @Column(name = "REQUEST_DATE")
-    private LocalDate requestDate;
 }

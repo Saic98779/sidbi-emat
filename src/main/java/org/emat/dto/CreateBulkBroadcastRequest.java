@@ -22,6 +22,4 @@ public class CreateBulkBroadcastRequest {
     private String broadcastThrough;
     private String attachment;
     private String link;
-    private String requestedBy;
-    private LocalDate requestDate;
 }
