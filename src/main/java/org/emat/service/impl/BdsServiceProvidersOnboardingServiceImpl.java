@@ -74,6 +74,7 @@ public class BdsServiceProvidersOnboardingServiceImpl
         }
         BdsServiceProvidersOnboarding onboarding = validator.getByIdOrThrow(id);
         onboarding.setStatus(request.getStatus());
+        onboarding.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             onboarding.setApprovedDate(LocalDate.now());
         } else {

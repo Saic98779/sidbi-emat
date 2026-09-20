@@ -51,6 +51,7 @@ public class BdspMapper {
                 .email(bdsp.getEmail())
                 .kyc(bdsp.getKyc())
                 .status(bdsp.getStatus())
+                .remark(bdsp.getRemark())
                 .approvedDate(bdsp.getApprovedDate())
                 .createdAt(bdsp.getCreatedAt())
                 .updatedAt(bdsp.getUpdatedAt())

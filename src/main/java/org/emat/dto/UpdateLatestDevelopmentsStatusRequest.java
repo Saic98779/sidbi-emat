@@ -14,4 +14,6 @@ import org.emat.enums.Status;
 public class UpdateLatestDevelopmentsStatusRequest {
 
     private Status status;
+
+    private String remark;
 }

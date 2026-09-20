@@ -47,6 +47,7 @@ public class DisbursementNoteCapacityBuildingIaOfficialsResponse {
     private String recommendation;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

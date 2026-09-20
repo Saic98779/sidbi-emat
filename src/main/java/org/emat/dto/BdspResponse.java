@@ -32,6 +32,7 @@ public class BdspResponse {
     private String kyc;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

@@ -71,6 +71,7 @@ public class LatestDevelopmentsServiceImpl implements LatestDevelopmentsService 
         }
         LatestDevelopments developments = validator.getByIdOrThrow(id);
         developments.setStatus(request.getStatus());
+        developments.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             developments.setApprovedDate(LocalDate.now());
         } else {

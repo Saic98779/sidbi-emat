@@ -33,6 +33,7 @@ public class Dia3CInfoSeriesResponse {
     private LocalDate proposedPublishDate;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

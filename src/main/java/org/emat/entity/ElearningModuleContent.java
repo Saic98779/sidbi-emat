@@ -65,6 +65,9 @@ public class ElearningModuleContent extends BaseEntity {
     @Column(name = "STATUS")
     private Status status;
 
+    @Column(name = "REMARK")
+    private String remark;
+
     @Column(name = "APPROVED_DATE")
     private LocalDate approvedDate;
 }

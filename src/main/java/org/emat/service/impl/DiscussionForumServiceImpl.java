@@ -70,6 +70,7 @@ public class DiscussionForumServiceImpl implements DiscussionForumService {
         }
         DiscussionForum forum = validator.getByIdOrThrow(id);
         forum.setStatus(request.getStatus());
+        forum.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             forum.setApprovedDate(LocalDate.now());
         } else {

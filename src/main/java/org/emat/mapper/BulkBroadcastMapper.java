@@ -53,6 +53,7 @@ public class BulkBroadcastMapper {
                 .attachment(broadcast.getAttachment())
                 .link(broadcast.getLink())
                 .status(broadcast.getStatus())
+                .remark(broadcast.getRemark())
                 .approvedDate(broadcast.getApprovedDate())
                 .createdAt(broadcast.getCreatedAt())
                 .updatedAt(broadcast.getUpdatedAt())

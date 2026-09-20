@@ -32,6 +32,7 @@ public class SurveyResponse {
     private List<SurveyQuestionnaireResponse> surveyQuestionnaires;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

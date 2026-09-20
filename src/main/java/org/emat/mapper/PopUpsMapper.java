@@ -38,6 +38,7 @@ public class PopUpsMapper {
                 .endDate(popUps.getEndDate())
                 .attachments(popUps.getAttachments())
                 .status(popUps.getStatus())
+                .remark(popUps.getRemark())
                 .approvedDate(popUps.getApprovedDate())
                 .createdAt(popUps.getCreatedAt())
                 .updatedAt(popUps.getUpdatedAt())

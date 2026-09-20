@@ -105,6 +105,7 @@ public class ActionPlanMapper {
                                 : null)
                 .activities(toActivityResponses(actionPlan.getActivities()))
                 .status(actionPlan.getStatus())
+                .remark(actionPlan.getRemark())
                 .approvedDate(actionPlan.getApprovedDate())
                 .createdAt(actionPlan.getCreatedAt())
                 .updatedAt(actionPlan.getUpdatedAt())

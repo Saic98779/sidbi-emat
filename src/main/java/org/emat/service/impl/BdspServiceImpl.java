@@ -98,6 +98,7 @@ public class BdspServiceImpl implements BdspService {
         }
         Bdsp bdsp = validator.getByIdOrThrow(id);
         bdsp.setStatus(request.getStatus());
+        bdsp.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             bdsp.setApprovedDate(LocalDate.now());
         } else {
