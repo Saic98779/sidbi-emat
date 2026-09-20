@@ -1,12 +1,15 @@
 package org.emat.dto;
 
 import tools.jackson.databind.annotation.JsonSerialize;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
+import org.emat.enums.Status;
 
 /** DTO for BDSP response. */
 @Data
@@ -25,9 +28,13 @@ public class BdspResponse {
     private String state;
     private String district;
     private String contact;
-    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
     private String email;
     private String kyc;
+
+    private Status status;
+    private String remark;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
