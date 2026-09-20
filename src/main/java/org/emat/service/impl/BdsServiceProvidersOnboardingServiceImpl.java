@@ -1,12 +1,15 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.BdsServiceProvidersOnboardingResponse;
 import org.emat.dto.CreateBdsServiceProvidersOnboardingRequest;
 import org.emat.dto.UpdateBdsServiceProvidersOnboardingRequest;
+import org.emat.dto.UpdateBdsServiceProvidersOnboardingStatusRequest;
 import org.emat.entity.BdsServiceProvidersOnboarding;
+import org.emat.enums.Status;
 import org.emat.mapper.BdsServiceProvidersOnboardingMapper;
 import org.emat.repository.BdsServiceProvidersOnboardingRepository;
 import org.emat.service.BdsServiceProvidersOnboardingService;
@@ -60,5 +63,23 @@ public class BdsServiceProvidersOnboardingServiceImpl
     public void delete(Long id) {
         log.info("Deleting BDS Service Providers Onboarding with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public BdsServiceProvidersOnboardingResponse updateStatus(
+            Long id, UpdateBdsServiceProvidersOnboardingStatusRequest request) {
+        log.info("Updating status for BDS Service Providers Onboarding with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        BdsServiceProvidersOnboarding onboarding = validator.getByIdOrThrow(id);
+        onboarding.setStatus(request.getStatus());
+        onboarding.setRemark(request.getRemark());
+        if (request.getStatus() == Status.APPROVED) {
+            onboarding.setApprovedDate(LocalDate.now());
+        } else {
+            onboarding.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(onboarding));
     }
 }

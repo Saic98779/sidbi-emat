@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateDia3CInfoSeriesRequest;
 import org.emat.dto.Dia3CInfoSeriesResponse;
 import org.emat.dto.UpdateDia3CInfoSeriesRequest;
+import org.emat.dto.UpdateDia3CInfoSeriesStatusRequest;
 import org.emat.service.Dia3CInfoSeriesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,18 @@ public class Dia3CInfoSeriesController {
                 ApiResponse.success(
                         "DIA 3C Info Series updated successfully",
                         service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('dia3CInfoSeriesUpdate'))")
+    public ResponseEntity<ApiResponse<Dia3CInfoSeriesResponse>> updateStatus(
+            @PathVariable("id") Long id,
+            @RequestBody UpdateDia3CInfoSeriesStatusRequest request) {
+        log.info("Received request to update DIA 3C Info Series status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "DIA 3C Info Series status updated successfully",
+                        service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

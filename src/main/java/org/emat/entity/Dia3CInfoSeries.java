@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.emat.enums.BulkMessaging;
+import org.emat.enums.Status;
 
 /**
  * DIA 3C-Info-Series
@@ -72,4 +73,13 @@ public class Dia3CInfoSeries extends BaseEntity {
     // Proposed Publish date
     @Column(name = "PROPOSED_PUBLISH_DATE")
     private LocalDate proposedPublishDate;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "REMARK")
+    private String remark;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

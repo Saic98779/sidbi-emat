@@ -1,12 +1,15 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.CreateSurveyRequest;
 import org.emat.dto.SurveyResponse;
 import org.emat.dto.UpdateSurveyRequest;
+import org.emat.dto.UpdateSurveyStatusRequest;
 import org.emat.entity.Survey;
+import org.emat.enums.Status;
 import org.emat.mapper.SurveyMapper;
 import org.emat.repository.SurveyRepository;
 import org.emat.service.SurveyService;
@@ -63,5 +66,22 @@ public class SurveyServiceImpl implements SurveyService {
     public void delete(Long id) {
         log.info("Deleting Survey with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public SurveyResponse updateStatus(Long id, UpdateSurveyStatusRequest request) {
+        log.info("Updating status for Survey with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        Survey survey = validator.getByIdOrThrow(id);
+        survey.setStatus(request.getStatus());
+        survey.setRemark(request.getRemark());
+        if (request.getStatus() == Status.APPROVED) {
+            survey.setApprovedDate(LocalDate.now());
+        } else {
+            survey.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(survey));
     }
 }

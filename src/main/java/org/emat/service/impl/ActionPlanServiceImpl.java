@@ -1,13 +1,16 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ActionPlanResponse;
 import org.emat.dto.CreateActionPlanRequest;
 import org.emat.dto.UpdateActionPlanRequest;
+import org.emat.dto.UpdateActionPlanStatusRequest;
 import org.emat.entity.ActionPlan;
 import org.emat.entity.IndustryAssociationRegistration;
+import org.emat.enums.Status;
 import org.emat.mapper.ActionPlanMapper;
 import org.emat.repository.ActionPlanRepository;
 import org.emat.service.ActionPlanService;
@@ -65,6 +68,23 @@ public class ActionPlanServiceImpl implements ActionPlanService {
             actionPlan
                     .getActivities()
                     .addAll(mapper.mapUpdateActivities(request.getActivities(), actionPlan));
+        }
+        return mapper.toResponse(repository.save(actionPlan));
+    }
+
+    @Override
+    public ActionPlanResponse updateStatus(Long id, UpdateActionPlanStatusRequest request) {
+        log.info("Updating status for Action Plan with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        ActionPlan actionPlan = validator.getByIdOrThrow(id);
+        actionPlan.setStatus(request.getStatus());
+        actionPlan.setRemark(request.getRemark());
+        if (request.getStatus() == Status.APPROVED) {
+            actionPlan.setApprovedDate(LocalDate.now());
+        } else {
+            actionPlan.setApprovedDate(null);
         }
         return mapper.toResponse(repository.save(actionPlan));
     }

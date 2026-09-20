@@ -4,6 +4,7 @@ import java.util.List;
 import org.emat.dto.ActionPlanResponse;
 import org.emat.dto.CreateActionPlanRequest;
 import org.emat.dto.UpdateActionPlanRequest;
+import org.emat.dto.UpdateActionPlanStatusRequest;
 
 public interface ActionPlanService {
 
@@ -14,6 +15,8 @@ public interface ActionPlanService {
     List<ActionPlanResponse> getAll();
 
     ActionPlanResponse update(Long id, UpdateActionPlanRequest request);
+
+    ActionPlanResponse updateStatus(Long id, UpdateActionPlanStatusRequest request);
 
     void delete(Long id);
 }

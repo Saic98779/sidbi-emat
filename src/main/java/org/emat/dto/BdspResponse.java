@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
-import org.emat.dto.serializer.PiiStringEncryptSerializer;
 
 /** DTO for BDSP response. */
 @Data
@@ -26,7 +25,7 @@ public class BdspResponse {
     private String state;
     private String district;
     private String contact;
-    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private String email;
     private String kyc;
 

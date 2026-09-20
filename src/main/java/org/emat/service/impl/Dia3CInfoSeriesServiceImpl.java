@@ -1,12 +1,15 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.CreateDia3CInfoSeriesRequest;
 import org.emat.dto.Dia3CInfoSeriesResponse;
 import org.emat.dto.UpdateDia3CInfoSeriesRequest;
+import org.emat.dto.UpdateDia3CInfoSeriesStatusRequest;
 import org.emat.entity.Dia3CInfoSeries;
+import org.emat.enums.Status;
 import org.emat.mapper.Dia3CInfoSeriesMapper;
 import org.emat.repository.Dia3CInfoSeriesRepository;
 import org.emat.service.Dia3CInfoSeriesService;
@@ -57,5 +60,22 @@ public class Dia3CInfoSeriesServiceImpl implements Dia3CInfoSeriesService {
     public void delete(Long id) {
         log.info("Deleting DIA 3C Info Series with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public Dia3CInfoSeriesResponse updateStatus(Long id, UpdateDia3CInfoSeriesStatusRequest request) {
+        log.info("Updating status for DIA 3C Info Series with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        Dia3CInfoSeries series = validator.getByIdOrThrow(id);
+        series.setStatus(request.getStatus());
+        series.setRemark(request.getRemark());
+        if (request.getStatus() == Status.APPROVED) {
+            series.setApprovedDate(LocalDate.now());
+        } else {
+            series.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(series));
     }
 }

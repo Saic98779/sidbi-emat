@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.BulkBroadcastResponse;
 import org.emat.dto.CreateBulkBroadcastRequest;
 import org.emat.dto.UpdateBulkBroadcastRequest;
+import org.emat.dto.UpdateBulkBroadcastStatusRequest;
 import org.emat.service.BulkBroadcastService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,17 @@ public class BulkBroadcastController {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Bulk Broadcast updated successfully", service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bulkBroadcastUpdate'))")
+    public ResponseEntity<ApiResponse<BulkBroadcastResponse>> updateStatus(
+            @PathVariable("id") Long id, @RequestBody UpdateBulkBroadcastStatusRequest request) {
+        log.info("Received request to update Bulk Broadcast status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Bulk Broadcast status updated successfully",
+                        service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

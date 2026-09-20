@@ -1,12 +1,15 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.BulkBroadcastResponse;
 import org.emat.dto.CreateBulkBroadcastRequest;
 import org.emat.dto.UpdateBulkBroadcastRequest;
+import org.emat.dto.UpdateBulkBroadcastStatusRequest;
 import org.emat.entity.BulkBroadcast;
+import org.emat.enums.Status;
 import org.emat.mapper.BulkBroadcastMapper;
 import org.emat.repository.BulkBroadcastRepository;
 import org.emat.service.BulkBroadcastService;
@@ -57,5 +60,22 @@ public class BulkBroadcastServiceImpl implements BulkBroadcastService {
     public void delete(Long id) {
         log.info("Deleting Bulk Broadcast with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public BulkBroadcastResponse updateStatus(Long id, UpdateBulkBroadcastStatusRequest request) {
+        log.info("Updating status for Bulk Broadcast with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        BulkBroadcast broadcast = validator.getByIdOrThrow(id);
+        broadcast.setStatus(request.getStatus());
+        broadcast.setRemark(request.getRemark());
+        if (request.getStatus() == Status.APPROVED) {
+            broadcast.setApprovedDate(LocalDate.now());
+        } else {
+            broadcast.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(broadcast));
     }
 }

@@ -8,6 +8,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.emat.config.BulkMessagingListConverter;
 import org.emat.enums.BulkMessaging;
+import org.emat.enums.Status;
 
 /**
  * Survey
@@ -62,4 +63,13 @@ public class Survey extends BaseEntity {
     // Survey Questionnaire List
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SurveyQuestionnaire> surveyQuestionnaires = new java.util.ArrayList<>();
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "REMARK")
+    private String remark;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import org.emat.enums.Status;
 
 /**
  * Bulk Broadcast
@@ -65,4 +66,13 @@ public class BulkBroadcast extends BaseEntity {
     // Link
     @Column(name = "LINK")
     private String link;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "REMARK")
+    private String remark;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

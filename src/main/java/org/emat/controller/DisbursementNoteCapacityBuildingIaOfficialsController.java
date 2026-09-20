@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateDisbursementNoteCapacityBuildingIaOfficialsRequest;
 import org.emat.dto.DisbursementNoteCapacityBuildingIaOfficialsResponse;
 import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaOfficialsRequest;
+import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaOfficialsStatusRequest;
 import org.emat.service.DisbursementNoteCapacityBuildingIaOfficialsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,6 +80,21 @@ public class DisbursementNoteCapacityBuildingIaOfficialsController {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Disbursement Note updated successfully", service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize(
+            "hasAnyRole(@endpointRolePolicyService.resolveRoles('disbursementNoteCapacityBuildingIaOfficialsUpdate'))")
+    public ResponseEntity<ApiResponse<DisbursementNoteCapacityBuildingIaOfficialsResponse>>
+            updateStatus(
+                    @PathVariable("id") Long id,
+                    @RequestBody UpdateDisbursementNoteCapacityBuildingIaOfficialsStatusRequest
+                            request) {
+        log.info("Received request to update Disbursement Note status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Disbursement Note status updated successfully",
+                        service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

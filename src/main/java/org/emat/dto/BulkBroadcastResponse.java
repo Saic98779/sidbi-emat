@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.Status;
 
 /** DTO for Bulk Broadcast response. */
 @Data
@@ -28,6 +29,10 @@ public class BulkBroadcastResponse {
     private String broadcastThrough;
     private String attachment;
     private String link;
+
+    private Status status;
+    private String remark;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

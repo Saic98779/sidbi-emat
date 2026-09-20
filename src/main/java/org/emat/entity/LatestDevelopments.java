@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import org.emat.enums.Status;
 
 /**
  * Latest Developments
@@ -45,4 +46,13 @@ public class LatestDevelopments extends BaseEntity {
     // Duration - End Date
     @Column(name = "END_DATE")
     private LocalDate endDate;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "REMARK")
+    private String remark;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

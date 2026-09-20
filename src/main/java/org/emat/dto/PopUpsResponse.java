@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.Status;
 
 /** DTO for Pop-Ups response. */
 @Data
@@ -24,6 +25,10 @@ public class PopUpsResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private String attachments;
+
+    private Status status;
+    private String remark;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

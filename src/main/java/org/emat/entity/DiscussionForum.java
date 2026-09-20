@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import org.emat.enums.Status;
 
 /**
  * Discussion Forum
@@ -53,4 +54,13 @@ public class DiscussionForum extends BaseEntity {
     // Global / Only Members
     @Column(name = "GLOBAL_OR_ONLY_MEMBERS")
     private String globalOrOnlyMembers;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "REMARK")
+    private String remark;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

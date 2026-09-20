@@ -1,13 +1,16 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.CreateDisbursementNoteCapacityBuildingIaOfficialsRequest;
 import org.emat.dto.DisbursementNoteCapacityBuildingIaOfficialsResponse;
 import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaOfficialsRequest;
+import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaOfficialsStatusRequest;
 import org.emat.entity.DisbursementNoteCapacityBuildingIaOfficials;
 import org.emat.entity.IndustryAssociationRegistration;
+import org.emat.enums.Status;
 import org.emat.mapper.DisbursementNoteCapacityBuildingIaOfficialsMapper;
 import org.emat.repository.DisbursementNoteCapacityBuildingIaOfficialsRepository;
 import org.emat.service.DisbursementNoteCapacityBuildingIaOfficialsService;
@@ -81,5 +84,25 @@ public class DisbursementNoteCapacityBuildingIaOfficialsServiceImpl
     public void delete(Long id) {
         log.info("Deleting Disbursement Note Capacity Building IA Officials with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public DisbursementNoteCapacityBuildingIaOfficialsResponse updateStatus(
+            Long id, UpdateDisbursementNoteCapacityBuildingIaOfficialsStatusRequest request) {
+        log.info(
+                "Updating status for Disbursement Note Capacity Building IA Officials with ID: {}",
+                id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        DisbursementNoteCapacityBuildingIaOfficials note = validator.getByIdOrThrow(id);
+        note.setStatus(request.getStatus());
+        note.setRemark(request.getRemark());
+        if (request.getStatus() == Status.APPROVED) {
+            note.setApprovedDate(LocalDate.now());
+        } else {
+            note.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(note));
     }
 }

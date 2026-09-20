@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import org.emat.enums.Status;
 
 /**
  * BDS Service Providers Onboarding
@@ -158,4 +159,13 @@ public class BdsServiceProvidersOnboarding extends BaseEntity {
     // Area of Expertise
     @Column(name = "PBSP_AREA_OF_EXPERTISE")
     private String areaOfExpertise;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "REMARK")
+    private String remark;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import org.emat.enums.Status;
 
 /**
  * Disbursement Note Format for Capacity Building of IA officials
@@ -115,4 +116,13 @@ public class DisbursementNoteCapacityBuildingIaOfficials extends BaseEntity {
     // Recommendation
     @Column(name = "RECOMMENDATION")
     private String recommendation;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "REMARK")
+    private String remark;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

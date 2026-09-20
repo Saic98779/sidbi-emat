@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.Status;
 
 /** DTO for BDS Service Providers Onboarding response. */
 @Data
@@ -52,6 +53,10 @@ public class BdsServiceProvidersOnboardingResponse {
     private String bseContactNumber;
     private String bseEmailId;
     private String areaOfExpertise;
+
+    private Status status;
+    private String remark;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -4,6 +4,7 @@ import java.util.List;
 import org.emat.dto.CreateDisbursementNoteCapacityBuildingIaRequest;
 import org.emat.dto.DisbursementNoteCapacityBuildingIaResponse;
 import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaRequest;
+import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaStatusRequest;
 
 public interface DisbursementNoteCapacityBuildingIaService {
 
@@ -18,6 +19,9 @@ public interface DisbursementNoteCapacityBuildingIaService {
 
     DisbursementNoteCapacityBuildingIaResponse update(
             Long id, UpdateDisbursementNoteCapacityBuildingIaRequest request);
+
+    DisbursementNoteCapacityBuildingIaResponse updateStatus(
+            Long id, UpdateDisbursementNoteCapacityBuildingIaStatusRequest request);
 
     void delete(Long id);
 }

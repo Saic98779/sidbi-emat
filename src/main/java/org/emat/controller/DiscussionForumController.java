@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateDiscussionForumRequest;
 import org.emat.dto.DiscussionForumResponse;
 import org.emat.dto.UpdateDiscussionForumRequest;
+import org.emat.dto.UpdateDiscussionForumStatusRequest;
 import org.emat.service.DiscussionForumService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,17 @@ public class DiscussionForumController {
                 ApiResponse.success(
                         "Discussion Forum updated successfully",
                         service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('discussionForumUpdate'))")
+    public ResponseEntity<ApiResponse<DiscussionForumResponse>> updateStatus(
+            @PathVariable("id") Long id, @RequestBody UpdateDiscussionForumStatusRequest request) {
+        log.info("Received request to update Discussion Forum status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Discussion Forum status updated successfully",
+                        service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

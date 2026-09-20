@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.Status;
 
 /** DTO for Disbursement Note for Capacity Building of IA officials response. */
 @Data
@@ -44,6 +45,10 @@ public class DisbursementNoteCapacityBuildingIaOfficialsResponse {
     private String gtCommentsOnEventOutcomeImpact;
     private String compliancePreDisbursementTerms;
     private String recommendation;
+
+    private Status status;
+    private String remark;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

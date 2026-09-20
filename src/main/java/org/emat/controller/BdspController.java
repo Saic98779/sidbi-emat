@@ -8,6 +8,7 @@ import org.emat.dto.BdspImportResult;
 import org.emat.dto.BdspResponse;
 import org.emat.dto.CreateBdspRequest;
 import org.emat.dto.UpdateBdspRequest;
+import org.emat.dto.UpdateBdspStatusRequest;
 import org.emat.service.BdspService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -89,6 +90,16 @@ public class BdspController {
         log.info("Received request to update BDSP with ID: {}", id);
         return ResponseEntity.ok(
                 ApiResponse.success("BDSP updated successfully", service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bdspUpdate'))")
+    public ResponseEntity<ApiResponse<BdspResponse>> updateStatus(
+            @PathVariable("id") Long id, @RequestBody UpdateBdspStatusRequest request) {
+        log.info("Received request to update BDSP status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "BDSP status updated successfully", service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

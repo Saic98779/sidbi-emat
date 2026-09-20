@@ -1,12 +1,15 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.CreateElearningModuleContentRequest;
 import org.emat.dto.ElearningModuleContentResponse;
 import org.emat.dto.UpdateElearningModuleContentRequest;
+import org.emat.dto.UpdateElearningModuleContentStatusRequest;
 import org.emat.entity.ElearningModuleContent;
+import org.emat.enums.Status;
 import org.emat.mapper.ElearningModuleContentMapper;
 import org.emat.repository.ElearningModuleContentRepository;
 import org.emat.service.ElearningModuleContentService;
@@ -58,5 +61,23 @@ public class ElearningModuleContentServiceImpl implements ElearningModuleContent
     public void delete(Long id) {
         log.info("Deleting E-learning Module Content with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public ElearningModuleContentResponse updateStatus(
+            Long id, UpdateElearningModuleContentStatusRequest request) {
+        log.info("Updating status for E-learning Module Content with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        ElearningModuleContent content = validator.getByIdOrThrow(id);
+        content.setStatus(request.getStatus());
+        content.setRemark(request.getRemark());
+        if (request.getStatus() == Status.APPROVED) {
+            content.setApprovedDate(LocalDate.now());
+        } else {
+            content.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(content));
     }
 }

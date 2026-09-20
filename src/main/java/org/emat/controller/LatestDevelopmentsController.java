@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateLatestDevelopmentsRequest;
 import org.emat.dto.LatestDevelopmentsResponse;
 import org.emat.dto.UpdateLatestDevelopmentsRequest;
+import org.emat.dto.UpdateLatestDevelopmentsStatusRequest;
 import org.emat.service.LatestDevelopmentsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,18 @@ public class LatestDevelopmentsController {
                 ApiResponse.success(
                         "Latest Developments updated successfully",
                         service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('latestDevelopmentsUpdate'))")
+    public ResponseEntity<ApiResponse<LatestDevelopmentsResponse>> updateStatus(
+            @PathVariable("id") Long id,
+            @RequestBody UpdateLatestDevelopmentsStatusRequest request) {
+        log.info("Received request to update Latest Developments status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Latest Developments status updated successfully",
+                        service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package org.emat.service.impl;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,7 +22,9 @@ import org.emat.dto.BdspImportRowResult;
 import org.emat.dto.BdspResponse;
 import org.emat.dto.CreateBdspRequest;
 import org.emat.dto.UpdateBdspRequest;
+import org.emat.dto.UpdateBdspStatusRequest;
 import org.emat.entity.Bdsp;
+import org.emat.enums.Status;
 import org.emat.mapper.BdspMapper;
 import org.emat.repository.BdspRepository;
 import org.emat.service.BdspService;
@@ -85,6 +88,23 @@ public class BdspServiceImpl implements BdspService {
     public void delete(Long id) {
         log.info("Deleting BDSP with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public BdspResponse updateStatus(Long id, UpdateBdspStatusRequest request) {
+        log.info("Updating status for BDSP with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        Bdsp bdsp = validator.getByIdOrThrow(id);
+        bdsp.setStatus(request.getStatus());
+        bdsp.setRemark(request.getRemark());
+        if (request.getStatus() == Status.APPROVED) {
+            bdsp.setApprovedDate(LocalDate.now());
+        } else {
+            bdsp.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(bdsp));
     }
 
     @Override

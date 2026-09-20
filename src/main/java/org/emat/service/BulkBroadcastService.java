@@ -4,6 +4,7 @@ import java.util.List;
 import org.emat.dto.BulkBroadcastResponse;
 import org.emat.dto.CreateBulkBroadcastRequest;
 import org.emat.dto.UpdateBulkBroadcastRequest;
+import org.emat.dto.UpdateBulkBroadcastStatusRequest;
 
 public interface BulkBroadcastService {
 
@@ -14,6 +15,8 @@ public interface BulkBroadcastService {
     List<BulkBroadcastResponse> getAll();
 
     BulkBroadcastResponse update(Long id, UpdateBulkBroadcastRequest request);
+
+    BulkBroadcastResponse updateStatus(Long id, UpdateBulkBroadcastStatusRequest request);
 
     void delete(Long id);
 }

@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateSurveyRequest;
 import org.emat.dto.SurveyResponse;
 import org.emat.dto.UpdateSurveyRequest;
+import org.emat.dto.UpdateSurveyStatusRequest;
 import org.emat.service.SurveyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,16 @@ public class SurveyController {
         log.info("Received request to update Survey with ID: {}", id);
         return ResponseEntity.ok(
                 ApiResponse.success("Survey updated successfully", service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('surveyUpdate'))")
+    public ResponseEntity<ApiResponse<SurveyResponse>> updateStatus(
+            @PathVariable("id") Long id, @RequestBody UpdateSurveyStatusRequest request) {
+        log.info("Received request to update Survey status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Survey status updated successfully", service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")
