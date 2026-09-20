@@ -64,8 +64,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
-        validateStage(stage);
-        validateStageId(sId);
         String filename = validateAndSanitizeFile(file);
 
         try {
@@ -115,8 +113,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
-        validateStage(stage);
-        validateStageId(sId);
         if (files == null) {
             throw new IllegalArgumentException("Files list cannot be null");
         }
@@ -131,8 +127,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
-        validateStage(stage);
-        validateStageId(sId);
         String sanitizedFilename = validateFilename(filename);
 
         try {
@@ -153,8 +147,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
-        validateStage(stage);
-        validateStageId(sId);
         // NOTE: assumes UploadedFileRepository gains
         // findByRegistrationIdAndStageAndStageId(...)
         List<UploadedFile> list =
@@ -168,8 +160,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         String regId = normalizeRegistrationKey(registrationId);
         String sId = idToString(stageId);
         validateRegistrationId(regId);
-        validateStage(stage);
-        validateStageId(sId);
         String sanitizedFilename = validateFilename(filename);
 
         try {
@@ -235,29 +225,6 @@ public class FileStorageServiceImpl implements FileStorageService {
     private void validateRegistrationId(String registrationId) {
         if (!StringUtils.hasText(registrationId)) {
             throw new IllegalArgumentException("Registration ID is required");
-        }
-    }
-
-    private void validateStage(String stage) {
-        if (!StringUtils.hasText(stage)) {
-            throw new IllegalArgumentException("Stage is required");
-        }
-        // Restrict to known stage folders to prevent arbitrary path segments.
-        if (!(stage.equals("registration") || stage.equals("appraisal") || stage.equals("bse"))) {
-            throw new IllegalArgumentException("Invalid stage: " + stage);
-        }
-    }
-
-    private void validateStageId(String stageId) {
-        if (!StringUtils.hasText(stageId)) {
-            throw new IllegalArgumentException("Stage ID is required");
-        }
-        String sanitized = StringUtils.cleanPath(stageId);
-        if (!sanitized.equals(stageId)
-                || sanitized.contains("..")
-                || sanitized.contains("/")
-                || sanitized.contains("\\")) {
-            throw new IllegalArgumentException("Invalid stage ID: " + stageId);
         }
     }
 
