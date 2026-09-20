@@ -34,15 +34,15 @@ public class Dia3CInfoSeries extends BaseEntity {
     private Long id;
 
     // Topic
-    @Column(name = "TOPIC")
+    @Column(name = "TOPIC", length = 2000)
     private String topic;
 
     // Relevance of the Topic
-    @Column(name = "RELEVANCE_OF_TOPIC")
+    @Column(name = "RELEVANCE_OF_TOPIC", length = 2000)
     private String relevanceOfTopic;
 
     // Brief of the Content
-    @Column(name = "BRIEF_OF_CONTENT")
+    @Column(name = "BRIEF_OF_CONTENT", length = 2000)
     private String briefOfContent;
 
     // Chapter No.
@@ -54,7 +54,7 @@ public class Dia3CInfoSeries extends BaseEntity {
     private String subjectLine;
 
     // Main Content
-    @Column(name = "MAIN_CONTENT")
+    @Column(name = "MAIN_CONTENT", length = 2000)
     private String mainContent;
 
     // Attachment - PDF, Word, PPT, Image, etc
@@ -77,7 +77,7 @@ public class Dia3CInfoSeries extends BaseEntity {
     @Column(name = "STATUS")
     private Status status;
 
-    @Column(name = "REMARK")
+    @Column(name = "REMARK", length = 2000)
     private String remark;
 
     @Column(name = "APPROVED_DATE")

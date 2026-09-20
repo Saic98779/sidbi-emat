@@ -46,7 +46,7 @@ public class DisbursementNoteCapacityBuildingIa extends BaseEntity {
     private String gstinOfIa;
 
     // If GSTIN not applicable (Reason for not applicable)
-    @Column(name = "GSTIN_NOT_APPLICABLE_REASON")
+    @Column(name = "GSTIN_NOT_APPLICABLE_REASON", length = 2000)
     private String gstinNotApplicableReason;
 
     // GSTIN of SIDBI
@@ -66,7 +66,7 @@ public class DisbursementNoteCapacityBuildingIa extends BaseEntity {
     private BigDecimal disbursementSought;
 
     // Nature of Payment
-    @Column(name = "NATURE_OF_PAYMENT")
+    @Column(name = "NATURE_OF_PAYMENT", length = 2000)
     private String natureOfPayment;
 
     // Invoice Date
@@ -94,7 +94,7 @@ public class DisbursementNoteCapacityBuildingIa extends BaseEntity {
     private Boolean tdsApplicable;
 
     // If TDS not applicable (Reason for not applicable)
-    @Column(name = "TDS_NOT_APPLICABLE_REASON")
+    @Column(name = "TDS_NOT_APPLICABLE_REASON", length = 2000)
     private String tdsNotApplicableReason;
 
     // Amount Recommended for Disbursement (in Rs.)
@@ -106,21 +106,21 @@ public class DisbursementNoteCapacityBuildingIa extends BaseEntity {
     private String accountCodeForPayment;
 
     // GT Comments on event organisation and its outcome and impact
-    @Column(name = "GT_COMMENTS_ON_EVENT_OUTCOME_IMPACT")
+    @Column(name = "GT_COMMENTS_ON_EVENT_OUTCOME_IMPACT", length = 2000)
     private String gtCommentsOnEventOutcomeImpact;
 
     // Compliance of Pre-disbursement Terms and conditions
-    @Column(name = "COMPLIANCE_PRE_DISBURSEMENT_TERMS")
+    @Column(name = "COMPLIANCE_PRE_DISBURSEMENT_TERMS", length = 2000)
     private String compliancePreDisbursementTerms;
 
     // Recommendation
-    @Column(name = "RECOMMENDATION")
+    @Column(name = "RECOMMENDATION", length = 2000)
     private String recommendation;
 
     @Column(name = "STATUS")
     private Status status;
 
-    @Column(name = "REMARK")
+    @Column(name = "REMARK", length = 2000)
     private String remark;
 
     @Column(name = "APPROVED_DATE")
