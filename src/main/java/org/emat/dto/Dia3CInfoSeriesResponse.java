@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
 import org.emat.enums.BulkMessaging;
+import org.emat.enums.Status;
 
 /** DTO for DIA 3C-Info-Series response. */
 @Data
@@ -30,6 +31,9 @@ public class Dia3CInfoSeriesResponse {
     private String attachment;
     private List<BulkMessaging> bulkMessaging;
     private LocalDate proposedPublishDate;
+
+    private Status status;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

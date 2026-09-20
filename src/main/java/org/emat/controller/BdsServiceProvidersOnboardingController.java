@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.BdsServiceProvidersOnboardingResponse;
 import org.emat.dto.CreateBdsServiceProvidersOnboardingRequest;
 import org.emat.dto.UpdateBdsServiceProvidersOnboardingRequest;
+import org.emat.dto.UpdateBdsServiceProvidersOnboardingStatusRequest;
 import org.emat.service.BdsServiceProvidersOnboardingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,6 +71,21 @@ public class BdsServiceProvidersOnboardingController {
                 ApiResponse.success(
                         "BDS Service Providers Onboarding updated successfully",
                         service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize(
+            "hasAnyRole(@endpointRolePolicyService.resolveRoles('bdsServiceProvidersOnboardingUpdate'))")
+    public ResponseEntity<ApiResponse<BdsServiceProvidersOnboardingResponse>> updateStatus(
+            @PathVariable("id") Long id,
+            @RequestBody UpdateBdsServiceProvidersOnboardingStatusRequest request) {
+        log.info(
+                "Received request to update BDS Service Providers Onboarding status with ID: {}",
+                id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "BDS Service Providers Onboarding status updated successfully",
+                        service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

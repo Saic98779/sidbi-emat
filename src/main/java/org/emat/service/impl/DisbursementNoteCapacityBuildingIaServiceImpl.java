@@ -1,13 +1,16 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.CreateDisbursementNoteCapacityBuildingIaRequest;
 import org.emat.dto.DisbursementNoteCapacityBuildingIaResponse;
 import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaRequest;
+import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaStatusRequest;
 import org.emat.entity.DisbursementNoteCapacityBuildingIa;
 import org.emat.entity.IndustryAssociationRegistration;
+import org.emat.enums.Status;
 import org.emat.mapper.DisbursementNoteCapacityBuildingIaMapper;
 import org.emat.repository.DisbursementNoteCapacityBuildingIaRepository;
 import org.emat.service.DisbursementNoteCapacityBuildingIaService;
@@ -80,5 +83,22 @@ public class DisbursementNoteCapacityBuildingIaServiceImpl
     public void delete(Long id) {
         log.info("Deleting Disbursement Note Capacity Building IA with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public DisbursementNoteCapacityBuildingIaResponse updateStatus(
+            Long id, UpdateDisbursementNoteCapacityBuildingIaStatusRequest request) {
+        log.info("Updating status for Disbursement Note Capacity Building IA with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        DisbursementNoteCapacityBuildingIa note = validator.getByIdOrThrow(id);
+        note.setStatus(request.getStatus());
+        if (request.getStatus() == Status.APPROVED) {
+            note.setApprovedDate(LocalDate.now());
+        } else {
+            note.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(note));
     }
 }

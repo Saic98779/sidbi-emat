@@ -90,6 +90,8 @@ public class SurveyMapper {
                 .bulkMessaging(survey.getBulkMessaging())
                 .attachment(survey.getAttachment())
                 .surveyQuestionnaires(toQuestionnaireResponses(survey.getSurveyQuestionnaires()))
+                .status(survey.getStatus())
+                .approvedDate(survey.getApprovedDate())
                 .createdAt(survey.getCreatedAt())
                 .updatedAt(survey.getUpdatedAt())
                 .createdBy(survey.getCreatedBy())

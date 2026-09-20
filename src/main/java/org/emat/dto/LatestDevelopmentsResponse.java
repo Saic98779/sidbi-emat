@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.Status;
 
 /** DTO for Latest Developments response. */
 @Data
@@ -23,6 +24,9 @@ public class LatestDevelopmentsResponse {
     private String relevanceOfTopic;
     private LocalDate startDate;
     private LocalDate endDate;
+
+    private Status status;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

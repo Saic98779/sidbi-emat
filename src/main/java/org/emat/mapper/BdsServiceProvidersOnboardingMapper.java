@@ -143,6 +143,8 @@ public class BdsServiceProvidersOnboardingMapper {
                 .bseContactNumber(onboarding.getBseContactNumber())
                 .bseEmailId(onboarding.getBseEmailId())
                 .areaOfExpertise(onboarding.getAreaOfExpertise())
+                .status(onboarding.getStatus())
+                .approvedDate(onboarding.getApprovedDate())
                 .createdAt(onboarding.getCreatedAt())
                 .updatedAt(onboarding.getUpdatedAt())
                 .createdBy(onboarding.getCreatedBy())

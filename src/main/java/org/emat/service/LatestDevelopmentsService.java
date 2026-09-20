@@ -4,6 +4,7 @@ import java.util.List;
 import org.emat.dto.CreateLatestDevelopmentsRequest;
 import org.emat.dto.LatestDevelopmentsResponse;
 import org.emat.dto.UpdateLatestDevelopmentsRequest;
+import org.emat.dto.UpdateLatestDevelopmentsStatusRequest;
 
 public interface LatestDevelopmentsService {
 
@@ -14,6 +15,9 @@ public interface LatestDevelopmentsService {
     List<LatestDevelopmentsResponse> getAll();
 
     LatestDevelopmentsResponse update(Long id, UpdateLatestDevelopmentsRequest request);
+
+    LatestDevelopmentsResponse updateStatus(
+            Long id, UpdateLatestDevelopmentsStatusRequest request);
 
     void delete(Long id);
 }

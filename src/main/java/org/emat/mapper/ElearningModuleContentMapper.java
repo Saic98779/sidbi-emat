@@ -49,6 +49,8 @@ public class ElearningModuleContentMapper {
                 .attachment(content.getAttachment())
                 .link(content.getLink())
                 .placementOfModule(content.getPlacementOfModule())
+                .status(content.getStatus())
+                .approvedDate(content.getApprovedDate())
                 .createdAt(content.getCreatedAt())
                 .updatedAt(content.getUpdatedAt())
                 .createdBy(content.getCreatedBy())

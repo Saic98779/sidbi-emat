@@ -52,6 +52,8 @@ public class Dia3CInfoSeriesMapper {
                 .attachment(series.getAttachment())
                 .bulkMessaging(series.getBulkMessaging())
                 .proposedPublishDate(series.getProposedPublishDate())
+                .status(series.getStatus())
+                .approvedDate(series.getApprovedDate())
                 .createdAt(series.getCreatedAt())
                 .updatedAt(series.getUpdatedAt())
                 .createdBy(series.getCreatedBy())

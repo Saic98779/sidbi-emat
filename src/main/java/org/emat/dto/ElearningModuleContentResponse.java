@@ -1,12 +1,14 @@
 package org.emat.dto;
 
 import tools.jackson.databind.annotation.JsonSerialize;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.Status;
 
 /** DTO for E-learning Module Content response. */
 @Data
@@ -26,6 +28,9 @@ public class ElearningModuleContentResponse {
     private String attachment;
     private String link;
     private String placementOfModule;
+
+    private Status status;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

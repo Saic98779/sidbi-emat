@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateElearningModuleContentRequest;
 import org.emat.dto.ElearningModuleContentResponse;
 import org.emat.dto.UpdateElearningModuleContentRequest;
+import org.emat.dto.UpdateElearningModuleContentStatusRequest;
 import org.emat.service.ElearningModuleContentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,6 +64,19 @@ public class ElearningModuleContentController {
                 ApiResponse.success(
                         "E-learning Module Content updated successfully",
                         service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize(
+            "hasAnyRole(@endpointRolePolicyService.resolveRoles('elearningModuleContentUpdate'))")
+    public ResponseEntity<ApiResponse<ElearningModuleContentResponse>> updateStatus(
+            @PathVariable("id") Long id,
+            @RequestBody UpdateElearningModuleContentStatusRequest request) {
+        log.info("Received request to update E-learning Module Content status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "E-learning Module Content status updated successfully",
+                        service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

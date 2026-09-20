@@ -1,12 +1,15 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.CreateLatestDevelopmentsRequest;
 import org.emat.dto.LatestDevelopmentsResponse;
 import org.emat.dto.UpdateLatestDevelopmentsRequest;
+import org.emat.dto.UpdateLatestDevelopmentsStatusRequest;
 import org.emat.entity.LatestDevelopments;
+import org.emat.enums.Status;
 import org.emat.mapper.LatestDevelopmentsMapper;
 import org.emat.repository.LatestDevelopmentsRepository;
 import org.emat.service.LatestDevelopmentsService;
@@ -57,5 +60,22 @@ public class LatestDevelopmentsServiceImpl implements LatestDevelopmentsService 
     public void delete(Long id) {
         log.info("Deleting Latest Developments with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public LatestDevelopmentsResponse updateStatus(
+            Long id, UpdateLatestDevelopmentsStatusRequest request) {
+        log.info("Updating status for Latest Developments with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        LatestDevelopments developments = validator.getByIdOrThrow(id);
+        developments.setStatus(request.getStatus());
+        if (request.getStatus() == Status.APPROVED) {
+            developments.setApprovedDate(LocalDate.now());
+        } else {
+            developments.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(developments));
     }
 }

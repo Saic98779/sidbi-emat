@@ -1,5 +1,6 @@
 package org.emat.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.Status;
 import tools.jackson.databind.annotation.JsonSerialize;
 
 /** DTO for Action Plan response. */
@@ -27,6 +29,9 @@ public class ActionPlanResponse {
     private String industryAssociationName;
 
     private List<ActionPlanActivityResponse> activities;
+
+    private Status status;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.enums.Status;
 
 /** DTO for Discussion Forum response. */
 @Data
@@ -25,6 +26,9 @@ public class DiscussionForumResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private String globalOrOnlyMembers;
+
+    private Status status;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

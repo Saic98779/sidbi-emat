@@ -4,6 +4,7 @@ import java.util.List;
 import org.emat.dto.BdsServiceProvidersOnboardingResponse;
 import org.emat.dto.CreateBdsServiceProvidersOnboardingRequest;
 import org.emat.dto.UpdateBdsServiceProvidersOnboardingRequest;
+import org.emat.dto.UpdateBdsServiceProvidersOnboardingStatusRequest;
 
 public interface BdsServiceProvidersOnboardingService {
 
@@ -16,6 +17,9 @@ public interface BdsServiceProvidersOnboardingService {
 
     BdsServiceProvidersOnboardingResponse update(
             Long id, UpdateBdsServiceProvidersOnboardingRequest request);
+
+    BdsServiceProvidersOnboardingResponse updateStatus(
+            Long id, UpdateBdsServiceProvidersOnboardingStatusRequest request);
 
     void delete(Long id);
 }

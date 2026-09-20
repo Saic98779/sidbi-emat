@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.emat.enums.Status;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -42,4 +44,10 @@ public class ActionPlan extends BaseEntity {
     // Activities under this Action Plan (Activity 1, Activity 2, ...)
     @OneToMany(mappedBy = "actionPlan", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ActionPlanActivity> activities;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

@@ -7,6 +7,7 @@ import org.emat.dto.ActionPlanResponse;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateActionPlanRequest;
 import org.emat.dto.UpdateActionPlanRequest;
+import org.emat.dto.UpdateActionPlanStatusRequest;
 import org.emat.service.ActionPlanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,17 @@ public class ActionPlanController {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Action Plan updated successfully", service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('actionPlanUpdate'))")
+    public ResponseEntity<ApiResponse<ActionPlanResponse>> updateStatus(
+            @PathVariable("id") Long id, @RequestBody UpdateActionPlanStatusRequest request) {
+        log.info("Received request to update Action Plan status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Action Plan status updated successfully",
+                        service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

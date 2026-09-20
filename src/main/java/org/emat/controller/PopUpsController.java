@@ -7,6 +7,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.CreatePopUpsRequest;
 import org.emat.dto.PopUpsResponse;
 import org.emat.dto.UpdatePopUpsRequest;
+import org.emat.dto.UpdatePopUpsStatusRequest;
 import org.emat.service.PopUpsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +56,16 @@ public class PopUpsController {
         log.info("Received request to update Pop-Ups with ID: {}", id);
         return ResponseEntity.ok(
                 ApiResponse.success("Pop-Ups updated successfully", service.update(id, request)));
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('popUpsUpdate'))")
+    public ResponseEntity<ApiResponse<PopUpsResponse>> updateStatus(
+            @PathVariable("id") Long id, @RequestBody UpdatePopUpsStatusRequest request) {
+        log.info("Received request to update Pop-Ups status with ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Pop-Ups status updated successfully", service.updateStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")

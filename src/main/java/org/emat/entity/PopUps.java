@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import org.emat.enums.Status;
 
 /**
  * Pop-Ups
@@ -49,4 +50,10 @@ public class PopUps extends BaseEntity {
     // Attachments
     @Column(name = "ATTACHMENTS")
     private String attachments;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

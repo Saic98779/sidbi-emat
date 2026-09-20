@@ -1,11 +1,13 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.emat.enums.Status;
 
 /**
  * BDSP
@@ -63,4 +65,10 @@ public class Bdsp extends BaseEntity {
     // KYC
     @Column(name = "KYC")
     private String kyc;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

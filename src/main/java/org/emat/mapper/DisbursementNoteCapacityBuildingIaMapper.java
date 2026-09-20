@@ -110,6 +110,8 @@ public class DisbursementNoteCapacityBuildingIaMapper {
                 .gtCommentsOnEventOutcomeImpact(note.getGtCommentsOnEventOutcomeImpact())
                 .compliancePreDisbursementTerms(note.getCompliancePreDisbursementTerms())
                 .recommendation(note.getRecommendation())
+                .status(note.getStatus())
+                .approvedDate(note.getApprovedDate())
                 .createdAt(note.getCreatedAt())
                 .updatedAt(note.getUpdatedAt())
                 .createdBy(note.getCreatedBy())

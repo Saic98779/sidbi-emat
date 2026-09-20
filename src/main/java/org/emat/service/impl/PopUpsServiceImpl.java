@@ -1,12 +1,15 @@
 package org.emat.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.CreatePopUpsRequest;
 import org.emat.dto.PopUpsResponse;
 import org.emat.dto.UpdatePopUpsRequest;
+import org.emat.dto.UpdatePopUpsStatusRequest;
 import org.emat.entity.PopUps;
+import org.emat.enums.Status;
 import org.emat.mapper.PopUpsMapper;
 import org.emat.repository.PopUpsRepository;
 import org.emat.service.PopUpsService;
@@ -57,5 +60,21 @@ public class PopUpsServiceImpl implements PopUpsService {
     public void delete(Long id) {
         log.info("Deleting Pop-Ups with ID: {}", id);
         repository.delete(validator.getByIdOrThrow(id));
+    }
+
+    @Override
+    public PopUpsResponse updateStatus(Long id, UpdatePopUpsStatusRequest request) {
+        log.info("Updating status for Pop-Ups with ID: {}", id);
+        if (request == null || request.getStatus() == null) {
+            throw new IllegalArgumentException("Status must not be null");
+        }
+        PopUps popUps = validator.getByIdOrThrow(id);
+        popUps.setStatus(request.getStatus());
+        if (request.getStatus() == Status.APPROVED) {
+            popUps.setApprovedDate(LocalDate.now());
+        } else {
+            popUps.setApprovedDate(null);
+        }
+        return mapper.toResponse(repository.save(popUps));
     }
 }

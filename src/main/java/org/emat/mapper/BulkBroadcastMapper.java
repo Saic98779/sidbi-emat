@@ -52,6 +52,8 @@ public class BulkBroadcastMapper {
                 .broadcastThrough(broadcast.getBroadcastThrough())
                 .attachment(broadcast.getAttachment())
                 .link(broadcast.getLink())
+                .status(broadcast.getStatus())
+                .approvedDate(broadcast.getApprovedDate())
                 .createdAt(broadcast.getCreatedAt())
                 .updatedAt(broadcast.getUpdatedAt())
                 .createdBy(broadcast.getCreatedBy())

@@ -104,6 +104,8 @@ public class ActionPlanMapper {
                                 ? actionPlan.getRegistration().getIndustryAssociationName()
                                 : null)
                 .activities(toActivityResponses(actionPlan.getActivities()))
+                .status(actionPlan.getStatus())
+                .approvedDate(actionPlan.getApprovedDate())
                 .createdAt(actionPlan.getCreatedAt())
                 .updatedAt(actionPlan.getUpdatedAt())
                 .createdBy(actionPlan.getCreatedBy())

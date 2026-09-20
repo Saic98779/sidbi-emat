@@ -41,6 +41,8 @@ public class DiscussionForumMapper {
                 .startDate(forum.getStartDate())
                 .endDate(forum.getEndDate())
                 .globalOrOnlyMembers(forum.getGlobalOrOnlyMembers())
+                .status(forum.getStatus())
+                .approvedDate(forum.getApprovedDate())
                 .createdAt(forum.getCreatedAt())
                 .updatedAt(forum.getUpdatedAt())
                 .createdBy(forum.getCreatedBy())

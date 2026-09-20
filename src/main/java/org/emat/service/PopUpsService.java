@@ -4,6 +4,7 @@ import java.util.List;
 import org.emat.dto.CreatePopUpsRequest;
 import org.emat.dto.PopUpsResponse;
 import org.emat.dto.UpdatePopUpsRequest;
+import org.emat.dto.UpdatePopUpsStatusRequest;
 
 public interface PopUpsService {
 
@@ -14,6 +15,8 @@ public interface PopUpsService {
     List<PopUpsResponse> getAll();
 
     PopUpsResponse update(Long id, UpdatePopUpsRequest request);
+
+    PopUpsResponse updateStatus(Long id, UpdatePopUpsStatusRequest request);
 
     void delete(Long id);
 }

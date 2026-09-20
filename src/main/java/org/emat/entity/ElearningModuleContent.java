@@ -1,11 +1,13 @@
 package org.emat.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.emat.enums.Status;
 
 /**
  * E-learning Module Content
@@ -59,4 +61,10 @@ public class ElearningModuleContent extends BaseEntity {
     // Placement of the Module
     @Column(name = "PLACEMENT_OF_MODULE")
     private String placementOfModule;
+
+    @Column(name = "STATUS")
+    private Status status;
+
+    @Column(name = "APPROVED_DATE")
+    private LocalDate approvedDate;
 }

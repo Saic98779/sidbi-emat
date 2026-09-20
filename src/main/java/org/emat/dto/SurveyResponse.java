@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.emat.dto.serializer.PiiIdEncryptSerializer;
 import org.emat.enums.BulkMessaging;
+import org.emat.enums.Status;
 import tools.jackson.databind.annotation.JsonSerialize;
 
 /** DTO for Survey response. */
@@ -29,6 +30,9 @@ public class SurveyResponse {
     private List<BulkMessaging> bulkMessaging;
     private String attachment;
     private List<SurveyQuestionnaireResponse> surveyQuestionnaires;
+
+    private Status status;
+    private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
