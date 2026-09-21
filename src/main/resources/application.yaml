@@ -6,32 +6,14 @@ spring:
   application:
     name: emat
 
-  config:
-    import: vault://
-
-  cloud:
-    vault:
-      scheme: ${VAULT_SCHEME:https}
-      host: ${VAULT_HOST:vault-emat.metaversedu.in}
-      port: ${VAULT_PORT:443}
-
-      authentication: APPROLE
-
-      app-role:
-        role-id: ${VAULT_ROLE_ID}
-        secret-id: ${VAULT_SECRET_ID}
-
-      fail-fast: true
-
-      kv:
-        enabled: true
-        backend: secret
-        backend-version: 2
-        application-name: emat
-        default-context: emat
+  profiles:
+    active: prod
 
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@//51.79.165.43:1521/EMAT
+    username: EMAT
+    password: nNexjMg5vyEf
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5
@@ -55,6 +37,13 @@ spring:
   threads:
     virtual:
       enabled: true
+
+jwt:
+  secret: EMATSecretKeyForJwtSigningMustBeAtLeast32BytesLong123!
+
+pii:
+  encryption:
+    secret-key: QQEXbMtwd/wTfup0HyhW/b+40jdVupAvnYDwE2nRu7E=
 
 security:
   captcha:

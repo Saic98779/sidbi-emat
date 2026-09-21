@@ -51,8 +51,10 @@ public class VaultAppRoleAuthServiceImpl implements VaultAppRoleAuthService {
             @Value("${spring.cloud.vault.application-name:emat}") String applicationName,
             @Value("${spring.profiles.active:local}") String profile,
             @Value("${pii.key-endpoint.vault-approle-path:auth/approle}") String appRolePath,
-            @Value("${spring.cloud.vault.app-role.role-id}") String vaultRoleId,
-            @Value("${spring.cloud.vault.app-role.secret-id}") String vaultSecretId) {
+            @Value("${spring.cloud.vault.app-role.role-id:c6e1e35e-8a6f-9fe8-d1a3-376c9a2f0fb4}")
+            String vaultRoleId,
+            @Value("${spring.cloud.vault.app-role.secret-id:cc5ac6e1-cbdf-2220-29c8-f9b585d82781}")
+            String vaultSecretId) {
         this.encryptionService = encryptionService;
         this.objectMapper = objectMapper;
         this.vaultRoleId = vaultRoleId;
