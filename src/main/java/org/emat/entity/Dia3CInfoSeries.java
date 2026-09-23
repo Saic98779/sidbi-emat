@@ -61,7 +61,7 @@ public class Dia3CInfoSeries extends BaseEntity {
     @Column(name = "ATTACHMENT")
     private String attachment;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "DIA_3C_INFO_SERIES_BULK_MESSAGING",
             joinColumns = @JoinColumn(name = "DIA_3C_INFO_SERIES_ID")

@@ -102,7 +102,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "BSE_READINESS_READY")
     private Boolean bseReadinessReady;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "IA_APPRAISAL_TOP_SECTORS",
             joinColumns = @JoinColumn(name = "APPRAISAL_ID"))

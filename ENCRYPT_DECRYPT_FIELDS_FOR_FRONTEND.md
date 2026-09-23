@@ -173,6 +173,22 @@
 |---|---|---|
 | `appraisalId` | Long | PiiId (encrypt) |
 
+### 23. File upload (`POST /files`, `POST /files/batch`) — query parameters
+| Param | Type | Encryption |
+|---|---|---|
+| `registrationId` | Long | PiiId (encrypt, optional) |
+| `stageId` | Long | PiiId (encrypt) |
+| `stage` | String | plain (not encrypted) |
+
+### 24. File list / download / delete (`GET /files`, `GET|DELETE /files/{filename}`) — query parameters
+| Param | Type | Encryption |
+|---|---|---|
+| `registrationId` | Long | PiiId (encrypt, optional) |
+| `stageId` | Long | PiiId (encrypt) |
+| `stage` | String | plain (not encrypted) |
+
+> The `downloadUrl` returned by the file APIs already contains encrypted `registrationId`/`stageId` query parameters — call it as-is.
+
 ---
 
 ## Response DTOs (Frontend Must Decrypt When Receiving)
@@ -289,6 +305,13 @@
 | Field | Type | Decryption |
 |---|---|---|
 | `id` | Long | PiiId (decrypt) |
+
+### 18. `UploadedFileResponse`
+| Field | Type | Decryption |
+|---|---|---|
+| `id` | Long | PiiId (decrypt) |
+| `registrationId` | Long | PiiId (decrypt) |
+| `stageId` | Long | PiiId (decrypt) |
 
 ---
 

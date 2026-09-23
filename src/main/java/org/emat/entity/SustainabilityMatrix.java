@@ -123,7 +123,7 @@ public class SustainabilityMatrix extends BaseEntity {
     @Column(name = "TOTAL_SCORE")
     private Integer totalScore;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "ACTION_PLANS",
             joinColumns = @JoinColumn(name = "MATRIX_ID")

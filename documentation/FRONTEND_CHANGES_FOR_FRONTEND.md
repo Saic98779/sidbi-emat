@@ -62,8 +62,11 @@ Legend:
 ### File upload
 | DTO | Direction | Fields | FE action |
 |-----|-----------|--------|-----------|
-| `UploadedFileResponse` | Response | `id` | **Encrypted** on output (newly added this diff) · use as-is in requests/URLs |
-| `UploadedFileResponse` | Response | `registrationId`, `filename`, `contentType`, `size`, `downloadUrl`, `createdAt` | **Plain** |
+| `UploadedFileResponse` | Response | `id`, `registrationId`, `stageId` | **Encrypted** on output · use as-is in requests/URLs |
+| `UploadedFileResponse` | Response | `filename`, `contentType`, `size`, `downloadUrl`, `createdAt` | **Plain** |
+| `POST /files`, `POST /files/batch`, `GET /files`, `GET|DELETE /files/{filename}` | Request (query params) | `registrationId`, `stageId` | **Encrypt** before send (optional for `registrationId`) · plain numbers rejected |
+
+> `downloadUrl` already embeds encrypted `registrationId`/`stageId` — pass it through as-is.
 
 ### Industry Association — request IDs
 | DTO | Direction | Fields | FE action |
@@ -79,8 +82,8 @@ Legend:
 
 ## 3. Global rules the FE must follow now
 
-1. **Never send a plain number for a `Long` id — EXCEPT `stageId` and Stage module ids.** For every other id (`activityId`, `bseId`, `gtId`, `followUpId`, `createdUserId`, `statusId`, `followupActivityId`, `id` in most responses), FE must send the `ENC:` string. Plain ids → `400`.
-2. **`stageId` and `StageResponse.id` / `StageHistoryResponse.id` / `StageHistoryResponse.registrationId` are plain.** Send as a normal number; do NOT encrypt.
+1. **Never send a plain number for a `Long` id — EXCEPT `stageId` in DTO bodies and Stage module ids.** For every other id (`activityId`, `bseId`, `gtId`, `followUpId`, `createdUserId`, `statusId`, `followupActivityId`, `id` in most responses), FE must send the `ENC:` string. Plain ids → `400`.
+2. **`stageId` in DTO bodies is plain, but `registrationId`/`stageId` on the file APIs (`/files` query params) MUST be encrypted.** `StageResponse.id` / `StageHistoryResponse.id` / `StageHistoryResponse.registrationId` are plain numbers.
 3. **Pass encrypted ids back verbatim.** `GET /emat/v1/.../ENC:xxxx` — the `ENC:` string goes straight into the URL; there is no need to decrypt on the FE.
 4. **Encrypt request-body id fields** (except stage-related) using the FE helper before POST/PUT (format above).
 5. **No `<`, `>`, `/`, `\` in any request-body string.** This includes business text. Invalid → 400 with a field path in the error message.

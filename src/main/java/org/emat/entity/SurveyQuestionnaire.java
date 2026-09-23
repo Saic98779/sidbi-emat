@@ -41,7 +41,7 @@ public class SurveyQuestionnaire extends BaseEntity {
     private QuestionType questionType;
 
     // Options - multi-value
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "SURVEY_QUESTIONNAIRE_OPTIONS",
             joinColumns = @JoinColumn(name = "SURVEY_QUESTIONNAIRE_ID")

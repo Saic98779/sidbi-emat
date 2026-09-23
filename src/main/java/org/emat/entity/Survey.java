@@ -52,6 +52,7 @@ public class Survey extends BaseEntity {
     private Integer sample;
 
     // Bulk Messaging (mail/SMS/Whatsapp) - multi-select
+    @ElementCollection(fetch = FetchType.EAGER)
     @Convert(converter = BulkMessagingListConverter.class)
     @Column(name = "BULK_MESSAGING")
     private List<BulkMessaging> bulkMessaging;
