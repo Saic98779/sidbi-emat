@@ -65,7 +65,9 @@ public class CreateIndustryAssociationAppraisalRequest {
     private BigDecimal availableBudget;
 
     // Termstu
-    private String termsAndConditions;
+    private List<String> termsAndConditions;
+    private List<CreateAnnexureVRequest> annexureVList;
+    private List<CreateAnnexureVIRequest> annexureVIList;
 
     // DoP
     private LocalDate dopDate;

@@ -62,8 +62,11 @@ public class ElearningModuleContent extends BaseEntity {
     @Column(name = "PLACEMENT_OF_MODULE")
     private String placementOfModule;
 
-    @Column(name = "STATUS")
-    private Status status;
+    @Column(name = "MAKER_STATUS")
+    private Status makerStatus;
+
+    @Column(name = "CHECKER_STATUS")
+    private Status checkerStatus;
 
     @Column(name = "REMARK", length = 2000)
     private String remark;

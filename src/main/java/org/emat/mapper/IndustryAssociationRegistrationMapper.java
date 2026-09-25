@@ -1,6 +1,5 @@
 package org.emat.mapper;
 
-import java.util.ArrayList;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
@@ -175,16 +174,8 @@ public class IndustryAssociationRegistrationMapper {
         if (request.getAdverseRemarks() != null)
             registration.setAdverseRemarks(request.getAdverseRemarks());
         if (request.getWebReport() != null) registration.setWebReport(request.getWebReport());
-        if (request.getSelectionCriteria() != null) {
-
-            if (registration.getSelectionCriteria() == null) {
-                registration.setSelectionCriteria(new ArrayList<>());
-            } else {
-                registration.getSelectionCriteria().clear();
-            }
-
-            registration.getSelectionCriteria().addAll(request.getSelectionCriteria());
-        }
+        if (request.getSelectionCriteria() != null)
+            registration.setSelectionCriteria(request.getSelectionCriteria());
         if (request.getWillingnessComments() != null)
             registration.setWillingnessComments(request.getWillingnessComments());
         if (request.getWorkedWithSidbiBefore() != null)

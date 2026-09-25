@@ -64,7 +64,9 @@ public class UpdateIndustryAssociationAppraisalRequest {
     private BigDecimal availableBudget;
 
     // Terms
-    private String termsAndConditions;
+    private List<String> termsAndConditions;
+    private List<UpdateAnnexureVRequest> annexureVList;
+    private List<UpdateAnnexureVIRequest> annexureVIList;
 
     // DoP
     private LocalDate dopDate;

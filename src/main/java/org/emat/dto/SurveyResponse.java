@@ -31,7 +31,8 @@ public class SurveyResponse {
     private String attachment;
     private List<SurveyQuestionnaireResponse> surveyQuestionnaires;
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
     private String remark;
     private LocalDate approvedDate;
 

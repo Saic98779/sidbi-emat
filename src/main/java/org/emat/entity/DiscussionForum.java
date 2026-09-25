@@ -55,8 +55,11 @@ public class DiscussionForum extends BaseEntity {
     @Column(name = "GLOBAL_OR_ONLY_MEMBERS")
     private String globalOrOnlyMembers;
 
-    @Column(name = "STATUS")
-    private Status status;
+    @Column(name = "MAKER_STATUS")
+    private Status makerStatus;
+
+    @Column(name = "CHECKER_STATUS")
+    private Status checkerStatus;
 
     @Column(name = "REMARK", length = 2000)
     private String remark;

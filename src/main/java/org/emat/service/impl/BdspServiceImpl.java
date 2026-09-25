@@ -93,13 +93,16 @@ public class BdspServiceImpl implements BdspService {
     @Override
     public BdspResponse updateStatus(Long id, UpdateBdspStatusRequest request) {
         log.info("Updating status for BDSP with ID: {}", id);
-        if (request == null || request.getStatus() == null) {
-            throw new IllegalArgumentException("Status must not be null");
+        if (request == null
+                || request.getMakerStatus() == null
+                || request.getCheckerStatus() == null) {
+            throw new IllegalArgumentException("Maker status and checker status must not be null");
         }
         Bdsp bdsp = validator.getByIdOrThrow(id);
-        bdsp.setStatus(request.getStatus());
+        bdsp.setMakerStatus(request.getMakerStatus());
+        bdsp.setCheckerStatus(request.getCheckerStatus());
         bdsp.setRemark(request.getRemark());
-        if (request.getStatus() == Status.APPROVED) {
+        if (request.getMakerStatus() == Status.APPROVED) {
             bdsp.setApprovedDate(LocalDate.now());
         } else {
             bdsp.setApprovedDate(null);

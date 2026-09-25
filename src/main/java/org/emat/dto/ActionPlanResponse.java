@@ -30,7 +30,8 @@ public class ActionPlanResponse {
 
     private List<ActionPlanActivityResponse> activities;
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
     private String remark;
     private LocalDate approvedDate;
 

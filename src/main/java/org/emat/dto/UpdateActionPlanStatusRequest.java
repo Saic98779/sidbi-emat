@@ -13,7 +13,9 @@ import org.emat.enums.Status;
 @Builder
 public class UpdateActionPlanStatusRequest {
 
-    private Status status;
+    private Status makerStatus;
+
+    private Status checkerStatus;
 
     private String remark;
 }

@@ -74,8 +74,11 @@ public class Dia3CInfoSeries extends BaseEntity {
     @Column(name = "PROPOSED_PUBLISH_DATE")
     private LocalDate proposedPublishDate;
 
-    @Column(name = "STATUS")
-    private Status status;
+    @Column(name = "MAKER_STATUS")
+    private Status makerStatus;
+
+    @Column(name = "CHECKER_STATUS")
+    private Status checkerStatus;
 
     @Column(name = "REMARK", length = 2000)
     private String remark;

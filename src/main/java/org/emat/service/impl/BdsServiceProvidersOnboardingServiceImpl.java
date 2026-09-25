@@ -69,13 +69,16 @@ public class BdsServiceProvidersOnboardingServiceImpl
     public BdsServiceProvidersOnboardingResponse updateStatus(
             Long id, UpdateBdsServiceProvidersOnboardingStatusRequest request) {
         log.info("Updating status for BDS Service Providers Onboarding with ID: {}", id);
-        if (request == null || request.getStatus() == null) {
-            throw new IllegalArgumentException("Status must not be null");
+        if (request == null
+                || request.getMakerStatus() == null
+                || request.getCheckerStatus() == null) {
+            throw new IllegalArgumentException("Maker status and checker status must not be null");
         }
         BdsServiceProvidersOnboarding onboarding = validator.getByIdOrThrow(id);
-        onboarding.setStatus(request.getStatus());
+        onboarding.setMakerStatus(request.getMakerStatus());
+        onboarding.setCheckerStatus(request.getCheckerStatus());
         onboarding.setRemark(request.getRemark());
-        if (request.getStatus() == Status.APPROVED) {
+        if (request.getMakerStatus() == Status.APPROVED) {
             onboarding.setApprovedDate(LocalDate.now());
         } else {
             onboarding.setApprovedDate(null);

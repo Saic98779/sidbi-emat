@@ -4,7 +4,6 @@ import tools.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -81,7 +80,7 @@ public class IndustryAssociationRegistrationResponse {
     private Boolean adverseRemarksAvailable;
     private String adverseRemarks;
     private String webReport;
-    private List<String> selectionCriteria;
+    private String selectionCriteria;
     private String willingnessComments;
     private Boolean workedWithSidbiBefore;
     private BigDecimal grantProposed;

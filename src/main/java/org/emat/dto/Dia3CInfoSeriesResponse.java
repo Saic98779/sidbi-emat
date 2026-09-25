@@ -32,7 +32,8 @@ public class Dia3CInfoSeriesResponse {
     private List<BulkMessaging> bulkMessaging;
     private LocalDate proposedPublishDate;
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
     private String remark;
     private LocalDate approvedDate;
 

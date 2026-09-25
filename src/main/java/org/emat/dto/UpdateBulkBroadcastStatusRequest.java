@@ -13,7 +13,8 @@ import org.emat.enums.Status;
 @Builder
 public class UpdateBulkBroadcastStatusRequest {
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
 
     private String remark;
 }

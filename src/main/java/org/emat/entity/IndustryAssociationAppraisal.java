@@ -148,8 +148,12 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     private BigDecimal availableBudget;
 
     // Terms
-    @Column(name = "TERMS_AND_CONDITIONS", length = 2000)
-    private String termsAndConditions;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "IA_APPRAISAL_TERMS_CONDITIONS",
+            joinColumns = @JoinColumn(name = "APPRAISAL_ID"))
+    @Column(name = "TERM_CONDITION", length = 2000)
+    private List<String> termsAndConditions;
 
     // DoP (Date of Presentation)
     @Column(name = "DOP_DATE")
@@ -370,4 +374,12 @@ public class IndustryAssociationAppraisal extends BaseEntity {
 
     @Column(name = "NABARD_BLACKLIST_FILE")
     private String nabardBlacklistFile;
+
+    // Annexure V - Indicative list of cost of Soft Interventions (CBO/CBM activities)
+    @OneToMany(mappedBy = "appraisal", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<AnnexureV> annexureVList;
+
+    // Annexure VI - Indicative cost list of CAPEX elements
+    @OneToMany(mappedBy = "appraisal", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<AnnexureVI> annexureVIList;
 }

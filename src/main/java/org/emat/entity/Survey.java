@@ -65,8 +65,11 @@ public class Survey extends BaseEntity {
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SurveyQuestionnaire> surveyQuestionnaires = new java.util.ArrayList<>();
 
-    @Column(name = "STATUS")
-    private Status status;
+    @Column(name = "MAKER_STATUS")
+    private Status makerStatus;
+
+    @Column(name = "CHECKER_STATUS")
+    private Status checkerStatus;
 
     @Column(name = "REMARK", length = 2000)
     private String remark;
