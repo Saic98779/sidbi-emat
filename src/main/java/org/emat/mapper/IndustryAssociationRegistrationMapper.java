@@ -1,13 +1,10 @@
 package org.emat.mapper;
 
 import java.util.ArrayList;
-import java.util.List;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
-import org.emat.dto.SecretariatStaffDto;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.entity.IndustryAssociationRegistration;
-import org.emat.entity.SecretariatStaff;
 import org.emat.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +29,7 @@ public class IndustryAssociationRegistrationMapper {
                 .constitutionProof(request.getConstitutionProof())
                 .district(request.getDistrict())
                 .pincode(request.getPincode())
+                .address(request.getAddress())
                 .apexHolderName(request.getApexHolderName())
                 .apexHolderDesignation(request.getApexHolderDesignation())
                 .apexHolderMobile(request.getApexHolderMobile())
@@ -67,7 +65,7 @@ public class IndustryAssociationRegistrationMapper {
                 .websiteUrl(request.getWebsiteUrl())
                 .paidServicesAvailable(request.getPaidServicesAvailable())
                 .paidServicesDetails(request.getPaidServicesDetails())
-                .secretariatStaff(toSecretariatStaff(request.getSecretariatStaff()))
+                .secretariatStaff(request.getSecretariatStaff())
                 .adverseRemarksAvailable(request.getAdverseRemarksAvailable())
                 .adverseRemarks(request.getAdverseRemarks())
                 .webReport(request.getWebReport())
@@ -107,6 +105,7 @@ public class IndustryAssociationRegistrationMapper {
             registration.setConstitutionProof(request.getConstitutionProof());
         if (request.getDistrict() != null) registration.setDistrict(request.getDistrict());
         if (request.getPincode() != null) registration.setPincode(request.getPincode());
+        if (request.getAddress() != null) registration.setAddress(request.getAddress());
         if (request.getApexHolderName() != null)
             registration.setApexHolderName(request.getApexHolderName());
         if (request.getApexHolderDesignation() != null)
@@ -169,18 +168,8 @@ public class IndustryAssociationRegistrationMapper {
             registration.setPaidServicesAvailable(request.getPaidServicesAvailable());
         if (request.getPaidServicesDetails() != null)
             registration.setPaidServicesDetails(request.getPaidServicesDetails());
-        if (request.getSecretariatStaff() != null) {
-
-            if (registration.getSecretariatStaff() == null) {
-                registration.setSecretariatStaff(new ArrayList<>());
-            } else {
-                registration.getSecretariatStaff().clear();
-            }
-
-            registration
-                    .getSecretariatStaff()
-                    .addAll(toSecretariatStaff(request.getSecretariatStaff()));
-        }
+        if (request.getSecretariatStaff() != null)
+            registration.setSecretariatStaff(request.getSecretariatStaff());
         if (request.getAdverseRemarksAvailable() != null)
             registration.setAdverseRemarksAvailable(request.getAdverseRemarksAvailable());
         if (request.getAdverseRemarks() != null)
@@ -231,6 +220,7 @@ public class IndustryAssociationRegistrationMapper {
                 .constitutionProof(registration.getConstitutionProof())
                 .district(registration.getDistrict())
                 .pincode(registration.getPincode())
+                .address(registration.getAddress())
                 .apexHolderName(registration.getApexHolderName())
                 .apexHolderDesignation(registration.getApexHolderDesignation())
                 .apexHolderMobile(registration.getApexHolderMobile())
@@ -266,7 +256,7 @@ public class IndustryAssociationRegistrationMapper {
                 .websiteUrl(registration.getWebsiteUrl())
                 .paidServicesAvailable(registration.getPaidServicesAvailable())
                 .paidServicesDetails(registration.getPaidServicesDetails())
-                .secretariatStaff(toSecretariatStaffDtos(registration.getSecretariatStaff()))
+                .secretariatStaff(registration.getSecretariatStaff())
                 .adverseRemarksAvailable(registration.getAdverseRemarksAvailable())
                 .adverseRemarks(registration.getAdverseRemarks())
                 .webReport(registration.getWebReport())
@@ -300,23 +290,5 @@ public class IndustryAssociationRegistrationMapper {
                                                 : "")
                                 : null)
                 .build();
-    }
-
-    private List<SecretariatStaff> toSecretariatStaff(List<SecretariatStaffDto> staffDtos) {
-        if (staffDtos == null) {
-            return null;
-        }
-        return staffDtos.stream()
-                .map(d -> new SecretariatStaff(d.getName(), d.getContact(), d.getEmail()))
-                .toList();
-    }
-
-    private List<SecretariatStaffDto> toSecretariatStaffDtos(List<SecretariatStaff> staff) {
-        if (staff == null) {
-            return null;
-        }
-        return staff.stream()
-                .map(s -> new SecretariatStaffDto(s.getName(), s.getContact(), s.getEmail()))
-                .toList();
     }
 }

@@ -36,6 +36,7 @@ public class CreateIndustryAssociationRegistrationRequest {
     // Location Details
     private String district;
     private String pincode;
+    private String address;
 
     // Apex Holder Information (KYC)
     private String apexHolderName;
@@ -98,7 +99,7 @@ public class CreateIndustryAssociationRegistrationRequest {
     private String websiteUrl;
     private Boolean paidServicesAvailable;
     private String paidServicesDetails;
-    private List<SecretariatStaffDto> secretariatStaff;
+    private String secretariatStaff;
     private Boolean adverseRemarksAvailable;
     private String adverseRemarks;
     private String webReport;
