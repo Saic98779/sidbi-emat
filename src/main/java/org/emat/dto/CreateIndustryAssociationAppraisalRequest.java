@@ -147,6 +147,7 @@ public class CreateIndustryAssociationAppraisalRequest {
     // Grant Details
     private BigDecimal grantProposedSalary;
     private BigDecimal grantProposedCapex;
+    private BigDecimal grantProposedCapacityBuilding;
     private String grantDetails;
 
     // Envisaged Outputs, Outcomes, and Impacts

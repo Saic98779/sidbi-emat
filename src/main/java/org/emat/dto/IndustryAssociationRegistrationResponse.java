@@ -31,6 +31,7 @@ public class IndustryAssociationRegistrationResponse {
     private String constitutionProof;
     private String district;
     private String pincode;
+    private String address;
     private String apexHolderName;
     private String apexHolderDesignation;
 
@@ -76,7 +77,7 @@ public class IndustryAssociationRegistrationResponse {
     private String websiteUrl;
     private Boolean paidServicesAvailable;
     private String paidServicesDetails;
-    private List<SecretariatStaffDto> secretariatStaff;
+    private String secretariatStaff;
     private Boolean adverseRemarksAvailable;
     private String adverseRemarks;
     private String webReport;

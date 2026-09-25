@@ -90,6 +90,7 @@ public class IndustryAssociationAppraisalMapper {
                 .workedWithSidbiBefore(request.getWorkedWithSidbiBefore())
                 .grantProposedCapex(request.getGrantProposedCapex())
                 .grantProposedSalary(request.getGrantProposedSalary())
+                .grantProposedCapacityBuilding(request.getGrantProposedCapacityBuilding())
                 .grantDetails(request.getGrantDetails())
                 .envisagedOutput(request.getEnvisagedOutput())
                 .envisagedOutcome(request.getEnvisagedOutcome())
@@ -235,6 +236,8 @@ public class IndustryAssociationAppraisalMapper {
             appraisal.setGrantProposedCapex(request.getGrantProposedCapex());
         if (request.getGrantProposedSalary() != null)
             appraisal.setGrantProposedSalary(request.getGrantProposedSalary());
+        if (request.getGrantProposedCapacityBuilding() != null)
+            appraisal.setGrantProposedCapacityBuilding(request.getGrantProposedCapacityBuilding());
         if (request.getGrantDetails() != null) appraisal.setGrantDetails(request.getGrantDetails());
         if (request.getEnvisagedOutput() != null)
             appraisal.setEnvisagedOutput(request.getEnvisagedOutput());
@@ -375,6 +378,7 @@ public class IndustryAssociationAppraisalMapper {
                 .workedWithSidbiBefore(appraisal.getWorkedWithSidbiBefore())
                 .grantProposedCapex(appraisal.getGrantProposedCapex())
                 .grantProposedSalary(appraisal.getGrantProposedSalary())
+                .grantProposedCapacityBuilding(appraisal.getGrantProposedCapacityBuilding())
                 .grantDetails(appraisal.getGrantDetails())
                 .envisagedOutput(appraisal.getEnvisagedOutput())
                 .envisagedOutcome(appraisal.getEnvisagedOutcome())

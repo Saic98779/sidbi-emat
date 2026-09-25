@@ -68,6 +68,9 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "PINCODE", length = 10)
     private String pincode;
 
+    @Column(name = "ADDRESS", length = 1000)
+    private String address;
+
     // Apex Holder Information (KYC)
     @Column(name = "APEX_HOLDER_NAME", length = 200)
     private String apexHolderName;
@@ -180,9 +183,8 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "PAID_SERVICES_DETAILS", length = 1000)
     private String paidServicesDetails;
 
-    @ElementCollection
-    @CollectionTable(name = "IA_SECRETARIAT_STAFF", joinColumns = @JoinColumn(name = "ID"))
-    private List<SecretariatStaff> secretariatStaff = new ArrayList<>();
+    @Column(name = "SECRETARIAT_STAFF", length = 1000)
+    private String secretariatStaff;
 
     @Column(name = "ADVERSE_REMARKS_AVAILABLE")
     private Boolean adverseRemarksAvailable;
