@@ -14,4 +14,6 @@ import org.emat.enums.Status;
 public class UpdateActionPlanStatusRequest {
 
     private Status status;
+
+    private String remark;
 }

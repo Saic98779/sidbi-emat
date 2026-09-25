@@ -94,6 +94,7 @@ public class DisbursementNoteCapacityBuildingIaServiceImpl
         }
         DisbursementNoteCapacityBuildingIa note = validator.getByIdOrThrow(id);
         note.setStatus(request.getStatus());
+        note.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             note.setApprovedDate(LocalDate.now());
         } else {

@@ -32,11 +32,11 @@ public class Survey extends BaseEntity {
     private Long id;
 
     // Topic
-    @Column(name = "TOPIC")
+    @Column(name = "TOPIC", length = 2000)
     private String topic;
 
     // Relevance of the Topic
-    @Column(name = "RELEVANCE_OF_TOPIC")
+    @Column(name = "RELEVANCE_OF_TOPIC", length = 2000)
     private String relevanceOfTopic;
 
     // Duration of Survey - Start Date
@@ -52,6 +52,7 @@ public class Survey extends BaseEntity {
     private Integer sample;
 
     // Bulk Messaging (mail/SMS/Whatsapp) - multi-select
+    @ElementCollection(fetch = FetchType.EAGER)
     @Convert(converter = BulkMessagingListConverter.class)
     @Column(name = "BULK_MESSAGING")
     private List<BulkMessaging> bulkMessaging;
@@ -66,6 +67,9 @@ public class Survey extends BaseEntity {
 
     @Column(name = "STATUS")
     private Status status;
+
+    @Column(name = "REMARK", length = 2000)
+    private String remark;
 
     @Column(name = "APPROVED_DATE")
     private LocalDate approvedDate;

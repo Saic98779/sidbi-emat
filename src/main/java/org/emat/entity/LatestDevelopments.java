@@ -32,11 +32,11 @@ public class LatestDevelopments extends BaseEntity {
     private Long id;
 
     // Topic
-    @Column(name = "TOPIC")
+    @Column(name = "TOPIC", length = 2000)
     private String topic;
 
     // Relevance of the Topic
-    @Column(name = "RELEVANCE_OF_TOPIC")
+    @Column(name = "RELEVANCE_OF_TOPIC", length = 2000)
     private String relevanceOfTopic;
 
     // Duration - Start Date
@@ -49,6 +49,9 @@ public class LatestDevelopments extends BaseEntity {
 
     @Column(name = "STATUS")
     private Status status;
+
+    @Column(name = "REMARK", length = 2000)
+    private String remark;
 
     @Column(name = "APPROVED_DATE")
     private LocalDate approvedDate;

@@ -46,7 +46,8 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     private static final String DATA_URI_PREFIX = "data:image/png;base64,";
     private static final String CODE_CHARSET =
-            "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // excludes 0/O, 1/I/L
+            // uppercase + lowercase letters (excluding ambiguous 0/O, 1/I/L, i/l/o) and digits
+            "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjmnpqrstuvwxyz23456789";
 
     private final SecureRandom random = new SecureRandom();
 

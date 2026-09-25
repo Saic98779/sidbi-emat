@@ -91,6 +91,7 @@ public class SurveyMapper {
                 .attachment(survey.getAttachment())
                 .surveyQuestionnaires(toQuestionnaireResponses(survey.getSurveyQuestionnaires()))
                 .status(survey.getStatus())
+                .remark(survey.getRemark())
                 .approvedDate(survey.getApprovedDate())
                 .createdAt(survey.getCreatedAt())
                 .updatedAt(survey.getUpdatedAt())

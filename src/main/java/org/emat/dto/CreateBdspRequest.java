@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.emat.dto.serializer.PiiIdDecryptDeserializer;
-import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import org.emat.dto.serializer.PiiStringDecryptDeserializer;
+import org.emat.dto.serializer.PiiStringEncryptSerializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 
@@ -23,8 +23,8 @@ public class CreateBdspRequest {
     private String state;
     private String district;
     private String contact;
-    @JsonSerialize(using = PiiIdEncryptSerializer.class)
-    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
+    @JsonSerialize(using = PiiStringEncryptSerializer.class)
+    @JsonDeserialize(using = PiiStringDecryptDeserializer.class)
     private String email;
     private String kyc;
 }

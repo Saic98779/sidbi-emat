@@ -80,6 +80,7 @@ public class ActionPlanServiceImpl implements ActionPlanService {
         }
         ActionPlan actionPlan = validator.getByIdOrThrow(id);
         actionPlan.setStatus(request.getStatus());
+        actionPlan.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             actionPlan.setApprovedDate(LocalDate.now());
         } else {

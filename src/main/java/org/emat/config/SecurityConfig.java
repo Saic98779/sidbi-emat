@@ -1,6 +1,7 @@
 package org.emat.config;
 
 import java.util.List;
+
 import org.emat.repository.UserRepository;
 import org.emat.service.EndpointRolePolicyService;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-/** Security configuration for the EMAT application. */
+/**
+ * Security configuration for the EMAT application.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -37,7 +40,9 @@ public class SecurityConfig {
         this.endpointRolePolicyService = endpointRolePolicyService;
     }
 
-    /** Password encoder bean. */
+    /**
+     * Password encoder bean.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -106,6 +111,8 @@ public class SecurityConfig {
                                                 "/swagger-ui.html")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.POST, "/users")
+                                        .permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/files/**")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/users")
                                         .hasAnyRole(

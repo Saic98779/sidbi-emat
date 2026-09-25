@@ -109,6 +109,7 @@ public class DisbursementNoteCapacityBuildingIaOfficialsMapper {
                 .compliancePreDisbursementTerms(note.getCompliancePreDisbursementTerms())
                 .recommendation(note.getRecommendation())
                 .status(note.getStatus())
+                .remark(note.getRemark())
                 .approvedDate(note.getApprovedDate())
                 .createdAt(note.getCreatedAt())
                 .updatedAt(note.getUpdatedAt())

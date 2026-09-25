@@ -35,15 +35,15 @@ public class Bdsp extends BaseEntity {
     private String nameOfBdsp;
 
     // Rationale for onboarding BDSP
-    @Column(name = "RATIONALE_FOR_ONBOARDING")
+    @Column(name = "RATIONALE_FOR_ONBOARDING", length = 2000)
     private String rationaleForOnboarding;
 
     // Theme
-    @Column(name = "THEME")
+    @Column(name = "THEME", length = 2000)
     private String theme;
 
     // Area of Service/Expertise
-    @Column(name = "AREA_OF_SERVICE_EXPERTISE")
+    @Column(name = "AREA_OF_SERVICE_EXPERTISE", length = 2000)
     private String areaOfServiceExpertise;
 
     // State
@@ -63,11 +63,14 @@ public class Bdsp extends BaseEntity {
     private String email;
 
     // KYC
-    @Column(name = "KYC")
+    @Column(name = "KYC", length = 2000)
     private String kyc;
 
     @Column(name = "STATUS")
     private Status status;
+
+    @Column(name = "REMARK", length = 2000)
+    private String remark;
 
     @Column(name = "APPROVED_DATE")
     private LocalDate approvedDate;

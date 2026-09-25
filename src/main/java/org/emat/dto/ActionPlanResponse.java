@@ -31,6 +31,7 @@ public class ActionPlanResponse {
     private List<ActionPlanActivityResponse> activities;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

@@ -28,6 +28,7 @@ public class DiscussionForumResponse {
     private String globalOrOnlyMembers;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

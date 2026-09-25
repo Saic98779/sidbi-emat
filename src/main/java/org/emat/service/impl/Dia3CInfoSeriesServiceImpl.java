@@ -70,6 +70,7 @@ public class Dia3CInfoSeriesServiceImpl implements Dia3CInfoSeriesService {
         }
         Dia3CInfoSeries series = validator.getByIdOrThrow(id);
         series.setStatus(request.getStatus());
+        series.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             series.setApprovedDate(LocalDate.now());
         } else {

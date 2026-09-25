@@ -31,6 +31,7 @@ public class BulkBroadcastResponse {
     private String link;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

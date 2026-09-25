@@ -196,7 +196,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     private String webReport;
 
     // MANPOWER_AGENCY Details - Selection Criteria
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "IA_BASIS_SELECTION", joinColumns = @JoinColumn(name = "ID"))
     @Column(name = "BASIS")
     private List<String> selectionCriteria = new ArrayList<>();
@@ -250,7 +250,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     private Stage currentStage;
 
     // Stage History
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "IA_STAGE_HISTORY", joinColumns = @JoinColumn(name = "REGISTRATION_ID"))
     @OrderColumn(name = "HISTORY_ORDER")
     private List<StageHistory> history = new ArrayList<>();

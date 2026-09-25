@@ -26,6 +26,7 @@ public class LatestDevelopmentsResponse {
     private LocalDate endDate;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

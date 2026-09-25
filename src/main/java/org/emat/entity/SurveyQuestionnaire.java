@@ -32,7 +32,7 @@ public class SurveyQuestionnaire extends BaseEntity {
     private Long id;
 
     // Question
-    @Column(name = "QUESTION")
+    @Column(name = "QUESTION", length = 2000)
     private String question;
 
     // Question Type
@@ -41,7 +41,7 @@ public class SurveyQuestionnaire extends BaseEntity {
     private QuestionType questionType;
 
     // Options - multi-value
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "SURVEY_QUESTIONNAIRE_OPTIONS",
             joinColumns = @JoinColumn(name = "SURVEY_QUESTIONNAIRE_ID")

@@ -70,6 +70,7 @@ public class PopUpsServiceImpl implements PopUpsService {
         }
         PopUps popUps = validator.getByIdOrThrow(id);
         popUps.setStatus(request.getStatus());
+        popUps.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             popUps.setApprovedDate(LocalDate.now());
         } else {

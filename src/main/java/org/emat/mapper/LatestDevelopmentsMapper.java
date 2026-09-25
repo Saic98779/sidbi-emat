@@ -36,6 +36,7 @@ public class LatestDevelopmentsMapper {
                 .startDate(developments.getStartDate())
                 .endDate(developments.getEndDate())
                 .status(developments.getStatus())
+                .remark(developments.getRemark())
                 .approvedDate(developments.getApprovedDate())
                 .createdAt(developments.getCreatedAt())
                 .updatedAt(developments.getUpdatedAt())

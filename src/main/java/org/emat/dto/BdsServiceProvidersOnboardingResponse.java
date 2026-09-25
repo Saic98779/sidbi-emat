@@ -55,6 +55,7 @@ public class BdsServiceProvidersOnboardingResponse {
     private String areaOfExpertise;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;

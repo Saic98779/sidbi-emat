@@ -76,6 +76,7 @@ public class SurveyServiceImpl implements SurveyService {
         }
         Survey survey = validator.getByIdOrThrow(id);
         survey.setStatus(request.getStatus());
+        survey.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             survey.setApprovedDate(LocalDate.now());
         } else {

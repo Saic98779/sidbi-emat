@@ -70,6 +70,7 @@ public class BulkBroadcastServiceImpl implements BulkBroadcastService {
         }
         BulkBroadcast broadcast = validator.getByIdOrThrow(id);
         broadcast.setStatus(request.getStatus());
+        broadcast.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             broadcast.setApprovedDate(LocalDate.now());
         } else {

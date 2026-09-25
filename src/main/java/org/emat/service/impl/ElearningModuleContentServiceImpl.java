@@ -72,6 +72,7 @@ public class ElearningModuleContentServiceImpl implements ElearningModuleContent
         }
         ElearningModuleContent content = validator.getByIdOrThrow(id);
         content.setStatus(request.getStatus());
+        content.setRemark(request.getRemark());
         if (request.getStatus() == Status.APPROVED) {
             content.setApprovedDate(LocalDate.now());
         } else {

@@ -30,6 +30,7 @@ public class ElearningModuleContentResponse {
     private String placementOfModule;
 
     private Status status;
+    private String remark;
     private LocalDate approvedDate;
 
     private LocalDateTime createdAt;
