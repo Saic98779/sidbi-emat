@@ -66,13 +66,16 @@ public class LatestDevelopmentsServiceImpl implements LatestDevelopmentsService 
     public LatestDevelopmentsResponse updateStatus(
             Long id, UpdateLatestDevelopmentsStatusRequest request) {
         log.info("Updating status for Latest Developments with ID: {}", id);
-        if (request == null || request.getStatus() == null) {
-            throw new IllegalArgumentException("Status must not be null");
+        if (request == null
+                || request.getMakerStatus() == null
+                || request.getCheckerStatus() == null) {
+            throw new IllegalArgumentException("Maker status and checker status must not be null");
         }
         LatestDevelopments developments = validator.getByIdOrThrow(id);
-        developments.setStatus(request.getStatus());
+        developments.setMakerStatus(request.getMakerStatus());
+        developments.setCheckerStatus(request.getCheckerStatus());
         developments.setRemark(request.getRemark());
-        if (request.getStatus() == Status.APPROVED) {
+        if (request.getMakerStatus() == Status.APPROVED) {
             developments.setApprovedDate(LocalDate.now());
         } else {
             developments.setApprovedDate(null);

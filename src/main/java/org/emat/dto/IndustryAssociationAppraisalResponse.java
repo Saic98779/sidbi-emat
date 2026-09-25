@@ -72,7 +72,9 @@ public class IndustryAssociationAppraisalResponse {
     private BigDecimal availableBudget;
 
     // Terms
-    private String termsAndConditions;
+    private List<String> termsAndConditions;
+    private List<AnnexureVResponse> annexureVList;
+    private List<AnnexureVIResponse> annexureVIList;
 
     // DoP
     private LocalDate dopDate;

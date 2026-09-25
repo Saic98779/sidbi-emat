@@ -71,13 +71,16 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     public SurveyResponse updateStatus(Long id, UpdateSurveyStatusRequest request) {
         log.info("Updating status for Survey with ID: {}", id);
-        if (request == null || request.getStatus() == null) {
-            throw new IllegalArgumentException("Status must not be null");
+        if (request == null
+                || request.getMakerStatus() == null
+                || request.getCheckerStatus() == null) {
+            throw new IllegalArgumentException("Maker status and checker status must not be null");
         }
         Survey survey = validator.getByIdOrThrow(id);
-        survey.setStatus(request.getStatus());
+        survey.setMakerStatus(request.getMakerStatus());
+        survey.setCheckerStatus(request.getCheckerStatus());
         survey.setRemark(request.getRemark());
-        if (request.getStatus() == Status.APPROVED) {
+        if (request.getMakerStatus() == Status.APPROVED) {
             survey.setApprovedDate(LocalDate.now());
         } else {
             survey.setApprovedDate(null);

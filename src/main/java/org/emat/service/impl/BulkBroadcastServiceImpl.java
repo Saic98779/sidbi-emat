@@ -65,13 +65,16 @@ public class BulkBroadcastServiceImpl implements BulkBroadcastService {
     @Override
     public BulkBroadcastResponse updateStatus(Long id, UpdateBulkBroadcastStatusRequest request) {
         log.info("Updating status for Bulk Broadcast with ID: {}", id);
-        if (request == null || request.getStatus() == null) {
-            throw new IllegalArgumentException("Status must not be null");
+        if (request == null
+                || request.getMakerStatus() == null
+                || request.getCheckerStatus() == null) {
+            throw new IllegalArgumentException("Maker status and checker status must not be null");
         }
         BulkBroadcast broadcast = validator.getByIdOrThrow(id);
-        broadcast.setStatus(request.getStatus());
+        broadcast.setMakerStatus(request.getMakerStatus());
+        broadcast.setCheckerStatus(request.getCheckerStatus());
         broadcast.setRemark(request.getRemark());
-        if (request.getStatus() == Status.APPROVED) {
+        if (request.getMakerStatus() == Status.APPROVED) {
             broadcast.setApprovedDate(LocalDate.now());
         } else {
             broadcast.setApprovedDate(null);

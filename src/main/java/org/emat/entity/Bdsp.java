@@ -66,8 +66,11 @@ public class Bdsp extends BaseEntity {
     @Column(name = "KYC", length = 2000)
     private String kyc;
 
-    @Column(name = "STATUS")
-    private Status status;
+    @Column(name = "MAKER_STATUS")
+    private Status makerStatus;
+
+    @Column(name = "CHECKER_STATUS")
+    private Status checkerStatus;
 
     @Column(name = "REMARK", length = 2000)
     private String remark;

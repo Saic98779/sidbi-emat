@@ -29,7 +29,8 @@ public class ElearningModuleContentResponse {
     private String link;
     private String placementOfModule;
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
     private String remark;
     private LocalDate approvedDate;
 

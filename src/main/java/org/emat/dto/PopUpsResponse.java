@@ -26,7 +26,8 @@ public class PopUpsResponse {
     private LocalDate endDate;
     private String attachments;
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
     private String remark;
     private LocalDate approvedDate;
 

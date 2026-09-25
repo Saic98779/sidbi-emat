@@ -27,7 +27,8 @@ public class DiscussionForumResponse {
     private LocalDate endDate;
     private String globalOrOnlyMembers;
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
     private String remark;
     private LocalDate approvedDate;
 

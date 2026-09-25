@@ -47,8 +47,11 @@ public class LatestDevelopments extends BaseEntity {
     @Column(name = "END_DATE")
     private LocalDate endDate;
 
-    @Column(name = "STATUS")
-    private Status status;
+    @Column(name = "MAKER_STATUS")
+    private Status makerStatus;
+
+    @Column(name = "CHECKER_STATUS")
+    private Status checkerStatus;
 
     @Column(name = "REMARK", length = 2000)
     private String remark;

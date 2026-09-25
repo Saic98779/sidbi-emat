@@ -1,8 +1,18 @@
 package org.emat.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.emat.dto.AnnexureVResponse;
+import org.emat.dto.AnnexureVIResponse;
+import org.emat.dto.CreateAnnexureVRequest;
+import org.emat.dto.CreateAnnexureVIRequest;
 import org.emat.dto.CreateIndustryAssociationAppraisalRequest;
 import org.emat.dto.IndustryAssociationAppraisalResponse;
+import org.emat.dto.UpdateAnnexureVRequest;
+import org.emat.dto.UpdateAnnexureVIRequest;
 import org.emat.dto.UpdateIndustryAssociationAppraisalRequest;
+import org.emat.entity.AnnexureV;
+import org.emat.entity.AnnexureVI;
 import org.emat.entity.IndustryAssociationAppraisal;
 import org.emat.entity.IndustryAssociationRegistration;
 import org.springframework.stereotype.Component;
@@ -13,7 +23,8 @@ public class IndustryAssociationAppraisalMapper {
     public IndustryAssociationAppraisal toEntity(
             CreateIndustryAssociationAppraisalRequest request,
             IndustryAssociationRegistration registration) {
-        return IndustryAssociationAppraisal.builder()
+        IndustryAssociationAppraisal appraisal =
+                IndustryAssociationAppraisal.builder()
                 .registration(registration)
                 .cibilReportReferenceNo(request.getCibilReportReferenceNo())
                 .cibilReportDate(request.getCibilReportDate())
@@ -112,6 +123,50 @@ public class IndustryAssociationAppraisalMapper {
                 .smartReportAvailable(request.getSmartReportAvailable())
                 .ngoDarpanFile(request.getNgoDarpanFile())
                 .nabardBlacklistFile(request.getNabardBlacklistFile())
+                .build();
+        appraisal.setAnnexureVList(mapCreateAnnexureV(request.getAnnexureVList(), appraisal));
+        appraisal.setAnnexureVIList(mapCreateAnnexureVI(request.getAnnexureVIList(), appraisal));
+        return appraisal;
+    }
+
+    public List<AnnexureV> mapCreateAnnexureV(
+            List<CreateAnnexureVRequest> requests, IndustryAssociationAppraisal parent) {
+        if (requests == null) {
+            return new ArrayList<>();
+        }
+        return requests.stream().map(r -> toAnnexureVEntity(r, parent)).toList();
+    }
+
+    private AnnexureV toAnnexureVEntity(
+            CreateAnnexureVRequest request, IndustryAssociationAppraisal parent) {
+        return AnnexureV.builder()
+                .appraisal(parent)
+                .snNo(request.getSnNo())
+                .particulars(request.getParticulars())
+                .totalCost(request.getTotalCost())
+                .sidbiSupport(request.getSidbiSupport())
+                .build();
+    }
+
+    public List<AnnexureVI> mapCreateAnnexureVI(
+            List<CreateAnnexureVIRequest> requests, IndustryAssociationAppraisal parent) {
+        if (requests == null) {
+            return new ArrayList<>();
+        }
+        return requests.stream().map(r -> toAnnexureVIEntity(r, parent)).toList();
+    }
+
+    private AnnexureVI toAnnexureVIEntity(
+            CreateAnnexureVIRequest request, IndustryAssociationAppraisal parent) {
+        return AnnexureVI.builder()
+                .appraisal(parent)
+                .section(request.getSection())
+                .sectionNote(request.getSectionNote())
+                .indicativeItem(request.getIndicativeItem())
+                .numbers(request.getNumbers())
+                .make(request.getMake())
+                .maximumCost(request.getMaximumCost())
+                .maximumCostUnit(request.getMaximumCostUnit())
                 .build();
     }
 
@@ -282,6 +337,65 @@ public class IndustryAssociationAppraisalMapper {
             appraisal.setNgoDarpanFile(request.getNgoDarpanFile());
         if (request.getNabardBlacklistFile() != null)
             appraisal.setNabardBlacklistFile(request.getNabardBlacklistFile());
+        if (request.getAnnexureVList() != null) {
+            if (appraisal.getAnnexureVList() == null) {
+                appraisal.setAnnexureVList(new ArrayList<>());
+            } else {
+                appraisal.getAnnexureVList().clear();
+            }
+            appraisal.getAnnexureVList()
+                    .addAll(mapUpdateAnnexureV(request.getAnnexureVList(), appraisal));
+        }
+        if (request.getAnnexureVIList() != null) {
+            if (appraisal.getAnnexureVIList() == null) {
+                appraisal.setAnnexureVIList(new ArrayList<>());
+            } else {
+                appraisal.getAnnexureVIList().clear();
+            }
+            appraisal.getAnnexureVIList()
+                    .addAll(mapUpdateAnnexureVI(request.getAnnexureVIList(), appraisal));
+        }
+    }
+
+    public List<AnnexureV> mapUpdateAnnexureV(
+            List<UpdateAnnexureVRequest> requests, IndustryAssociationAppraisal parent) {
+        if (requests == null) {
+            return new ArrayList<>();
+        }
+        return requests.stream().map(r -> toAnnexureVEntity(r, parent)).toList();
+    }
+
+    private AnnexureV toAnnexureVEntity(
+            UpdateAnnexureVRequest request, IndustryAssociationAppraisal parent) {
+        return AnnexureV.builder()
+                .appraisal(parent)
+                .snNo(request.getSnNo())
+                .particulars(request.getParticulars())
+                .totalCost(request.getTotalCost())
+                .sidbiSupport(request.getSidbiSupport())
+                .build();
+    }
+
+    public List<AnnexureVI> mapUpdateAnnexureVI(
+            List<UpdateAnnexureVIRequest> requests, IndustryAssociationAppraisal parent) {
+        if (requests == null) {
+            return new ArrayList<>();
+        }
+        return requests.stream().map(r -> toAnnexureVIEntity(r, parent)).toList();
+    }
+
+    private AnnexureVI toAnnexureVIEntity(
+            UpdateAnnexureVIRequest request, IndustryAssociationAppraisal parent) {
+        return AnnexureVI.builder()
+                .appraisal(parent)
+                .section(request.getSection())
+                .sectionNote(request.getSectionNote())
+                .indicativeItem(request.getIndicativeItem())
+                .numbers(request.getNumbers())
+                .make(request.getMake())
+                .maximumCost(request.getMaximumCost())
+                .maximumCostUnit(request.getMaximumCostUnit())
+                .build();
     }
 
     public IndustryAssociationAppraisalResponse toResponse(IndustryAssociationAppraisal appraisal) {
@@ -321,6 +435,8 @@ public class IndustryAssociationAppraisalMapper {
                 .utilizedAmount(appraisal.getUtilizedAmount())
                 .availableBudget(appraisal.getAvailableBudget())
                 .termsAndConditions(appraisal.getTermsAndConditions())
+                .annexureVList(toAnnexureVResponses(appraisal.getAnnexureVList()))
+                .annexureVIList(toAnnexureVIResponses(appraisal.getAnnexureVIList()))
                 .dopDate(appraisal.getDopDate())
                 .recommendation(appraisal.getRecommendation())
                 .recommendationRemarks(appraisal.getRecommendationRemarks())
@@ -401,5 +517,42 @@ public class IndustryAssociationAppraisalMapper {
                 .ngoDarpanFile(appraisal.getNgoDarpanFile())
                 .nabardBlacklistFile(appraisal.getNabardBlacklistFile())
                 .build();
+    }
+
+    private List<AnnexureVResponse> toAnnexureVResponses(List<AnnexureV> annexures) {
+        if (annexures == null) {
+            return new ArrayList<>();
+        }
+        return annexures.stream()
+                .map(
+                        annexure ->
+                                AnnexureVResponse.builder()
+                                        .id(annexure.getId())
+                                        .snNo(annexure.getSnNo())
+                                        .particulars(annexure.getParticulars())
+                                        .totalCost(annexure.getTotalCost())
+                                        .sidbiSupport(annexure.getSidbiSupport())
+                                        .build())
+                .toList();
+    }
+
+    private List<AnnexureVIResponse> toAnnexureVIResponses(List<AnnexureVI> annexures) {
+        if (annexures == null) {
+            return new ArrayList<>();
+        }
+        return annexures.stream()
+                .map(
+                        annexure ->
+                                AnnexureVIResponse.builder()
+                                        .id(annexure.getId())
+                                        .section(annexure.getSection())
+                                        .sectionNote(annexure.getSectionNote())
+                                        .indicativeItem(annexure.getIndicativeItem())
+                                        .numbers(annexure.getNumbers())
+                                        .make(annexure.getMake())
+                                        .maximumCost(annexure.getMaximumCost())
+                                        .maximumCostUnit(annexure.getMaximumCostUnit())
+                                        .build())
+                .toList();
     }
 }

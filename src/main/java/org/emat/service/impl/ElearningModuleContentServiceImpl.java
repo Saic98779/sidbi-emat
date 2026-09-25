@@ -67,13 +67,16 @@ public class ElearningModuleContentServiceImpl implements ElearningModuleContent
     public ElearningModuleContentResponse updateStatus(
             Long id, UpdateElearningModuleContentStatusRequest request) {
         log.info("Updating status for E-learning Module Content with ID: {}", id);
-        if (request == null || request.getStatus() == null) {
-            throw new IllegalArgumentException("Status must not be null");
+        if (request == null
+                || request.getMakerStatus() == null
+                || request.getCheckerStatus() == null) {
+            throw new IllegalArgumentException("Maker status and checker status must not be null");
         }
         ElearningModuleContent content = validator.getByIdOrThrow(id);
-        content.setStatus(request.getStatus());
+        content.setMakerStatus(request.getMakerStatus());
+        content.setCheckerStatus(request.getCheckerStatus());
         content.setRemark(request.getRemark());
-        if (request.getStatus() == Status.APPROVED) {
+        if (request.getMakerStatus() == Status.APPROVED) {
             content.setApprovedDate(LocalDate.now());
         } else {
             content.setApprovedDate(null);

@@ -65,13 +65,16 @@ public class Dia3CInfoSeriesServiceImpl implements Dia3CInfoSeriesService {
     @Override
     public Dia3CInfoSeriesResponse updateStatus(Long id, UpdateDia3CInfoSeriesStatusRequest request) {
         log.info("Updating status for DIA 3C Info Series with ID: {}", id);
-        if (request == null || request.getStatus() == null) {
-            throw new IllegalArgumentException("Status must not be null");
+        if (request == null
+                || request.getMakerStatus() == null
+                || request.getCheckerStatus() == null) {
+            throw new IllegalArgumentException("Maker status and checker status must not be null");
         }
         Dia3CInfoSeries series = validator.getByIdOrThrow(id);
-        series.setStatus(request.getStatus());
+        series.setMakerStatus(request.getMakerStatus());
+        series.setCheckerStatus(request.getCheckerStatus());
         series.setRemark(request.getRemark());
-        if (request.getStatus() == Status.APPROVED) {
+        if (request.getMakerStatus() == Status.APPROVED) {
             series.setApprovedDate(LocalDate.now());
         } else {
             series.setApprovedDate(null);

@@ -54,7 +54,8 @@ public class BdsServiceProvidersOnboardingResponse {
     private String bseEmailId;
     private String areaOfExpertise;
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
     private String remark;
     private LocalDate approvedDate;
 

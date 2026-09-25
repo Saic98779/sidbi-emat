@@ -160,8 +160,11 @@ public class BdsServiceProvidersOnboarding extends BaseEntity {
     @Column(name = "PBSP_AREA_OF_EXPERTISE", length = 2000)
     private String areaOfExpertise;
 
-    @Column(name = "STATUS")
-    private Status status;
+    @Column(name = "MAKER_STATUS")
+    private Status makerStatus;
+
+    @Column(name = "CHECKER_STATUS")
+    private Status checkerStatus;
 
     @Column(name = "REMARK", length = 2000)
     private String remark;

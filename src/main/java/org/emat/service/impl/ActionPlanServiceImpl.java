@@ -75,13 +75,16 @@ public class ActionPlanServiceImpl implements ActionPlanService {
     @Override
     public ActionPlanResponse updateStatus(Long id, UpdateActionPlanStatusRequest request) {
         log.info("Updating status for Action Plan with ID: {}", id);
-        if (request == null || request.getStatus() == null) {
-            throw new IllegalArgumentException("Status must not be null");
+        if (request == null
+                || request.getMakerStatus() == null
+                || request.getCheckerStatus() == null) {
+            throw new IllegalArgumentException("Maker status and checker status must not be null");
         }
         ActionPlan actionPlan = validator.getByIdOrThrow(id);
-        actionPlan.setStatus(request.getStatus());
+        actionPlan.setMakerStatus(request.getMakerStatus());
+        actionPlan.setCheckerStatus(request.getCheckerStatus());
         actionPlan.setRemark(request.getRemark());
-        if (request.getStatus() == Status.APPROVED) {
+        if (request.getMakerStatus() == Status.APPROVED) {
             actionPlan.setApprovedDate(LocalDate.now());
         } else {
             actionPlan.setApprovedDate(null);

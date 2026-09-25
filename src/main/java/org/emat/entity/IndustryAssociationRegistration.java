@@ -165,7 +165,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "IT_INFRASTRUCTURE_AVAILABLE")
     private Boolean itInfrastructureAvailable;
 
-    @Column(name = "INFRASTRUCTURE_TYPE", length = 200)
+    @Column(name = "INFRASTRUCTURE_TYPE", length = 500)
     private String infrastructureType;
 
     @Column(name = "SECRETARIAT_STAFF_AVAILABLE")
@@ -196,10 +196,8 @@ public class IndustryAssociationRegistration extends BaseEntity {
     private String webReport;
 
     // MANPOWER_AGENCY Details - Selection Criteria
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "IA_BASIS_SELECTION", joinColumns = @JoinColumn(name = "ID"))
-    @Column(name = "BASIS")
-    private List<String> selectionCriteria = new ArrayList<>();
+    @Column(name = "SELECTION_CRITERIA", length = 2000)
+    private String selectionCriteria;
 
     // Willingness & Output
     @Column(name = "WILLINGNESS_COMMENTS", length = 500)

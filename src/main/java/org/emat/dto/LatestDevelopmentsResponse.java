@@ -25,7 +25,8 @@ public class LatestDevelopmentsResponse {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    private Status status;
+    private Status makerStatus;
+    private Status checkerStatus;
     private String remark;
     private LocalDate approvedDate;
 
