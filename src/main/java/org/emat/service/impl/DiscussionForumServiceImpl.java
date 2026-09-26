@@ -65,10 +65,8 @@ public class DiscussionForumServiceImpl implements DiscussionForumService {
     @Override
     public DiscussionForumResponse updateStatus(Long id, UpdateDiscussionForumStatusRequest request) {
         log.info("Updating status for Discussion Forum with ID: {}", id);
-        if (request == null
-                || request.getMakerStatus() == null
-                || request.getCheckerStatus() == null) {
-            throw new IllegalArgumentException("Maker status and checker status must not be null");
+        if (request == null || request.getMakerStatus() == null) {
+            throw new IllegalArgumentException("Maker status must not be null");
         }
         DiscussionForum forum = validator.getByIdOrThrow(id);
         forum.setMakerStatus(request.getMakerStatus());

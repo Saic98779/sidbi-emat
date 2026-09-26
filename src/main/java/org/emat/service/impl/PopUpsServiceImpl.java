@@ -65,10 +65,8 @@ public class PopUpsServiceImpl implements PopUpsService {
     @Override
     public PopUpsResponse updateStatus(Long id, UpdatePopUpsStatusRequest request) {
         log.info("Updating status for Pop-Ups with ID: {}", id);
-        if (request == null
-                || request.getMakerStatus() == null
-                || request.getCheckerStatus() == null) {
-            throw new IllegalArgumentException("Maker status and checker status must not be null");
+        if (request == null || request.getMakerStatus() == null) {
+            throw new IllegalArgumentException("Maker status must not be null");
         }
         PopUps popUps = validator.getByIdOrThrow(id);
         popUps.setMakerStatus(request.getMakerStatus());
