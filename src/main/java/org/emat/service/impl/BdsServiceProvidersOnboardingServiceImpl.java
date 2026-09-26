@@ -69,10 +69,8 @@ public class BdsServiceProvidersOnboardingServiceImpl
     public BdsServiceProvidersOnboardingResponse updateStatus(
             Long id, UpdateBdsServiceProvidersOnboardingStatusRequest request) {
         log.info("Updating status for BDS Service Providers Onboarding with ID: {}", id);
-        if (request == null
-                || request.getMakerStatus() == null
-                || request.getCheckerStatus() == null) {
-            throw new IllegalArgumentException("Maker status and checker status must not be null");
+        if (request == null || request.getMakerStatus() == null) {
+            throw new IllegalArgumentException("Maker status must not be null");
         }
         BdsServiceProvidersOnboarding onboarding = validator.getByIdOrThrow(id);
         onboarding.setMakerStatus(request.getMakerStatus());
