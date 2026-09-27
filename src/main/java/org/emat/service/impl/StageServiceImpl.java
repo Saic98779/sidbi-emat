@@ -23,8 +23,13 @@ public class StageServiceImpl implements StageService {
 
     private static final String REGISTRATION_NOT_FOUND_MESSAGE = "Registration not found with ID: ";
     private static final String STAGE_NOT_FOUND_MESSAGE = "Stage not found with ID: ";
-    private static final String STAGE_NOT_FOUND_WITH_SUB_STAGE_MESSAGE =
-            "Stage not found with sub-stage: ";
+    private static final String SUSTAINABILITY_MATRIX_STAGE = "SUSTAINABILITY_MATRIX";
+    private static final String ACTION_PLAN_STAGE = "ACTION_PLAN";
+    private static final String SUSTAINABILITY_MATRIX_SUBMITTED =
+            "SUSTAINABILITY_MATRIX_SUBMITTED";
+    private static final String CLUSTER_EXPERT_APPROVED = "CLUSTER_EXPERT_APPROVED";
+    private static final String SUSTAINABILITY_MATRIX_AND_ACTION_PLAN_COMPLETED =
+            "SUSTAINABILITY_MATRIX_AND_ACTION_PLAN_COMPLETED";
 
     private final IndustryAssociationRegistrationRepository registrationRepository;
     private final StageRepository stageRepository;
@@ -104,5 +109,73 @@ public class StageServiceImpl implements StageService {
         history.setComment(comment);
 
         stageHistoryRepository.save(history);
+
+        if (shouldAutoMarkSustainabilityAndActionPlanCompleted(registrationId, stage)) {
+            Stage completionStage = resolveCompletionStage();
+            if (!isCompletionStage(registration.getCurrentStage(), completionStage)) {
+                persistStageTransition(
+                        registrationId,
+                        completionStage,
+                        "Auto transition: completion criteria met",
+                        createdBy);
+            }
+        }
+    }
+
+    private boolean shouldAutoMarkSustainabilityAndActionPlanCompleted(
+            Long registrationId, Stage stage) {
+        if (stage == null || stage.getStage() == null || stage.getSubStage() == null) {
+            return false;
+        }
+
+        boolean sustainabilityMatrixSubmitted =
+                SUSTAINABILITY_MATRIX_STAGE.equalsIgnoreCase(stage.getStage())
+                        && SUSTAINABILITY_MATRIX_SUBMITTED.equalsIgnoreCase(stage.getSubStage());
+
+        boolean actionPlanApproved =
+                ACTION_PLAN_STAGE.equalsIgnoreCase(stage.getStage())
+                        && CLUSTER_EXPERT_APPROVED.equalsIgnoreCase(stage.getSubStage());
+
+        if (!sustainabilityMatrixSubmitted && !actionPlanApproved) {
+            return false;
+        }
+
+        boolean hasSustainabilityMatrixSubmitted =
+                stageHistoryRepository.existsByRegistration_IdAndStageIgnoreCaseAndSubStageIgnoreCase(
+                        registrationId,
+                        SUSTAINABILITY_MATRIX_STAGE,
+                        SUSTAINABILITY_MATRIX_SUBMITTED);
+
+        boolean hasActionPlanApproved =
+                stageHistoryRepository.existsByRegistration_IdAndStageIgnoreCaseAndSubStageIgnoreCase(
+                        registrationId, ACTION_PLAN_STAGE, CLUSTER_EXPERT_APPROVED);
+
+        return hasSustainabilityMatrixSubmitted && hasActionPlanApproved;
+    }
+
+    private Stage resolveCompletionStage() {
+        return stageRepository
+                .findFirstByStageIgnoreCaseAndSubStageIsNull(
+                        SUSTAINABILITY_MATRIX_AND_ACTION_PLAN_COMPLETED)
+                .or(
+                        () ->
+                                stageRepository.findFirstByStageIgnoreCase(
+                                        SUSTAINABILITY_MATRIX_AND_ACTION_PLAN_COMPLETED))
+                .orElseGet(
+                        () ->
+                                stageRepository.save(
+                                        Stage.builder()
+                                                .stage(
+                                                        SUSTAINABILITY_MATRIX_AND_ACTION_PLAN_COMPLETED)
+                                                .subStage(null)
+                                                .build()));
+    }
+
+    private boolean isCompletionStage(Stage currentStage, Stage completionStage) {
+        return currentStage != null
+                && currentStage.getStage() != null
+                && completionStage != null
+                && completionStage.getStage() != null
+                && currentStage.getStage().equalsIgnoreCase(completionStage.getStage());
     }
 }

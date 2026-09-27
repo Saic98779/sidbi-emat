@@ -6,4 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StageHistoryRepository extends JpaRepository<StageHistory, Long> {
     List<StageHistory> findByRegistration_IdOrderByTimeDesc(Long registrationId);
+
+    boolean existsByRegistration_IdAndStageIgnoreCaseAndSubStageIgnoreCase(
+            Long registrationId, String stage, String subStage);
 }

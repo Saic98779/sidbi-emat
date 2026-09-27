@@ -14,6 +14,8 @@ import org.emat.enums.Status;
 import org.emat.mapper.ActionPlanMapper;
 import org.emat.repository.ActionPlanRepository;
 import org.emat.service.ActionPlanService;
+import org.emat.service.StageService;
+import org.emat.util.CommonUtil;
 import org.emat.validator.ActionPlanValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,8 @@ public class ActionPlanServiceImpl implements ActionPlanService {
     private final ActionPlanRepository repository;
     private final ActionPlanMapper mapper;
     private final ActionPlanValidator validator;
+    private final StageService stageService;
+    private final CommonUtil commonUtil;
 
     @Override
     public ActionPlanResponse create(CreateActionPlanRequest request) {
@@ -87,7 +91,17 @@ public class ActionPlanServiceImpl implements ActionPlanService {
         } else {
             actionPlan.setApprovedDate(null);
         }
-        return mapper.toResponse(repository.save(actionPlan));
+        ActionPlan saved = repository.save(actionPlan);
+
+        if (request.getStageId() != null) {
+            stageService.updateStage(
+                    saved.getRegistration().getId(),
+                    request.getStageId(),
+                    request.getStageComments(),
+                    commonUtil.getCurrentUsername());
+        }
+
+        return mapper.toResponse(saved);
     }
 
     @Override
