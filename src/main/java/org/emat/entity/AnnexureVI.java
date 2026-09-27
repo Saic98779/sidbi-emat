@@ -36,13 +36,6 @@ public class AnnexureVI extends BaseEntity {
     @JoinColumn(name = "APPRAISAL_ID", nullable = false)
     private IndustryAssociationAppraisal appraisal;
 
-    // Section heading, e.g. "CAPEX/Hard Interventions"
-    @Column(name = "SECTION", length = 200)
-    private String section;
-
-    // Section note, e.g. "Not more than 2 lakh per IA"
-    @Column(name = "SECTION_NOTE", length = 500)
-    private String sectionNote;
 
     @Column(name = "INDICATIVE_ITEM", length = 300)
     private String indicativeItem;
@@ -56,7 +49,4 @@ public class AnnexureVI extends BaseEntity {
     @Column(name = "MAXIMUM_COST", precision = 15, scale = 2)
     private BigDecimal maximumCost;
 
-    // Qualifier for the cost, e.g. "each"
-    @Column(name = "MAXIMUM_COST_UNIT", length = 50)
-    private String maximumCostUnit;
 }

@@ -160,13 +160,10 @@ public class IndustryAssociationAppraisalMapper {
             CreateAnnexureVIRequest request, IndustryAssociationAppraisal parent) {
         return AnnexureVI.builder()
                 .appraisal(parent)
-                .section(request.getSection())
-                .sectionNote(request.getSectionNote())
                 .indicativeItem(request.getIndicativeItem())
                 .numbers(request.getNumbers())
                 .make(request.getMake())
                 .maximumCost(request.getMaximumCost())
-                .maximumCostUnit(request.getMaximumCostUnit())
                 .build();
     }
 
@@ -388,13 +385,10 @@ public class IndustryAssociationAppraisalMapper {
             UpdateAnnexureVIRequest request, IndustryAssociationAppraisal parent) {
         return AnnexureVI.builder()
                 .appraisal(parent)
-                .section(request.getSection())
-                .sectionNote(request.getSectionNote())
                 .indicativeItem(request.getIndicativeItem())
                 .numbers(request.getNumbers())
                 .make(request.getMake())
                 .maximumCost(request.getMaximumCost())
-                .maximumCostUnit(request.getMaximumCostUnit())
                 .build();
     }
 
@@ -545,13 +539,10 @@ public class IndustryAssociationAppraisalMapper {
                         annexure ->
                                 AnnexureVIResponse.builder()
                                         .id(annexure.getId())
-                                        .section(annexure.getSection())
-                                        .sectionNote(annexure.getSectionNote())
                                         .indicativeItem(annexure.getIndicativeItem())
                                         .numbers(annexure.getNumbers())
                                         .make(annexure.getMake())
                                         .maximumCost(annexure.getMaximumCost())
-                                        .maximumCostUnit(annexure.getMaximumCostUnit())
                                         .build())
                 .toList();
     }

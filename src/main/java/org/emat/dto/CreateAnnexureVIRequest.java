@@ -12,11 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateAnnexureVIRequest {
 
-    private String section;
-    private String sectionNote;
     private String indicativeItem;
     private Integer numbers;
     private String make;
     private BigDecimal maximumCost;
-    private String maximumCostUnit;
 }

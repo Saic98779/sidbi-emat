@@ -17,11 +17,8 @@ public class AnnexureVIResponse {
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
 
-    private String section;
-    private String sectionNote;
     private String indicativeItem;
     private Integer numbers;
     private String make;
     private BigDecimal maximumCost;
-    private String maximumCostUnit;
 }

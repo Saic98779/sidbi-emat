@@ -210,7 +210,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "GRANT_PROPOSED", precision = 15, scale = 2)
     private BigDecimal grantProposed;
 
-    @Column(name = "GRANT_DETAILS", length = 2000)
+    @Column(name = "GRANT_DETAILS", length = 4100)
     private String grantDetails;
 
     // Envisaged Outputs, Outcomes, and Impacts
