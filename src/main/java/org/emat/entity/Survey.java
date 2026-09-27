@@ -53,9 +53,13 @@ public class Survey extends BaseEntity {
 
     // Bulk Messaging (mail/SMS/Whatsapp) - multi-select
     @ElementCollection(fetch = FetchType.EAGER)
-    @Convert(converter = BulkMessagingListConverter.class)
+    @CollectionTable(
+            name = "SURVEY_BULK_MESSAGING",
+            joinColumns = @JoinColumn(name = "SURVEY_ID")
+    )
     @Column(name = "BULK_MESSAGING")
-    private List<BulkMessaging> bulkMessaging;
+    @Enumerated(EnumType.STRING)
+    private List<BulkMessaging> bulkMessaging = new java.util.ArrayList<>();
 
     // Attachment - Word/PDF
     @Column(name = "ATTACHMENT")
