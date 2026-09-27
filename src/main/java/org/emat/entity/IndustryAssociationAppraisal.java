@@ -271,6 +271,12 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "SECRETARIAT_STAFF_AVAILABLE")
     private Boolean secretariatStaffAvailable;
 
+    @Column(name = "SECRETARIAT_STAFF_DEATAILS")
+    private String secretariatStaffDetail;
+
+    @Column(name = "PENNAL_APPROVAL_LETTER")
+    private String pennalApprovalLetter;
+
     @Column(name = "WEBSITE_AVAILABLE")
     private Boolean websiteAvailable;
 
