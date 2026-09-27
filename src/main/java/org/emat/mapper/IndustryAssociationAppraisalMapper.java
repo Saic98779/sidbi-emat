@@ -91,6 +91,8 @@ public class IndustryAssociationAppraisalMapper {
                 .itInfrastructureAvailable(request.getItInfrastructureAvailable())
                 .infrastructureType(request.getInfrastructureType())
                 .secretariatStaffAvailable(request.getSecretariatStaffAvailable())
+                .secretariatStaffDetail(request.getSecretariatStaffDetail())
+                .pennalApprovalLetter(request.getPennalApprovalLetter())
                 .websiteAvailable(request.getWebsiteAvailable())
                 .websiteUrl(request.getWebsiteUrl())
                 .paidServicesAvailable(request.getPaidServicesAvailable())
@@ -270,6 +272,10 @@ public class IndustryAssociationAppraisalMapper {
             appraisal.setInfrastructureType(request.getInfrastructureType());
         if (request.getSecretariatStaffAvailable() != null)
             appraisal.setSecretariatStaffAvailable(request.getSecretariatStaffAvailable());
+        if (request.getSecretariatStaffDetail() != null)
+            appraisal.setSecretariatStaffDetail(request.getSecretariatStaffDetail());
+        if (request.getPennalApprovalLetter() != null)
+            appraisal.setPennalApprovalLetter(request.getPennalApprovalLetter());
         if (request.getWebsiteAvailable() != null)
             appraisal.setWebsiteAvailable(request.getWebsiteAvailable());
         if (request.getWebsiteUrl() != null) appraisal.setWebsiteUrl(request.getWebsiteUrl());
@@ -478,6 +484,8 @@ public class IndustryAssociationAppraisalMapper {
                 .itInfrastructureAvailable(appraisal.getItInfrastructureAvailable())
                 .infrastructureType(appraisal.getInfrastructureType())
                 .secretariatStaffAvailable(appraisal.getSecretariatStaffAvailable())
+                .secretariatStaffDetail(appraisal.getSecretariatStaffDetail())
+                .pennalApprovalLetter(appraisal.getPennalApprovalLetter())
                 .websiteAvailable(appraisal.getWebsiteAvailable())
                 .websiteUrl(appraisal.getWebsiteUrl())
                 .paidServicesAvailable(appraisal.getPaidServicesAvailable())

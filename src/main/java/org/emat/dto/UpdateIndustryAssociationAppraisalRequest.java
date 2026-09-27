@@ -135,6 +135,8 @@ public class UpdateIndustryAssociationAppraisalRequest {
     private Boolean itInfrastructureAvailable;
     private String infrastructureType;
     private Boolean secretariatStaffAvailable;
+    private String secretariatStaffDetail;
+    private String pennalApprovalLetter;
     private Boolean websiteAvailable;
     private String websiteUrl;
     private Boolean paidServicesAvailable;
