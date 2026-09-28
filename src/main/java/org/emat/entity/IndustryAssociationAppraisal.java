@@ -388,4 +388,13 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     // Annexure VI - Indicative cost list of CAPEX elements
     @OneToMany(mappedBy = "appraisal", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<AnnexureVI> annexureVIList;
+
+    @Column(name = "SANCTION_MARKING")
+    private String sanctionMarking;
+
+    @Column(name = "DOP_REFERENCE", length = 600)
+    private String dopReference;
+
+    @Column(name = "COMMITTEE_COMMENTS", length = 2000)
+    private String committeeComments;
 }
