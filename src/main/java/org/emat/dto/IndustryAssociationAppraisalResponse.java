@@ -195,4 +195,8 @@ public class IndustryAssociationAppraisalResponse {
     private String ngoDarpanFile;
 
     private String nabardBlacklistFile;
+
+    private String sanctionMarking;
+    private String dopReference;
+    private String committeeComments;
 }

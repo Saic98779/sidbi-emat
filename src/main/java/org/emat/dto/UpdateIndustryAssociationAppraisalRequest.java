@@ -185,6 +185,10 @@ public class UpdateIndustryAssociationAppraisalRequest {
 
     private String nabardBlacklistFile;
 
+    private String sanctionMarking;
+    private String dopReference;
+    private String committeeComments;
+
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
         @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
     private Long stageId;

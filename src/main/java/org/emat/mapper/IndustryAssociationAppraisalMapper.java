@@ -125,6 +125,9 @@ public class IndustryAssociationAppraisalMapper {
                 .smartReportAvailable(request.getSmartReportAvailable())
                 .ngoDarpanFile(request.getNgoDarpanFile())
                 .nabardBlacklistFile(request.getNabardBlacklistFile())
+                .sanctionMarking(request.getSanctionMarking())
+                .dopReference(request.getDopReference())
+                .committeeComments(request.getCommitteeComments())
                 .build();
         appraisal.setAnnexureVList(mapCreateAnnexureV(request.getAnnexureVList(), appraisal));
         appraisal.setAnnexureVIList(mapCreateAnnexureVI(request.getAnnexureVIList(), appraisal));
@@ -340,6 +343,11 @@ public class IndustryAssociationAppraisalMapper {
             appraisal.setNgoDarpanFile(request.getNgoDarpanFile());
         if (request.getNabardBlacklistFile() != null)
             appraisal.setNabardBlacklistFile(request.getNabardBlacklistFile());
+        if (request.getSanctionMarking() != null)
+            appraisal.setSanctionMarking(request.getSanctionMarking());
+        if (request.getDopReference() != null) appraisal.setDopReference(request.getDopReference());
+        if (request.getCommitteeComments() != null)
+            appraisal.setCommitteeComments(request.getCommitteeComments());
         if (request.getAnnexureVList() != null) {
             if (appraisal.getAnnexureVList() == null) {
                 appraisal.setAnnexureVList(new ArrayList<>());
@@ -518,6 +526,9 @@ public class IndustryAssociationAppraisalMapper {
                 .smartReportAvailable(appraisal.getSmartReportAvailable())
                 .ngoDarpanFile(appraisal.getNgoDarpanFile())
                 .nabardBlacklistFile(appraisal.getNabardBlacklistFile())
+                .sanctionMarking(appraisal.getSanctionMarking())
+                .dopReference(appraisal.getDopReference())
+                .committeeComments(appraisal.getCommitteeComments())
                 .build();
     }
 
