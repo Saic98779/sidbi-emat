@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DIA Appraisal Document</title>
+    <style>
+        @page { size: A4; margin: 15mm 12mm 18mm; }
+        * { box-sizing: border-box; }
+        body { margin: 0; color: #17202a; font: 10pt Arial, sans-serif; line-height: 1.4; }
+        h1 { font-size: 18pt; text-align: center; }
+        h2 { font-size: 14pt; border-bottom: 2px solid #294c68; padding-bottom: 5px; }
+        h3 { font-size: 11pt; margin-top: 16px; }
+        h1, h2, h3 { break-after: avoid; }
+        section { break-before: page; }
+        section:first-of-type { break-before: auto; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 8px 0 16px; }
+        th, td { border: 1px solid #657786; padding: 6px; vertical-align: top; overflow-wrap: anywhere; white-space: pre-wrap; }
+        th { background: #eaf0f5; text-align: left; }
+        table.fields th { width: 42%; }
+        thead { display: table-header-group; }
+        tr { break-inside: avoid; }
+        .number { text-align: right; }
+        .note, .empty { color: #52616b; font-size: 9pt; }
+        .notice { border: 1px solid #bd9c48; background: #fff9e9; padding: 8px; }
+        .subtotal { font-weight: bold; background: #eaf0f5; }
+        .identity { text-align: center; }
+    </style>
+</head>
+<body>
+<h1>Development of Industry Association (DIA)</h1>
+<p class="identity"><strong>{{ia.name}}</strong><br>Appraisal ID: {{appraisal.id}} | IA registration ID: {{registration.id}}</p>
+<p class="notice">Database-backed appraisal report, not an executed sanction letter or agreement.
+    “Not recorded” means no saved value was found. Proposed amounts are not sanctioned amounts.</p>
+<section>
+    <h2>Annexure V — Indicative list of cost of Soft Interventions</h2>
+    <p>For both CBO and CBM activities. Costs in Rs.</p>
+    <table><thead><tr><th style="width:8%">SN</th><th style="width:48%">Particulars</th><th>Total cost (Rs.)</th><th>SIDBI support (Rs.)</th></tr></thead>
+        <tbody>{{annexureV.rows}}</tbody></table>
+    <p class="note">Only items saved against this appraisal are shown; the illustrative prices in the scanned reference are not defaults.</p>
+    <p>The items are indicative. Need-based changes in interventions and costs may be considered within the overall budget envisaged for soft interventions per IA.</p>
+</section>
+<section>
+    <h2>Annexure VI — Indicative cost list of CAPEX elements</h2>
+    <p>Hard interventions. Maximum cost and unit are shown exactly as recorded, without assuming whether a value is per item or per lot.</p>
+    <table><thead><tr><th>Section / note</th><th>Indicative item</th><th style="width:10%">Numbers</th><th>Make</th><th>Maximum cost</th><th style="width:12%">Unit</th></tr></thead>
+        <tbody>{{annexureVI.rows}}</tbody></table>
+    <p class="note">CAPEX costs are not summed across potentially different units. No sample equipment or sample prices are substituted for missing records.</p>
+</section>
+<section>
+    <h2>Annexure VII — SOP for onboarding IAs</h2>
+    <ol>
+        <li>Identify the IA based on the eligibility matrix and submit details for in-principle approval.</li>
+        <li>SIDBI SDE conducts due diligence and recommends or rejects the application.</li>
+        <li>PMA assesses needs using the sustainability matrix; the cluster expert / PDIV concurs and prepares the action plan.</li>
+        <li>PMA submits the appraisal; SIDBI SDE and the cluster expert inspect the proposal and record comments.</li>
+        <li>HO checker confirms the appraisal for circulation to the sanctioning authority through SMART.</li>
+    </ol>
+    <p class="note">This is a process summary from the reference, not evidence that any approval has occurred.</p>
+</section>
+<section>
+    <h2>Annexure VIII — Appraisal Format</h2>
+    <h3>1. Industry association registration</h3>{{registration.rows}}
+    <h3>2. Apex office holder and nodal person</h3>{{contacts.rows}}
+    <h3>3. Due diligence of IA</h3>{{diligence.rows}}
+    <h3>4. Due diligence of office holder and beneficial owner</h3>{{owners.rows}}
+    <h3>5. SIDBI branch, cluster and infrastructure</h3>{{infrastructure.rows}}
+    <h3>6. DIA-specific readiness and financing</h3>{{readiness.rows}}
+    <h3>7. Top sectors and key problems</h3>
+    <table><thead><tr><th>Sector</th><th>Key problems</th></tr></thead><tbody>{{sectors.rows}}</tbody></table>
+    <h3>8. Proposed grants, outputs and impact</h3>{{grants.rows}}
+    <h3>9. Budget, recommendation and approval status</h3>{{budget.rows}}
+    <h3>10. Saved terms and conditions</h3>{{terms.items}}
+    <p class="note">Shared profile fields use the appraisal value first and the IA registration value if the appraisal value is missing.
+        Monetary values retain database units; no automatic rupees/lakhs conversion is applied.</p>
+</section>
+<section>
+    <h2>Annexures IX and X — LOI / MoU data availability</h2>
+    <p>IA: <strong>{{ia.name}}</strong><br>Address: {{ia.address}}</p>
+    <p class="notice">LOI number/date, final sanctioned grant, sanction validity, MoU execution date/place,
+        intervention end date, SIDBI signatory and witnesses are not stored in the current data model.
+        These documents cannot be issued as completed legal instruments from this report.</p>
+    <p>The original scanned LOI, MoU and standard legal terms remain in the reference template.
+        They are deliberately not appended as blank forms or misrepresented as populated documents.
+        The saved proposal-specific terms appear in Annexure VIII.</p>
+</section>
+<section>
+    <h2>Annexure XIII — Action plan</h2>
+    <p class="note">The available table stores planned activities, expected participants, outputs and outcomes,
+        not actual event assessment results. These are labelled accordingly.</p>
+    {{actionPlans.sections}}
+</section>
+<section>
+    <h2>Annexure XIV — BSE salary details</h2>
+    <p class="note">Only BSE salary details linked to this IA are included. Invoice-level amounts can cover multiple IAs
+        and are therefore not represented as this IA's disbursement totals. No manpower-agency relationship is stored on the salary entity.</p>
+    {{salaries.sections}}
+</section>
+<section>
+    <h2>Annexure XIV — Reimbursement of CAPEX to IA</h2>
+    <p>Industry association: {{ia.name}}</p>{{capex.rows}}
+</section>
+<section>
+    <h2>Annexure XIV — Capacity building of IA members</h2>{{members.sections}}
+</section>
+<section>
+    <h2>Annexure XIV — Capacity building of IA officials</h2>{{officials.sections}}
+</section>
+</body>
+</html>
