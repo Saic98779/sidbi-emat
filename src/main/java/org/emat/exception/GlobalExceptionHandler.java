@@ -1,7 +1,6 @@
 package org.emat.exception;
 
 import java.time.LocalDateTime;
-import org.emat.validation.InvalidInputCharacterException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -77,31 +76,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ProblemDetail> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException ex, WebRequest request) {
-        Throwable invalidInputCause = findCause(ex, InvalidInputCharacterException.class);
-        if (invalidInputCause != null) {
-            return buildProblemDetail(
-                    HttpStatus.BAD_REQUEST,
-                    "Bad Request",
-                    "HTML tags are not allowed.",
-                    request);
-        }
         String detail = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
         return buildProblemDetail(
                 HttpStatus.BAD_REQUEST,
                 "Bad Request",
                 "Malformed request body: " + detail,
                 request);
-    }
-
-    private Throwable findCause(Throwable throwable, Class<? extends Throwable> targetType) {
-        Throwable current = throwable;
-        while (current != null) {
-            if (targetType.isInstance(current)) {
-                return current;
-            }
-            current = current.getCause();
-        }
-        return null;
     }
 
     /** Handle authentication failures. */
