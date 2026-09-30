@@ -51,11 +51,7 @@ public final class SafeInputValidator {
         if (prohibited != 0) {
             throw new InvalidInputCharacterException(
                     parser,
-                    "Field '"
-                            + fieldPath(parser)
-                            + "' contains invalid character '"
-                            + prohibited
-                            + "'. Input must not contain the prohibited characters '<', '>',");
+                    "HTML tags are not allowed.");
         }
     }
 
