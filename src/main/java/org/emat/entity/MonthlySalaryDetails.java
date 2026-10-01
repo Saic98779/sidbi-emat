@@ -44,16 +44,16 @@ public class MonthlySalaryDetails extends BaseEntity {
     @Column(name = "ADDITIONAL_AMOUNT")
     private BigDecimal additionalAmount;
 
-    @Column(name = "ADDITIONAL_AMOUNT_REASON", length = 1000)
+    @Column(name = "ADDITIONAL_AMOUNT_REASON", length = 1250)
     private String additionalAmountReason;
 
     @Column(name = "PAYMENT_TO_BSE")
     private BigDecimal paymentToBse;
 
-    @Column(name = "GT_ATTENDANCE_COMMENTS", length = 1000)
+    @Column(name = "GT_ATTENDANCE_COMMENTS", length = 1250)
     private String gtAttendanceComments;
 
-    @Column(name = "GT_ADDITIONAL_COMMENTS", length = 1000)
+    @Column(name = "GT_ADDITIONAL_COMMENTS", length = 1250)
     private String gtAdditionalComments;
 
     @Column(name = "MONTHLY_SALARY")

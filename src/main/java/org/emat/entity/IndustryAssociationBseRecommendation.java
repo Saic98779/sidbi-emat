@@ -33,25 +33,25 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     // BSE Details
     // ==========================================================
 
-    @Column(name = "STATE", length = 100)
+    @Column(name = "STATE", length = 125)
     private String state;
 
-    @Column(name = "DISTRICT", length = 100)
+    @Column(name = "DISTRICT", length = 125)
     private String district;
 
-    @Column(name = "INDUSTRY_REGISTRATION_ID", length = 200)
+    @Column(name = "INDUSTRY_REGISTRATION_ID", length = 250)
     private String industryRegistrationId;
 
-    @Column(name = "BSE_NAME", length = 200)
+    @Column(name = "BSE_NAME", length = 250)
     private String bseName;
 
-    @Column(name = "MOBILE_NUMBER", length = 15)
+    @Column(name = "MOBILE_NUMBER", length = 19)
     private String mobileNumber;
 
-    @Column(name = "EMAIL_ID", length = 200)
+    @Column(name = "EMAIL_ID", length = 250)
     private String emailId;
 
-    @Column(name = "HIGHEST_QUALIFICATION", length = 200)
+    @Column(name = "HIGHEST_QUALIFICATION", length = 250)
     private String highestQualification;
 
     @Column(name = "EXPERIENCE_STATUS")
@@ -63,7 +63,7 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     @Column(name = "EXPERIENCE_MONTHS")
     private Integer experienceMonths;
 
-    @Column(name = "EMPLOYMENT_STATUS", length = 50)
+    @Column(name = "EMPLOYMENT_STATUS", length = 63)
     private String employmentStatus;
 
     @Column(name = "CURRENT_SALARY", precision = 12, scale = 2)
@@ -75,65 +75,65 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     @Column(name = "LAST_DRAWN_SALARY", precision = 12, scale = 2)
     private BigDecimal lastDrawnSalary;
 
-    @Column(name = "RELIEVING_LETTER", length = 500)
+    @Column(name = "RELIEVING_LETTER", length = 625)
     private String relievingLetter;
 
     @Column(name = "EXPECTED_SALARY", precision = 12, scale = 2)
     private BigDecimal expectedSalary;
 
-    @Column(name = "RESUME_STATUS", length = 50)
+    @Column(name = "RESUME_STATUS", length = 63)
     private String resumeStatus;
 
-    @Column(name = "RESUME_FILE", length = 500)
+    @Column(name = "RESUME_FILE", length = 625)
     private String resumeFile;
 
-    @Column(name = "SALARY_SLIP", length = 500)
+    @Column(name = "SALARY_SLIP", length = 625)
     private String salarySlip;
 
-    @Column(name = "CANDIDATE_CV", length = 500)
+    @Column(name = "CANDIDATE_CV", length = 625)
     private String candidateCv;
 
     // ==========================================================
     // Approval Workflow
     // ==========================================================
 
-    @Column(name = "GT_RECOMMENDATION", length = 50)
+    @Column(name = "GT_RECOMMENDATION", length = 63)
     private String gtRecommendation;
 
     @Column(name = "GT_RECOMMENDATION_DATE")
     private LocalDate gtRecommendationDate;
 
-    @Column(name = "GT_REMARKS", length = 1000)
+    @Column(name = "GT_REMARKS", length = 1250)
     private String gtRemarks;
 
-    @Column(name = "PMU_RECOMMENDATION", length = 50)
+    @Column(name = "PMU_RECOMMENDATION", length = 63)
     private String pmuRecommendation;
 
     @Column(name = "PMU_RECOMMENDATION_DATE")
     private LocalDate pmuRecommendationDate;
 
-    @Column(name = "PMU_REMARKS", length = 1000)
+    @Column(name = "PMU_REMARKS", length = 1250)
     private String pmuRemarks;
 
-    @Column(name = "HO_RECOMMENDATION", length = 50)
+    @Column(name = "HO_RECOMMENDATION", length = 63)
     private String hoRecommendation;
 
     @Column(name = "HO_RECOMMENDATION_DATE")
     private LocalDate hoRecommendationDate;
 
-    @Column(name = "HO_REMARKS", length = 1000)
+    @Column(name = "HO_REMARKS", length = 1250)
     private String hoRemarks;
 
-    @Column(name = "COMMITTEE_RECOMMENDATION", length = 50)
+    @Column(name = "COMMITTEE_RECOMMENDATION", length = 63)
     private String committeeRecommendation;
 
     @Column(name = "COMMITTEE_DATE")
     private LocalDate committeeDate;
 
-    @Column(name = "COMMITTEE_MOM", length = 500)
+    @Column(name = "COMMITTEE_MOM", length = 625)
     private String committeeMom;
 
-    @Column(name = "COMMITTEE_REMARKS", length = 1000)
+    @Column(name = "COMMITTEE_REMARKS", length = 1250)
     private String committeeRemarks;
 
     // ==========================================================
@@ -152,7 +152,7 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     @Column(name = "IA_MAPPED")
     private Boolean iaMapped;
 
-    @Column(name = "OFFER_LETTER", length = 500)
+    @Column(name = "OFFER_LETTER", length = 625)
     private String offerLetter;
 
     /** User Details */

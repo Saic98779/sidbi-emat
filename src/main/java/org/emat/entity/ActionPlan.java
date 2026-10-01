@@ -51,7 +51,7 @@ public class ActionPlan extends BaseEntity {
     @Column(name = "CHECKER_STATUS")
     private Status checkerStatus;
 
-    @Column(name = "REMARK", length = 2000)
+    @Column(name = "REMARK", length = 2500)
     private String remark;
 
     @Column(name = "APPROVED_DATE")

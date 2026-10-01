@@ -31,7 +31,7 @@ public class ElearningModuleContent extends BaseEntity {
     private Long id;
 
     // Topic
-    @Column(name = "TOPIC", length = 2000)
+    @Column(name = "TOPIC", length = 2500)
     private String topic;
 
     // Module Name
@@ -39,15 +39,15 @@ public class ElearningModuleContent extends BaseEntity {
     private String moduleName;
 
     // Relevance/Rationale of the Topic
-    @Column(name = "RELEVANCE_OF_TOPIC", length = 2000)
+    @Column(name = "RELEVANCE_OF_TOPIC", length = 2500)
     private String relevanceOfTopic;
 
     // Brief of the Content
-    @Column(name = "BRIEF_OF_CONTENT", length = 2000)
+    @Column(name = "BRIEF_OF_CONTENT", length = 2500)
     private String briefOfContent;
 
     // Main Content
-    @Column(name = "MAIN_CONTENT", length = 2000)
+    @Column(name = "MAIN_CONTENT", length = 2500)
     private String mainContent;
 
     // Attachment - PDF, Word, PPT, Image, Video etc
@@ -68,7 +68,7 @@ public class ElearningModuleContent extends BaseEntity {
     @Column(name = "CHECKER_STATUS")
     private Status checkerStatus;
 
-    @Column(name = "REMARK", length = 2000)
+    @Column(name = "REMARK", length = 2500)
     private String remark;
 
     @Column(name = "APPROVED_DATE")

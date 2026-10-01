@@ -76,14 +76,14 @@ public class ActionPlanActivity extends BaseEntity {
     private Integer expectedParticipantNonMembers;
 
     // Expected Output
-    @Column(name = "EXPECTED_OUTPUT", length = 2000)
+    @Column(name = "EXPECTED_OUTPUT", length = 2500)
     private String expectedOutput;
 
     // Expected Outcome
-    @Column(name = "EXPECTED_OUTCOME", length = 2000)
+    @Column(name = "EXPECTED_OUTCOME", length = 2500)
     private String expectedOutcome;
 
     // Expected Income-generating activity now/in the future
-    @Column(name = "EXPECTED_INCOME_GENERATING_ACTIVITY", length = 2000)
+    @Column(name = "EXPECTED_INCOME_GENERATING_ACTIVITY", length = 2500)
     private String expectedIncomeGeneratingActivity;
 }

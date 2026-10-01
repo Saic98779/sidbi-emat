@@ -40,7 +40,7 @@ public class BseSalary extends BaseEntity {
     @Column(name = "DISBURSEMENT_SOUGHT_IN")
     private BigDecimal disbursementSoughtIn;
 
-    @Column(name = "NATURE_OF_PAYMENT", length = 2000)
+    @Column(name = "NATURE_OF_PAYMENT", length = 2500)
     private String natureOfPayment;
 
     // Invoice details
@@ -50,7 +50,7 @@ public class BseSalary extends BaseEntity {
     @Column(name = "INVOICE_NUMBER")
     private String invoiceNumber;
 
-    @Column(name = "DETAILS_OF_ITEMS", length = 2000)
+    @Column(name = "DETAILS_OF_ITEMS", length = 2500)
     private String detailsOfItems;
 
     @Column(name = "INVOICE_VALUE")
@@ -74,10 +74,10 @@ public class BseSalary extends BaseEntity {
     @Column(name = "ACCOUNT_CODE")
     private String accountCode;
 
-    @Column(name = "COMPLIANCE_TERMS", length = 2000)
+    @Column(name = "COMPLIANCE_TERMS", length = 2500)
     private String complianceTerms;
 
-    @Column(name = "RECOMMENDATION", length = 2000)
+    @Column(name = "RECOMMENDATION", length = 2500)
     private String recommendation;
 
     // Workflow

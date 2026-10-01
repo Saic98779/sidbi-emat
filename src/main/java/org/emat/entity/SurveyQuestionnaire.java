@@ -32,7 +32,7 @@ public class SurveyQuestionnaire extends BaseEntity {
     private Long id;
 
     // Question
-    @Column(name = "QUESTION", length = 2000)
+    @Column(name = "QUESTION", length = 2500)
     private String question;
 
     // Question Type

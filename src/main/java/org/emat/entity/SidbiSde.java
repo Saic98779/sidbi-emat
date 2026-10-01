@@ -19,16 +19,16 @@ public class SidbiSde extends BaseEntity {
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "SDE_ID", nullable = false, unique = true, length = 50)
+    @Column(name = "SDE_ID", nullable = false, unique = true, length = 63)
     private String sdeId;
 
-    @Column(name = "NAME", nullable = false, length = 200)
+    @Column(name = "NAME", nullable = false, length = 250)
     private String name;
 
-    @Column(name = "EMAIL", nullable = false, unique = true, length = 200)
+    @Column(name = "EMAIL", nullable = false, unique = true, length = 250)
     private String email;
 
-    @Column(name = "MOBILE_NO", length = 20)
+    @Column(name = "MOBILE_NO", length = 25)
     private String mobileNo;
 
     @ManyToOne(fetch = FetchType.LAZY)

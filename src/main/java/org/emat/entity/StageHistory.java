@@ -40,6 +40,6 @@ public class StageHistory {
     @Column(name = "CREATED_BY")
     private String createdBy;
 
-    @Column(name = "COMMENTS", length = 2000)
+    @Column(name = "COMMENTS", length = 2500)
     private String comment;
 }

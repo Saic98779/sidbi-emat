@@ -36,18 +36,18 @@ public class PincodeMaster {
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "STATE_CODE", length = 10)
+    @Column(name = "STATE_CODE", length = 13)
     private String stateCode;
 
-    @Column(name = "STATE_NAME", nullable = false, length = 150)
+    @Column(name = "STATE_NAME", nullable = false, length = 188)
     private String stateName;
 
-    @Column(name = "DISTRICT", nullable = false, length = 200)
+    @Column(name = "DISTRICT", nullable = false, length = 250)
     private String district;
 
-    @Column(name = "LOCALBODY_TYPE", length = 100)
+    @Column(name = "LOCALBODY_TYPE", length = 125)
     private String localbodyType;
 
-    @Column(name = "PINCODE", nullable = false, length = 10)
+    @Column(name = "PINCODE", nullable = false, length = 13)
     private String pincode;
 }

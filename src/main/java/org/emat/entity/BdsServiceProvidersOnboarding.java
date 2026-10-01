@@ -77,7 +77,7 @@ public class BdsServiceProvidersOnboarding extends BaseEntity {
     private String clusterName;
 
     // Other Cluster / Industry / IA
-    @Column(name = "PBSP_OTHER_CLUSTER_INDUS_IA", length = 2000)
+    @Column(name = "PBSP_OTHER_CLUSTER_INDUS_IA", length = 2500)
     private String otherClusterIndusIa;
 
     // Total IA Members
@@ -157,7 +157,7 @@ public class BdsServiceProvidersOnboarding extends BaseEntity {
     private String bseEmailId;
 
     // Area of Expertise
-    @Column(name = "PBSP_AREA_OF_EXPERTISE", length = 2000)
+    @Column(name = "PBSP_AREA_OF_EXPERTISE", length = 2500)
     private String areaOfExpertise;
 
     @Column(name = "MAKER_STATUS")
@@ -166,7 +166,7 @@ public class BdsServiceProvidersOnboarding extends BaseEntity {
     @Column(name = "CHECKER_STATUS")
     private Status checkerStatus;
 
-    @Column(name = "REMARK", length = 2000)
+    @Column(name = "REMARK", length = 2500)
     private String remark;
 
     @Column(name = "APPROVED_DATE")

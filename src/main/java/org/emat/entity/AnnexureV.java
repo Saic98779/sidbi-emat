@@ -39,7 +39,7 @@ public class AnnexureV extends BaseEntity {
     @Column(name = "SN_NO")
     private Integer snNo;
 
-    @Column(name = "PARTICULARS", length = 500)
+    @Column(name = "PARTICULARS", length = 625)
     private String particulars;
 
     @Column(name = "TOTAL_COST", precision = 15, scale = 2)

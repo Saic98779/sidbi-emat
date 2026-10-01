@@ -30,7 +30,7 @@ public class DisbursementCapex extends BaseEntity {
     private IndustryAssociationRegistration registration;
 
     // GSTIN of Industry Association
-    @Column(name = "GSTIN_IA", length = 15)
+    @Column(name = "GSTIN_IA", length = 19)
     private String gstinIa;
 
     // GSTIN not applicable
@@ -38,11 +38,11 @@ public class DisbursementCapex extends BaseEntity {
     private Boolean gstinNotApplicable;
 
     // Reason for GSTIN not applicable
-    @Column(name = "GSTIN_NOT_APPLICABLE_REASON", length = 500)
+    @Column(name = "GSTIN_NOT_APPLICABLE_REASON", length = 625)
     private String gstinNotApplicableReason;
 
     // GSTIN of SIDBI
-    @Column(name = "GSTIN_SIDBI", length = 15)
+    @Column(name = "GSTIN_SIDBI", length = 19)
     private String gstinSidbi;
 
     // Sanctioned Amount
@@ -62,11 +62,11 @@ public class DisbursementCapex extends BaseEntity {
     private LocalDate invoiceDate;
 
     // Invoice Number
-    @Column(name = "INVOICE_NUMBER", length = 100)
+    @Column(name = "INVOICE_NUMBER", length = 125)
     private String invoiceNumber;
 
     // Details of Items
-    @Column(name = "DETAILS_OF_ITEMS", length = 1000)
+    @Column(name = "DETAILS_OF_ITEMS", length = 1250)
     private String detailsOfItems;
 
     // Value of service/items supplied
@@ -86,7 +86,7 @@ public class DisbursementCapex extends BaseEntity {
     private Boolean tdsApplicable;
 
     // Reason for TDS not applicable
-    @Column(name = "TDS_NOT_APPLICABLE_REASON", length = 500)
+    @Column(name = "TDS_NOT_APPLICABLE_REASON", length = 625)
     private String tdsNotApplicableReason;
 
     // Amount Recommended for Disbursement
@@ -94,18 +94,18 @@ public class DisbursementCapex extends BaseEntity {
     private BigDecimal amountRecommendedForDisbursement;
 
     // Account Code payment to be made
-    @Column(name = "ACCOUNT_CODE", length = 100)
+    @Column(name = "ACCOUNT_CODE", length = 125)
     private String accountCode;
 
     // GT Comments on CAPEX Verification in IA premises
-    @Column(name = "GT_CAPEX_VERIFICATION_COMMENTS", length = 2000)
+    @Column(name = "GT_CAPEX_VERIFICATION_COMMENTS", length = 2500)
     private String gtCapexVerificationComments;
 
     // Compliance of Pre-disbursement Terms and Conditions
-    @Column(name = "PRE_DISBURSEMENT_COMPLIANCE", length = 2000)
+    @Column(name = "PRE_DISBURSEMENT_COMPLIANCE", length = 2500)
     private String preDisbursementCompliance;
 
     // Recommendation
-    @Column(name = "RECOMMENDATION", length = 2000)
+    @Column(name = "RECOMMENDATION", length = 2500)
     private Boolean recommendation;
 }

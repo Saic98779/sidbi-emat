@@ -20,13 +20,13 @@ import lombok.NoArgsConstructor;
 public class EndpointRolePolicy {
 
     @Id
-    @Column(name = "policy_key", nullable = false, length = 100)
+    @Column(name = "policy_key", nullable = false, length = 125)
     private String policyKey;
 
-    @Column(name = "roles_csv", nullable = false, length = 2000)
+    @Column(name = "roles_csv", nullable = false, length = 2500)
     private String rolesCsv;
 
-    @Column(name = "description", length = 500)
+    @Column(name = "description", length = 625)
     private String description;
 
     @Column(name = "updated_at")

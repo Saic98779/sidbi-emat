@@ -32,15 +32,15 @@ public class BulkBroadcast extends BaseEntity {
     private Long id;
 
     // Topic
-    @Column(name = "TOPIC", length = 2000)
+    @Column(name = "TOPIC", length = 2500)
     private String topic;
 
     // Relevance of the Topic
-    @Column(name = "RELEVANCE_OF_TOPIC", length = 2000)
+    @Column(name = "RELEVANCE_OF_TOPIC", length = 2500)
     private String relevanceOfTopic;
 
     // Sample for the Bulk Broadcast
-    @Column(name = "SAMPLE_FOR_BROADCAST", length = 2000)
+    @Column(name = "SAMPLE_FOR_BROADCAST", length = 2500)
     private String sampleForBroadcast;
 
     // Subject Line
@@ -52,7 +52,7 @@ public class BulkBroadcast extends BaseEntity {
     private LocalDate dateOfBroadcast;
 
     // Main Content (under 5000 characters)
-    @Column(name = "MAIN_CONTENT", length = 5000)
+    @Column(name = "MAIN_CONTENT", length = 6250)
     private String mainContent;
 
     // Broadcast through - SMS/WhatsApp
@@ -73,7 +73,7 @@ public class BulkBroadcast extends BaseEntity {
     @Column(name = "CHECKER_STATUS")
     private Status checkerStatus;
 
-    @Column(name = "REMARK", length = 2000)
+    @Column(name = "REMARK", length = 2500)
     private String remark;
 
     @Column(name = "APPROVED_DATE")

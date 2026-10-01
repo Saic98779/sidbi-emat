@@ -38,7 +38,7 @@ public class BseAttendanceManualRequest extends BaseEntity {
     @Column(name = "OUT_TIME")
     private LocalTime outTime;
 
-    @Column(name = "REASON", length = 1000)
+    @Column(name = "REASON", length = 1250)
     private String reason;
 
     @Column(name = "IS_APPROVED")

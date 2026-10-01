@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SecretariatStaff {
 
-    @Column(name = "STAFF_NAME", length = 200)
+    @Column(name = "STAFF_NAME", length = 250)
     private String name;
 
-    @Column(name = "STAFF_CONTACT", length = 20)
+    @Column(name = "STAFF_CONTACT", length = 25)
     private String contact;
 
-    @Column(name = "STAFF_EMAIL", length = 200)
+    @Column(name = "STAFF_EMAIL", length = 250)
     private String email;
 }

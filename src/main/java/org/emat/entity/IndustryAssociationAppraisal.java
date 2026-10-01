@@ -39,64 +39,64 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     private IndustryAssociationRegistration registration;
 
     // Due Diligence
-    @Column(name = "CIBIL_REPORT_REFERENCE_NO", length = 200)
+    @Column(name = "CIBIL_REPORT_REFERENCE_NO", length = 250)
     private String cibilReportReferenceNo;
 
     @Column(name = "CIBIL_REPORT_DATE")
     private LocalDate cibilReportDate;
 
-    @Column(name = "CIBIL_RANKING", length = 100)
+    @Column(name = "CIBIL_RANKING", length = 125)
     private String cibilRanking;
 
-    @Column(name = "CIBIL_REMARKS", length = 1000)
+    @Column(name = "CIBIL_REMARKS", length = 1250)
     private String cibilRemarks;
 
-    @Column(name = "NGO_DARPAN_NUMBER", length = 200)
+    @Column(name = "NGO_DARPAN_NUMBER", length = 250)
     private String ngoDarpanNumber;
 
     @Column(name = "NABARD_BLACKLISTED")
     private Boolean nabardBlacklisted;
 
-    @Column(name = "SMART_REPORT_REFERENCE_NO", length = 200)
+    @Column(name = "SMART_REPORT_REFERENCE_NO", length = 250)
     private String smartReportReferenceNo;
 
     @Column(name = "SMART_REPORT_DATE")
     private LocalDate smartReportDate;
 
-    @Column(name = "SMART_REPORT_REMARKS", length = 1000)
+    @Column(name = "SMART_REPORT_REMARKS", length = 1250)
     private String smartReportRemarks;
 
     @Column(name = "WEB_SEARCH_VERIFIED")
     private Boolean webSearchVerified;
 
-    @Column(name = "WEB_SEARCH_DOCUMENT", length = 500)
+    @Column(name = "WEB_SEARCH_DOCUMENT", length = 625)
     private String webSearchDocument;
 
     // Beneficial Owners
-    @Column(name = "BENEFICIAL_OWNER_CIBIL_REMARKS", length = 1000)
+    @Column(name = "BENEFICIAL_OWNER_CIBIL_REMARKS", length = 1250)
     private String beneficialOwnerCibilRemarks;
 
-    @Column(name = "BENEFICIAL_OWNER_SMART_REMARKS", length = 1000)
+    @Column(name = "BENEFICIAL_OWNER_SMART_REMARKS", length = 1250)
     private String beneficialOwnerSmartRemarks;
 
     // Infrastructure
-    @Column(name = "MAJOR_SOURCES_OF_INCOME", length = 1000)
+    @Column(name = "MAJOR_SOURCES_OF_INCOME", length = 1250)
     private String majorSourcesOfIncome;
 
-    @Column(name = "ACTIVITIES_LAST_YEAR", length = 2000)
+    @Column(name = "ACTIVITIES_LAST_YEAR", length = 2500)
     private String activitiesLastYear;
 
     // MANPOWER_AGENCY Details
-    @Column(name = "FORMALIZATION_COMMENTS", length = 1000)
+    @Column(name = "FORMALIZATION_COMMENTS", length = 1250)
     private String formalizationComments;
 
-    @Column(name = "REFERRAL_ARRANGEMENT_COMMENTS", length = 1000)
+    @Column(name = "REFERRAL_ARRANGEMENT_COMMENTS", length = 1250)
     private String referralArrangementComments;
 
     @Column(name = "REFERRAL_ARRANGEMENT_READY")
     private Boolean referralArrangementReady;
 
-    @Column(name = "BSE_READINESS_COMMENTS", length = 1000)
+    @Column(name = "BSE_READINESS_COMMENTS", length = 1250)
     private String bseReadinessComments;
 
     @Column(name = "BSE_READINESS_READY")
@@ -114,24 +114,24 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @AllArgsConstructor
     public static class SectorDetail {
 
-        @Column(name = "SECTOR_NAME", length = 200)
+        @Column(name = "SECTOR_NAME", length = 250)
         private String sector;
 
-        @Column(name = "SECTOR_KEY_PROBLEMS", length = 1000)
+        @Column(name = "SECTOR_KEY_PROBLEMS", length = 1250)
         private String sectorKeyProblems;
     }
 
-    @Column(name = "FINANCING_SCOPE", length = 500)
+    @Column(name = "FINANCING_SCOPE", length = 625)
     private String financingScope;
 
     @Column(name = "FINANCING_SCOPE_CRORE", precision = 15, scale = 2)
     private BigDecimal financingScopeCrore;
 
-    @Column(name = "PROJECT_LOCATION", length = 500)
+    @Column(name = "PROJECT_LOCATION", length = 625)
     private String projectLocation;
 
     // Cluster Expert
-    @Column(name = "CLUSTER_EXPERT_COMMENTS", length = 2000)
+    @Column(name = "CLUSTER_EXPERT_COMMENTS", length = 2500)
     private String clusterExpertComments;
 
     // Budget
@@ -152,7 +152,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @CollectionTable(
             name = "IA_APPRAISAL_TERMS_CONDITIONS",
             joinColumns = @JoinColumn(name = "APPRAISAL_ID"))
-    @Column(name = "TERM_CONDITION", length = 2000)
+    @Column(name = "TERM_CONDITION", length = 2500)
     private List<String> termsAndConditions;
 
     // DoP (Date of Presentation)
@@ -160,10 +160,10 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     private LocalDate dopDate;
 
     // Recommendation
-    @Column(name = "RECOMMENDATION", length = 100)
+    @Column(name = "RECOMMENDATION", length = 125)
     private String recommendation;
 
-    @Column(name = "RECOMMENDATION_REMARKS", length = 2000)
+    @Column(name = "RECOMMENDATION_REMARKS", length = 2500)
     private String recommendationRemarks;
 
     // SIDBE Approval
@@ -175,52 +175,52 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     private Boolean isSidbeApproved;
 
     // Apex Holder Information (KYC)
-    @Column(name = "APEX_HOLDER_NAME", length = 200)
+    @Column(name = "APEX_HOLDER_NAME", length = 250)
     private String apexHolderName;
 
-    @Column(name = "APEX_HOLDER_DESIGNATION", length = 200)
+    @Column(name = "APEX_HOLDER_DESIGNATION", length = 250)
     private String apexHolderDesignation;
 
-    @Column(name = "APEX_HOLDER_MOBILE", length = 20)
+    @Column(name = "APEX_HOLDER_MOBILE", length = 25)
     private String apexHolderMobile;
 
-    @Column(name = "APEX_HOLDER_EMAIL", length = 200)
+    @Column(name = "APEX_HOLDER_EMAIL", length = 250)
     private String apexHolderEmail;
 
-    @Column(name = "ADDRESS_PROOF_TYPE", length = 100)
+    @Column(name = "ADDRESS_PROOF_TYPE", length = 125)
     private String addressProofType;
 
-    @Column(name = "ADDRESS_PROOF", length = 500)
+    @Column(name = "ADDRESS_PROOF", length = 625)
     private String addressProof;
 
-    @Column(name = "ID_PROOF_TYPE", length = 100)
+    @Column(name = "ID_PROOF_TYPE", length = 125)
     private String idProofType;
 
-    @Column(name = "ID_PROOF", length = 500)
+    @Column(name = "ID_PROOF", length = 625)
     private String idProof;
 
     // Nodal Contact Information
-    @Column(name = "NODAL_NAME", length = 200)
+    @Column(name = "NODAL_NAME", length = 250)
     private String nodalName;
 
-    @Column(name = "NODAL_DESIGNATION", length = 200)
+    @Column(name = "NODAL_DESIGNATION", length = 250)
     private String nodalDesignation;
 
-    @Column(name = "NODAL_MOBILE", length = 20)
+    @Column(name = "NODAL_MOBILE", length = 25)
     private String nodalMobile;
 
-    @Column(name = "NODAL_EMAIL", length = 200)
+    @Column(name = "NODAL_EMAIL", length = 250)
     private String nodalEmail;
 
     // SIDBI Details
-    @Column(name = "SIDBI_BRANCH", length = 200)
+    @Column(name = "SIDBI_BRANCH", length = 250)
     private String sidbiBranch;
 
     // Cluster Details
     @Column(name = "MAPPED_WITH_CLUSTER")
     private Boolean mappedWithCluster;
 
-    @Column(name = "CLUSTER_NAME", length = 300)
+    @Column(name = "CLUSTER_NAME", length = 375)
     private String clusterName;
 
     @Column(name = "MAPPED_WITH_IMPORTANT_DISTRICT")
@@ -237,10 +237,10 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     private Integer activeMembersCount;
 
     // Documentation and Justification
-    @Column(name = "JUSTIFICATION", length = 2000)
+    @Column(name = "JUSTIFICATION", length = 2500)
     private String justification;
 
-    @Column(name = "APPROVAL_LETTER", length = 500)
+    @Column(name = "APPROVAL_LETTER", length = 625)
     private String approvalLetter;
 
     @Column(name = "MSME_COUNT_WITHOUT_TRADERS")
@@ -250,22 +250,22 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "MEMBER_DIRECTORY_AVAILABLE")
     private Boolean memberDirectoryAvailable;
 
-    @Column(name = "BUILDING_TYPE", length = 100)
+    @Column(name = "BUILDING_TYPE", length = 125)
     private String buildingType;
 
     @Column(name = "DECLARATION_SIGNED")
     private Boolean declarationSigned;
 
-    @Column(name = "ELECTRICITY_BILL", length = 500)
+    @Column(name = "ELECTRICITY_BILL", length = 625)
     private String electricityBill;
 
-    @Column(name = "TELEPHONE_BILL", length = 500)
+    @Column(name = "TELEPHONE_BILL", length = 625)
     private String telephoneBill;
 
     @Column(name = "IT_INFRASTRUCTURE_AVAILABLE")
     private Boolean itInfrastructureAvailable;
 
-    @Column(name = "INFRASTRUCTURE_TYPE", length = 200)
+    @Column(name = "INFRASTRUCTURE_TYPE", length = 250)
     private String infrastructureType;
 
     @Column(name = "SECRETARIAT_STAFF_AVAILABLE")
@@ -280,7 +280,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "WEBSITE_AVAILABLE")
     private Boolean websiteAvailable;
 
-    @Column(name = "WEBSITE_URL", length = 500)
+    @Column(name = "WEBSITE_URL", length = 625)
     private String websiteUrl;
 
     @Column(name = "PAID_SERVICES_AVAILABLE")
@@ -289,14 +289,14 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "ADVERSE_REMARKS_AVAILABLE")
     private Boolean adverseRemarksAvailable;
 
-    @Column(name = "ADVERSE_REMARKS", length = 500)
+    @Column(name = "ADVERSE_REMARKS", length = 625)
     private String adverseRemarks;
 
-    @Column(name = "WEB_REPORT", length = 500)
+    @Column(name = "WEB_REPORT", length = 625)
     private String webReport;
 
     // Willingness & Output
-    @Column(name = "WILLINGNESS_COMMENTS", length = 500)
+    @Column(name = "WILLINGNESS_COMMENTS", length = 625)
     private String willingnessComments;
 
     @Column(name = "WORKED_WITH_SIDBI_BEFORE")
@@ -312,14 +312,14 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "GRANT_PROPOSED_CAPACITY_BUILDING", precision = 15, scale = 2)
     private BigDecimal grantProposedCapacityBuilding;
 
-    @Column(name = "GRANT_DETAILS", length = 4000)
+    @Column(name = "GRANT_DETAILS", length = 5000)
     private String grantDetails;
 
     // Envisaged Outputs, Outcomes, and Impacts
-    @Column(name = "ENVISAGED_OUTPUT", length = 500)
+    @Column(name = "ENVISAGED_OUTPUT", length = 625)
     private String envisagedOutput;
 
-    @Column(name = "ENVISAGED_OUTCOME", length = 500)
+    @Column(name = "ENVISAGED_OUTCOME", length = 625)
     private String envisagedOutcome;
 
     // Office Holder CIBIL
@@ -332,7 +332,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "HOLDER_CIBIL_SCORE")
     private String holderCibilScore;
 
-    @Column(name = "HOLDER_CIBIL_REMARKS",length=500)
+    @Column(name = "HOLDER_CIBIL_REMARKS",length=625)
     private String holderCibilRemarks;
 
     @Column(name = "HOLDER_CIBIL_FILE")
@@ -345,7 +345,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "HOLDER_SMART_DATE")
     private LocalDate holderSmartDate;
 
-    @Column(name = "HOLDER_SMART_REMARKS", length=500)
+    @Column(name = "HOLDER_SMART_REMARKS", length=625)
     private String holderSmartRemarks;
 
     // Beneficial Owner CIBIL
@@ -392,9 +392,9 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "SANCTION_MARKING")
     private String sanctionMarking;
 
-    @Column(name = "DOP_REFERENCE", length = 600)
+    @Column(name = "DOP_REFERENCE", length = 750)
     private String dopReference;
 
-    @Column(name = "COMMITTEE_COMMENTS", length = 2000)
+    @Column(name = "COMMITTEE_COMMENTS", length = 2500)
     private String committeeComments;
 }

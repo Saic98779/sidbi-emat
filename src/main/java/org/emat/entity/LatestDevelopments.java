@@ -32,11 +32,11 @@ public class LatestDevelopments extends BaseEntity {
     private Long id;
 
     // Topic
-    @Column(name = "TOPIC", length = 2000)
+    @Column(name = "TOPIC", length = 2500)
     private String topic;
 
     // Relevance of the Topic
-    @Column(name = "RELEVANCE_OF_TOPIC", length = 2000)
+    @Column(name = "RELEVANCE_OF_TOPIC", length = 2500)
     private String relevanceOfTopic;
 
     // Duration - Start Date
@@ -53,7 +53,7 @@ public class LatestDevelopments extends BaseEntity {
     @Column(name = "CHECKER_STATUS")
     private Status checkerStatus;
 
-    @Column(name = "REMARK", length = 2000)
+    @Column(name = "REMARK", length = 2500)
     private String remark;
 
     @Column(name = "APPROVED_DATE")

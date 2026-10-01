@@ -37,13 +37,13 @@ public class AnnexureVI extends BaseEntity {
     private IndustryAssociationAppraisal appraisal;
 
 
-    @Column(name = "INDICATIVE_ITEM", length = 300)
+    @Column(name = "INDICATIVE_ITEM", length = 375)
     private String indicativeItem;
 
     @Column(name = "NUMBERS")
     private Integer numbers;
 
-    @Column(name = "MAKE", length = 300)
+    @Column(name = "MAKE", length = 375)
     private String make;
 
     @Column(name = "MAXIMUM_COST", precision = 15, scale = 2)

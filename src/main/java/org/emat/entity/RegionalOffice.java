@@ -23,25 +23,25 @@ public class RegionalOffice extends BaseEntity {
     @Column(name = "ID", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "RO_ID", nullable = false, unique = true, length = 50)
+    @Column(name = "RO_ID", nullable = false, unique = true, length = 63)
     private String roId;
 
-    @Column(name = "RO_NAME", nullable = false, length = 200)
+    @Column(name = "RO_NAME", nullable = false, length = 250)
     private String roName;
 
-    @Column(name = "CITY", length = 100)
+    @Column(name = "CITY", length = 125)
     private String city;
 
-    @Column(name = "DISTRICT", length = 100)
+    @Column(name = "DISTRICT", length = 125)
     private String district;
 
-    @Column(name = "STATE", length = 100)
+    @Column(name = "STATE", length = 125)
     private String state;
 
-    @Column(name = "ADDRESS", length = 500)
+    @Column(name = "ADDRESS", length = 625)
     private String address;
 
-    @Column(name = "CONTACT_NO", length = 20)
+    @Column(name = "CONTACT_NO", length = 25)
     private String contactNo;
 
     @OneToMany(mappedBy = "regionalOffice")

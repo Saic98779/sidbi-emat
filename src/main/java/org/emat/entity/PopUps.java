@@ -32,11 +32,11 @@ public class PopUps extends BaseEntity {
     private Long id;
 
     // Topic
-    @Column(name = "TOPIC", length = 2000)
+    @Column(name = "TOPIC", length = 2500)
     private String topic;
 
     // Relevance of the Pop-Up
-    @Column(name = "RELEVANCE_OF_POP_UP", length = 2000)
+    @Column(name = "RELEVANCE_OF_POP_UP", length = 2500)
     private String relevanceOfPopUp;
 
     // Duration - Start Date
@@ -57,7 +57,7 @@ public class PopUps extends BaseEntity {
     @Column(name = "CHECKER_STATUS")
     private Status checkerStatus;
 
-    @Column(name = "REMARK", length = 2000)
+    @Column(name = "REMARK", length = 2500)
     private String remark;
 
     @Column(name = "APPROVED_DATE")
