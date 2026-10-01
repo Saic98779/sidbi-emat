@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Global exception handler for the application.
@@ -23,6 +27,10 @@ public class GlobalExceptionHandler {
 
     private static final String TIMESTAMP = "timestamp";
     private static final String PATH = "path";
+    private static final Pattern ORACLE_ERROR_PATTERN = Pattern.compile("ORA-\\d{5}:[^\\n\\r]*");
+    private static final String ORA_UNIQUE_VIOLATION_CODE = "ORA-00001";
+    private static final String PAN_COLUMN = "PAN_NO";
+    private static final String PAN_CONSTRAINT = "SYS_C008558";
 
     /**
      * Handle EntityNotFoundException.
@@ -83,6 +91,27 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handle database integrity violations with clear Oracle details.
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ProblemDetail> handleDataIntegrityViolationException(
+            DataIntegrityViolationException ex, WebRequest request) {
+
+        String oracleDetail = extractOracleDetail(ex);
+        String normalized = oracleDetail.toUpperCase(Locale.ROOT);
+
+        if (normalized.contains(ORA_UNIQUE_VIOLATION_CODE)) {
+            if (normalized.contains(PAN_COLUMN) || normalized.contains(PAN_CONSTRAINT)) {
+                return buildProblemDetail(HttpStatus.CONFLICT, "Conflict", "PAN number already exists", request);
+            }
+            return buildProblemDetail(HttpStatus.CONFLICT, "Conflict",
+                    "Duplicate value violates a unique database constraint: " + oracleDetail, request);
+        }
+
+        return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", oracleDetail, request);
+    }
+
+    /**
      * Handle generic exceptions.
      */
     @ExceptionHandler(Exception.class)
@@ -97,5 +126,20 @@ public class GlobalExceptionHandler {
         problemDetail.setProperty(PATH, request.getDescription(false).replace("uri=", ""));
         problemDetail.setProperty(TIMESTAMP, LocalDateTime.now());
         return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    private String extractOracleDetail(Throwable throwable) {
+        Throwable current = throwable;
+        while (current != null) {
+            String message = current.getMessage();
+            if (message != null) {
+                Matcher matcher = ORACLE_ERROR_PATTERN.matcher(message);
+                if (matcher.find()) {
+                    return matcher.group().trim();
+                }
+            }
+            current = current.getCause();
+        }
+        return throwable.getMessage() == null ? "Database integrity violation" : throwable.getMessage();
     }
 }
