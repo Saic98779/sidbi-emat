@@ -13,6 +13,8 @@ public class IndustryAssociationRegistrationValidator {
 
     private static final String DUPLICATE_REGISTRATION_MESSAGE =
             "Registration already exists for this Industry Association in the state";
+    private static final String DUPLICATE_PAN_MESSAGE = "PAN number already exists";
+    private static final String PAN_REQUIRED_MESSAGE = "PAN number is required";
 
     private final IndustryAssociationRegistrationRepository repository;
 
@@ -25,5 +27,28 @@ public class IndustryAssociationRegistrationValidator {
                     request.getState());
             throw new IllegalArgumentException(DUPLICATE_REGISTRATION_MESSAGE);
         }
+
+        String panNo = request.getPanNo();
+        if (panNo != null && !panNo.isBlank()) {
+            validatePanUniqueness(panNo);
+        }
+    }
+
+    public void validatePanUniqueness(String panNo) {
+        if (panNo == null || panNo.isBlank()) {
+            throw new IllegalArgumentException(PAN_REQUIRED_MESSAGE);
+        }
+
+        if (repository.existsByPanNoIgnoreCase(panNo.trim())) {
+            log.warn("Duplicate PAN number attempt for PAN: {}", panNo);
+            throw new IllegalArgumentException(DUPLICATE_PAN_MESSAGE);
+        }
+    }
+
+    public boolean isPanDuplicate(String panNo) {
+        if (panNo == null || panNo.isBlank()) {
+            throw new IllegalArgumentException(PAN_REQUIRED_MESSAGE);
+        }
+        return repository.existsByPanNoIgnoreCase(panNo.trim());
     }
 }

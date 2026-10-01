@@ -144,6 +144,20 @@ public class SecurityConfig {
                                                                 "SIDBI_HO_MAKER",
                                                                 "SIDBI_HO_CHECKER",
                                                                 "CLUSTER_EXPERT")))
+                                        .requestMatchers("/validation/**")
+                                        .hasAnyRole(
+                                                resolveRolesOrDefaults(
+                                                        "industryAssociationRead",
+                                                        List.of(
+                                                                "GT_FIELD_TEAM",
+                                                                "GT_PMU",
+                                                                "BSE",
+                                                                "MANPOWER_AGENCY",
+                                                                "SIDBI_SDE",
+                                                                "SIDBI_RO",
+                                                                "SIDBI_HO_MAKER",
+                                                                "SIDBI_HO_CHECKER",
+                                                                "CLUSTER_EXPERT")))
                                         .requestMatchers("/industry-association-appraisals/**")
                                         .hasAnyRole(
                                                 resolveRolesOrDefaults(

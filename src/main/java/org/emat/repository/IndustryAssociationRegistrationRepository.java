@@ -32,6 +32,8 @@ public interface IndustryAssociationRegistrationRepository
     boolean existsByIndustryAssociationNameAndStateAndIsActiveTrue(
             String industryAssociationName, String state);
 
+    boolean existsByPanNoIgnoreCase(String panNo);
+
     List<IndustryAssociationRegistration> findAllByIsActiveTrueAndCurrentStageId(long stageId);
 
     /**
