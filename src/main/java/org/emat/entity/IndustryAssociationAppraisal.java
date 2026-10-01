@@ -332,7 +332,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "HOLDER_CIBIL_SCORE")
     private String holderCibilScore;
 
-    @Column(name = "HOLDER_CIBIL_REMARKS")
+    @Column(name = "HOLDER_CIBIL_REMARKS",length=500)
     private String holderCibilRemarks;
 
     @Column(name = "HOLDER_CIBIL_FILE")
@@ -345,7 +345,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "HOLDER_SMART_DATE")
     private LocalDate holderSmartDate;
 
-    @Column(name = "HOLDER_SMART_REMARKS")
+    @Column(name = "HOLDER_SMART_REMARKS", length=500)
     private String holderSmartRemarks;
 
     // Beneficial Owner CIBIL
