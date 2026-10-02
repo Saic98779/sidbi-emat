@@ -3,22 +3,31 @@ package org.emat.exception;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
+import jakarta.validation.ConstraintViolationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.ErrorResponseException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 /** Global exception handler for the application. */
 @RestControllerAdvice
@@ -28,9 +37,18 @@ public class GlobalExceptionHandler {
     private static final String PATH = "path";
     private static final String ERROR_CODE = "errorCode";
     private static final String ORACLE_DETAIL = "oracleDetail";
+    private static final String FIELD = "field";
+    private static final String COLUMN = "column";
+    private static final String MAX_LENGTH = "maxLength";
+    private static final String ACTUAL_LENGTH = "actualLength";
     private static final Pattern ORACLE_ERROR_PATTERN = Pattern.compile("ORA-\\d{5}:[^\\n\\r]*");
     private static final Pattern ORACLE_CODE_PATTERN = Pattern.compile("ORA-\\d{5}");
+    private static final Pattern ORA_12899_PATTERN =
+            Pattern.compile(
+                    "ORA-12899:\\s*value too large for column\\s+\"[^\"]+\"\\.\"[^\"]+\"\\.\"([^\"]+)\"\\s*\\(actual:\\s*(\\d+)\\s*,\\s*maximum:\\s*(\\d+)\\)",
+                    Pattern.CASE_INSENSITIVE);
     private static final String ORA_UNIQUE_VIOLATION_CODE = "ORA-00001";
+    private static final String ORA_LENGTH_EXCEEDED_CODE = "ORA-12899";
     private static final String PAN_COLUMN = "PAN_NO";
     private static final String PAN_CONSTRAINT = "SYS_C008558";
     private static final Map<String, HttpStatus> ORACLE_STATUS_MAP =
@@ -138,6 +156,35 @@ public class GlobalExceptionHandler {
         return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", detail, request);
     }
 
+    /** Handle bean validation failures outside request body binding. */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ProblemDetail> handleConstraintViolationException(
+            ConstraintViolationException ex, WebRequest request) {
+        String detail =
+                ex.getConstraintViolations().stream()
+                        .findFirst()
+                        .map(
+                                violation -> {
+                                    String path = violation.getPropertyPath() == null
+                                            ? "request"
+                                            : violation.getPropertyPath().toString();
+                                    return path + " " + violation.getMessage();
+                                })
+                        .orElse("Request validation failed");
+        return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", detail, request);
+    }
+
+    /** Handle binding failures for query/path/form parameters. */
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ProblemDetail> handleBindException(BindException ex, WebRequest request) {
+        String detail =
+                ex.getBindingResult().getFieldErrors().stream()
+                        .findFirst()
+                        .map(error -> error.getField() + " " + error.getDefaultMessage())
+                        .orElse("Request binding failed");
+        return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", detail, request);
+    }
+
     /** Handle CAPTCHA validation failures. */
     @ExceptionHandler(CaptchaValidationException.class)
     public ResponseEntity<ProblemDetail> handleCaptchaValidationException(
@@ -145,14 +192,40 @@ public class GlobalExceptionHandler {
         return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
     }
 
+    /** Handle file storage operation failures. */
+    @ExceptionHandler(FileStorageException.class)
+    public ResponseEntity<ProblemDetail> handleFileStorageException(
+            FileStorageException ex, WebRequest request) {
+        HttpStatus status = ex.getMessage() != null && ex.getMessage().startsWith("File not found:")
+                ? HttpStatus.NOT_FOUND
+                : HttpStatus.INTERNAL_SERVER_ERROR;
+        return buildProblemDetail(status, status.getReasonPhrase(), ex.getMessage(), request);
+    }
+
     /** Handle bad request parameter issues. */
     @ExceptionHandler({
             MissingServletRequestParameterException.class,
-            MethodArgumentTypeMismatchException.class
+            MethodArgumentTypeMismatchException.class,
+            MissingServletRequestPartException.class,
+            MissingRequestHeaderException.class,
+            MissingPathVariableException.class
     })
     public ResponseEntity<ProblemDetail> handleBadRequestExceptions(
             Exception ex, WebRequest request) {
         return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
+    }
+
+    /** Handle unsupported HTTP method/media type errors. */
+    @ExceptionHandler({
+            HttpRequestMethodNotSupportedException.class,
+            HttpMediaTypeNotSupportedException.class
+    })
+    public ResponseEntity<ProblemDetail> handleUnsupportedRequestExceptions(
+            Exception ex, WebRequest request) {
+        HttpStatus status = ex instanceof HttpRequestMethodNotSupportedException
+                ? HttpStatus.METHOD_NOT_ALLOWED
+                : HttpStatus.UNSUPPORTED_MEDIA_TYPE;
+        return buildProblemDetail(status, status.getReasonPhrase(), ex.getMessage(), request);
     }
 
     /**
@@ -198,6 +271,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ProblemDetail> handleDataIntegrityViolationException(
             DataIntegrityViolationException ex, WebRequest request) {
         return buildOracleProblemDetail(ex, request);
+    }
+
+    /** Handle Spring exceptions that already carry an explicit HTTP status. */
+    @ExceptionHandler(ErrorResponseException.class)
+    public ResponseEntity<ProblemDetail> handleErrorResponseException(
+            ErrorResponseException ex, WebRequest request) {
+        HttpStatusCode statusCode = ex.getStatusCode();
+        HttpStatus status = HttpStatus.resolve(statusCode.value());
+        if (status == null) {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        ProblemDetail body = ex.getBody();
+        String detail = body != null ? body.getDetail() : ex.getMessage();
+        String title = body != null ? body.getTitle() : status.getReasonPhrase();
+        return buildProblemDetail(status, title, detail, request);
     }
 
     /** Handle generic exceptions. */
@@ -250,6 +338,9 @@ public class GlobalExceptionHandler {
                     "Duplicate value violates a unique database constraint: " + oracleDetail,
                     request);
         }
+        if (ORA_LENGTH_EXCEEDED_CODE.equals(oracleCode)) {
+            return buildLengthExceededProblemDetail(oracleDetail, request);
+        }
 
         HttpStatus status = ORACLE_STATUS_MAP.getOrDefault(oracleCode, HttpStatus.INTERNAL_SERVER_ERROR);
         String title = ORACLE_ERROR_MESSAGES.getOrDefault(oracleCode, "Database error");
@@ -262,6 +353,63 @@ public class GlobalExceptionHandler {
             problemDetail.setProperty("reason", title);
         }
         return response;
+    }
+
+    private ResponseEntity<ProblemDetail> buildLengthExceededProblemDetail(
+            String oracleDetail, WebRequest request) {
+        Matcher matcher = ORA_12899_PATTERN.matcher(oracleDetail == null ? "" : oracleDetail);
+        if (!matcher.find()) {
+            ResponseEntity<ProblemDetail> fallback =
+                    buildProblemDetail(
+                            HttpStatus.BAD_REQUEST,
+                            "Bad Request",
+                            "A value is too large for the target column.",
+                            request);
+            ProblemDetail fallbackDetail = fallback.getBody();
+            if (fallbackDetail != null) {
+                fallbackDetail.setProperty(ERROR_CODE, ORA_LENGTH_EXCEEDED_CODE);
+                fallbackDetail.setProperty(ORACLE_DETAIL, oracleDetail);
+            }
+            return fallback;
+        }
+
+        String columnName = matcher.group(1);
+        String actualLength = matcher.group(2);
+        String maximumLength = matcher.group(3);
+        String fieldName = toLowerCamelCase(columnName);
+        String detail =
+                String.format(
+                        "Length exceeded for field '%s': actual length %s exceeds maximum %s.",
+                        fieldName, actualLength, maximumLength);
+
+        ResponseEntity<ProblemDetail> response =
+                buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", detail, request);
+        ProblemDetail problemDetail = response.getBody();
+        if (problemDetail != null) {
+            problemDetail.setProperty(ERROR_CODE, ORA_LENGTH_EXCEEDED_CODE);
+            problemDetail.setProperty(ORACLE_DETAIL, oracleDetail);
+            problemDetail.setProperty(FIELD, fieldName);
+            problemDetail.setProperty(COLUMN, columnName);
+            problemDetail.setProperty(ACTUAL_LENGTH, Integer.parseInt(actualLength));
+            problemDetail.setProperty(MAX_LENGTH, Integer.parseInt(maximumLength));
+            problemDetail.setProperty("reason", "Value exceeds maximum allowed length");
+        }
+        return response;
+    }
+
+    private String toLowerCamelCase(String columnName) {
+        if (columnName == null || columnName.isBlank()) {
+            return columnName;
+        }
+        String[] parts = columnName.toLowerCase(Locale.ROOT).split("_");
+        StringBuilder builder = new StringBuilder(parts[0]);
+        for (int i = 1; i < parts.length; i++) {
+            if (parts[i].isBlank()) {
+                continue;
+            }
+            builder.append(Character.toUpperCase(parts[i].charAt(0))).append(parts[i].substring(1));
+        }
+        return builder.toString();
     }
 
     private String extractOracleCode(String oracleDetail) {
