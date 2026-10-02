@@ -103,28 +103,28 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     @Column(name = "GT_RECOMMENDATION_DATE")
     private LocalDate gtRecommendationDate;
 
-    @Column(name = "GT_REMARKS", length = 1250)
+    @Column(name = "GT_REMARKS", length = 2000)
     private String gtRemarks;
 
-    @Column(name = "PMU_RECOMMENDATION", length = 63)
+    @Column(name = "PMU_RECOMMENDATION", length = 1250)
     private String pmuRecommendation;
 
     @Column(name = "PMU_RECOMMENDATION_DATE")
     private LocalDate pmuRecommendationDate;
 
-    @Column(name = "PMU_REMARKS", length = 1250)
+    @Column(name = "PMU_REMARKS", length = 2000)
     private String pmuRemarks;
 
-    @Column(name = "HO_RECOMMENDATION", length = 63)
+    @Column(name = "HO_RECOMMENDATION", length = 2000)
     private String hoRecommendation;
 
     @Column(name = "HO_RECOMMENDATION_DATE")
     private LocalDate hoRecommendationDate;
 
-    @Column(name = "HO_REMARKS", length = 1250)
+    @Column(name = "HO_REMARKS", length = 2000)
     private String hoRemarks;
 
-    @Column(name = "COMMITTEE_RECOMMENDATION", length = 63)
+    @Column(name = "COMMITTEE_RECOMMENDATION", length = 1250)
     private String committeeRecommendation;
 
     @Column(name = "COMMITTEE_DATE")
@@ -133,7 +133,7 @@ public class IndustryAssociationBseRecommendation extends BaseEntity {
     @Column(name = "COMMITTEE_MOM", length = 625)
     private String committeeMom;
 
-    @Column(name = "COMMITTEE_REMARKS", length = 1250)
+    @Column(name = "COMMITTEE_REMARKS", length = 2500)
     private String committeeRemarks;
 
     // ==========================================================

@@ -128,9 +128,9 @@ public class SustainabilityMatrix extends BaseEntity {
             name = "ACTION_PLANS",
             joinColumns = @JoinColumn(name = "MATRIX_ID")
     )
-    @Column(name = "ACTION_PLAN")
+    @Column(name = "ACTION_PLAN", length = 2000)
     private List<String> actionPlans = new ArrayList<>();
 
-    @Column(name = "ACTION_PLAN_CLUSTER_EXPERT_COMMENT")
+    @Column(name = "ACTION_PLAN_CLUSTER_EXPERT_COMMENT", length = 2000)
     private String actionPlanClusterExpertComment;
 }

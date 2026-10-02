@@ -36,7 +36,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     private Long id;
 
     // Basic Information
-    @Column(name = "STATE", nullable = false, length = 125)
+    @Column(name = "STATE", nullable = false, length = 200)
     private String state;
 
     @Column(name = "INDUSTRY_ASSOCIATION_NAME", nullable = false, length = 625)
@@ -65,7 +65,7 @@ public class IndustryAssociationRegistration extends BaseEntity {
     @Column(name = "DISTRICT", length = 125)
     private String district;
 
-    @Column(name = "PINCODE", length = 13)
+    @Column(name = "PINCODE", length = 10)
     private String pincode;
 
     @Column(name = "ADDRESS", length = 1250)
