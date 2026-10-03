@@ -30,7 +30,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import org.springframework.web.util.HtmlUtils;
 
 /** Global exception handler for the application. */
 @RestControllerAdvice
@@ -475,7 +474,7 @@ public class GlobalExceptionHandler {
         if (normalized.length() > MAX_RESPONSE_TEXT_LENGTH) {
             normalized = normalized.substring(0, MAX_RESPONSE_TEXT_LENGTH) + "...";
         }
-        return HtmlUtils.htmlEscape(normalized);
+        return normalized;
     }
 
     private String extractOracleDetail(Throwable throwable) {
