@@ -10,9 +10,6 @@
     <list default="true" id="b51fb524-12b5-4cb4-8223-378d9eff42af" name="Changes" comment="Update all entities length to 25% to allow new lines">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/emat/entity/IndustryAssociationAppraisal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/emat/entity/IndustryAssociationAppraisal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/emat/entity/IndustryAssociationBseRecommendation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/emat/entity/IndustryAssociationBseRecommendation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/emat/entity/IndustryAssociationRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/emat/entity/IndustryAssociationRegistration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/emat/entity/SustainabilityMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/emat/entity/SustainabilityMatrix.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +20,9 @@
     <persistenceIdMap>
       <entry key="_C:/Users/Chait/IdeaProjects/sidbi-emat" value="3K5bc0StvBYmDwNMef3fZOBXGak" />
     </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="410" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,6 +39,10 @@
     &quot;accountId&quot;: &quot;c0821a2f-88e7-493f-8cd5-ad78851b9268&quot;
   }
 }</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -62,18 +66,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.emat.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "copilot.chat.legacySessionMetadata.migrated": "true",
-    "git-widget-placeholder": "prod",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Chait/IdeaProjects/sidbi-emat/src/main/resources/template"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.emat.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;copilot.chat.legacySessionMetadata.migrated&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sidbi-sameer&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Chait/IdeaProjects/sidbi-emat/src/main/resources/template&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Chait\IdeaProjects\sidbi-emat\src\main\resources\template" />
@@ -81,7 +90,7 @@
   </component>
   <component name="RunManager">
     <configuration name="emat" type="Application" factoryName="Application">
-      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../Program Files/Java/jdk-21" />
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="org.emat.EmatApplication" />
       <module name="emat" />
@@ -89,6 +98,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -103,11 +119,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/emat/controller/IndustryAssociationAppraisalController.java</url>
-          <line>131</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/emat/controller/IndustryAssociationAppraisalController.java</url>
           <line>126</line>

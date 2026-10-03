@@ -3,6 +3,7 @@ package org.emat.config;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -31,5 +32,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/files/**").addResourceLocations("file:/home/ubuntu/uploads/");
+    }
+
+    @Override
+    public void addErrorResponseInterceptors(List<ErrorResponse.Interceptor> interceptors) {
+        interceptors.add((problemDetail, errorResponse) -> problemDetail.setInstance(null));
     }
 }
