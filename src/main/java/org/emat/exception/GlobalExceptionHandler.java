@@ -344,6 +344,7 @@ public class GlobalExceptionHandler {
                                 ? status.getReasonPhrase()
                                 : safeDetail);
         problemDetail.setTitle(title);
+        problemDetail.setInstance(null);
         problemDetail.setProperty(TIMESTAMP, LocalDateTime.now());
         return ResponseEntity.status(status).body(problemDetail);
     }
