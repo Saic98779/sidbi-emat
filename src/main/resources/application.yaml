@@ -61,3 +61,10 @@ logging:
     org.springframework.security: INFO
     org.emat: INFO
     org.hibernate.SQL: INFO
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: ""

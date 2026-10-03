@@ -4,6 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
@@ -14,6 +18,7 @@ import org.emat.service.IndustryAssociationBseRecommendationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
         name = "BSE Recommendation Management",
         description = "APIs for managing BSE (Business Support Executive) recommendations")
 @SecurityRequirement(name = "bearerAuth")
+@Validated
 public class IndustryAssociationBseRecommendationController {
 
     private final IndustryAssociationBseRecommendationService bseRecommendationService;
@@ -34,7 +40,7 @@ public class IndustryAssociationBseRecommendationController {
             summary = "Create BSE recommendation",
             description = "Create a new BSE recommendation for an industry association")
     public ResponseEntity<ApiResponse<BseRecommendationResponse>> createBseRecommendation(
-            @RequestBody CreateBseRecommendationRequest request) {
+            @Valid @RequestBody CreateBseRecommendationRequest request) {
         log.info(
                 "REST request to create BSE recommendation for registration: {}",
                 request.getRegistrationId());
@@ -64,7 +70,7 @@ public class IndustryAssociationBseRecommendationController {
             summary = "Get BSE recommendation by ID",
             description = "Retrieve a specific BSE recommendation by its ID")
     public ResponseEntity<ApiResponse<BseRecommendationResponse>> getBseRecommendationById(
-            @PathVariable("id") Long id) {
+            @PathVariable("id") @Positive Long id) {
         log.info("REST request to get BSE recommendation with ID: {}", id);
         return ResponseEntity.ok(
                 ApiResponse.success(
@@ -78,7 +84,7 @@ public class IndustryAssociationBseRecommendationController {
             summary = "Get BSE recommendations by registration",
             description = "Retrieve all BSE recommendations for a specific industry association")
     public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>>
-            getBseRecommendationsByRegistration(@PathVariable Long registrationId) {
+            getBseRecommendationsByRegistration(@PathVariable @Positive Long registrationId) {
         log.info("REST request to get BSE recommendations for registration: {}", registrationId);
         return ResponseEntity.ok(
                 ApiResponse.success(
@@ -93,7 +99,8 @@ public class IndustryAssociationBseRecommendationController {
             summary = "Update BSE recommendation",
             description = "Update an existing BSE recommendation")
     public ResponseEntity<ApiResponse<BseRecommendationResponse>> updateBseRecommendation(
-            @PathVariable("id") Long id, @RequestBody UpdateBseRecommendationRequest request) {
+            @PathVariable("id") @Positive Long id,
+            @Valid @RequestBody UpdateBseRecommendationRequest request) {
         log.info("REST request to update BSE recommendation with ID: {}", id);
         return ResponseEntity.ok(
                 ApiResponse.success(
@@ -107,7 +114,7 @@ public class IndustryAssociationBseRecommendationController {
             summary = "Search BSE recommendations by name",
             description = "Search BSE recommendations by BSE name")
     public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> searchByBseName(
-            @RequestParam String bseName) {
+            @RequestParam @NotBlank @Size(max = 250) String bseName) {
         log.info("REST request to search BSE recommendations by name: {}", bseName);
         return ResponseEntity.ok(
                 ApiResponse.success(
@@ -183,7 +190,7 @@ public class IndustryAssociationBseRecommendationController {
     @GetMapping("/user/{userId}/selected")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getSelectedBseByVendor(
-            @PathVariable Long userId) {
+            @PathVariable @Positive Long userId) {
 
         return ResponseEntity.ok(
                 ApiResponse.success(

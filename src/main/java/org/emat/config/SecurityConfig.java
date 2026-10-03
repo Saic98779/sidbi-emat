@@ -97,13 +97,14 @@ public class SecurityConfig {
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(
                         authz ->
-                                authz.requestMatchers("/error")
+                                authz.requestMatchers("/actuator/**")
+                                        .denyAll()
+                                        .requestMatchers("/error")
                                         .permitAll()
                                         .requestMatchers(
                                                 "/users/login",
                                                 "/captcha",
                                                 "/auth/**",
-                                                "/health",
                                                 "/",
                                                 "/api-docs/**",
                                                 "/v3/api-docs/**",
