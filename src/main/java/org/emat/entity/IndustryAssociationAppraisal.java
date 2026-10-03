@@ -265,7 +265,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "IT_INFRASTRUCTURE_AVAILABLE")
     private Boolean itInfrastructureAvailable;
 
-    @Column(name = "INFRASTRUCTURE_TYPE", length = 250)
+    @Column(name = "INFRASTRUCTURE_TYPE", length = 650)
     private String infrastructureType;
 
     @Column(name = "SECRETARIAT_STAFF_AVAILABLE")
