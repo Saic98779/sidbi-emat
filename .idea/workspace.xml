@@ -7,10 +7,7 @@
     <option name="selectedModelId" value="auto" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b51fb524-12b5-4cb4-8223-378d9eff42af" name="Changes" comment="Update all entities length to 25% to allow new lines">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/emat/entity/IndustryAssociationAppraisal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/emat/entity/IndustryAssociationAppraisal.java" afterDir="false" />
-    </list>
+    <list default="true" id="b51fb524-12b5-4cb4-8223-378d9eff42af" name="Changes" comment="Update all entities length to 25% to allow new lines" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
