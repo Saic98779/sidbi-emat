@@ -28,6 +28,9 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+import org.springframework.web.util.HtmlUtils;
 
 /** Global exception handler for the application. */
 @RestControllerAdvice
@@ -51,6 +54,9 @@ public class GlobalExceptionHandler {
     private static final String ORA_LENGTH_EXCEEDED_CODE = "ORA-12899";
     private static final String PAN_COLUMN = "PAN_NO";
     private static final String PAN_CONSTRAINT = "SYS_C008558";
+    private static final String METHOD_NOT_SUPPORTED_DETAIL_SUFFIX = "' is not supported";
+    private static final String NO_STATIC_RESOURCE_PREFIX = "No static resource";
+    private static final int MAX_RESPONSE_TEXT_LENGTH = 500;
     private static final Map<String, HttpStatus> ORACLE_STATUS_MAP =
             Map.ofEntries(
                     Map.entry("ORA-00001", HttpStatus.CONFLICT),
@@ -215,6 +221,12 @@ public class GlobalExceptionHandler {
         return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
     }
 
+    /** Handle requests for missing routes/static resources without leaking internal details. */
+    @ExceptionHandler({NoResourceFoundException.class, NoHandlerFoundException.class})
+    public ResponseEntity<ProblemDetail> handleNotFoundExceptions(Exception ex, WebRequest request) {
+        return buildProblemDetail(HttpStatus.NOT_FOUND, "Not Found", "Resource not found", request);
+    }
+
     /** Handle unsupported HTTP method/media type errors. */
     @ExceptionHandler({
             HttpRequestMethodNotSupportedException.class,
@@ -284,6 +296,16 @@ public class GlobalExceptionHandler {
         }
         ProblemDetail body = ex.getBody();
         String detail = body != null ? body.getDetail() : ex.getMessage();
+        if (isMethodNotSupported(detail)) {
+            return buildProblemDetail(
+                    HttpStatus.METHOD_NOT_ALLOWED,
+                    HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
+                    detail,
+                    request);
+        }
+        if (isMissingStaticResource(detail)) {
+            return buildProblemDetail(HttpStatus.NOT_FOUND, "Not Found", "Resource not found", request);
+        }
         String title = body != null ? body.getTitle() : status.getReasonPhrase();
         return buildProblemDetail(status, title, detail, request);
     }
@@ -291,6 +313,17 @@ public class GlobalExceptionHandler {
     /** Handle generic exceptions. */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> handleGlobalException(Exception ex, WebRequest request) {
+        String detail = ex.getMessage();
+        if (isMethodNotSupported(detail)) {
+            return buildProblemDetail(
+                    HttpStatus.METHOD_NOT_ALLOWED,
+                    HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
+                    detail,
+                    request);
+        }
+        if (isMissingStaticResource(detail)) {
+            return buildProblemDetail(HttpStatus.NOT_FOUND, "Not Found", "Resource not found", request);
+        }
         String oracleDetail = extractOracleDetail(ex);
         String oracleCode = extractOracleCode(oracleDetail);
         if (oracleCode != null) {
@@ -305,12 +338,17 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<ProblemDetail> buildProblemDetail(
             HttpStatus status, String title, String detail, WebRequest request) {
+        String safeDetail = sanitizeForResponse(detail);
+        String safePath =
+                sanitizeForResponse(request.getDescription(false).replace("uri=", ""));
         ProblemDetail problemDetail =
                 ProblemDetail.forStatusAndDetail(
                         status,
-                        detail == null || detail.isBlank() ? status.getReasonPhrase() : detail);
+                        safeDetail == null || safeDetail.isBlank()
+                                ? status.getReasonPhrase()
+                                : safeDetail);
         problemDetail.setTitle(title);
-        problemDetail.setProperty(PATH, request.getDescription(false).replace("uri=", ""));
+        problemDetail.setProperty(PATH, safePath);
         problemDetail.setProperty(TIMESTAMP, LocalDateTime.now());
         return ResponseEntity.status(status).body(problemDetail);
     }
@@ -421,6 +459,27 @@ public class GlobalExceptionHandler {
             return matcher.group().trim();
         }
         return null;
+    }
+
+    private boolean isMethodNotSupported(String detail) {
+        return detail != null
+                && detail.startsWith("Request method '")
+                && detail.endsWith(METHOD_NOT_SUPPORTED_DETAIL_SUFFIX);
+    }
+
+    private boolean isMissingStaticResource(String detail) {
+        return detail != null && detail.startsWith(NO_STATIC_RESOURCE_PREFIX);
+    }
+
+    private String sanitizeForResponse(String value) {
+        if (value == null) {
+            return null;
+        }
+        String normalized = value.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').trim();
+        if (normalized.length() > MAX_RESPONSE_TEXT_LENGTH) {
+            normalized = normalized.substring(0, MAX_RESPONSE_TEXT_LENGTH) + "...";
+        }
+        return HtmlUtils.htmlEscape(normalized);
     }
 
     private String extractOracleDetail(Throwable throwable) {
