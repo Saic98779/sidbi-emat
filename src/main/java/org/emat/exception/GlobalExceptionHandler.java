@@ -37,7 +37,6 @@ import org.springframework.web.util.HtmlUtils;
 public class GlobalExceptionHandler {
 
     private static final String TIMESTAMP = "timestamp";
-    private static final String PATH = "path";
     private static final String ERROR_CODE = "errorCode";
     private static final String ORACLE_DETAIL = "oracleDetail";
     private static final String FIELD = "field";
@@ -339,8 +338,6 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ProblemDetail> buildProblemDetail(
             HttpStatus status, String title, String detail, WebRequest request) {
         String safeDetail = sanitizeForResponse(detail);
-        String safePath =
-                sanitizeForResponse(request.getDescription(false).replace("uri=", ""));
         ProblemDetail problemDetail =
                 ProblemDetail.forStatusAndDetail(
                         status,
@@ -348,7 +345,6 @@ public class GlobalExceptionHandler {
                                 ? status.getReasonPhrase()
                                 : safeDetail);
         problemDetail.setTitle(title);
-        problemDetail.setProperty(PATH, safePath);
         problemDetail.setProperty(TIMESTAMP, LocalDateTime.now());
         return ResponseEntity.status(status).body(problemDetail);
     }
