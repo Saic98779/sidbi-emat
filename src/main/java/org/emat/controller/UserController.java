@@ -1,8 +1,11 @@
 package org.emat.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.List;
+import org.emat.config.AuthCookieProperties;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateUserRequest;
 import org.emat.dto.LoginRequest;
@@ -14,10 +17,15 @@ import org.emat.service.CaptchaService;
 import org.emat.service.JwtService;
 import org.emat.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 /** REST Controller for User endpoints. */
@@ -103,7 +111,10 @@ public class UserController {
     /** Login endpoint. POST /users/login */
     @PostMapping("/login")
     @SecurityRequirement(name = "") // This endpoint doesn't require authentication
-    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(
+            @RequestBody LoginRequest request,
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse) {
         if (request.getUsername() == null || request.getPassword() == null) {
             throw new BadCredentialsException("Invalid username or password");
         }
@@ -115,12 +126,32 @@ public class UserController {
                     "Invalid or expired captcha. Please fetch a new captcha and try again.");
         }
 
-        authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken.unauthenticated(
-                        request.getUsername(), request.getPassword()));
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        UsernamePasswordAuthenticationToken.unauthenticated(
+                                request.getUsername(), request.getPassword()));
+
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+        httpRequest.getSession(true)
+                .setAttribute(
+                        HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
 
         String token = jwtService.generateToken(request.getUsername());
         Instant expiresAt = jwtService.getExpiryFromNow();
+        long maxAgeSeconds =
+                Math.max(0L, expiresAt.getEpochSecond() - Instant.now().getEpochSecond());
+        ResponseCookie authCookie =
+                ResponseCookie.from(AuthCookieProperties.AUTH_COOKIE_NAME, token)
+                        .httpOnly(true)
+                        .secure(httpRequest.isSecure())
+                        .path("/")
+                        .sameSite("Strict")
+                        .maxAge(maxAgeSeconds)
+                        .build();
+        httpResponse.addHeader("Set-Cookie", authCookie.toString());
+
         UserResponse user = userService.getUserByUsername(request.getUsername());
         LoginResponse response =
                 new LoginResponse(
@@ -143,5 +174,27 @@ public class UserController {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Users fetched successfully", userService.getUsersByRole(role)));
+    }
+
+    @PostMapping("/logout")
+    @SecurityRequirement(name = "")
+    public ResponseEntity<ApiResponse<Void>> logout(
+            HttpServletRequest request, HttpServletResponse response) {
+        if (request.getSession(false) != null) {
+            request.getSession(false).invalidate();
+        }
+        SecurityContextHolder.clearContext();
+
+        ResponseCookie expiredCookie =
+                ResponseCookie.from(AuthCookieProperties.AUTH_COOKIE_NAME, "")
+                        .httpOnly(true)
+                        .secure(request.isSecure())
+                        .path("/")
+                        .sameSite("Strict")
+                        .maxAge(0)
+                        .build();
+        response.addHeader("Set-Cookie", expiredCookie.toString());
+
+        return ResponseEntity.ok(ApiResponse.success("Logout successful", null));
     }
 }
