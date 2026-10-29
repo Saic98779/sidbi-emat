@@ -3,6 +3,7 @@ package org.emat.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,11 +41,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
+        String cookieToken = extractTokenFromCookie(request);
         logger.debug("Processing request to: " + request.getRequestURI());
         logger.debug("Authorization header: " + (authHeader != null ? "Present" : "Not present"));
+        logger.debug("Auth cookie: " + (cookieToken != null ? "Present" : "Not present"));
 
+        String token = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
+            token = authHeader.substring(7);
+        } else if (cookieToken != null) {
+            token = cookieToken;
+        }
+
+        if (token != null) {
             logger.debug("JWT token found, attempting to validate");
 
             try {
@@ -79,5 +88,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private String extractTokenFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return null;
+        }
+        for (Cookie cookie : cookies) {
+            if (AuthCookieProperties.AUTH_COOKIE_NAME.equals(cookie.getName())
+                    && cookie.getValue() != null
+                    && !cookie.getValue().isBlank()) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 }

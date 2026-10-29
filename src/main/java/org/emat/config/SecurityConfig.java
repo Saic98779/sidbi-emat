@@ -91,7 +91,7 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -103,6 +103,7 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers(
                                                 "/users/login",
+                                                "/users/logout",
                                                 "/captcha",
                                                 "/auth/**",
                                                 "/",
