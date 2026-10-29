@@ -40,7 +40,7 @@ public class PiiEncryptionService {
     private static final String TRANSFORMATION = "AES/GCM/NoPadding";
     private static final int GCM_IV_LENGTH_BYTES = 12;
     private static final int GCM_TAG_LENGTH_BITS = 128;
-    private static final String ENCRYPTED_PREFIX = "";//ENC:
+    private static final String ENCRYPTED_PREFIX = "ENC:";
 
     private final SecureRandom secureRandom = new SecureRandom();
 
