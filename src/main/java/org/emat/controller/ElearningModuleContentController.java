@@ -1,11 +1,13 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateElearningModuleContentRequest;
 import org.emat.dto.ElearningModuleContentResponse;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateElearningModuleContentRequest;
 import org.emat.dto.UpdateElearningModuleContentStatusRequest;
 import org.emat.service.ElearningModuleContentService;
@@ -34,15 +36,16 @@ public class ElearningModuleContentController {
                                 service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('elearningModuleContentRead'))")
     public ResponseEntity<ApiResponse<ElearningModuleContentResponse>> getById(
-            @PathVariable("id") Long id) {
-        log.info("Received request to fetch E-learning Module Content with ID: {}", id);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch E-learning Module Content with ID: {}",
+                request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "E-learning Module Content fetched successfully",
-                        service.getById(id)));
+                        service.getById(request.getId())));
     }
 
     @GetMapping

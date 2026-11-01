@@ -1,11 +1,13 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateDia3CInfoSeriesRequest;
 import org.emat.dto.Dia3CInfoSeriesResponse;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateDia3CInfoSeriesRequest;
 import org.emat.dto.UpdateDia3CInfoSeriesStatusRequest;
 import org.emat.service.Dia3CInfoSeriesService;
@@ -34,14 +36,15 @@ public class Dia3CInfoSeriesController {
                                 service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('dia3CInfoSeriesRead'))")
     public ResponseEntity<ApiResponse<Dia3CInfoSeriesResponse>> getById(
-            @PathVariable("id") Long id) {
-        log.info("Received request to fetch DIA 3C Info Series with ID: {}", id);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch DIA 3C Info Series with ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "DIA 3C Info Series fetched successfully", service.getById(id)));
+                        "DIA 3C Info Series fetched successfully",
+                        service.getById(request.getId())));
     }
 
     @GetMapping

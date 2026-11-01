@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.BdspImportResult;
 import org.emat.dto.BdspResponse;
 import org.emat.dto.CreateBdspRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateBdspRequest;
 import org.emat.dto.UpdateBdspStatusRequest;
 import org.emat.service.BdspService;
@@ -67,12 +69,13 @@ public class BdspController {
                                 "BDSP created successfully", service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bdspRead'))")
-    public ResponseEntity<ApiResponse<BdspResponse>> getById(@PathVariable("id") Long id) {
-        log.info("Received request to fetch BDSP with ID: {}", id);
+    public ResponseEntity<ApiResponse<BdspResponse>> getById(
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch BDSP with ID: {}", request.getId());
         return ResponseEntity.ok(
-                ApiResponse.success("BDSP fetched successfully", service.getById(id)));
+                ApiResponse.success("BDSP fetched successfully", service.getById(request.getId())));
     }
 
     @GetMapping

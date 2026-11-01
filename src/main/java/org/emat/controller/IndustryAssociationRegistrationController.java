@@ -1,20 +1,22 @@
 package org.emat.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationRegistrationRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
 import org.emat.dto.RegistrationDropdownDto;
+import org.emat.dto.RegistrationDropdownRequest;
 import org.emat.dto.StageHistoryResponse;
 import org.emat.dto.StageResponse;
 import org.emat.dto.UpdateIndustryAssociationRegistrationRequest;
 import org.emat.service.EndpointRolePolicyService;
 import org.emat.service.IndustryAssociationRegistrationService;
-import org.emat.util.PiiEncryptionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +31,6 @@ public class IndustryAssociationRegistrationController {
 
     private final IndustryAssociationRegistrationService service;
     private final EndpointRolePolicyService endpointRolePolicyService;
-    private final PiiEncryptionService encryptionService;
 
     @PostMapping
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationWrite'))")
@@ -43,14 +44,15 @@ public class IndustryAssociationRegistrationController {
                                 service.createRegistration(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationRead'))")
     public ResponseEntity<ApiResponse<IndustryAssociationRegistrationResponse>> getRegistrationById(
-            @PathVariable Long id) {
-        log.info("Received request to fetch registration with ID: {}", id);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch registration with ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Registration fetched successfully", service.getRegistrationById(id)));
+                        "Registration fetched successfully",
+                        service.getRegistrationById(request.getId())));
     }
 
     @GetMapping
@@ -63,30 +65,22 @@ public class IndustryAssociationRegistrationController {
                         "Registrations fetched successfully", service.getAllRegistrations()));
     }
 
-    @GetMapping("/dropdown")
+    @PostMapping("/dropdown")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationDropDown'))")
     public ResponseEntity<ApiResponse<List<RegistrationDropdownDto>>> getRegistrationDropdown(
-            @RequestParam(required = false) String stageId,
-            @RequestParam(required = false) String state,
-            @RequestParam(required = false) String createdBy,
-            @RequestParam(required = false) String district) {
+            @RequestBody(required = false) RegistrationDropdownRequest request) {
         log.info("Received request to fetch registration dropdown");
+        if (request == null) {
+            request = new RegistrationDropdownRequest();
+        }
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Registration dropdown fetched successfully",
                         service.getRegistrationDropdown(
-                                requireEncryptedId(stageId), state, createdBy, district)));
-    }
-
-    private Long requireEncryptedId(String id) {
-        if (id == null || id.isBlank()) {
-            return null;
-        }
-        if (!encryptionService.isEncrypted(id)) {
-            throw new IllegalArgumentException(
-                    "stageId must be provided as an encrypted identifier starting with ENC:");
-        }
-        return encryptionService.decryptId(id);
+                                request.getStageId(),
+                                request.getState(),
+                                request.getCreatedBy(),
+                                request.getDistrict())));
     }
 
     @PutMapping("/{id}")
@@ -122,15 +116,16 @@ public class IndustryAssociationRegistrationController {
                         service.approveBySidbe(id, approvalRequest, authentication.getName())));
     }
 
-    @GetMapping("/{registrationId}/stage-history")
+    @PostMapping("/stage-history")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationRead'))")
     public ResponseEntity<ApiResponse<List<StageHistoryResponse>>> getStageHistoryByRegistrationId(
-            @PathVariable Long registrationId) {
-        log.info("Received request to fetch stage history for registration ID: {}", registrationId);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch stage history for registration ID: {}",
+                request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Stage history fetched successfully",
-                        service.getStageHistoryByRegistrationId(registrationId)));
+                        service.getStageHistoryByRegistrationId(request.getId())));
     }
 
     @Operation(
@@ -148,13 +143,13 @@ public class IndustryAssociationRegistrationController {
             description =
                     "Retrieves all active Industry Association Registrations that are currently at"
                             + " the given stage.")
-    @GetMapping("/stage/{stageId}")
+    @PostMapping("/stage")
     public ResponseEntity<ApiResponse<List<IndustryAssociationRegistrationResponse>>>
-            getRegistrationsByStageId(@PathVariable Long stageId) {
-        log.info("Received request to fetch registrations for stage ID: {}", stageId);
+            getRegistrationsByStageId(@Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch registrations for stage ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Registrations fetched successfully",
-                        service.getRegistrationsByStageId(stageId)));
+                        service.getRegistrationsByStageId(request.getId())));
     }
 }

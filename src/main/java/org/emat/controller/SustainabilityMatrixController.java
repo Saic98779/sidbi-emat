@@ -1,9 +1,11 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.AppraisalDropdownDto;
+import org.emat.dto.IdRequest;
 import org.emat.dto.SustainabilityMatrixRequest;
 import org.emat.dto.SustainabilityMatrixResponse;
 import org.emat.service.SustainabilityMatrixService;
@@ -36,21 +38,22 @@ public class SustainabilityMatrixController {
                         "Sustainability matrix updated successfully", service.update(id, request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     public ResponseEntity<ApiResponse<SustainabilityMatrixResponse>> getById(
-            @PathVariable Long id) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Sustainability matrix fetched successfully", service.getById(id)));
+                        "Sustainability matrix fetched successfully",
+                        service.getById(request.getId())));
     }
 
-    @GetMapping("/appraisal/{appraisalId}")
+    @PostMapping("/appraisal")
     public ResponseEntity<ApiResponse<List<SustainabilityMatrixResponse>>> getByAppraisalId(
-            @PathVariable Long appraisalId) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Sustainability matrices fetched successfully",
-                        service.getByAppraisalId(appraisalId)));
+                        service.getByAppraisalId(request.getId())));
     }
 
     @DeleteMapping("/{id}")

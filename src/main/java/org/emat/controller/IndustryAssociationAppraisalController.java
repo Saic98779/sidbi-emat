@@ -1,6 +1,7 @@
 package org.emat.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -16,6 +17,7 @@ import org.emat.dto.AnnexureVIResponse;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.ApprovalRequest;
 import org.emat.dto.CreateIndustryAssociationAppraisalRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.IndustryAssociationAppraisalResponse;
 import org.emat.dto.IndustryAssociationRegistrationResponse;
 import org.emat.dto.UpdateIndustryAssociationAppraisalRequest;
@@ -52,27 +54,28 @@ public class IndustryAssociationAppraisalController {
                                 service.createAppraisal(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize(
             "hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
     public ResponseEntity<ApiResponse<IndustryAssociationAppraisalResponse>> getAppraisalById(
-            @PathVariable("id") Long id) {
-        log.info("Received request to fetch appraisal with ID: {}", id);
-        return ResponseEntity.ok(
-                ApiResponse.success(
-                        "Appraisal fetched successfully", service.getAppraisalById(id)));
-    }
-
-    @GetMapping("/registration/{registrationId}")
-    @PreAuthorize(
-            "hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
-    public ResponseEntity<ApiResponse<IndustryAssociationAppraisalResponse>>
-            getAppraisalByRegistrationUId(@PathVariable("registrationId") Long registrationId) {
-        log.info("Received request to fetch appraisal for registration ID: {}", registrationId);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch appraisal with ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Appraisal fetched successfully",
-                        service.getAppraisalByRegistrationId(registrationId)));
+                        service.getAppraisalById(request.getId())));
+    }
+
+    @PostMapping("/registration")
+    @PreAuthorize(
+            "hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
+    public ResponseEntity<ApiResponse<IndustryAssociationAppraisalResponse>>
+            getAppraisalByRegistrationUId(@Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch appraisal for registration ID: {}", request.getId());
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Appraisal fetched successfully",
+                        service.getAppraisalByRegistrationId(request.getId())));
     }
 
     @GetMapping
@@ -120,15 +123,15 @@ public class IndustryAssociationAppraisalController {
         return ResponseEntity.ok(ApiResponse.success("Appraisal deleted successfully", null));
     }
 
-    @GetMapping("/registration/{registrationId}/dia-report")
+    @PostMapping("/registration/dia-report")
     @PreAuthorize(
             "hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
-    public ResponseEntity<String> generateDiaReportHtml(@PathVariable Long registrationId)
+    public ResponseEntity<String> generateDiaReportHtml(@Valid @RequestBody IdRequest request)
             throws IOException {
         IndustryAssociationAppraisalResponse appraisal =
-                service.getAppraisalByRegistrationId(registrationId);
+                service.getAppraisalByRegistrationId(request.getId());
         IndustryAssociationRegistrationResponse registration =
-                registrationService.getRegistrationById(registrationId);
+                registrationService.getRegistrationById(request.getId());
         String template = loadDiaReportTemplate();
 
         String html = replaceBetweenMarkers(
@@ -147,11 +150,13 @@ public class IndustryAssociationAppraisalController {
         return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(html);
     }
 
-    @GetMapping("/{id}/appraisal-format")
+    @PostMapping("/appraisal-format")
     @PreAuthorize(
             "hasAnyRole(@endpointRolePolicyService.resolveRoles('industryAssociationAppraisalRead'))")
-    public ResponseEntity<String> generateAppraisalFormatHtml(@PathVariable Long id) {
-        IndustryAssociationAppraisalResponse appraisal = service.getAppraisalByRegistrationId(id);
+    public ResponseEntity<String> generateAppraisalFormatHtml(
+            @Valid @RequestBody IdRequest request) {
+        IndustryAssociationAppraisalResponse appraisal =
+                service.getAppraisalByRegistrationId(request.getId());
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_HTML)
                 .body(wrapAppraisalFormatDocument(buildAppraisalFormatHtml(appraisal)));

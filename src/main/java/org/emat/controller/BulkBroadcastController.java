@@ -1,11 +1,13 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.BulkBroadcastResponse;
 import org.emat.dto.CreateBulkBroadcastRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateBulkBroadcastRequest;
 import org.emat.dto.UpdateBulkBroadcastStatusRequest;
 import org.emat.service.BulkBroadcastService;
@@ -33,14 +35,14 @@ public class BulkBroadcastController {
                                 "Bulk Broadcast created successfully", service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bulkBroadcastRead'))")
     public ResponseEntity<ApiResponse<BulkBroadcastResponse>> getById(
-            @PathVariable("id") Long id) {
-        log.info("Received request to fetch Bulk Broadcast with ID: {}", id);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch Bulk Broadcast with ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Bulk Broadcast fetched successfully", service.getById(id)));
+                        "Bulk Broadcast fetched successfully", service.getById(request.getId())));
     }
 
     @GetMapping

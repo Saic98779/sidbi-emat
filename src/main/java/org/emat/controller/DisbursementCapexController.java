@@ -1,10 +1,12 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.DisbursementCapexRequest;
 import org.emat.dto.DisbursementCapexResponse;
+import org.emat.dto.IdRequest;
 import org.emat.service.DisbursementCapexService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,21 +29,22 @@ public class DisbursementCapexController {
                                 disbursementCapexService.create(request)));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<DisbursementCapexResponse>> getById(@PathVariable Long id) {
+    @PostMapping("/get")
+    public ResponseEntity<ApiResponse<DisbursementCapexResponse>> getById(
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Disbursement capex fetched successfully",
-                        disbursementCapexService.getById(id)));
+                        disbursementCapexService.getById(request.getId())));
     }
 
-    @GetMapping("/registration/{registrationId}")
+    @PostMapping("/registration")
     public ResponseEntity<ApiResponse<DisbursementCapexResponse>> getByRegistrationId(
-            @PathVariable Long registrationId) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Disbursement capex fetched successfully",
-                        disbursementCapexService.getByRegistrationId(registrationId)));
+                        disbursementCapexService.getByRegistrationId(request.getId())));
     }
 
     @GetMapping

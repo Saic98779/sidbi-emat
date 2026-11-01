@@ -1,9 +1,11 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.EligibilityMatrixDto;
+import org.emat.dto.IdRequest;
 import org.emat.dto.RegistrationDropdownDto;
 import org.emat.service.EligibilityMatrixService;
 import org.springframework.http.HttpStatus;
@@ -28,13 +30,14 @@ public class EligibilityMatrixController {
                                 eligibilityMatrixService.create(request)));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<EligibilityMatrixDto>> getById(@PathVariable Long id) {
+    @PostMapping("/get")
+    public ResponseEntity<ApiResponse<EligibilityMatrixDto>> getById(
+            @Valid @RequestBody IdRequest request) {
 
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Eligibility matrix fetched successfully",
-                        eligibilityMatrixService.getById(id)));
+                        eligibilityMatrixService.getById(request.getId())));
     }
 
     @GetMapping
@@ -46,14 +49,14 @@ public class EligibilityMatrixController {
                         eligibilityMatrixService.getAll()));
     }
 
-    @GetMapping("/registration/{registrationId}")
+    @PostMapping("/registration")
     public ResponseEntity<ApiResponse<EligibilityMatrixDto>> getByRegistrationId(
-            @PathVariable Long registrationId) {
+            @Valid @RequestBody IdRequest request) {
 
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Eligibility matrix fetched successfully",
-                        eligibilityMatrixService.getByRegistrationId(registrationId)));
+                        eligibilityMatrixService.getByRegistrationId(request.getId())));
     }
 
     @PutMapping("/{id}")

@@ -1,10 +1,12 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateSurveyRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.SurveyResponse;
 import org.emat.dto.UpdateSurveyRequest;
 import org.emat.dto.UpdateSurveyStatusRequest;
@@ -31,12 +33,15 @@ public class SurveyController {
                 .body(ApiResponse.created("Survey created successfully", service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('surveyRead'))")
-    public ResponseEntity<ApiResponse<SurveyResponse>> getById(@PathVariable("id") Long id) {
-        log.info("Received request to fetch Survey with ID: {}", id);
+    public ResponseEntity<ApiResponse<SurveyResponse>> getById(
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch Survey with ID: {}", request.getId());
         return ResponseEntity.ok(
-                ApiResponse.success("Survey fetched successfully", service.getById(id)));
+                ApiResponse.success(
+                        "Survey fetched successfully",
+                        service.getById(request.getId())));
     }
 
     @GetMapping

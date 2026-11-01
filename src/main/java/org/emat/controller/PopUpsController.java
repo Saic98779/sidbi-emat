@@ -1,10 +1,12 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreatePopUpsRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.PopUpsResponse;
 import org.emat.dto.UpdatePopUpsRequest;
 import org.emat.dto.UpdatePopUpsStatusRequest;
@@ -33,12 +35,15 @@ public class PopUpsController {
                                 "Pop-Ups created successfully", service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('popUpsRead'))")
-    public ResponseEntity<ApiResponse<PopUpsResponse>> getById(@PathVariable("id") Long id) {
-        log.info("Received request to fetch Pop-Ups with ID: {}", id);
+    public ResponseEntity<ApiResponse<PopUpsResponse>> getById(
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch Pop-Ups with ID: {}", request.getId());
         return ResponseEntity.ok(
-                ApiResponse.success("Pop-Ups fetched successfully", service.getById(id)));
+                ApiResponse.success(
+                        "Pop-Ups fetched successfully",
+                        service.getById(request.getId())));
     }
 
     @GetMapping

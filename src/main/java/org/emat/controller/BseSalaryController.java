@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.emat.dto.ApiResponse;
 import org.emat.dto.BseSalaryRequest;
 import org.emat.dto.BseSalaryResponse;
 import org.emat.dto.BseSalaryUpdateRequest;
+import org.emat.dto.IdRequest;
 import org.emat.service.BseSalaryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +34,14 @@ public class BseSalaryController {
                                 bseSalaryService.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseSalaryRead'))")
-    public ResponseEntity<ApiResponse<BseSalaryResponse>> getById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<BseSalaryResponse>> getById(
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "BSE salary fetched successfully", bseSalaryService.getById(id)));
+                        "BSE salary fetched successfully",
+                        bseSalaryService.getById(request.getId())));
     }
 
     @GetMapping

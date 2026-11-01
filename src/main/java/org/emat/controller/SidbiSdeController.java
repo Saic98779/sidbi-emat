@@ -1,8 +1,10 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
+import org.emat.dto.IdRequest;
 import org.emat.dto.SidbiSdeDropdownResponse;
 import org.emat.service.SidbiSdeService;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +17,12 @@ public class SidbiSdeController {
 
     private final SidbiSdeService sidbiSdeService;
 
-    @GetMapping("/dropdown")
+    @PostMapping("/dropdown")
     public ResponseEntity<ApiResponse<List<SidbiSdeDropdownResponse>>> getSdeDropdown(
-            @RequestParam("branchId") Long branchId) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "SDE dropdown fetched successfully",
-                        sidbiSdeService.getDropdownByBranch(branchId)));
+                        sidbiSdeService.getDropdownByBranch(request.getId())));
     }
 }

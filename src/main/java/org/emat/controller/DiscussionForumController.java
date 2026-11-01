@@ -1,11 +1,13 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateDiscussionForumRequest;
 import org.emat.dto.DiscussionForumResponse;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateDiscussionForumRequest;
 import org.emat.dto.UpdateDiscussionForumStatusRequest;
 import org.emat.service.DiscussionForumService;
@@ -34,14 +36,14 @@ public class DiscussionForumController {
                                 service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('discussionForumRead'))")
     public ResponseEntity<ApiResponse<DiscussionForumResponse>> getById(
-            @PathVariable("id") Long id) {
-        log.info("Received request to fetch Discussion Forum with ID: {}", id);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch Discussion Forum with ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Discussion Forum fetched successfully", service.getById(id)));
+                        "Discussion Forum fetched successfully", service.getById(request.getId())));
     }
 
     @GetMapping

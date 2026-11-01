@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.BseRecommendationResponse;
 import org.emat.dto.CreateBseRecommendationRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateBseRecommendationRequest;
 import org.emat.service.IndustryAssociationBseRecommendationService;
 import org.springframework.http.HttpStatus;
@@ -64,33 +65,33 @@ public class IndustryAssociationBseRecommendationController {
                         bseRecommendationService.getAllBseRecommendations()));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(
             summary = "Get BSE recommendation by ID",
             description = "Retrieve a specific BSE recommendation by its ID")
     public ResponseEntity<ApiResponse<BseRecommendationResponse>> getBseRecommendationById(
-            @PathVariable("id") @Positive Long id) {
-        log.info("REST request to get BSE recommendation with ID: {}", id);
+            @Valid @RequestBody IdRequest request) {
+        log.info("REST request to get BSE recommendation with ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "BSE recommendation fetched successfully",
-                        bseRecommendationService.getBseRecommendationById(id)));
+                        bseRecommendationService.getBseRecommendationById(request.getId())));
     }
 
-    @GetMapping("/registration/{registrationId}")
+    @PostMapping("/registration")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     @Operation(
             summary = "Get BSE recommendations by registration",
             description = "Retrieve all BSE recommendations for a specific industry association")
     public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>>
-            getBseRecommendationsByRegistration(@PathVariable @Positive Long registrationId) {
-        log.info("REST request to get BSE recommendations for registration: {}", registrationId);
+            getBseRecommendationsByRegistration(@Valid @RequestBody IdRequest request) {
+        log.info("REST request to get BSE recommendations for registration: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "BSE recommendations fetched successfully",
                         bseRecommendationService.getBseRecommendationsByRegistration(
-                                registrationId)));
+                                request.getId())));
     }
 
     @PutMapping("/{id}")
@@ -187,14 +188,14 @@ public class IndustryAssociationBseRecommendationController {
             description =
                     "Fetches all active BSE recommendations mapped to the specified vendor where"
                             + " the recommendation is marked as selected.")
-    @GetMapping("/user/{userId}/selected")
+    @PostMapping("/user/selected")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('bseRecommendationRead'))")
     public ResponseEntity<ApiResponse<List<BseRecommendationResponse>>> getSelectedBseByVendor(
-            @PathVariable @Positive Long userId) {
+            @Valid @RequestBody IdRequest request) {
 
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "BSE recommendations fetched successfully",
-                        bseRecommendationService.getSelectedBseByVendor(userId)));
+                        bseRecommendationService.getSelectedBseByVendor(request.getId())));
     }
 }

@@ -1,9 +1,11 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.BseAttendanceDTO;
+import org.emat.dto.IdRequest;
 import org.emat.service.BseAttendanceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +34,13 @@ public class BseAttendanceController {
                         "Attendance updated successfully", attendanceService.update(id, dto)));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<BseAttendanceDTO>> getById(@PathVariable Long id) {
+    @PostMapping("/get")
+    public ResponseEntity<ApiResponse<BseAttendanceDTO>> getById(
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Attendance fetched successfully", attendanceService.getById(id)));
+                        "Attendance fetched successfully",
+                        attendanceService.getById(request.getId())));
     }
 
     @GetMapping
@@ -46,13 +50,13 @@ public class BseAttendanceController {
                         "Attendances fetched successfully", attendanceService.getAll()));
     }
 
-    @GetMapping("/recommendation/{recommendationId}")
+    @PostMapping("/recommendation")
     public ResponseEntity<ApiResponse<List<BseAttendanceDTO>>> getByRecommendation(
-            @PathVariable Long recommendationId) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Attendances fetched successfully",
-                        attendanceService.getByRecommendation(recommendationId)));
+                        attendanceService.getByRecommendation(request.getId())));
     }
 
     @DeleteMapping("/{id}")

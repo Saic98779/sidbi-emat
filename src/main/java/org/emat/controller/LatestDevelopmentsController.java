@@ -1,10 +1,12 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateLatestDevelopmentsRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.LatestDevelopmentsResponse;
 import org.emat.dto.UpdateLatestDevelopmentsRequest;
 import org.emat.dto.UpdateLatestDevelopmentsStatusRequest;
@@ -34,14 +36,15 @@ public class LatestDevelopmentsController {
                                 service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('latestDevelopmentsRead'))")
     public ResponseEntity<ApiResponse<LatestDevelopmentsResponse>> getById(
-            @PathVariable("id") Long id) {
-        log.info("Received request to fetch Latest Developments with ID: {}", id);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch Latest Developments with ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Latest Developments fetched successfully", service.getById(id)));
+                        "Latest Developments fetched successfully",
+                        service.getById(request.getId())));
     }
 
     @GetMapping

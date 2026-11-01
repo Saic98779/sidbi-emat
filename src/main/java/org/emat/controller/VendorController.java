@@ -1,8 +1,10 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
+import org.emat.dto.IdRequest;
 import org.emat.dto.VendorDropdownDTO;
 import org.emat.dto.VendorRequestDTO;
 import org.emat.dto.VendorResponseDTO;
@@ -38,21 +40,24 @@ public class VendorController {
                         "Vendor updated successfully", vendorService.updateVendor(id, request)));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<VendorResponseDTO>> getVendorById(@PathVariable Long id) {
+    @PostMapping("/get")
+    public ResponseEntity<ApiResponse<VendorResponseDTO>> getVendorById(
+            @Valid @RequestBody IdRequest request) {
 
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Vendor fetched successfully", vendorService.getVendorById(id)));
+                        "Vendor fetched successfully",
+                        vendorService.getVendorById(request.getId())));
     }
 
-    @GetMapping("/user/{userId}")
+    @PostMapping("/user")
     public ResponseEntity<ApiResponse<VendorResponseDTO>> getVendorByUserId(
-            @PathVariable Long userId) {
+            @Valid @RequestBody IdRequest request) {
 
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Vendor fetched successfully", vendorService.getVendorByUserId(userId)));
+                        "Vendor fetched successfully",
+                        vendorService.getVendorByUserId(request.getId())));
     }
 
     @GetMapping

@@ -1,11 +1,13 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.BdsServiceProvidersOnboardingResponse;
 import org.emat.dto.CreateBdsServiceProvidersOnboardingRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateBdsServiceProvidersOnboardingRequest;
 import org.emat.dto.UpdateBdsServiceProvidersOnboardingStatusRequest;
 import org.emat.service.BdsServiceProvidersOnboardingService;
@@ -35,17 +37,18 @@ public class BdsServiceProvidersOnboardingController {
                                 service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize(
             "hasAnyRole(@endpointRolePolicyService.resolveRoles('bdsServiceProvidersOnboardingRead'))")
     public ResponseEntity<ApiResponse<BdsServiceProvidersOnboardingResponse>> getById(
-            @PathVariable("id") Long id) {
+            @Valid @RequestBody IdRequest request) {
         log.info(
-                "Received request to fetch BDS Service Providers Onboarding with ID: {}", id);
+                "Received request to fetch BDS Service Providers Onboarding with ID: {}",
+                request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "BDS Service Providers Onboarding fetched successfully",
-                        service.getById(id)));
+                        service.getById(request.getId())));
     }
 
     @GetMapping

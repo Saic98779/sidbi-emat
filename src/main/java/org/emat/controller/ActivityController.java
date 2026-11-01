@@ -1,5 +1,6 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ActivityRequest;
@@ -8,6 +9,7 @@ import org.emat.dto.ActivityStatusResponse;
 import org.emat.dto.ActivityStatusUpdateRequest;
 import org.emat.dto.ActivityStatusUpdateResponse;
 import org.emat.dto.ApiResponse;
+import org.emat.dto.IdRequest;
 import org.emat.service.ActivityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,13 +41,13 @@ public class ActivityController {
                         activityService.updateActivity(activityId, request)));
     }
 
-    @GetMapping("/{activityId}")
+    @PostMapping("/get")
     public ResponseEntity<ApiResponse<ActivityResponse>> getActivityById(
-            @PathVariable Long activityId) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Activity fetched successfully",
-                        activityService.getActivityById(activityId)));
+                        activityService.getActivityById(request.getId())));
     }
 
     @GetMapping
@@ -71,21 +73,21 @@ public class ActivityController {
                                 activityService.patchActivityStatus(activityId, request)));
     }
 
-    @GetMapping("/{activityId}/status")
+    @PostMapping("/status")
     public ResponseEntity<ApiResponse<ActivityStatusResponse>> getLatestActivityStatus(
-            @PathVariable Long activityId) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Activity status fetched successfully",
-                        activityService.getLatestActivityStatus(activityId)));
+                        activityService.getLatestActivityStatus(request.getId())));
     }
 
-    @GetMapping("/{activityId}/status/history")
+    @PostMapping("/status/history")
     public ResponseEntity<ApiResponse<List<ActivityStatusResponse>>> getActivityStatusHistory(
-            @PathVariable Long activityId) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Activity status history fetched successfully",
-                        activityService.getActivityStatusHistory(activityId)));
+                        activityService.getActivityStatusHistory(request.getId())));
     }
 }

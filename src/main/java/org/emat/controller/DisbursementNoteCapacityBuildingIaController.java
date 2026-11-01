@@ -1,11 +1,13 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateDisbursementNoteCapacityBuildingIaRequest;
 import org.emat.dto.DisbursementNoteCapacityBuildingIaResponse;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaRequest;
 import org.emat.dto.UpdateDisbursementNoteCapacityBuildingIaStatusRequest;
 import org.emat.service.DisbursementNoteCapacityBuildingIaService;
@@ -35,29 +37,30 @@ public class DisbursementNoteCapacityBuildingIaController {
                                 service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize(
             "hasAnyRole(@endpointRolePolicyService.resolveRoles('disbursementNoteCapacityBuildingIaRead'))")
     public ResponseEntity<ApiResponse<DisbursementNoteCapacityBuildingIaResponse>> getById(
-            @PathVariable("id") Long id) {
-        log.info("Received request to fetch Disbursement Note with ID: {}", id);
-        return ResponseEntity.ok(
-                ApiResponse.success(
-                        "Disbursement Note fetched successfully", service.getById(id)));
-    }
-
-    @GetMapping("/registration/{registrationId}")
-    @PreAuthorize(
-            "hasAnyRole(@endpointRolePolicyService.resolveRoles('disbursementNoteCapacityBuildingIaRead'))")
-    public ResponseEntity<ApiResponse<DisbursementNoteCapacityBuildingIaResponse>>
-            getByRegistrationId(@PathVariable("registrationId") Long registrationId) {
-        log.info(
-                "Received request to fetch Disbursement Note for registration ID: {}",
-                registrationId);
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch Disbursement Note with ID: {}", request.getId());
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Disbursement Note fetched successfully",
-                        service.getByRegistrationId(registrationId)));
+                        service.getById(request.getId())));
+    }
+
+    @PostMapping("/registration")
+    @PreAuthorize(
+            "hasAnyRole(@endpointRolePolicyService.resolveRoles('disbursementNoteCapacityBuildingIaRead'))")
+    public ResponseEntity<ApiResponse<DisbursementNoteCapacityBuildingIaResponse>>
+            getByRegistrationId(@Valid @RequestBody IdRequest request) {
+        log.info(
+                "Received request to fetch Disbursement Note for registration ID: {}",
+                request.getId());
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Disbursement Note fetched successfully",
+                        service.getByRegistrationId(request.getId())));
     }
 
     @GetMapping

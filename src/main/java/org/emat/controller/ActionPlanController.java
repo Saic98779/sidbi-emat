@@ -1,11 +1,13 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ActionPlanResponse;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateActionPlanRequest;
+import org.emat.dto.IdRequest;
 import org.emat.dto.UpdateActionPlanRequest;
 import org.emat.dto.UpdateActionPlanStatusRequest;
 import org.emat.service.ActionPlanService;
@@ -33,12 +35,15 @@ public class ActionPlanController {
                                 "Action Plan created successfully", service.create(request)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('actionPlanRead'))")
-    public ResponseEntity<ApiResponse<ActionPlanResponse>> getById(@PathVariable("id") Long id) {
-        log.info("Received request to fetch Action Plan with ID: {}", id);
+    public ResponseEntity<ApiResponse<ActionPlanResponse>> getById(
+            @Valid @RequestBody IdRequest request) {
+        log.info("Received request to fetch Action Plan with ID: {}", request.getId());
         return ResponseEntity.ok(
-                ApiResponse.success("Action Plan fetched successfully", service.getById(id)));
+                ApiResponse.success(
+                        "Action Plan fetched successfully",
+                        service.getById(request.getId())));
     }
 
     @GetMapping

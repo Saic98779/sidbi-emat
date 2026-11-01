@@ -1,9 +1,11 @@
 package org.emat.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.BseAttendanceManualRequestDTO;
+import org.emat.dto.IdRequest;
 import org.emat.service.BseAttendanceManualRequestService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +36,13 @@ public class BseAttendanceManualRequestController {
                         "Manual attendance request updated successfully", service.update(id, dto)));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/get")
     public ResponseEntity<ApiResponse<BseAttendanceManualRequestDTO>> getById(
-            @PathVariable Long id) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        "Manual attendance request fetched successfully", service.getById(id)));
+                        "Manual attendance request fetched successfully",
+                        service.getById(request.getId())));
     }
 
     @GetMapping
@@ -49,13 +52,13 @@ public class BseAttendanceManualRequestController {
                         "Manual attendance requests fetched successfully", service.getAll()));
     }
 
-    @GetMapping("/recommendation/{recommendationId}")
+    @PostMapping("/recommendation")
     public ResponseEntity<ApiResponse<List<BseAttendanceManualRequestDTO>>> getByRecommendation(
-            @PathVariable Long recommendationId) {
+            @Valid @RequestBody IdRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         "Manual attendance requests fetched successfully",
-                        service.getByRecommendation(recommendationId)));
+                        service.getByRecommendation(request.getId())));
     }
 
     @GetMapping("/approval-status/{status}")
