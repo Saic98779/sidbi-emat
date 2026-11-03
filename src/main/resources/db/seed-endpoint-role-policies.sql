@@ -94,3 +94,51 @@ VALUES ('surveyUpdate', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Update Survey'
 
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at)
 VALUES ('surveyDelete', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Delete Survey', SYSTIMESTAMP);
+
+-- Grant Disbursement Policies
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('grantDisbursementCreate', 'GT_FIELD_TEAM,GT_PMU', 'Create Grant Disbursement', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('grantDisbursementRead', 'GT_FIELD_TEAM,GT_PMU', 'View Grant Disbursement', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('grantDisbursementUpdate', 'GT_FIELD_TEAM,GT_PMU', 'Update Grant Disbursement', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('grantDisbursementDelete', 'GT_FIELD_TEAM,GT_PMU', 'Delete Grant Disbursement', SYSTIMESTAMP);
+
+
+-- DIA Enhancement Policies
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaEnhancementCreate', 'GT_FIELD_TEAM,GT_PMU', 'Create DIA Enhancement', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaEnhancementRead', 'GT_FIELD_TEAM,GT_PMU', 'View DIA Enhancement', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaEnhancementUpdate', 'GT_FIELD_TEAM,GT_PMU', 'Update DIA Enhancement', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaEnhancementDelete', 'GT_FIELD_TEAM,GT_PMU', 'Delete DIA Enhancement', SYSTIMESTAMP);
+
+
+-- DIA Capacity Building Program Policies
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCapacityBuildingProgramCreate', 'GT_FIELD_TEAM,GT_PMU', 'Create DIA Capacity Building Program', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCapacityBuildingProgramRead', 'GT_FIELD_TEAM,GT_PMU', 'View DIA Capacity Building Program', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCapacityBuildingProgramUpdate', 'GT_FIELD_TEAM,GT_PMU', 'Update DIA Capacity Building Program', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCapacityBuildingProgramDelete', 'GT_FIELD_TEAM,GT_PMU', 'Delete DIA Capacity Building Program', SYSTIMESTAMP);
+
+
+-- DIA MSME Participant Policies
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaMsmeParticipantCreate', 'GT_FIELD_TEAM,GT_PMU', 'Create DIA MSME Participant', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaMsmeParticipantRead', 'GT_FIELD_TEAM,GT_PMU', 'View DIA MSME Participant', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaMsmeParticipantUpdate', 'GT_FIELD_TEAM,GT_PMU', 'Update DIA MSME Participant', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaMsmeParticipantDelete', 'GT_FIELD_TEAM,GT_PMU', 'Delete DIA MSME Participant', SYSTIMESTAMP);
+
+
+-- DIA Exposure Visit Policies
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaExposureVisitCreate', 'GT_FIELD_TEAM,GT_PMU', 'Create DIA Exposure Visit', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaExposureVisitRead', 'GT_FIELD_TEAM,GT_PMU', 'View DIA Exposure Visit', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaExposureVisitUpdate', 'GT_FIELD_TEAM,GT_PMU', 'Update DIA Exposure Visit', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaExposureVisitDelete', 'GT_FIELD_TEAM,GT_PMU', 'Delete DIA Exposure Visit', SYSTIMESTAMP);
+
+
+-- DIA Exposure Visit Participant Policies
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaExposureVisitParticipantCreate', 'GT_FIELD_TEAM,GT_PMU', 'Create DIA Exposure Visit Participant', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaExposureVisitParticipantRead', 'GT_FIELD_TEAM,GT_PMU', 'View DIA Exposure Visit Participant', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaExposureVisitParticipantUpdate', 'GT_FIELD_TEAM,GT_PMU', 'Update DIA Exposure Visit Participant', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaExposureVisitParticipantDelete', 'GT_FIELD_TEAM,GT_PMU', 'Delete DIA Exposure Visit Participant', SYSTIMESTAMP);
+
+
+-- DIA Credit Application Policies
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCreditApplicationCreate', 'GT_FIELD_TEAM,GT_PMU', 'Create DIA Credit Application', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCreditApplicationRead', 'GT_FIELD_TEAM,GT_PMU', 'View DIA Credit Application', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCreditApplicationUpdate', 'GT_FIELD_TEAM,GT_PMU', 'Update DIA Credit Application', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCreditApplicationDelete', 'GT_FIELD_TEAM,GT_PMU', 'Delete DIA Credit Application', SYSTIMESTAMP);
