@@ -11,6 +11,8 @@ public class DiaCapacityBuildingProgramMapper {
 
     public DiaCapacityBuildingProgram toEntity(CreateDiaCapacityBuildingProgramRequest request) {
         return DiaCapacityBuildingProgram.builder()
+                .roId(request.getRoId())
+                .industryAssociationId(request.getIndustryAssociationId())
                 .roName(request.getRoName())
                 .industryAssociationName(request.getIndustryAssociationName())
                 .participantType(request.getParticipantType())
@@ -37,6 +39,9 @@ public class DiaCapacityBuildingProgramMapper {
 
     public void applyUpdateRequest(
             DiaCapacityBuildingProgram program, UpdateDiaCapacityBuildingProgramRequest request) {
+        if (request.getRoId() != null) program.setRoId(request.getRoId());
+        if (request.getIndustryAssociationId() != null)
+            program.setIndustryAssociationId(request.getIndustryAssociationId());
         if (request.getRoName() != null) program.setRoName(request.getRoName());
         if (request.getIndustryAssociationName() != null)
             program.setIndustryAssociationName(request.getIndustryAssociationName());
@@ -73,6 +78,8 @@ public class DiaCapacityBuildingProgramMapper {
     public DiaCapacityBuildingProgramResponse toResponse(DiaCapacityBuildingProgram program) {
         return DiaCapacityBuildingProgramResponse.builder()
                 .id(program.getId())
+                .roId(program.getRoId())
+                .industryAssociationId(program.getIndustryAssociationId())
                 .roName(program.getRoName())
                 .industryAssociationName(program.getIndustryAssociationName())
                 .participantType(program.getParticipantType())

@@ -82,6 +82,12 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
+        <!-- SMTP email (forgot-password OTP delivery) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
         <!-- Oracle Database JDBC Driver -->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>

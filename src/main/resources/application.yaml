@@ -23,7 +23,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: false
     properties:
       hibernate:
@@ -37,6 +37,26 @@ spring:
   threads:
     virtual:
       enabled: true
+
+  # SMTP settings used to send forgot-password OTP emails.
+  # Supply real credentials via environment variables (never commit the SMTP password).
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    protocol: smtp
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS:true}
+            required: ${MAIL_SMTP_STARTTLS:true}
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
 
 jwt:
   secret: EMATSecretKeyForJwtSigningMustBeAtLeast32BytesLong123!
@@ -54,6 +74,18 @@ security:
     image:
       width: 180
       height: 60
+  # Forgot / reset password flow (POST /auth/forgot-password, /auth/verify-otp, /auth/reset-password).
+  password-reset:
+    # Sender address for OTP emails (defaults to the SMTP username).
+    mail-from: ${MAIL_FROM:${spring.mail.username:}}
+    mail-subject: "EMAT - Password Reset Verification Code"
+    otp-expiry-minutes: 5
+    # Wrong-OTP attempts allowed before the OTP is invalidated.
+    max-attempts: 5
+    # Minimum gap between two OTP requests for the same email.
+    resend-cooldown-seconds: 60
+    # Lifetime of the reset token issued after a successful OTP verification.
+    reset-token-expiry-minutes: 10
 
 logging:
   level:

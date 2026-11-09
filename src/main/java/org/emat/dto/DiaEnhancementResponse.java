@@ -28,6 +28,13 @@ public class DiaEnhancementResponse {
     private String pocSidbi;
     private String pocGt;
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    private Long sidbiPocId;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    private Long gtPocId;
+    private String enhancementSupportFilePath;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String createdBy;

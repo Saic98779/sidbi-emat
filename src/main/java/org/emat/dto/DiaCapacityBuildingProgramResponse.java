@@ -20,6 +20,12 @@ public class DiaCapacityBuildingProgramResponse {
     @JsonSerialize(using = PiiIdEncryptSerializer.class)
     private Long id;
 
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    private Long roId;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    private Long industryAssociationId;
+
     private String roName;
     private String industryAssociationName;
     private String participantType;
