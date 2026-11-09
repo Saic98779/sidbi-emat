@@ -46,4 +46,13 @@ public class DiaEnhancement extends BaseEntity {
 
     @Column(name = "POC_GT")
     private String pocGt;
+
+    @Column(name = "SIDBI_POC_ID")
+    private Long sidbiPocId;
+
+    @Column(name = "GT_POC_ID")
+    private Long gtPocId;
+
+    @Column(name = "ENHANCEMENT_SUPPORT_FILE_PATH", length = 1000)
+    private String enhancementSupportFilePath;
 }

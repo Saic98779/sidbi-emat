@@ -11,6 +11,8 @@ public class DiaExposureVisitMapper {
 
     public DiaExposureVisit toEntity(CreateDiaExposureVisitRequest request) {
         return DiaExposureVisit.builder()
+                .roId(request.getRoId())
+                .industryAssociationId(request.getIndustryAssociationId())
                 .roName(request.getRoName())
                 .industryAssociationName(request.getIndustryAssociationName())
                 .visitDate(request.getVisitDate())
@@ -32,6 +34,9 @@ public class DiaExposureVisitMapper {
     }
 
     public void applyUpdateRequest(DiaExposureVisit visit, UpdateDiaExposureVisitRequest request) {
+        if (request.getRoId() != null) visit.setRoId(request.getRoId());
+        if (request.getIndustryAssociationId() != null)
+            visit.setIndustryAssociationId(request.getIndustryAssociationId());
         if (request.getRoName() != null) visit.setRoName(request.getRoName());
         if (request.getIndustryAssociationName() != null)
             visit.setIndustryAssociationName(request.getIndustryAssociationName());
@@ -60,6 +65,8 @@ public class DiaExposureVisitMapper {
     public DiaExposureVisitResponse toResponse(DiaExposureVisit visit) {
         return DiaExposureVisitResponse.builder()
                 .id(visit.getId())
+                .roId(visit.getRoId())
+                .industryAssociationId(visit.getIndustryAssociationId())
                 .roName(visit.getRoName())
                 .industryAssociationName(visit.getIndustryAssociationName())
                 .visitDate(visit.getVisitDate())

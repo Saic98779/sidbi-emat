@@ -22,7 +22,12 @@ public class DiaCapacityBuildingProgram extends BaseEntity {
     @SequenceGenerator(name = "SEQ_DIA_CAPACITY_BUILDING_PROGRAM", sequenceName = "SEQ_DIA_CAPACITY_BUILDING_PROGRAM", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
-    
+
+    @Column(name = "RO_ID")
+    private Long roId;
+
+    @Column(name = "INDUSTRY_ASSOCIATION_ID")
+    private Long industryAssociationId;
 
     @Column(name = "RO_NAME")
     private String roName;

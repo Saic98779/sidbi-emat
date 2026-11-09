@@ -196,6 +196,21 @@ public class GlobalExceptionHandler {
         return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
     }
 
+    /** Handle forgot/reset-password validation failures (invalid/expired OTP or token, etc.). */
+    @ExceptionHandler(PasswordResetException.class)
+    public ResponseEntity<ProblemDetail> handlePasswordResetException(
+            PasswordResetException ex, WebRequest request) {
+        return buildProblemDetail(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
+    }
+
+    /** Handle outbound email delivery failures. */
+    @ExceptionHandler(EmailDeliveryException.class)
+    public ResponseEntity<ProblemDetail> handleEmailDeliveryException(
+            EmailDeliveryException ex, WebRequest request) {
+        return buildProblemDetail(
+                HttpStatus.SERVICE_UNAVAILABLE, "Service Unavailable", ex.getMessage(), request);
+    }
+
     /** Handle file storage operation failures. */
     @ExceptionHandler(FileStorageException.class)
     public ResponseEntity<ProblemDetail> handleFileStorageException(

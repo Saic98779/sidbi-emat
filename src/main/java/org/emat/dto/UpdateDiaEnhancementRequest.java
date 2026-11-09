@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.emat.dto.serializer.PiiIdDecryptDeserializer;
+import org.emat.dto.serializer.PiiIdEncryptSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /** DTO for updating an existing DIA Enhancement. */
 @Data
@@ -21,4 +25,14 @@ public class UpdateDiaEnhancementRequest {
     private String status;
     private String pocSidbi;
     private String pocGt;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
+    private Long sidbiPocId;
+
+    @JsonSerialize(using = PiiIdEncryptSerializer.class)
+    @JsonDeserialize(using = PiiIdDecryptDeserializer.class)
+    private Long gtPocId;
+
+    private String enhancementSupportFilePath;
 }
