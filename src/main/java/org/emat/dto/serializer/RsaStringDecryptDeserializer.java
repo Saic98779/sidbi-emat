@@ -1,5 +1,6 @@
 package org.emat.dto.serializer;
 
+import org.emat.exception.InvalidEncryptedFieldException;
 import org.emat.util.LoginRsaKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,11 @@ public class RsaStringDecryptDeserializer extends ValueDeserializer<String> {
     @Override
     public String deserialize(JsonParser p, DeserializationContext ctxt) {
         String value = p.getValueAsString();
-        return loginRsaKeyService.decrypt(value);
+        try {
+            return loginRsaKeyService.decrypt(value);
+        } catch (IllegalArgumentException e) {
+            String field = p.currentName() != null ? p.currentName() : "field";
+            throw new InvalidEncryptedFieldException(field + ": " + e.getMessage(), e);
+        }
     }
 }

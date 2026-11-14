@@ -23,7 +23,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: false
     properties:
       hibernate:
@@ -43,8 +43,8 @@ spring:
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:}
-    password: ${MAIL_PASSWORD:}
+    username: ${MAIL_USERNAME:noreply.metaversedu@gmail.com}
+    password: ${MAIL_PASSWORD:qppvjwcbxuhuknuc}
     protocol: smtp
     default-encoding: UTF-8
     properties:
@@ -74,11 +74,18 @@ security:
     image:
       width: 180
       height: 60
-  # Forgot / reset password flow (POST /auth/forgot-password, /auth/verify-otp, /auth/reset-password).
+  # Password OTP settings for forgot / reset password
+  # (POST /auth/forgot-password, /auth/verify-otp, /auth/reset-password).
+  # Change password (POST /users/change-password) uses no OTP.
   password-reset:
     # Sender address for OTP emails (defaults to the SMTP username).
     mail-from: ${MAIL_FROM:${spring.mail.username:}}
     mail-subject: "EMAT - Password Reset Verification Code"
+    change-mail-subject: "EMAT - Change Password Verification Code"
+    # Key used to hash stored OTPs / reset tokens (min 32 chars). Defaults to jwt.secret.
+    hash-secret: ${PASSWORD_OTP_HASH_SECRET:${jwt.secret}}
+    # New passwords need this many characters (min 8, max 64) plus upper, lower, digit, special.
+    min-password-length: 8
     otp-expiry-minutes: 5
     # Wrong-OTP attempts allowed before the OTP is invalidated.
     max-attempts: 5
@@ -86,6 +93,13 @@ security:
     resend-cooldown-seconds: 60
     # Lifetime of the reset token issued after a successful OTP verification.
     reset-token-expiry-minutes: 10
+  # Welcome email sent to a user after successful registration (POST /users).
+  # Uses the same SMTP settings and sender (password-reset.mail-from) as the OTP emails.
+  welcome-mail:
+    enabled: ${WELCOME_MAIL_ENABLED:true}
+    subject: "Welcome to EMAT"
+    # Optional login page link included in the email; leave empty to omit it.
+    login-url: ${WELCOME_MAIL_LOGIN_URL:}
 
 logging:
   level:

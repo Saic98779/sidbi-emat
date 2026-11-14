@@ -11,7 +11,7 @@ import org.emat.dto.VerifyOtpResponse;
  * <ol>
  *   <li>{@link #forgotPassword} emails a 6-digit OTP to a registered user.
  *   <li>{@link #verifyOtp} validates the OTP and issues a short-lived single-use reset token.
- *   <li>{@link #resetPassword} sets the new password using the reset token (or the OTP directly).
+ *   <li>{@link #resetPassword} sets the new password using the reset token.
  * </ol>
  *
  * <p>OTPs and reset tokens are only ever stored as hashes.
@@ -27,6 +27,6 @@ public interface PasswordResetService {
     /** Validates the OTP (consuming it on success) and returns a single-use reset token. */
     VerifyOtpResponse verifyOtp(VerifyOtpRequest request);
 
-    /** Validates the reset token / OTP, encodes and stores the new password, then invalidates it. */
+    /** Validates the reset token, encodes and stores the new password, then invalidates it. */
     void resetPassword(ResetPasswordRequest request);
 }

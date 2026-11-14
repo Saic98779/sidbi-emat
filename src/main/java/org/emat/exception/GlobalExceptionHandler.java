@@ -260,6 +260,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ProblemDetail> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException ex, WebRequest request) {
+        for (Throwable t = ex; t != null; t = t.getCause()) {
+            if (t instanceof InvalidEncryptedFieldException encryptedFieldError) {
+                return buildProblemDetail(
+                        HttpStatus.BAD_REQUEST, "Bad Request", encryptedFieldError.getMessage(), request);
+            }
+        }
         String detail = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
         return buildProblemDetail(
                 HttpStatus.BAD_REQUEST,

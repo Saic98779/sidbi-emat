@@ -6,9 +6,11 @@ import org.emat.dto.UserResponse;
 import org.emat.entity.User;
 import org.emat.entity.Vendor;
 import org.emat.enums.Role;
+import org.emat.event.UserCreatedEvent;
 import org.emat.repository.UserRepository;
 import org.emat.repository.VendorRepository;
 import org.emat.service.UserService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +23,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final VendorRepository vendorRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public UserServiceImpl(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            VendorRepository vendorRepository) {
+            VendorRepository vendorRepository,
+            ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.vendorRepository = vendorRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     /** Create a new user. */
@@ -69,6 +74,15 @@ public class UserServiceImpl implements UserService {
             vendor.setContactNo(request.getContactNo());
             vendorRepository.save(vendor);
         }
+
+        // Welcome email goes out only after this transaction commits (see WelcomeEmailListener).
+        eventPublisher.publishEvent(
+                new UserCreatedEvent(
+                        savedUser.getId(),
+                        savedUser.getUsername(),
+                        savedUser.getEmail(),
+                        savedUser.getFirstName(),
+                        savedUser.getLastName()));
 
         return convertToResponse(savedUser);
     }
