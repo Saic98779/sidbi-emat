@@ -3,10 +3,12 @@ package org.emat.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
 import org.emat.config.AuthCookieProperties;
 import org.emat.dto.ApiResponse;
+import org.emat.dto.ChangePasswordRequest;
 import org.emat.dto.CreateUserRequest;
 import org.emat.dto.LoginRequest;
 import org.emat.dto.LoginResponse;
@@ -14,6 +16,7 @@ import org.emat.dto.UserResponse;
 import org.emat.enums.Role;
 import org.emat.exception.CaptchaValidationException;
 import org.emat.service.CaptchaService;
+import org.emat.service.ChangePasswordService;
 import org.emat.service.JwtService;
 import org.emat.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -37,16 +40,31 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final CaptchaService captchaService;
+    private final ChangePasswordService changePasswordService;
 
     public UserController(
             UserService userService,
             AuthenticationManager authenticationManager,
             JwtService jwtService,
-            CaptchaService captchaService) {
+            CaptchaService captchaService,
+            ChangePasswordService changePasswordService) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.captchaService = captchaService;
+        this.changePasswordService = changePasswordService;
+    }
+
+    /**
+     * Change password (logged-in user): checks the email and current password, then saves the new
+     * password. POST /users/change-password
+     */
+    @PostMapping("/change-password")
+    public ResponseEntity<ApiResponse<Void>> changePassword(
+            @RequestBody ChangePasswordRequest request, Principal principal) {
+        changePasswordService.changePassword(
+                principal == null ? null : principal.getName(), request);
+        return ResponseEntity.ok(ApiResponse.success("Password changed successfully", null));
     }
 
     /** Create a new user. POST /api/users */

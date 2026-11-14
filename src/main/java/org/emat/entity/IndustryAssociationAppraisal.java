@@ -312,7 +312,7 @@ public class IndustryAssociationAppraisal extends BaseEntity {
     @Column(name = "GRANT_PROPOSED_CAPACITY_BUILDING", precision = 15, scale = 2)
     private BigDecimal grantProposedCapacityBuilding;
 
-    @Column(name = "GRANT_DETAILS", length = 5000)
+    @Column(name = "GRANT_DETAILS", length = 4000)
     private String grantDetails;
 
     // Envisaged Outputs, Outcomes, and Impacts

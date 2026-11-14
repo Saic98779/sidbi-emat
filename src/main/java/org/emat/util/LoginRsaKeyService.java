@@ -166,11 +166,19 @@ public class LoginRsaKeyService {
     public String decrypt(String base64Ciphertext) {
         if (base64Ciphertext == null || base64Ciphertext.isBlank()) {
             throw new IllegalArgumentException(
-                    "Encrypted login credential must not be blank; encrypt the password with the"
-                            + " public key from GET /auth/public-key first");
+                    "value must not be blank; encrypt it with the public key from"
+                            + " GET /auth/public-key first");
+        }
+        byte[] cipherBytes;
+        try {
+            cipherBytes = Base64.getDecoder().decode(base64Ciphertext.trim());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(
+                    "value must be RSA-OAEP/SHA-256 encrypted with the public key from"
+                            + " GET /auth/public-key and base64-encoded (plain text is not accepted)",
+                    e);
         }
         try {
-            byte[] cipherBytes = Base64.getDecoder().decode(base64Ciphertext);
             if (cipherBytes.length > rsaKeySize / 8) {
                 throw new IllegalArgumentException("RSA ciphertext longer than the key size");
             }
@@ -180,15 +188,14 @@ public class LoginRsaKeyService {
             return new String(plain, StandardCharsets.UTF_8);
         } catch (BadPaddingException e) {
             throw new IllegalArgumentException(
-                    "Failed to decrypt the login password: it was encrypted with a mismatched"
-                        + " public key. Re-fetch GET /auth/public-key and encrypt the password"
-                        + " again before submitting login.",
+                    "Failed to decrypt the value: it was encrypted with a mismatched"
+                        + " public key. Re-fetch GET /auth/public-key and encrypt it again.",
                     e);
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {
             throw new IllegalArgumentException(
-                    "Failed to decrypt login credential with the RSA private key", e);
+                    "Failed to decrypt the value with the RSA private key", e);
         }
     }
 
