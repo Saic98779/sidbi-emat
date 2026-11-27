@@ -3,6 +3,8 @@ package org.emat.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -79,4 +81,11 @@ public class DiaExposureVisit extends BaseEntity {
 
     @Column(name = "FEEDBACK_PATH")
     private String feedbackPath;
+
+    /** Participants associated with this visit (inverse side of the Many-to-Many mapping). */
+    @ManyToMany(mappedBy = "exposureVisits", fetch = FetchType.LAZY)
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<DiaExposureVisitParticipant> participants = new HashSet<>();
 }

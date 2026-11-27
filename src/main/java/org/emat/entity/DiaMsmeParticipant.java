@@ -2,6 +2,8 @@ package org.emat.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -26,6 +28,32 @@ public class DiaMsmeParticipant extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EVENT_ID", referencedColumnName = "ID")
     private DiaCapacityBuildingProgram event;
+
+    /**
+     * Many-to-Many association with capacity building programs: a participant can attend multiple
+     * programs and a program can have multiple participants. The join table enforces uniqueness of
+     * the (program, participant) pair so a participant is never duplicated within the same program.
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "DIA_CAPACITY_BUILDING_PROGRAM_MSME_PARTICIPANT_MAP",
+            joinColumns =
+                    @JoinColumn(name = "DIA_MSME_PARTICIPANT_ID", referencedColumnName = "ID"),
+            inverseJoinColumns =
+                    @JoinColumn(
+                            name = "DIA_CAPACITY_BUILDING_PROGRAM_ID",
+                            referencedColumnName = "ID"),
+            uniqueConstraints =
+                    @UniqueConstraint(
+                            name = "UK_DIA_CBP_MSME_PARTICIPANT_MAP",
+                            columnNames = {
+                                "DIA_CAPACITY_BUILDING_PROGRAM_ID",
+                                "DIA_MSME_PARTICIPANT_ID"
+                            }))
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<DiaCapacityBuildingProgram> events = new HashSet<>();
 
     @Column(name = "MSME_NAME")
     private String msmeName;

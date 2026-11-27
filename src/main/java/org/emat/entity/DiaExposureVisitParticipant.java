@@ -2,6 +2,8 @@ package org.emat.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -26,6 +28,32 @@ public class DiaExposureVisitParticipant extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EXPOSURE_VISIT_ID", referencedColumnName = "ID")
     private DiaExposureVisit exposureVisit;
+
+    /**
+     * Many-to-Many association with exposure visits: a participant can attend multiple visits and a
+     * visit can have multiple participants. The join table enforces uniqueness of the (visit,
+     * participant) pair so a participant is never duplicated within the same visit.
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "DIA_EXPOSURE_VISIT_PARTICIPANT_MAP",
+            joinColumns =
+                    @JoinColumn(
+                            name = "DIA_EXPOSURE_VISIT_PARTICIPANT_ID",
+                            referencedColumnName = "ID"),
+            inverseJoinColumns =
+                    @JoinColumn(name = "DIA_EXPOSURE_VISIT_ID", referencedColumnName = "ID"),
+            uniqueConstraints =
+                    @UniqueConstraint(
+                            name = "UK_DIA_EV_PARTICIPANT_MAP",
+                            columnNames = {
+                                "DIA_EXPOSURE_VISIT_ID",
+                                "DIA_EXPOSURE_VISIT_PARTICIPANT_ID"
+                            }))
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<DiaExposureVisit> exposureVisits = new HashSet<>();
 
     @Column(name = "MSME_NAME")
     private String msmeName;
