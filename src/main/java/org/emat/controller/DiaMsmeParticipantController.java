@@ -5,13 +5,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.emat.dto.ApiResponse;
 import org.emat.dto.CreateDiaMsmeParticipantRequest;
+import org.emat.dto.DiaMsmeParticipantImportResult;
 import org.emat.dto.DiaMsmeParticipantResponse;
 import org.emat.dto.UpdateDiaMsmeParticipantRequest;
 import org.emat.service.DiaMsmeParticipantService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/dia-msme-participant")
@@ -31,6 +35,35 @@ public class DiaMsmeParticipantController {
                         ApiResponse.created(
                                 "DIA MSME Participant created successfully",
                                 service.create(request)));
+    }
+
+    @GetMapping("/import/template")
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('diaMsmeParticipantCreate'))")
+    public ResponseEntity<byte[]> downloadImportTemplate() {
+        log.info("Received request to download DIA MSME Participant import template");
+        return ResponseEntity.ok()
+                .contentType(
+                        MediaType.parseMediaType(
+                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"dia-msme-participant-import-template.xlsx\"")
+                .body(service.generateImportTemplate());
+    }
+
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyRole(@endpointRolePolicyService.resolveRoles('diaMsmeParticipantCreate'))")
+    public ResponseEntity<ApiResponse<DiaMsmeParticipantImportResult>> importExcel(
+            @RequestParam("diaCapacityBuildingProgramId") Long diaCapacityBuildingProgramId,
+            @RequestPart("file") MultipartFile file) {
+        log.info(
+                "Received request to import DIA MSME Participants from Excel for DIA Capacity"
+                        + " Building Program ID: {}",
+                diaCapacityBuildingProgramId);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "DIA MSME Participants imported successfully",
+                        service.importFromExcel(diaCapacityBuildingProgramId, file)));
     }
 
     @GetMapping("/{id}")

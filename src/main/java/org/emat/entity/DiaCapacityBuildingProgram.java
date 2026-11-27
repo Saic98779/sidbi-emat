@@ -3,6 +3,8 @@ package org.emat.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -94,4 +96,11 @@ public class DiaCapacityBuildingProgram extends BaseEntity {
 
     @Column(name = "UPLOADED_ON_DIA_PORTAL")
     private Boolean uploadedOnDiaPortal;
+
+    /** MSME participants associated with this program (inverse side of the Many-to-Many). */
+    @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<DiaMsmeParticipant> participants = new HashSet<>();
 }
