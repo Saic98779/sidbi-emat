@@ -142,3 +142,4 @@ INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCreditApplicationRead', 'GT_FIELD_TEAM,GT_PMU', 'View DIA Credit Application', SYSTIMESTAMP);
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCreditApplicationUpdate', 'GT_FIELD_TEAM,GT_PMU', 'Update DIA Credit Application', SYSTIMESTAMP);
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('diaCreditApplicationDelete', 'GT_FIELD_TEAM,GT_PMU', 'Delete DIA Credit Application', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('capacityBuildingRead', 'GT_FIELD_TEAM,GT_PMU,SIDBI_RO,SIDBI_HO_MAKER,SIDBI_HO_CHECKER', 'View Capacity Building-P monitoring report', SYSTIMESTAMP);
