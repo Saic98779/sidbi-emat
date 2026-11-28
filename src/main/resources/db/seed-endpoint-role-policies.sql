@@ -94,3 +94,4 @@ VALUES ('surveyUpdate', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Update Survey'
 
 INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at)
 VALUES ('surveyDelete', 'GT_FIELD_TEAM,GT_PMU,SIDBI_HO_CHECKER', 'Delete Survey', SYSTIMESTAMP);
+INSERT INTO endpoint_role_policy (policy_key, roles_csv, description, updated_at) VALUES ('capacityBuildingRead', 'GT_FIELD_TEAM,GT_PMU,SIDBI_RO,SIDBI_HO_MAKER,SIDBI_HO_CHECKER', 'View Capacity Building-P monitoring report', SYSTIMESTAMP);
